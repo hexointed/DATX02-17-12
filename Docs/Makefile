@@ -7,11 +7,11 @@ IMGS = $(patsubst %.svg,%.pdf,$(wildcard resources/*.svg))
 #Fail silently
 MAKEFLAGS = --silent
 
-docs: $(IMGS) $(DOCS) clean-tex
+docs: $(IMGS) $(DOCS) 
 
 docs-dbg: $(IMGS) $(DOCS)
 
-no-imgs: $(DOCS) clean-tex
+no-imgs: $(DOCS) 
 
 resources/%.pdf: resources/%.svg
 	inkscape -D -z --file=$^ --export-pdf=$@
@@ -23,11 +23,7 @@ resources/%.pdf: resources/%.svg
 	- pdflatex $^
 
 #Remove all temporary files created by pdfLaTeX
-clean-tex:
-	- rm *.aux *.bbl *.blg *.log 2> /dev/null
-
-clean-imgs:
-	- rm resources/*.pdf 2> /dev/null
-
-clean: clean-tex clean-imgs
+clean: 
 	- rm *.pdf 2> /dev/null
+	- rm *.lof *.lot *.out *.toc *.aux *.bbl *.blg *.log 2> /dev/null
+	- rm resources/*.pdf 2> /dev/null

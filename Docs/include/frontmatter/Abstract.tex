@@ -1,43 +1,13 @@
-\documentclass[a4paper]{article}
+% CREATED BY DAVID FRISK, 2016
+\varHeadline\\
+\varSubtitle\\
+\varNames\\
+\varDepartment\\
+Chalmers University of Technology \setlength{\parskip}{0.5cm}
 
-%Figure support for \includegraphics
-\usepackage{graphicx}
-%Code listings
-\usepackage{listings}
-\usepackage{float}
-\usepackage{verbatim}
-
-%Math fonts
-\usepackage{amsfonts}
-\usepackage{amsmath}
-
-%Control of caption font for figures and tables
-\usepackage[font=small]{caption}
-
-%Swedish is supported once we add these packages
-\usepackage[swedish]{babel}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-
-%short footnote macro
-\usepackage{scrextend}
-\newcommand{\pfoot}[2]{\footnote{#2\label{#1}}}
-\newcommand{\fref}[1]{\footref{#1}}
-
-%short underscore
-\newcommand{\mstr}{\textunderscore}
-
-\author{Elias Forsberg, Jon Johnsson, Chi-Thong Luong, 
-	Björn Strömberg, Jesper Åberg}
-\title{A ray marching GPU}
-
-\begin{document}
-
-\maketitle
-
-%----------------------------------------------------------------------
-\chapter{Introduction}
-
+\thispagestyle{plain}			% Supress header 
+\setlength{\parskip}{0pt plus 1.0pt}
+\section*{Abstract}
 The aim of this project is to develop the fundamental building blocks for a real-time 3D 
 graphics processing unit (GPU) that is optimized to run a rendering algorithm which is 
 different to the Polygon-based rendering that is almost exclusively used in today's 3D 
@@ -54,7 +24,10 @@ potential might be unreachable on current GPUs due to the underlying architectur
 designed with other things in mind. This project will examine what could be achieved if 
 graphics cards were optimized for ray-marching instead of drawing polygons.
 
-\newpage
-\appendix
+% KEYWORDS (MAXIMUM 10 WORDS)
+\vfill
+Keywords: lorem, ipsum, dolor, sit, amet, consectetur, adipisicing, elit, sed, do.
 
-\end{document}
+\newpage				% Create empty back of side
+\thispagestyle{empty}
+\mbox{}

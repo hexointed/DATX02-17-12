@@ -1,0 +1,90 @@
+% CREATED BY DAVID FRISK, 2016
+
+% IMPORT SETTINGS
+\documentclass[12pt,a4paper,twoside,openright]{report}
+\input{include/settings/Settings}
+
+\begin{document} 
+
+% COVER PAGE, TITLE PAGE AND IMPRINT PAGE
+% Roman numbering (starting with i (one)) until first main chapter
+\pagenumbering{roman}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTE(Bjorn):Global Variables for the backmatter section.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% An Informative Headline describing\\ the Content of the Report
+\newcommand{\varHeadline}{Raymarching GPU}
+% A Subtitle that can be Very Much Longer if Necessary
+\newcommand{\varSubtitle}{A raymarching GPU that can connect to its \\ stationary PC on its own}
+% Department of Some Subject or Technology
+\newcommand{\varDepartment}{Data}
+% Division of Division name
+\newcommand{\varDivision}{Undergrad}
+% Name of research group (if applicable)
+\newcommand{\varResearchGroupName}{DATX-02-17-12}
+% NAME FAMILYNAME
+\newcommand{\varNames}{André Perzon, Björn Strömberg, Chi Thong Luong, 
+Elias Forsberg, Jesper Åberg, Jon Johnsson}
+\input{include/frontmatter/Titlepage}
+
+% ABSTRACT
+\newpage
+\input{include/frontmatter/Abstract}
+
+% ACKNOWLEDGEMENTS
+\newpage
+\input{include/frontmatter/Acknowledgements}
+
+
+% TABLE OF CONTENTS
+\newpage
+\tableofcontents
+
+% OTHER FRONTMATTER
+% List of figures (add to table of contents)
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listfigurename} 
+\listoffigures
+% List of tables (add to table of contents)
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listtablename}  
+\listoftables
+
+
+% START OF MAIN DOCUMENT
+\cleardoublepage
+\setcounter{page}{1}
+\pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
+\setlength{\parskip}{0pt plus 1pt}
+
+% INTRODUCTION
+\input{include/Introduction}
+
+% THEORY
+\input{include/Theory}
+
+% METHODS
+\input{include/Methods}
+
+% RESULTS
+\input{include/Results}
+
+% CONCLUSION
+\input{include/Conclusion}
+
+% REFERENCES / BIBLIOGRAPHY
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\input{include/backmatter/References}
+
+% APPENDICES
+\cleardoublepage
+\appendix
+\setcounter{page}{1}
+\pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
+
+\input{include/backmatter/Appendix_1}
+
+
+\end{document}
