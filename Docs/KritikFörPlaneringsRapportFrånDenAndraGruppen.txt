@@ -5,4 +5,6 @@ bra röd tråd i bakgrund
 
 
 Negativa grejer:
---
+Tabell 1: Det framgår inte riktigt hur dessa värden extrapolerats. Är det 
+baserat på 60,000 ton bottenaska från biomassan eller 600,000 ton totalt? Är det
+en vettig extrapolering isf?
