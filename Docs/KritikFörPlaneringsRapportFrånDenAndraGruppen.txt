@@ -11,11 +11,11 @@ Positiva grejer:
 
 Negativa grejer:
 
-        Referenserna i bakgrundsektionen saknar sidnummer. T.ex. referensen
-        till Staten energimyndighet är på ~90 sidor. Utöver detta känns det
-        tveksamt att påståendet om "Behovet av el och värme ökar i takt med en
-        växande befolkning samt ökande produktion och konsumtion" stämmer. När
-        man kollar på sveriges elkonsumtion har den legat konstant sedan 1985.
+	Referenserna i bakgrundsektionen saknar sidnummer. T.ex. referensen
+	till Staten energimyndighet är på ~90 sidor. Utöver detta känns det
+	tveksamt att påståendet om "Behovet av el och värme ökar i takt med en
+	växande befolkning samt ökande produktion och konsumtion" stämmer. När
+	man kollar på sveriges elkonsumtion har den legat konstant sedan 1985.
 
 	Tabell 1: Det framgår inte riktigt hur dessa värden extrapolerats. Är det
 	baserat på 60,000 ton bottenaska från biomassan eller 600,000 ton totalt?
