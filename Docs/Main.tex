@@ -11,14 +11,14 @@
 \pagenumbering{roman}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% NOTE(Bjorn):Global Variables for the backmatter section.
+% NOTE(Bjorn):Global Variables for the frontmatter section.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % An Informative Headline describing\\ the Content of the Report
-\newcommand{\varHeadline}{Raymarching GPU}
+\newcommand{\varHeadline}{First Attempt at a GPU \\ Tailored for Ray Marching}
 % A Subtitle that can be Very Much Longer if Necessary
-\newcommand{\varSubtitle}{A raymarching GPU that can connect to its \\ stationary PC on its own}
+\newcommand{\varSubtitle}{A rudimentary GPU written in Clash(Haskell) compiled to VHDL}
 % Department of Some Subject or Technology
-\newcommand{\varDepartment}{Data}
+\newcommand{\varDepartment}{Computer Science and Engineering}
 % Division of Division name
 \newcommand{\varDivision}{Undergrad}
 % Name of research group (if applicable)
@@ -26,21 +26,26 @@
 % NAME FAMILYNAME
 \newcommand{\varNames}{André Perzon, Björn Strömberg, Chi Thong Luong, 
 Elias Forsberg, Jesper Åberg, Jon Johnsson}
+
 \input{include/frontmatter/Titlepage}
 
 % ABSTRACT
 \newpage
 \input{include/frontmatter/Abstract}
 
+% TODO(Bjorn): Do we really want this?
+\begin{comment}
 % ACKNOWLEDGEMENTS
 \newpage
 \input{include/frontmatter/Acknowledgements}
-
+\end{comment}
 
 % TABLE OF CONTENTS
 \newpage
 \tableofcontents
 
+% TODO(Bjorn): Do we really want this?
+\begin{comment}
 % OTHER FRONTMATTER
 % List of figures (add to table of contents)
 \cleardoublepage
@@ -50,10 +55,11 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 \cleardoublepage
 \addcontentsline{toc}{chapter}{\listtablename}  
 \listoftables
-
+\end{comment}
 
 % START OF MAIN DOCUMENT
-\cleardoublepage
+%\cleardoublepage
+\newpage
 \setcounter{page}{1}
 \pagenumbering{arabic}			% Arabic numbering starting from 1 (one)
 \setlength{\parskip}{0pt plus 1pt}

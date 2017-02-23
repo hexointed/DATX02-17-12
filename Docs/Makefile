@@ -17,10 +17,10 @@ resources/%.pdf: resources/%.svg
 	inkscape -D -z --file=$^ --export-pdf=$@
 
 %.pdf: %.tex
-	- pdflatex $^
-	- bibtex $*
-	- pdflatex $^
-	- pdflatex $^
+	- pdflatex $^ > ./log.txt
+	- bibtex $*   > ./log.txt
+	- pdflatex $^ > ./log.txt
+	- pdflatex $^ > ./log.txt
 
 #Remove all temporary files created by pdfLaTeX
 clean: 
