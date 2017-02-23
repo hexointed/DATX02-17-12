@@ -1,7 +1,6 @@
-
---Jesper
 Positiva grejer:
 
+<<<<<<< HEAD
 bra röd tråd i bakgrund
 
 Bra stavning
@@ -14,31 +13,35 @@ lättförståeligt sammanfattad tidsplan
 
 
 Negativa grejer:
-Tabell 1: Det framgår inte riktigt hur dessa värden extrapolerats. Är det 
-baserat på 60,000 ton bottenaska från biomassan eller 600,000 ton totalt? Är det
-en vettig extrapolering isf?
 
-Metod är knepig att förstå för någon som inte är insatt i kemispråket, men det är nog svårt
-att skriva det förståeligt.
+	Referenserna i bakgrundsektionen saknar sidnummer. T.ex. referensen
+	till Staten energimyndighet är på ~90 sidor. Utöver detta känns det
+	tveksamt att påståendet om "Behovet av el och värme ökar i takt med en
+	växande befolkning samt ökande produktion och konsumtion" stämmer. När
+	man kollar på sveriges elkonsumtion har den legat konstant sedan 1985.
 
-I mycket av texten är det för många tekniska ord för att en icke insatt person ska kunna 
-behålla intresset, men delarna som är mer lättlästa 
+	Tabell 1: Det framgår inte riktigt hur dessa värden extrapolerats. Är det
+	baserat på 60,000 ton bottenaska från biomassan eller 600,000 ton totalt?
+	Är det en vettig extrapolering isf?
+	
+	Metod är knepig att förstå för någon som inte är insatt i kemispråket, men
+	det är nog svårt att skriva det förståeligt.
+	
+	I mycket av texten är det för många tekniska ord för att en icke insatt
+	person ska kunna behålla intresset, men delarna som är mer lättlästa 
 
+Kommentarer: 
 
-kommentarer: 
-
-I syftet känns arbetet onödigt, eftersom de här sakerna kommer undersökas av de som
-skapar produkterna. Vore inte ett bättre syfte att udnersöka hur man kan förbättra
-existerande produkter/skapa en bättre produkt?
-
-det står under "Uppgift/Problem" att arbetet skall utföras på fyra sorters bäddmaterial som 
-kommer från chalmerspannan men under "Syftet" nämns fyra specifika bäddmaterial, är det dessa
-som kommer testas?
-
-Varför kommer endast träpellets undersökas?
-
-Sista meningen i första stycket är "fuckad yo"
-
-Behovet ökar inte alls längre, som det står att det för i första stycket.
-
---
+	I syftet känns arbetet onödigt, eftersom de här sakerna kommer undersökas
+	av de som skapar produkterna. Vore inte ett bättre syfte att udnersöka hur
+	man kan förbättra existerande produkter/skapa en bättre produkt?
+	
+	det står under "Uppgift/Problem" att arbetet skall utföras på fyra sorters
+	bäddmaterial som kommer från chalmerspannan men under "Syftet" nämns fyra
+	specifika bäddmaterial, är det dessa som kommer testas?
+	
+	Varför kommer endast träpellets undersökas?
+	
+	Sista meningen i första stycket är "fuckad yo"
+	
+	Behovet ökar inte alls längre, som det står att det för i första stycket.
