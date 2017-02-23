@@ -28,11 +28,22 @@ Negativa grejer:
 	I mycket av texten är det för många tekniska ord för att en icke insatt
 	person ska kunna behålla intresset, men delarna som är mer lättlästa 
 
+	om man får bort 100% av alla tungmetaller innebär det en minskning med 1.8%
+	av totalen som måste deponeras. Är detta verkligen ett argument för att 
+	behovet av deponier reduceras av den procenten?
+
+	Varför har dessa 4 ämnen valts ut i syfte-delen? för att det är vad som
+	används idag? för att det är vad som tros vara bäst? 
+	
+	
+
 Kommentarer: 
 
 	I syftet känns arbetet onödigt, eftersom de här sakerna kommer undersökas
 	av de som skapar produkterna. Vore inte ett bättre syfte att udnersöka hur
 	man kan förbättra existerande produkter/skapa en bättre produkt?
+
+	Borde inte tungmetalls återvinningen bidra till en ekonomisk eller miljö vinst mer än en plats vinst?
 	
 	det står under "Uppgift/Problem" att arbetet skall utföras på fyra sorters
 	bäddmaterial som kommer från chalmerspannan men under "Syftet" nämns fyra
