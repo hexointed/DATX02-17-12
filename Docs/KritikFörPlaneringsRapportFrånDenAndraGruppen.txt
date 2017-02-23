@@ -1,15 +1,14 @@
 Positiva grejer:
 
-<<<<<<< HEAD
-bra röd tråd i bakgrund
-
-Bra stavning
-
-Lagom långa meningar
-
-Fint styckeuppdelat
-
-lättförståeligt sammanfattad tidsplan
+	bra röd tråd i bakgrund
+	
+	Bra stavning
+	
+	Lagom långa meningar
+	
+	Fint styckeuppdelat
+	
+	lättförståeligt sammanfattad tidsplan
 
 Negativa grejer:
 
