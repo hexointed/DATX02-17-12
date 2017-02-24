@@ -1,0 +1,17 @@
+FPGA, ASIC, Begreppsordlista??
+Tydligare beskrivning av motivering bakom problemet.
+
+Mål upprepas flera gånger i texten.
+Flytta den motivering som finns från Purpose till Introduction.
+
+Fotnoter: efter mening, inte efter ord. --Kanske kan vara okej
+Bestämma oss för ett ordentligt system för källhänvisningar [LaTeX]
+
+Talspråk
+Onödigt ta med "om det inte fungerar"
+
+Problem statement bra formulerat (Skrivet av Elias)
+Förtydliga vilka komponenter som kan prioriteras bort.
+
+Bra punkter i metod, överskådligt
+Fint schema
