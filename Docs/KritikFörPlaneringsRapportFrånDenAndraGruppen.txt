@@ -1,6 +1,6 @@
 Positiva grejer:
 
-	bra röd tråd i bakgrund
+	bra röd tråd i bakgrund, välskrivet och väcker intresse för arbetet.
 	
 	Bra stavning
 	
@@ -39,15 +39,17 @@ Negativa grejer:
 
 Kommentarer: 
 
-	I syftet känns arbetet onödigt, eftersom de här sakerna kommer undersökas
-	av de som skapar produkterna. Vore inte ett bättre syfte att udnersöka hur
-	man kan förbättra existerande produkter/skapa en bättre produkt?
 
 	Borde inte tungmetalls återvinningen bidra till en ekonomisk eller miljö vinst mer än en plats vinst?
 	
 	det står under "Uppgift/Problem" att arbetet skall utföras på fyra sorters
 	bäddmaterial som kommer från chalmerspannan men under "Syftet" nämns fyra
 	specifika bäddmaterial, är det dessa som kommer testas?
+
+	I syftet känns arbetet nästan lite onödigt, eftersom de här sakerna kommer undersökas
+	av de som skapar produkterna. Vore inte ett bättre syfte att udnersöka hur
+	man kan förbättra existerande produkter/skapa en bättre produkt?
+
 	
 	Varför kommer endast träpellets undersökas?
 	
