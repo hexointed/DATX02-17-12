@@ -1,4 +1,3 @@
-
 Introduktion: 
 
 	Jag heter Jesper Åberg, det där är Björn. Vårt arbete handlar om att
@@ -22,6 +21,8 @@ Beskrivning Ray-Marching:
 	till en låg kostnad. Om man inte kräver perfekta distansfunktioner är
 	det också möjligt att lägga till effekter som sinusdeformationer till
 	objekt.
+	
+	(SLIDE RAY-MARCHING)
 	
 	(BILD TRIANGLAR) Detta är intressant att undersöka eftersom sättet man
 	renderar realtidsgrafik på idag har vissa brister som saknas helt i
