@@ -50,6 +50,9 @@ DEMO: hur polygonbaserad grafik funkat (optimalt men inte obligatoriskt)
 
 
 
+
+
+
 Projektets mål: att skapa en hårdvaruimplementerad raymarcher och evaluera dess prestanda, sedan
 	extrapolera resultatet till vad som teorétiskt hade varit möjligt om man slängde NVIDIAs eller AMDs resurser på det.
 
@@ -72,3 +75,9 @@ Projektplanering:
 
 		Tills kandidatarbetet är klart, under denna process skriver vi även vår slutrapport.
 
+
+Nuvarande situation: Vi har producerat flera bra raymarchers som renderar fina scener med både simpla och mer komplicerade objekt. 
+	Det är nu dags att börja få igång en simpel version som vi kan simulera i hårdvara, alltså i clash.
+
+
+Egna erfarenheter: läs ovan.
