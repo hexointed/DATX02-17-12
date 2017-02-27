@@ -60,7 +60,7 @@ Projektets mål:
 Projektplanering: 
 
 	(BILD PÅ SCHEMA) Här ser ni de planerade arbetsfaserna från 
-	planeringsstadiet fram till slutrapporten samt opponeringen på denna.
+	planeringsstadiet fram till slutrapporten och opponeringen på den.
 	
 	(BILD EGNA SHADERS) Vi började med att studera hur raymarching-algoritmen
 	fungerar och skapade flera olika egna implementationer av den, som fragment
@@ -68,15 +68,16 @@ Projektplanering:
 	shaders, här är några av dem. 
 	
 	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi
-	planerar att använda clash. När vi har en kärna kan vi skriva en
-	referens-shader att använda så att vi kan mäta vår kärnas prestation        %referens-shader
-	jämfört med hur snabbt det går på våra grafikkort och även se tydlig
-	prestandaökning när vi implementerar optimeringar och skriver nya versioner
-	av kärnan. Sedan ska vi implementera parallellism och se över om vi kan
-	förbättra minneshanteringen på något sätt. 
+	planerar att använda clash. När vi har en kärna kan vi designa en scen och
+	använda den för att vi ska kunna mäta vår kärnas prestation jämfört med hur
+	snabbt det går på traditionella grafikkort och även för att kunna resonera
+	kring prestandaökningar när vi implementerar optimeringar och skriver nya
+	versioner av kärnan.  
 	
 	Vi ska sedan iterativt implementera, simulera och evaluera olika
-	optimeringar för att nå så hög prestanda vi kan. 
+	optimeringar för att nå så hög prestanda vi kan. Sedan ska vi implementera
+	parallellism och se över om vi kan förbättra minneshanteringen på något
+	sätt.
 	
 	I slutändan kommer vår produkt inte vara i närheten så snabb som när vi kör
 	det på en av till exempel NVIDIAS GPU:er men tanken är att vi ska kunna
@@ -87,11 +88,11 @@ Statusrapport:
 	Så, lite om vad vi har jobbat med hittils:
 
 	(BILDER, EV. REALTIDSRENDERADE EXEMPEL) Vi är klara med att läsa in oss på
-	hur Ray-Marching fungerar och skriva våra egna versioner av algoritmen. Nu 
-	börjar vi skriva en processorkärna som är byggd för att raymarcha i
-	hårdvarubeskrivande språk, vi tänker använda clash. Sedan måste vi bygga
-	allt som behövs runt själva kärnan för att den ska fungera.  Hittils har vi
-	följt schemat och inte glidit efter. 
+	hur Ray-Marching fungerar och skriva våra egna versioner av algoritmen. Nu
+	har vi börjat med att skriva en processorkärna som är byggd för
+	Ray-Marching algoritmen. Sedan måste vi bygga allt som behövs runt själva
+	kärnan för att den ska fungera.  Hittils har vi följt schemat och inte
+	glidit efter. 
 
 Egna erfarenheter: 
 
