@@ -51,18 +51,19 @@ Beskrivning Ray-Marching:
 	utan istället får man använda sfärer, kuber och andra objekt som lätt går
 	att beskriva matematiskt.
 	
-	Med raymarching går det även att göra repeterande terräng som sträcker sig
-	oändligt långt bort och det kräver inte så mycket för att rendera
-	3D-fraktaler i realtid (VISA). 
+	(SHADER FRAKTAL) Med raymarching går det även att göra repeterande terräng
+	som sträcker sig oändligt långt bort och det kräver inte så mycket för att
+	rendera 3D-fraktaler i realtid. 
 
 Projektplanering: 
 
-	(BILD PÅ SCHEMA) 
+	(BILD PÅ SCHEMA) Här ser ni de planerade arbetsfaserna från 
+	planeringsstadiet fram till slutrapporten samt opponeringen på denna.
 	
-	Vi började med att studera hur raymarching-algoritmen fungerar och skapa
-	flera olika egna implementationer av den, som fragment shaders på vanliga
-	grafikkort.  Vid det här laget har vi skapat några egna shaders (FÖRBÄTTRA
-	MENING) (BILD), här är några av dem. 
+	(BILD EGNA SHADERS) Vi började med att studera hur raymarching-algoritmen
+	fungerar och skapade flera olika egna implementationer av den, som fragment
+	shaders på vanliga grafikkort. Vid det här laget har vi skapat några egna
+	shaders, här är några av dem. 
 	
 	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi
 	planerar att använda clash. När vi har en kärna kan vi skriva en
@@ -81,12 +82,12 @@ Projektplanering:
 
 Statusrapport: 
 
-	Vi är precis klara med att läsa in oss på hur raymarching fungerar och
-	skriva våra egna versioner av algoritmen. (BILDER, EV.  realtidsrenderade
-	exempel) Nu börjar vi skriva en processorkärna som är byggd för att
-	raymarcha i hårdvarubeskrivande språk, vi tänker använda clash. Sedan måste
-	vi bygga allt som behövs runt själva kärnan för att den ska fungera.
-	Hittils har vi följt schemat och inte glidit efter. 
+	(BILDER, EV. REALTIDSRENDERADE EXEMPEL) Vi är klara med att läsa in oss på
+	hur Ray-Marching fungerar och skriva våra egna versioner av algoritmen. Nu
+	börjar vi skriva en processorkärna som är byggd för att raymarcha i
+	hårdvarubeskrivande språk, vi tänker använda clash. Sedan måste vi bygga
+	allt som behövs runt själva kärnan för att den ska fungera.  Hittils har vi
+	följt schemat och inte glidit efter. 
 
 Egna erfarenheter: 
 
