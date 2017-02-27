@@ -1,8 +1,9 @@
 
-Introduktion: Jag är Jesper Åberg, det där är Björn. Vårt arbete går ut på att
-ta reda på om det hade varit en bättre ide att rendera realtidsgrafik med en
-metod som heter raymarching istället för polygonbaserad grafik, som är
-standarden inom spel idag.
+Introduktion: Jag heter Jesper Åberg, det där är Björn. Vårt arbete handlar om
+att undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
+grafikrenderingsmetod som heter Ray-Marching, jämfört med polygonbaserad
+rendering, som är standarden inom realtidsgrafik idag.
+
 
 Projektets mål: Skapa en hårdvaruaccelererad raymarcher för att undersöka om
 raymarching är lika skalbart som polygonbaserad grafik är i längden. 
