@@ -9,16 +9,20 @@
 
 
 2. skillnaden mellan "vanlig grafik" och raymarching
-	* Traditionellt renderas realtidsgrafik polygonbaserat, vilket fungerar så här...
-	* Raymarching funkar genom att man bygger upp sin värld med matematiska beskrivningar av objekt(singerade avståndsfunktioner), vilket görs så här....
+	* Traditionellt renderas realtidsgrafik polygonbaserat, vilket fungerar så
+	* här...  Raymarching funkar genom att man bygger upp sin värld med
+	* matematiska beskrivningar av objekt(singerade avståndsfunktioner), vilket
+	* görs så här....
 
 
 3. genomgång av raymarching //obsolote
-	* Realtidsgrafik i spel idag går så fort för den är hårdvaruaccelererad och har utvecklats de senaste XX åren.
+	* Realtidsgrafik i spel idag går så fort för den är hårdvaruaccelererad och
+	* har utvecklats de senaste XX åren.
 
 	* gå igenom nackdelar med traditionell grafik 
 		- reflektioner är tunga.
-		- Många objekt går inte att få så som de borde vara (runda objekt är inte runda osv.)
+		- Många objekt går inte att få så som de borde vara (runda objekt är
+		  inte runda osv.)
 
 	* fördelar med raymarching
 		- det går att få till matematiskt perfekta objekt
@@ -27,18 +31,25 @@
 		- saker som ambient occlution är inte tungt att beräkna
 
 
-	* Vi kan inte få in vår produkt (algoritm/grejer) på en ASIC i det här arbetet för det skulle ta för mycket tid och pengar.
-		Vårt resultat kommer därför inte att vara jämförbart med vad som teoretiskt är möjligt att nå med samma budget och kunskap
-		som grabbarna på AMD och NVIDIA har. Det vi kan göra är att skriva ut arkitekturen i Clash kompilerat till VHDL för vår algoritm, försöka parallellisera det och 
-		eventuellt simulera och uppskatta hur mycket snabbare det hade gått att göra med mer resurser.
+	* Vi kan inte få in vår produkt (algoritm/grejer) på en ASIC i det här
+	* arbetet för det skulle ta för mycket tid och pengar.
+		Vårt resultat kommer därför inte att vara jämförbart med vad som
+		teoretiskt är möjligt att nå med samma budget och kunskap som grabbarna
+		på AMD och NVIDIA har. Det vi kan göra är att skriva ut arkitekturen i
+		Clash kompilerat till VHDL för vår algoritm, försöka parallellisera det
+		och eventuellt simulera och uppskatta hur mycket snabbare det hade gått
+		att göra med mer resurser.
 
 
 5. Egna erfarenheter
 
-	* Det var väldigt svårt i början att lägga tillräckligt med tid och balansera kandidatarbetet med övriga kurser. 
-	* Ingen tidigare erfarenhet med raymarching eller någon form av grafik överhuvudtaget tidigare så det var mycket att läsa sig in på.
+	* Det var väldigt svårt i början att lägga tillräckligt med tid och
+	* balansera kandidatarbetet med övriga kurser.  Ingen tidigare erfarenhet
+	* med raymarching eller någon form av grafik överhuvudtaget tidigare så det
+	* var mycket att läsa sig in på.
 	  Måste fortfarande läsa på mer om hårdvaruarkitekturer.
-	* Det tog ett tag att lära känna medlemmarna i gruppen och etablera ett bra sätt att kommunicera. 
+	* Det tog ett tag att lära känna medlemmarna i gruppen och etablera ett bra
+	* sätt att kommunicera. 
 
 
 DEMO: hur polygonbaserad grafik funkat (optimalt men inte obligatoriskt)
@@ -51,16 +62,19 @@ DEMO: hur polygonbaserad grafik funkat (optimalt men inte obligatoriskt)
 
 
 
-Projektets mål: att skapa en hårdvaruimplementerad raymarcher och evaluera dess prestanda, sedan
-	extrapolera resultatet till vad som teorétiskt hade varit möjligt om man slängde NVIDIAs eller AMDs resurser på det.
+Projektets mål: att skapa en hårdvaruimplementerad raymarcher och evaluera dess
+prestanda, sedan extrapolera resultatet till vad som teorétiskt hade varit
+möjligt om man slängde NVIDIAs eller AMDs resurser på det.
 
-Projektplanering: 
-		Först spendera några veckor på att förstår hur raymarching fungerar, skapa vår egen algoritm för det
-	och simulera det på GPU via program som t.ex synthclipse. 
+Projektplanering: Först spendera några veckor på att förstår hur raymarching
+fungerar, skapa vår egen algoritm för det och simulera det på GPU via program
+som t.ex synthclipse. 
 
-		Porta algoritmen och en  till ett hårdvarubeskrivande språk, vi använder Clash som är ett sätt att skriva det i haskell
-	och sedan kompilera det till VHDL. Bygga upp en "processor" runt vår algoritm. Från VHDL kan vi sedan både simulera vårt "program" och faktiskt printa ut det i en 
-	riktig fpga.
+		Porta algoritmen och en  till ett hårdvarubeskrivande språk, vi
+		använder Clash som är ett sätt att skriva det i haskell och sedan
+		kompilera det till VHDL. Bygga upp en "processor" runt vår algoritm.
+		Från VHDL kan vi sedan både simulera vårt "program" och faktiskt printa
+		ut det i en riktig fpga.
 
 
 		Sedan ska vi loopa följande schema:
@@ -71,11 +85,13 @@ Projektplanering:
 
 		3: evaluera
 
-		Tills kandidatarbetet är klart, under denna process skriver vi även vår slutrapport.
+		Tills kandidatarbetet är klart, under denna process skriver vi även vår
+		slutrapport.
 
 
-Nuvarande situation: Vi har producerat flera bra raymarchers som renderar fina scener med både simpla och mer komplicerade objekt. 
-	Det är nu dags att börja få igång en simpel version som vi kan simulera i hårdvara, alltså i clash.
+Nuvarande situation: Vi har producerat flera bra raymarchers som renderar fina
+scener med både simpla och mer komplicerade objekt.  Det är nu dags att börja
+få igång en simpel version som vi kan simulera i hårdvara, alltså i clash.
 
 
 Egna erfarenheter: läs ovan.
