@@ -1,23 +1,23 @@
 
 Introduktion:
-Jag är Jesper Åberg, det där är Björn. Vårt arbete går ut på att ta reda på om det hade varit en bättre ide att rendera realtidsgrafik med en metod som heter raymarching istället för att använda polygonbaserad grafik, som används idag.
+Jag är Jesper Åberg, det där är Björn. Vårt arbete går ut på att ta reda på om det hade varit en bättre ide att rendera realtidsgrafik med en metod som heter raymarching istället för polygonbaserad grafik, som är standarden inom spel idag.
 
 Projektets mål:
-Skapa en hårdvaruaccelererad raymarcher i syftet att undersöka om det är ett sätt att rendera realtidsgrafik som hade kunnat vara snyggare än hur traditionellt renderad realtidsgrafik. 
+Skapa en hårdvaruaccelererad raymarcher för att undersöka om raymarching är lika skalbart som polygonbaserad grafik är i längden. 
 
 
-Detta är en intressant att undersöka eftersom sättet man renderar realtidsgrafik på idag har vissa stora brister. Eftersom man bygger upp världen av trianglar (BILD) så blir alla former en aproximation, det tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom det inte går att skapa runda ytor av platta trianglar. 
+Detta är en intressant att undersöka eftersom sättet man renderar realtidsgrafik på idag har vissa stora brister som saknas helt i raymarching. Eftersom man bygger upp världen av trianglar (BILD) så blir alla former en aproximation. Det tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom det inte går att skapa runda ytor av platta trianglar. 
 
 
 
-När man använder sig av raymarching så bygger man upp sin värld genom att matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att säga "allt som är mindre än avstånd x från den här punkten tillhör den här sfären". Det här leder till att man kan deformera matematiskt perfekta objekt och man får inte samma problem med runda former som man får med polygonbaserad grafik. 
+När man använder sig av raymarching så bygger man upp sin värld genom att matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att säga "allt som är mindre än avstånd x från den här punkten tillhör den här sfären". Eftersom man beskriver objekt på det sättet blir de matematiskt perfekta, oavsett hur nära man tittar på en sfär kommer den alltid se ut som en sfär. En till fördel med att beskriva objekt på det sättet är att man matematiskt kan deformera dem, till exempel kan man få objekt att smälta samman, man kan "urholka" ett objekt med ett annat objekt eller få det att få sinusvågor längs ytan.
 
 
 Utöver problemen med kurvade ytor så är reflektioner så tungt att det oftast löses genom att vara väldigt lågupplöst eller fejkas men resultatet blir sällan bra. Med raymarching är det inte tungt att simulera äkta,realistiska reflektioner och refraktioner.
 
-Så, en del problem som realtidsgrafik står inför går att enkelt lösa genom att använda raymarching istället, men det är inte perfekt eller problemfritt. Med polygoner har man fördelen att invecklade objekt inte är tyngre att rita än simpla objekt med samma antal polygoner samt att polygoner är väldigt lätt att bygga komplicerade objekt med genom att sätta ihop många av dem. Med raymarching är det svårt att rita ut trianglar men lätt att rita till exempel sfärer och kuber, det leder till att mer avancerade objekt kan man inte bygga upp av något så smidigt som trianglar utan istället använda sfärer, kuber och andra objekt som lätt går att beskriva matematiskt.
+Så, en del problem som realtidsgrafik står inför idag går att enkelt lösa genom att använda raymarching istället, men det är inte perfekt eller problemfritt. Med polygoner har man fördelen att invecklade objekt inte är tyngre att rita än simpla objekt med samma antal polygoner samt att polygoner är väldigt lätt att bygga komplicerade objekt med genom att sätta ihop många av dem. Med raymarching är det svårt att rita ut trianglar men lätt att rita till exempel sfärer och kuber, det leder till att mer avancerade objekt kan man inte bygga upp av något så smidigt som trianglar utan istället får man använda sfärer, kuber och andra objekt som lätt går att beskriva matematiskt.
 
-Med raymarching går det även att göra repeterande terräng som sträcker sig oändligt långt bort lätt och det kräver inte så mycket för att rendera 3D fraktaler i realtid (VISA). 
+Med raymarching går det även att göra repeterande terräng som sträcker sig oändligt långt bort och det kräver inte så mycket för att rendera 3D fraktaler i realtid (VISA). 
 
 
 
