@@ -8,15 +8,18 @@ Projektets mål: Skapa en hårdvaruaccelererad GPU-arkitektur optimerad för
 Ray-Marching för att undersöka hur skalbar denna algoritm är, särskilt i
 jämförelse med polygonbaserad rendering. 
 
-När man använder sig av raymarching så bygger man upp sin värld genom att
-matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att
-säga "allt som är mindre än avstånd x från den här punkten tillhör den här
-sfären". Eftersom man beskriver objekt på det sättet blir de matematiskt
-perfekta, oavsett hur nära man tittar på en sfär kommer den alltid se ut som en
-sfär. En till fördel med att beskriva objekt på det sättet är att man
-matematiskt kan deformera dem, till exempel kan man få objekt att smälta
-samman, man kan "urholka" ett objekt med ett annat objekt eller få det att få
-sinusvågor längs ytan.
+Ray-Marching-algoritmen baseras på att geometrin modellerats med en
+distansfunktion, det vill säga en funktion som mappar alla punkter i rummet
+till avståndet från den punkten till geometrin. Till exempel skulle en sfär i
+origo beskrivas som `f(x,y,z) = sqrt(x^2 + y^2 + z^2) - r` vilket altså är
+avståndet från origo minus radien. Denna beskrivning av sfären är matematiskt
+perfekt (så långt som precisionen tillåter). Det är dock förstås inte enkelt
+att beskriva alla tänkbara objekt exakt med en distansfunktion, men detta ger
+nya intressanta avvägningar vid objektdesign. En till intressant aspekt med en
+distansfunktion som modell är möjligheterna till att använda `Constructive
+Solid Geometry` till en låg kostnad, och om man inte kräver perfekta
+distansfunktioner är det också möjligt att lägga till effekter som
+sinusdeformationer till objekt.
 
 Detta är intressant att undersöka eftersom sättet man renderar realtidsgrafik
 på idag har vissa stora brister som saknas helt i raymarching. Eftersom man
