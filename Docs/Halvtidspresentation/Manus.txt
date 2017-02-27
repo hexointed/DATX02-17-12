@@ -8,12 +8,6 @@ Projektets mål: Skapa en hårdvaruaccelererad GPU-arkitektur optimerad för
 Ray-Marching för att undersöka hur skalbar denna algoritm är, särskilt i
 jämförelse med polygonbaserad rendering. 
 
-Detta är intressant att undersöka eftersom sättet man renderar realtidsgrafik
-på idag har vissa stora brister som saknas helt i raymarching. Eftersom man
-bygger upp världen av trianglar (BILD) så blir alla former en aproximation. Det
-tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom
-det inte går att skapa runda ytor av platta trianglar. 
-
 När man använder sig av raymarching så bygger man upp sin värld genom att
 matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att
 säga "allt som är mindre än avstånd x från den här punkten tillhör den här
@@ -23,6 +17,12 @@ sfär. En till fördel med att beskriva objekt på det sättet är att man
 matematiskt kan deformera dem, till exempel kan man få objekt att smälta
 samman, man kan "urholka" ett objekt med ett annat objekt eller få det att få
 sinusvågor längs ytan.
+
+Detta är intressant att undersöka eftersom sättet man renderar realtidsgrafik
+på idag har vissa stora brister som saknas helt i raymarching. Eftersom man
+bygger upp världen av trianglar (BILD) så blir alla former en aproximation. Det
+tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom
+det inte går att skapa runda ytor av platta trianglar. 
 
 Utöver problemen med kurvade ytor så är reflektioner så tungt att det oftast
 löses genom att vara väldigt lågupplöst eller fejkas men resultatet blir sällan
