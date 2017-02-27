@@ -1,0 +1,42 @@
+
+1. intro / presentation
+	* Vi är....
+	* vi arbetar med raymarching...
+	* Raymarching är ett sätt att rendera realtidsgrafik.
+
+
+
+
+
+2. skillnaden mellan "vanlig grafik" och raymarching
+	* Traditionellt renderas realtidsgrafik polygonbaserat, vilket fungerar så här...
+	* Raymarching funkar genom att man bygger upp sin värld med matematiska beskrivningar av objekt, vilket görs så här....
+
+
+3. genomgång av raymarching //obsolote
+	* Realtidsgrafik i spel idag går så fort för den är hårdvaruaccelererad och har utvecklats de senaste XX åren.
+
+	* gå igenom nackdelar med traditionell grafik 
+		- reflektioner är tunga.
+		- Många objekt går inte att få så som de borde vara (runda objekt är inte runda osv.)
+
+	* fördelar med raymarching
+		- det går att få till matematiskt perfekta objekt
+		- reflektioner är inte tunga att beräkna
+		- ljus är inte tungt att beräkna
+		- saker som ambient occlution är inte tungt att beräkna
+
+
+	* Vi kan inte få in vår produkt (algoritm/grejer) på en ASIC i det här arbetet för det skulle ta för mycket tid och pengar.
+		Vårt resultat kommer därför inte att vara jämförbart med vad som teoretiskt är möjligt att nå med samma budget och kunskap
+		som grabbarna på AMD och NVIDIA har. Det vi kan göra är att skapa en FPGA med vår algoritm, försöka parallellisera det och 
+		eventuellt simulera och uppskatta hur mycket snabbare det hade gått att göra med mer resurser.
+
+
+	* Vi vil
+
+5. Egna erfarenheter
+
+	* Det var väldigt svårt i början att lägga tillräckligt med tid och balansera kandidatarbetet med övriga kurser. 
+	* Ingen tidigare erfarenhet med raymarching eller någon form av grafik överhuvudtaget tidigare så det var mycket att läsa sig in på.
+	* Det tog ett tag att lära känna medlemmarna i gruppen och etablera ett bra sätt att kommunicera. 
