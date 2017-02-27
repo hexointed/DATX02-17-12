@@ -5,15 +5,19 @@ Jag är Jesper Åberg, det där är Björn. Vårt arbete går ut på att ta reda
 Projektets mål:
 Skapa en hårdvaruaccelererad raymarcher i syftet att undersöka om det är ett sätt att rendera realtidsgrafik som hade kunnat vara snyggare än hur traditionellt renderad realtidsgrafik. 
 
-Anledningen till att det är intressant att undersöka detta är att på grund av hur man oftast renderar realtidsgrafik idag har vissa betydelsefulla brister som raymarching skulle kunna lösa. Vanligtvis byggar man upp sin värld av trianglar/polygoner (bild) men när man raymarchar bygger man upp världen matematiskt med hjälp av matematiskt beskrivna objekt som till exempel sfärer och kuber.
 
-	- Reflektioner är tunga
-	- Ljus är tungt
-	- Ambient occlusion är tungt
-	- Vissa former är inte korrekta, till exempel approximerar man sfärer. 
-	(BILD)
+Detta är en intressant att undersöka eftersom sättet man renderar realtidsgrafik på idag har vissa stora brister. Eftersom man bygger upp världen av trianglar (BILD) så blir alla former en aproximation, det tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom det inte går att skapa runda ytor av platta trianglar. 
 
-raymarching löser en del problem som polygonbaserad grafik har samt introducerar andra intressanta möjligheter som till exempel fraktaler (FILM/BILD). Dock tillkommer problemet att detaljrika former som inte är lätta att beskriva matematiskt som till exempel ansikten blir omständiga att beskriva och tunga att rendera, men ett perfekt klot är den simplaste formen som går att skapa. 
+
+
+När man använder sig av raymarching så bygger man upp sin värld genom att matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att säga "allt som är mindre än avstånd x från den här punkten tillhör den här sfären". Det här leder till att man kan deformera matematiskt perfekta objekt och man får inte samma problem med runda former som man får med polygonbaserad grafik. 
+
+
+Utöver problemen med kurvade ytor så är reflektioner så tungt att det oftast löses genom att vara väldigt lågupplöst eller fejkas men resultatet blir sällan bra. Med raymarching är det inte tungt att simulera äkta,realistiska reflektioner och refraktioner.
+
+Så, en del problem som realtidsgrafik står inför går att enkelt lösa genom att använda raymarching istället, men det är inte perfekt eller problemfritt. Med polygoner har man fördelen att invecklade objekt inte är tyngre att rita än simpla objekt med samma antal polygoner samt att polygoner är väldigt lätt att bygga komplicerade objekt med genom att sätta ihop många av dem. Med raymarching är det svårt att rita ut trianglar men lätt att rita till exempel sfärer och kuber, det leder till att mer avancerade objekt kan man inte bygga upp av något så smidigt som trianglar utan istället använda sfärer, kuber och andra objekt som lätt går att beskriva matematiskt.
+
+Med raymarching går det även att göra repeterande terräng som sträcker sig oändligt långt bort lätt och det kräver inte så mycket för att rendera 3D fraktaler i realtid (VISA). 
 
 
 
