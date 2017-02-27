@@ -1,0 +1,40 @@
+
+
+Projektets mål:
+Skapa en hårdvaruaccelererad raymarcher i syftet att undersöka om det är ett sätt att rendera realtidsgrafik som hade kunnat vara snyggare än hur traditionellt renderad realtidsgrafik. 
+
+Anledningen till att det är intressant att undersöka detta är att på grund av hur man oftast renderar realtidsgrafik idag har vissa betydelsefulla brister som raymarching skulle kunna lösa. Vanligtvis byggar man upp sin värld av trianglar/polygoner (bild) men när man raymarchar bygger man upp världen matematiskt med hjälp av matematiskt beskrivna objekt som till exempel sfärer och kuber.
+
+	- Reflektioner är tunga
+	- Ljus är tungt
+	- Ambient occlusion är tungt
+	- Vissa former är inte korrekta, till exempel approximerar man sfärer. 
+	(BILD)
+
+raymarching löser en del problem som polygonbaserad grafik har samt introducerar andra intressanta möjligheter som till exempel fraktaler. Dock tillkommer problemet att detaljrika former som inte är lätta att beskriva matematiskt som till exempel ansikten blir omständiga att beskriva och tunga att rendera.
+
+
+
+Projektplanering:
+	(BILD PÅ SCHEMA)
+Vi började med att läsa in oss på hur raymarching fungerar och skapa vår egna version av det. Genom att använda grafikkort som egentligen är byggda för att rendera polygonbaserad grafik kan man hårdvaruaccelera renderingen. Vid det här laget har vi skapat några egna shaders (FÖRBÄTTRA MENING) (BILD), här är några av dem. 
+
+Vi ska nu börja skriva en kärna i ett hårdvarubeskrivande språk, vi tänker använda clash. När vi har en kärna kan vi skriva en referens-shader att använda så att vi kan mäta vår kärnas prestation jämfört med hur snabbt det går på våra grafikkort och även se tydlig prestandaökning när vi implementerar optimeringar och skriver nya versioner av kärnan. Sedan ska vi implementera parallellism och se över om vi kan förbättra minneshanteringen på något sätt. 
+
+Vi ska sedan iterativt implementera, simulera och evaluera olika optimeringar för att nå så hög prestanda vi kan. 
+
+I slutändan kommer vår produkt inte vara i närheten så snabb som när vi kör det på en av till exempel NVIDIAS GPU:er men tanken är att vi ska extrapolera vårt resultat till en teoretiskt nåbar prestanda. 
+	
+
+Statusrapport:
+Vi är precis klara med att läsa in oss på hur raymarching fungerar och skriva våra egna versioner av algoritmen. (BILDER, EV. realtidsrenderade exempel) Nu börjar vi skriva en processorkärna som är byggd för att raymarcha i hårdvarubeskrivande språk, vi tänker använda clash. Sedan måste vi bygga allt som behövs runt själva kärnan för att den ska fungera. Hittils har vi följt schemat och inte glidit efter. 
+
+
+
+
+Egna erfarenheter:
+
+
+
+(NOTES)
+få in att vi vill simulera det för att om vi gjorde en raymarching fokuserad gpu skulle det gå ännu snabbare än på dagens grafikkort
