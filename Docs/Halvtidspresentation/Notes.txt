@@ -5,9 +5,6 @@
 	* Raymarching är ett sätt att rendera realtidsgrafik.
 
 
-
-
-
 2. skillnaden mellan "vanlig grafik" och raymarching
 	* Traditionellt renderas realtidsgrafik polygonbaserat, vilket fungerar så
 	* här...  Raymarching funkar genom att man bygger upp sin värld med
@@ -29,7 +26,6 @@
 		- reflektioner är inte tunga att beräkna
 		- ljus är inte tungt att beräkna
 		- saker som ambient occlution är inte tungt att beräkna
-
 
 	* Vi kan inte få in vår produkt (algoritm/grejer) på en ASIC i det här
 	* arbetet för det skulle ta för mycket tid och pengar.
@@ -55,11 +51,6 @@
 DEMO: hur polygonbaserad grafik funkat (optimalt men inte obligatoriskt)
 	  hur raymarching funkar (obligatoriskt)
 	  visa realtidsrenderad raymarching, gärna flera exempel (obligatoriskt)
-
-
-
-
-
 
 
 Projektets mål: att skapa en hårdvaruimplementerad raymarcher och evaluera dess
