@@ -13,7 +13,7 @@
 	* Raymarching funkar genom att man bygger upp sin värld med matematiska beskrivningar av objekt(singerade avståndsfunktioner), vilket görs så här....
 
 
-3. genomgång av raymarching //obsolote
+3. genomgång av raymarching 
 	* Realtidsgrafik i spel idag går så fort för den är hårdvaruaccelererad och har utvecklats de senaste XX åren.
 
 	* gå igenom nackdelar med traditionell grafik 
@@ -35,7 +35,6 @@
 		eventuellt simulera och uppskatta hur mycket snabbare det hade gått att göra med mer resurser.
 
 
-	* Vi vil
 
 5. Egna erfarenheter
 
