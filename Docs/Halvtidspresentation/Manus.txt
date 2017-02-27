@@ -45,18 +45,22 @@ Med raymarching går det även att göra repeterande terräng som sträcker sig
 oändligt långt bort och det kräver inte så mycket för att rendera 3D-fraktaler
 i realtid (VISA). 
 
-Projektplanering: (BILD PÅ SCHEMA) Vi började med att läsa in oss på hur
-raymarching fungerar och skapa vår egna version av det. Genom att använda
-grafikkort som egentligen är byggda för att rendera polygonbaserad grafik kan
-man hårdvaruaccelera renderingen. Vid det här laget har vi skapat några egna
-shaders (FÖRBÄTTRA MENING) (BILD), här är några av dem. 
+Projektplanering: 
 
-Vi ska nu börja skriva en kärna i ett hårdvarubeskrivande språk, vi tänker
-använda clash. När vi har en kärna kan vi skriva en referens-shader att använda
-så att vi kan mäta vår kärnas prestation jämfört med hur snabbt det går på våra
-grafikkort och även se tydlig prestandaökning när vi implementerar optimeringar
-och skriver nya versioner av kärnan. Sedan ska vi implementera parallellism och
-se över om vi kan förbättra minneshanteringen på något sätt. 
+(BILD PÅ SCHEMA) 
+
+Vi började med att studera hur raymarching-algoritmen fungerar och skapa flera
+olika egna implementationer av den, som fragment shaders på vanliga grafikkort.
+Vid det här laget har vi skapat några egna shaders (FÖRBÄTTRA MENING) (BILD),
+här är några av dem. 
+
+Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi
+planerar att använda clash. När vi har en kärna kan vi skriva en
+referens-shader att använda så att vi kan mäta vår kärnas prestation jämfört
+med hur snabbt det går på våra grafikkort och även se tydlig prestandaökning
+när vi implementerar optimeringar och skriver nya versioner av kärnan. Sedan
+ska vi implementera parallellism och se över om vi kan förbättra
+minneshanteringen på något sätt. 
 
 Vi ska sedan iterativt implementera, simulera och evaluera olika optimeringar
 för att nå så hög prestanda vi kan. 
