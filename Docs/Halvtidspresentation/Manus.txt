@@ -4,18 +4,15 @@ att undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
 grafikrenderingsmetod som heter Ray-Marching, jämfört med polygonbaserad
 rendering, som är standarden inom realtidsgrafik idag.
 
+Projektets mål: Skapa en hårdvaruaccelererad GPU-arkitektur optimerad för
+Ray-Marching för att undersöka hur skalbar denna algoritm är, särskilt i
+jämförelse med polygonbaserad rendering. 
 
-Projektets mål: Skapa en hårdvaruaccelererad raymarcher för att undersöka om
-raymarching är lika skalbart som polygonbaserad grafik är i längden. 
-
-
-Detta är en intressant att undersöka eftersom sättet man renderar
-realtidsgrafik på idag har vissa stora brister som saknas helt i raymarching.
-Eftersom man bygger upp världen av trianglar (BILD) så blir alla former en
-aproximation. Det tydligaste exemplet är en sfär men alla rundade ytor är
-aproximationer eftersom det inte går att skapa runda ytor av platta trianglar. 
-
-
+Detta är intressant att undersöka eftersom sättet man renderar realtidsgrafik
+på idag har vissa stora brister som saknas helt i raymarching. Eftersom man
+bygger upp världen av trianglar (BILD) så blir alla former en aproximation. Det
+tydligaste exemplet är en sfär men alla rundade ytor är aproximationer eftersom
+det inte går att skapa runda ytor av platta trianglar. 
 
 När man använder sig av raymarching så bygger man upp sin värld genom att
 matematiskt beskriva volymer. Till exempel så beskriver man en sfär genom att
@@ -26,7 +23,6 @@ sfär. En till fördel med att beskriva objekt på det sättet är att man
 matematiskt kan deformera dem, till exempel kan man få objekt att smälta
 samman, man kan "urholka" ett objekt med ett annat objekt eller få det att få
 sinusvågor längs ytan.
-
 
 Utöver problemen med kurvade ytor så är reflektioner så tungt att det oftast
 löses genom att vara väldigt lågupplöst eller fejkas men resultatet blir sällan
@@ -47,8 +43,6 @@ Med raymarching går det även att göra repeterande terräng som sträcker sig
 oändligt långt bort och det kräver inte så mycket för att rendera 3D fraktaler
 i realtid (VISA). 
 
-
-
 Projektplanering: (BILD PÅ SCHEMA) Vi började med att läsa in oss på hur
 raymarching fungerar och skapa vår egna version av det. Genom att använda
 grafikkort som egentligen är byggda för att rendera polygonbaserad grafik kan
@@ -68,7 +62,6 @@ för att nå så hög prestanda vi kan.
 I slutändan kommer vår produkt inte vara i närheten så snabb som när vi kör det
 på en av till exempel NVIDIAS GPU:er men tanken är att vi ska extrapolera vårt
 resultat till en teoretiskt nåbar prestanda. 
-	
 
 Statusrapport: Vi är precis klara med att läsa in oss på hur raymarching
 fungerar och skriva våra egna versioner av algoritmen. (BILDER, EV.
@@ -76,9 +69,6 @@ realtidsrenderade exempel) Nu börjar vi skriva en processorkärna som är byggd
 för att raymarcha i hårdvarubeskrivande språk, vi tänker använda clash. Sedan
 måste vi bygga allt som behövs runt själva kärnan för att den ska fungera.
 Hittils har vi följt schemat och inte glidit efter. 
-
-
-
 
 Egna erfarenheter: Hittils har det varit lätt att hålla oss synkroniserade med
 schemat, vi ligger vart vi vill vara tidsvis och det känns inte som att vi är
@@ -88,8 +78,6 @@ svårt att kommunicera br aoch effektivt men nu har vi väldigt bra gruppdynamik
 men hittils har vi främst haft studier på ämnet så det har inte krävts
 jättemycket samarbete eller kommunikation så det finns en risk att det blir
 svårare sen. 
-
-
 
 (NOTES) få in att vi vill simulera det för att om vi gjorde en raymarching
 fokuserad gpu skulle det gå ännu snabbare än på dagens grafikkort
