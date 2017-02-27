@@ -1,4 +1,6 @@
 
+Introduktion:
+Jag är Jesper Åberg, det där är Björn. Vårt arbete går ut på att ta reda på om det hade varit en bättre ide att rendera realtidsgrafik med en metod som heter raymarching istället för att använda polygonbaserad grafik, som används idag.
 
 Projektets mål:
 Skapa en hårdvaruaccelererad raymarcher i syftet att undersöka om det är ett sätt att rendera realtidsgrafik som hade kunnat vara snyggare än hur traditionellt renderad realtidsgrafik. 
@@ -11,7 +13,7 @@ Anledningen till att det är intressant att undersöka detta är att på grund a
 	- Vissa former är inte korrekta, till exempel approximerar man sfärer. 
 	(BILD)
 
-raymarching löser en del problem som polygonbaserad grafik har samt introducerar andra intressanta möjligheter som till exempel fraktaler. Dock tillkommer problemet att detaljrika former som inte är lätta att beskriva matematiskt som till exempel ansikten blir omständiga att beskriva och tunga att rendera.
+raymarching löser en del problem som polygonbaserad grafik har samt introducerar andra intressanta möjligheter som till exempel fraktaler (FILM/BILD). Dock tillkommer problemet att detaljrika former som inte är lätta att beskriva matematiskt som till exempel ansikten blir omständiga att beskriva och tunga att rendera, men ett perfekt klot är den simplaste formen som går att skapa. 
 
 
 
@@ -33,6 +35,7 @@ Vi är precis klara med att läsa in oss på hur raymarching fungerar och skriva
 
 
 Egna erfarenheter:
+Hittils har det varit lätt att hålla oss synkroniserade med schemat, vi ligger vart vi vill vara tidsvis och det känns inte som att vi är på väg att halka efter. I början var det svårt att balansera kandidatarbetet med andra kurser. Innan man kände gruppen som jag skulle jobba med så var det svårt att kommunicera br aoch effektivt men nu har vi väldigt bra gruppdynamik, men hittils har vi främst haft studier på ämnet så det har inte krävts jättemycket samarbete eller kommunikation så det finns en risk att det blir svårare sen. 
 
 
 
