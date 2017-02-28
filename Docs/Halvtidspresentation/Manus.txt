@@ -1,8 +1,8 @@
 ﻿Introduktion: 
 
-        Är polygonbaserad grafikrendering det bästa alternativet?
-	Jag heter Jesper, det här är Björn. Vårt arbete handlar om att
-	undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
+	Är polygonbaserad grafikrendering det bästa alternativet?  Jag heter
+	Jesper, det här är Björn. Vårt arbete handlar om att undersöka
+	optimeringsmöjligheterna, och därigenom prestandan, för en
 	grafikrenderingsmetod som heter Ray-Marching. Detta i jämförelse med
 	prestandan opch optimeringsmöjligheterna för polygonbaserad rendering, som
 	är standarden inom realtidsgrafik idag.
