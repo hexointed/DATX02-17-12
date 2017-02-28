@@ -8,7 +8,7 @@
 	är standarden inom realtidsgrafik idag.
 	
 	Detta är intressant att undersöka eftersom sättet man renderar
-	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.  %%
+	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.
 	Eftersom man bygger upp världen av trianglar i traditionell grafik så blir
 	alla former en aproximation. Det tydligaste exemplet är en sfär där alla
 	rundade ytor är aproximationer eftersom det inte går att skapa runda ytor
