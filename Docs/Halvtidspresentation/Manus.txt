@@ -1,6 +1,7 @@
-Introduktion: 
+﻿Introduktion: 
 
-	Jag heter Jesper Åberg, det där är Björn. Vårt arbete handlar om att
+        Är polygonbaserad grafikrendering det bästa alternativet?
+	Jag heter Jesper, det här är Björn. Vårt arbete handlar om att
 	undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
 	grafikrenderingsmetod som heter Ray-Marching, i jämförelse med prestandan
 	och optimeringsmöjligheterna för polygonbaserad rendering, som är
