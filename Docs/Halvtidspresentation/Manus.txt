@@ -1,11 +1,11 @@
 ﻿Introduktion: 
 
-        Är polygonbaserad grafikrendering det bästa alternativet?
-	Jag heter Jesper, det här är Björn. Vårt arbete handlar om att
-	undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
-	grafikrenderingsmetod som heter Ray-Marching, i jämförelse med prestandan
-	och optimeringsmöjligheterna för polygonbaserad rendering, som är
-	standarden inom realtidsgrafik idag.
+	Är polygonbaserad grafikrendering det bästa alternativet?  Jag heter
+	Jesper, det här är Björn. Vårt arbete handlar om att undersöka
+	optimeringsmöjligheterna, och därigenom prestandan, för en
+	grafikrenderingsmetod som heter Ray-Marching. Detta i jämförelse med
+	prestandan opch optimeringsmöjligheterna för polygonbaserad rendering, som
+	är standarden inom realtidsgrafik idag.
 
 Beskrivning Ray-Marching:
 
@@ -56,7 +56,7 @@ Projektets mål:
 
 	Projektets mål är altså att skapa en hårdvaruaccelererad GPU-arkitektur
 	optimerad för Ray-Marching för att undersöka hur skalbar denna algoritm är,
-	både i jämförelse med polygonbaserad rendering, och med en naïv
+	både i jämförelse med polygonbaserad rendering, och med en naiv
 	implementation av arkitekturen.
 
 Projektplanering: 
@@ -65,10 +65,10 @@ Projektplanering:
 	planeringsstadiet fram till slutrapporten och opponeringen på den. (GÅ
 	IGENOM SCHEMA)
 	
-	(BILD EGNA SHADERS) Vi började med att studera hur raymarching-algoritmen
-	fungerar och skapade flera olika egna implementationer av den, som fragment
-	shaders på vanliga grafikkort. Vid det här laget har vi skapat några egna
-	shaders, här är några av dem. 
+	Vi började med att studera hur raymarching-algoritmen fungerar och skapade
+	flera olika egna implementationer av den, som fragment shaders på vanliga
+	grafikkort. Vid det här laget har vi skapat några egna shaders, här är
+	några av dem. 
 	
 	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi har
 	börjat med att använda clash. När vi har en kärna kan vi designa en scen
