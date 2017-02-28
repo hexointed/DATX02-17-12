@@ -12,7 +12,8 @@ and' = (.&.)
 xor' = xor
 not' = complement
 
-$(do 
+test2 = do 
 	fn <- curryN 2
 	return [FunD (mkName "curry") [Clause [] (NormalB fn) []]]
-	)
+
+test3 = $(_claAddN 4)

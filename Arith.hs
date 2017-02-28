@@ -1,4 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleInstances #-}
+
 module Arith where
 
 import Language.Haskell.TH
@@ -7,12 +10,6 @@ import CLaSH.Prelude
 import Unsafe.Coerce
 import Base
 import Rec
-
-fullAdder a b c = (carry, sum)
-	where
-		i = xor' a b
-		sum = xor' i c
-		carry = or' (and' a b) (and' i c)
 
 rcAdder a b c = mapAccumR (\c (a, b) -> fullAdder a b c) c (zip a b)
 
@@ -24,20 +21,25 @@ claPropGen p g = foldr
 	(\(p1,g1) (p2,g2) -> (and' p1 p2, or' (and' g1 p2) g2)) (high, low) 
 	(zip p g)
 
--- Bubble sort for 1 iteration
-sortV xs = map fst sorted :< (snd (last sorted))
- where
-   lefts  = head xs :> map snd (init sorted)
-   rights = tail xs
-   sorted = zipWith compareSwapL (lazyV lefts) rights
+topEntity = test3
 
--- Compare and swap
-compareSwapL a b = if a < b then (a,b)
-                            else (b,a)
+class A a where
+	a :: a -> a
 
-topEntity :: Vec 8 Bit -> Vec 8 Bit
-topEntity = sortV
+instance {-# OVERLAPPING #-} A (Vec 1 a) where
+	a = id
 
-fold f a = undefined
-	where
-		len = lengthS a
+instance {-# OVERLAPPING #-} A (Vec 2 a) where
+	a = id
+
+instance {-# OVERLAPPING #-} A (Vec 3 a) where
+	a = undefined
+
+instance {-# OVERLAPPABLE #-} KnownNat n => A (Vec n a) where
+	a = undefined
+
+aIf :: forall n . KnownNat n => Vec n Int -> Vec n Int -> Vec n Int
+aIf = case toUNat (SNat @n) of
+	USucc UZero         -> zipWith (+)
+	USucc (USucc UZero) -> zipWith (+)
+	_                   -> zipWith (+)
