@@ -8,7 +8,7 @@
 	är standarden inom realtidsgrafik idag.
 	
 	Detta är intressant att undersöka eftersom sättet man renderar
-	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.
+	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.  %%
 	Eftersom man bygger upp världen av trianglar i traditionell grafik så blir
 	alla former en aproximation. Det tydligaste exemplet är en sfär där alla
 	rundade ytor är aproximationer eftersom det inte går att skapa runda ytor
@@ -24,7 +24,7 @@
 Beskrivning Ray-Marching:
 
 	Ray-Marching-algoritmen baseras på att geometrin modellerats med en
-	distansfunktion, det vill säga en funktion som mappar varje punkt i rummet
+	distansfunktion, det vill säga en funktion som kopplar varje punkt i rummet
 	till dess avstånd från geometrin. Till exempel skulle en sfär i origo
 	beskrivas som `f(x,y,z) = sqrt(x^2 + y^2 + z^2) - r` vilket altså är
 	avståndet från origo minus radien. Denna beskrivning av sfären är
@@ -60,7 +60,7 @@ Projektets mål:
 	Projektets mål är altså att skapa en hårdvaruaccelererad GPU-arkitektur
 	optimerad för Ray-Marching för att undersöka hur skalbar denna algoritm är,
 	både i jämförelse med polygonbaserad rendering, och med en naiv
-	implementation av arkitekturen.
+	implementation av algoritmen på traditionell hårdvara.
 
 Projektplanering: 
 
@@ -70,8 +70,8 @@ Projektplanering:
 	
 	Vi började med att studera hur raymarching-algoritmen fungerar och skapade
 	flera olika egna implementationer av den, som fragment shaders på vanliga
-	grafikkort. Vid det här laget har vi skapat några egna shaders, här är
-	några av dem. 
+	grafikkort. Vid det här laget har vi skapat flera egna shaders som testar 
+	olika aspekter av algoritmen.
 	
 	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi har
 	börjat med att använda clash. När vi har en kärna kan vi designa en scen
@@ -85,7 +85,7 @@ Projektplanering:
 	väljer att kolla på måste nödvändigtvis bestämmas under projektets gång,
 	men hittils har vi funderat på olika typer av parallellism som är
 	kompatibla med algoritmen, samt att se över om vi kan förbättra
-	minneshanteringen på något sätt.
+	minneshanteringen på något sätt, som exempel på tänkbara optimeringar.
 	
 	I slutändan kommer vår produkt inte vara i närheten så snabb som när vi kör
 	det på en av till exempel NVIDIAS GPU:er men tanken är att vi ska kunna
