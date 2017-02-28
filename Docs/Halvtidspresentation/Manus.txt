@@ -13,6 +13,13 @@
 	alla former en aproximation. Det tydligaste exemplet är en sfär där alla
 	rundade ytor är aproximationer eftersom det inte går att skapa runda ytor
 	av platta trianglar.
+	
+	Utöver problemen med kurvade ytor så är reflektioner så tungt att det
+	oftast löses genom att vara väldigt lågupplöst eller fejkas; men resultatet
+	blir sällan bra. Med raymarching är det inte tyngre att simulera äkta,
+	realistiska reflektioner och refraktioner än det är att rendera vilken
+	geometri som helst.
+	
 
 Beskrivning Ray-Marching:
 
@@ -34,12 +41,6 @@ Beskrivning Ray-Marching:
 	(SLIDE RAY-MARCHING ANIMERING)
 	
 	(BILD TRIANGLAR)  
-	
-	Utöver problemen med kurvade ytor så är reflektioner så tungt att det
-	oftast löses genom att vara väldigt lågupplöst eller fejkas; men resultatet
-	blir sällan bra. Med raymarching är det inte tyngre att simulera äkta,
-	realistiska reflektioner och refraktioner än det är att rendera vilken
-	geometri som helst.
 	
 	Så, en del problem som realtidsgrafik står inför idag går att enkelt lösa
 	genom att använda raymarching istället, men det är inte perfekt eller
