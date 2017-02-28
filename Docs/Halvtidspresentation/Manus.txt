@@ -6,6 +6,20 @@
 	grafikrenderingsmetod som heter Ray-Marching. Detta i jämförelse med
 	prestandan opch optimeringsmöjligheterna för polygonbaserad rendering, som
 	är standarden inom realtidsgrafik idag.
+	
+	Detta är intressant att undersöka eftersom sättet man renderar
+	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.
+	Eftersom man bygger upp världen av trianglar i traditionell grafik så blir
+	alla former en aproximation. Det tydligaste exemplet är en sfär där alla
+	rundade ytor är aproximationer eftersom det inte går att skapa runda ytor
+	av platta trianglar.
+	
+	Utöver problemen med kurvade ytor så är reflektioner så tungt att det
+	oftast löses genom att vara väldigt lågupplöst eller fejkas; men resultatet
+	blir sällan bra. Med raymarching är det inte tyngre att simulera äkta,
+	realistiska reflektioner och refraktioner än det är att rendera vilken
+	geometri som helst.
+	
 
 Beskrivning Ray-Marching:
 
@@ -24,20 +38,9 @@ Beskrivning Ray-Marching:
 	det också möjligt att lägga till effekter som sinusdeformationer till
 	objekt.
 	
-	(SLIDE RAY-MARCHING)
+	(SLIDE RAY-MARCHING ANIMERING)
 	
-	(BILD TRIANGLAR) Detta är intressant att undersöka eftersom sättet man
-	renderar realtidsgrafik på idag har vissa brister som saknas helt i
-	raymarching. Eftersom man bygger upp världen av trianglar i traditionell
-	grafik så blir alla former en aproximation. Det tydligaste exemplet är en
-	sfär där alla rundade ytor är aproximationer eftersom det inte går att
-	skapa runda ytor av platta trianglar. 
-	
-	Utöver problemen med kurvade ytor så är reflektioner så tungt att det
-	oftast löses genom att vara väldigt lågupplöst eller fejkas; men resultatet
-	blir sällan bra. Med raymarching är det inte tyngre att simulera äkta,
-	realistiska reflektioner och refraktioner än det är att rendera vilken
-	geometri som helst.
+	(BILD TRIANGLAR)  
 	
 	Så, en del problem som realtidsgrafik står inför idag går att enkelt lösa
 	genom att använda raymarching istället, men det är inte perfekt eller
