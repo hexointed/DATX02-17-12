@@ -13,15 +13,6 @@ fullAdder a b c = (carry, sum)
 		sum = C.xor i c
 		carry = (a C..&. b) C..|. (i C..&. c)
 
-curryN :: Int -> Q Exp
-curryN n = do
-	f <- newName "f"
-	xs <- replicateM n (newName "x")
-	let
-		args = map VarP (f:xs)
-		nutp = TupE (map VarE xs)
-	return $ LamE args (AppE (VarE f) nutp)
-
 _claAdd0 :: C.Vec 0 C.Bit -> C.Vec 0 C.Bit -> C.Bit -> (C.Vec 0 C.Bit, C.Bit, C.Bit)
 _claAdd0 a b carry = (sum, propagate, generate)
 	where
@@ -35,26 +26,6 @@ _claAdd1 (a C.:> C.Nil) (b C.:> C.Nil) carry = (sum C.:> C.Nil, propagate, gener
 		(_, sum) = fullAdder a b carry
 		propagate = a C..|. b
 		generate = a C..&. b
-
-_claAdd2 a b carry = (sum, propagate, generate)
-	where
-		(al,ar) = C.splitAt C.d1 a
-		(bl,br) = C.splitAt C.d1 b
-		(s0, p0, g0) = _claAdd1 ar br carry
-		(s1, p1, g1) = _claAdd1 al bl (carry C..&. p0 C..|. g0)
-		sum = s1 C.++ s0
-		propagate = p0 C..&. p1
-		generate = g0 C..&. p1 C..|. g1
-
-_claAdd3 a b carry = (sum, propagate, generate)
-	where
-		(al, ar) = C.splitAt C.d1 a
-		(bl, br) = C.splitAt C.d1 b
-		(s0, p0, g0) = _claAdd2 ar br carry
-		(s1, p1, g1) = _claAdd1 al bl (carry C..&. p0 C..|. g0)
-		sum = s1 C.++ s0
-		propagate = p0 C..&. p1
-		generate = g0 C..&. p1 C..|. g1
 
 _claAddN n =
 	let
