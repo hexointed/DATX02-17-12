@@ -1,16 +1,10 @@
-
 Introduktion: 
 
 	Jag heter Jesper Åberg, det där är Björn. Vårt arbete handlar om att
 	undersöka optimeringsmöjligheterna, och därigenom prestandan, för en
-	grafikrenderingsmetod som heter Ray-Marching, jämfört med polygonbaserad
-	rendering, som är standarden inom realtidsgrafik idag.
-
-Projektets mål: 
-
-	Skapa en hårdvaruaccelererad GPU-arkitektur optimerad för Ray-Marching för
-	att undersöka hur skalbar denna algoritm är, särskilt i jämförelse med
-	polygonbaserad rendering. 
+	grafikrenderingsmetod som heter Ray-Marching, i jämförelse med prestandan
+	och optimeringsmöjligheterna för polygonbaserad rendering, som är
+	standarden inom realtidsgrafik idag.
 
 Beskrivning Ray-Marching:
 
@@ -23,19 +17,23 @@ Beskrivning Ray-Marching:
 	förstås inte enkelt att beskriva alla tänkbara objekt exakt med en
 	distansfunktion, men detta ger nya intressanta avvägningar vid
 	objektdesign. En till intressant aspekt med en distansfunktion som modell
-	är möjligheterna till att använda `Constructive Solid Geometry` till en låg
-	kostnad, och om man inte kräver perfekta distansfunktioner är det också
-	möjligt att lägga till effekter som sinusdeformationer till objekt.
+	är möjligheterna till att använda `Constructive Solid Geometry`, det vill
+	säga att man modellerar med mängdoperatorer som union och snitt, och detta
+	till en låg kostnad. Om man inte kräver perfekta distansfunktioner är
+	det också möjligt att lägga till effekter som sinusdeformationer till
+	objekt.
 	
-	(BILD TRIANGLAR) Detta är intressant att undersöka eftersom sättet man renderar
-	realtidsgrafik på idag har vissa brister som saknas helt i raymarching.
-	Eftersom man bygger upp världen av trianglar så blir alla former en
-	aproximation. Det tydligaste exemplet är en sfär men alla rundade ytor är
-	aproximationer eftersom det inte går att skapa runda ytor av platta
-	trianglar. 
+	(SLIDE RAY-MARCHING)
+	
+	(BILD TRIANGLAR) Detta är intressant att undersöka eftersom sättet man
+	renderar realtidsgrafik på idag har vissa brister som saknas helt i
+	raymarching. Eftersom man bygger upp världen av trianglar i traditionell
+	grafik så blir alla former en aproximation. Det tydligaste exemplet är en
+	sfär där alla rundade ytor är aproximationer eftersom det inte går att
+	skapa runda ytor av platta trianglar. 
 	
 	Utöver problemen med kurvade ytor så är reflektioner så tungt att det
-	oftast löses genom att vara väldigt lågupplöst eller fejkas men resultatet
+	oftast löses genom att vara väldigt lågupplöst eller fejkas; men resultatet
 	blir sällan bra. Med raymarching är det inte tyngre att simulera äkta,
 	realistiska reflektioner och refraktioner än det är att rendera vilken
 	geometri som helst.
@@ -44,61 +42,68 @@ Beskrivning Ray-Marching:
 	genom att använda raymarching istället, men det är inte perfekt eller
 	problemfritt.  Med polygoner har man fördelen att invecklade objekt inte är
 	tyngre att rita än simpla objekt med samma antal polygoner samt att
-	polygoner är väldigt lätt att bygga komplicerade objekt med genom att sätta
-	ihop många av dem. Med raymarching är det svårt att rita ut trianglar men
-	lätt att rita till exempel sfärer och kuber, det leder till att mer
-	avancerade objekt kan man inte bygga upp av något så smidigt som trianglar
-	utan istället får man använda sfärer, kuber och andra objekt som lätt går
-	att beskriva matematiskt.
+	polygoner är väldigt lätta att använda som byggstenar för komplicerade
+	objekt genom att sätta ihop många av dem. Med raymarching är det
+	svårare att rita ut trianglar men lätt att rita till exempel sfärer och
+	kuber. 
 	
 	(SHADER FRAKTAL) Med raymarching går det även att göra repeterande terräng
 	som sträcker sig oändligt långt bort och det kräver inte så mycket för att
 	rendera 3D-fraktaler i realtid. 
 
+Projektets mål: 
+
+	Projektets mål är altså att skapa en hårdvaruaccelererad GPU-arkitektur
+	optimerad för Ray-Marching för att undersöka hur skalbar denna algoritm är,
+	både i jämförelse med polygonbaserad rendering, och med en naïv
+	implementation av arkitekturen.
+
 Projektplanering: 
 
-	(BILD PÅ SCHEMA) Här ser ni de planerade arbetsfaserna från 
-	planeringsstadiet fram till slutrapporten samt opponeringen på denna.
+	(BILD PÅ SCHEMA) Här ser ni de planerade arbetsfaserna från
+	planeringsstadiet fram till slutrapporten och opponeringen på den. (GÅ
+	IGENOM SCHEMA)
 	
 	(BILD EGNA SHADERS) Vi började med att studera hur raymarching-algoritmen
 	fungerar och skapade flera olika egna implementationer av den, som fragment
 	shaders på vanliga grafikkort. Vid det här laget har vi skapat några egna
 	shaders, här är några av dem. 
 	
-	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi
-	planerar att använda clash. När vi har en kärna kan vi skriva en
-	referens-shader att använda så att vi kan mäta vår kärnas prestation
-	jämfört med hur snabbt det går på våra grafikkort och även se tydlig
-	prestandaökning när vi implementerar optimeringar och skriver nya versioner
-	av kärnan. Sedan ska vi implementera parallellism och se över om vi kan
-	förbättra minneshanteringen på något sätt. 
+	Vi ska nu börja skriva en GPU-kärna i ett hårdvarubeskrivande språk; vi har
+	börjat med att använda clash. När vi har en kärna kan vi designa en scen
+	och använda den för att kunna mäta vår kärnas prestation jämfört med hur
+	snabbt det går på traditionella grafikkort och även för att kunna resonera
+	kring prestandaökningar när vi implementerar optimeringar och skriver nya
+	versioner av kärnan.  
 	
 	Vi ska sedan iterativt implementera, simulera och evaluera olika
-	optimeringar för att nå så hög prestanda vi kan. 
+	optimeringar för att nå så hög prestanda som möjligt. Vilka optimeringar vi
+	väljer att kolla på måste nödvändigtvis bestämmas under projektets gång,
+	men hittils har vi funderat på olika typer av parallellism som är
+	kompatibla med algoritmen, samt att se över om vi kan förbättra
+	minneshanteringen på något sätt.
 	
 	I slutändan kommer vår produkt inte vara i närheten så snabb som när vi kör
-	det på en av till exempel NVIDIAS GPU:er men tanken är att vi ska
+	det på en av till exempel NVIDIAS GPU:er men tanken är att vi ska kunna
 	extrapolera vårt resultat till en teoretiskt nåbar prestanda. 
 
 Statusrapport: 
+	
+	Så, lite om vad vi har jobbat med hittils:
 
-	(BILDER, EV. REALTIDSRENDERADE EXEMPEL) Vi är klara med att läsa in oss på
+	(SHADERS, EV. REALTIDSRENDERADE EXEMPEL) Vi är klara med att läsa in oss på
 	hur Ray-Marching fungerar och skriva våra egna versioner av algoritmen. Nu
-	börjar vi skriva en processorkärna som är byggd för att raymarcha i
-	hårdvarubeskrivande språk, vi tänker använda clash. Sedan måste vi bygga
-	allt som behövs runt själva kärnan för att den ska fungera.  Hittils har vi
-	följt schemat och inte glidit efter. 
+	har vi börjat med att skriva en processorkärna som är byggd för
+	Ray-Marching-algoritmen. Sedan måste vi bygga allt som behövs runt själva
+	kärnan för att den ska fungera. 
 
 Egna erfarenheter: 
 
 	Hittils har det varit lätt att hålla oss synkroniserade med schemat, vi
-	ligger vart vi vill vara tidsvis och det känns inte som att vi är på väg
+	ligger vart vi vill vara tidsmässigt och det känns inte som att vi är på väg
 	att halka efter. I början var det svårt att balansera kandidatarbetet med
-	andra kurser. Innan man kände gruppen som jag skulle jobba med så var det
+	andra kurser. Innan man kände gruppen som man skulle jobba med så var det
 	svårt att kommunicera bra och effektivt men nu har vi väldigt bra
 	gruppdynamik, men hittils har vi främst haft studier på ämnet så det har
-	inte krävts jättemycket samarbete eller kommunikation så det finns en risk
+	inte krävts jättemycket sammarbete eller kommunikation så det finns en risk
 	att det blir svårare sen. 
-
-	(NOTES) få in att vi vill simulera det för att om vi gjorde en raymarching
-	fokuserad gpu skulle det gå ännu snabbare än på dagens grafikkort
