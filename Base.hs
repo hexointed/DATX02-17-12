@@ -12,4 +12,4 @@ and' = (.&.)
 xor' = xor
 not' = complement
 
-test3 = $(_claAddN 2)
+test3 = $(_claAddN 1)

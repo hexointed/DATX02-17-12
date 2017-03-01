@@ -4,29 +4,37 @@ module Rec where
 
 import Language.Haskell.TH
 import Control.Monad
-import Prelude
-import qualified CLaSH.Prelude as C
+import Prelude ((++), ($), (.), div, (-), show)
+import CLaSH.Prelude hiding ((++))
+import qualified CLaSH.Prelude ((++))
 
 fullAdder a b c = (carry, sum)
 	where
-		i = C.xor a b
-		sum = C.xor i c
-		carry = (a C..&. b) C..|. (i C..&. c)
+		i = xor a b
+		sum = xor i c
+		carry = (a .&. b) .|. (i .&. c)
 
-_claAdd0 :: C.Vec 0 C.Bit -> C.Vec 0 C.Bit -> C.Bit -> (C.Vec 0 C.Bit, C.Bit, C.Bit)
+_claAdd0 :: Vec 0 Bit -> Vec 0 Bit -> Bit -> (Vec 0 Bit, Bit, Bit)
 _claAdd0 a b carry = (sum, propagate, generate)
 	where
-		sum = C.Nil
-		propagate = C.high
-		generate = C.low
+		sum = Nil
+		propagate = high
+		generate = low
 
-_claAdd1 :: C.Vec 1 C.Bit -> C.Vec 1 C.Bit -> C.Bit -> (C.Vec 1 C.Bit, C.Bit, C.Bit)
-_claAdd1 (a C.:> C.Nil) (b C.:> C.Nil) carry = (sum C.:> C.Nil, propagate, generate)
-	where
-		(_, sum) = fullAdder a b carry
-		propagate = a C..|. b
-		generate = a C..&. b
-
+_claAddN 1 =
+	[|
+		let 
+			claAdd1_ :: Vec 1 Bit -> Vec 1 Bit -> Bit -> (Vec 1 Bit, Bit, Bit)
+			claAdd1_ (a:>Nil) (b:>Nil) carry =
+				let
+					(_, sum) = fullAdder a b carry
+					propagate = a .|. b
+					generate = a .&. b
+				in
+					(sum :> Nil, propagate, generate)
+		in 
+			claAdd1_
+	|]
 _claAddN n =
 	let
 		(l,r) = (div n 2, n - l)
@@ -37,13 +45,13 @@ _claAddN n =
 			let
 				claAddN_ f1 f2 s a b carry = 
 					let
-						(al, ar) = C.splitAt s a
-						(bl, br) = C.splitAt s b
+						(al, ar) = splitAt s a
+						(bl, br) = splitAt s b
 						(s0, p0, g0) = f2 ar br carry
-						(s1, p1, g1) = f1 al bl (carry C..&. p0 C..|. g0)
-						sum = s1 C.++ s0
-						propagate = p0 C..&. p1
-						generate = g0 C..&. p1 C..|. g1
+						(s1, p1, g1) = f1 al bl (carry .&. p0 .|. g0)
+						sum = s1 CLaSH.Prelude.++ s0
+						propagate = p0 .&. p1
+						generate = g0 .&. p1 .|. g1
 					in
 						(sum, propagate, generate)
 			in
