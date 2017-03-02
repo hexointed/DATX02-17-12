@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE IncoherentInstances #-}
 
 module Rec where
 
@@ -52,40 +53,37 @@ _claAddN n rec = let (l,r) = (div n 2, n - l) in
 				( SNat :: SNat $(return . LitT . NumTyLit $ l) )
 	|]
 
+realNewName n = do
+	n' <- newName n
+	return $ mkName (showName n')
+
 insN n f fnName fnType = do
-	className <- newName "A"
+	className <- realNewName ("Class_" ++ fnName)
 	tvName <- newName "a"
 	tmpName <- newName fnName
 	clas <- classD (return []) className [PlainTV tvName] []
 		[sigD tmpName 
 			(fnType (varT tvName))
 		]
-	base <- do
-		n <- newName "n"
-		dec <- [d|
-				$(varP $ mkName fnName) = $(varE . mkName $ "undefined")
-			|]
-		predType <- [t| KnownNat $(varT n) |]
-		instType <- [t|
-				$(conT className) (Vec $(varT n) Bit)
-			|]
-		return $ InstanceD
-			(Just Overlappable)
-			[predType]
-			instType
-			dec
 	let i n = do
 		dec <- [d| 
-				$(varP $ mkName fnName) = $(f n (varE . mkName $ fnName)) 
+				$(varP tmpName) = $(f n (varE tmpName)) 
 			|]
 		instType <- [t| 
 				$(conT className) (Vec $(return . LitT . NumTyLit $ n) Bit) 
 			|]
 		return $ InstanceD 
-			(Just Overlapping)
+			Nothing
 			[] 
 			instType
 			dec
 	xs <- sequence (P.map i [1 .. n])
-	fn <- [d| $(varP $ mkName fnName) = $(varE tmpName) |]
-	return (base:clas:xs)
+	return $ (clas:xs)
+
+tstN n f = do
+	matches <- sequence (P.map matchN [1 .. n])
+	return $ CaseE (VarE $ mkName "n") matches
+		where
+			matchN n = match (u n) (normalB f) []
+			u 1 = [p| USucc UZero |]
+			u n = [p| USucc $(u (n - 1)) |]
