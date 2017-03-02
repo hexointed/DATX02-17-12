@@ -2,13 +2,10 @@
 
 module Rec (makeRecursive) where
 
-import Tmp
-import Language.Haskell.TH
-import Language.Haskell.TH.Syntax
-import Control.Monad
-import Prelude ((++), ($), (.), div, (-), show)
 import qualified Prelude as P
-import CLaSH.Prelude hiding ((++))
+import Language.Haskell.TH
+import Control.Monad
+import CLaSH.Prelude
 
 makeRecursive :: Integer -> (Integer -> Q Exp -> Q Exp) -> String -> Q Exp
 makeRecursive nSteps f name = do
