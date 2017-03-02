@@ -1,8 +1,12 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Arith where
 
+import qualified Prelude as P
 import CLaSH.Prelude
+
+import ArithTH
 import Base
 import Rec
 
@@ -18,3 +22,8 @@ claAdder =
 
 topEntity :: Vec 8 Bit -> Vec 8 Bit -> Bit -> (Vec 8 Bit, Bit, Bit)
 topEntity = claAdder
+
+wallaceMultiplier :: Vec n Bit -> Vec n Bit -> Vec (2*n) Bit
+wallaceMultiplier a b = a ++ b
+
+$(mW)
