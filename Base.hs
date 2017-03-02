@@ -1,4 +1,5 @@
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Base where
 
@@ -12,4 +13,9 @@ and' = (.&.)
 xor' = xor
 not' = complement
 
-test3 = $(_claAddN 1)
+$(insN 
+		32 
+		_claAddN 
+		"test" 
+		(\t -> [t| $(t) -> $(t) -> Bit -> ( $(t), Bit, Bit ) |] )
+	)
