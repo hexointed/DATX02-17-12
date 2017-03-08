@@ -1,17 +1,23 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 module DistFunc where
 
+import GHC.Generics (Generic)
+import Control.DeepSeq
 import Float
 import Base
 
 data FunOp
 	= Fun Op
 	| FunData Data
+	deriving (Eq, Show, Generic)
 
 data Data
 	= Val Float
 	| X
 	| Y
 	| Z
+	deriving (Eq, Show, Generic)
 
 data Op
 	= Max
@@ -20,12 +26,14 @@ data Op
 	| Mul
 	| Sqrt
 	| Abs
+	deriving (Eq, Show, Generic)
 
 data Position = Position
 	{ x :: Float
 	, y :: Float
 	, z :: Float
 	}
+	deriving (Eq, Show, Generic)
 
 origin :: Position
 origin = Position 0 0 0
@@ -41,3 +49,8 @@ apply Add a b = a + b
 apply Mul a b = a * b
 apply Sqrt a b = sqrt a
 apply Abs a b = abs a
+
+instance NFData FunOp
+instance NFData Data
+instance NFData Op
+instance NFData Position
