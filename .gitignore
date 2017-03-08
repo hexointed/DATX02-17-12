@@ -74,3 +74,9 @@ hs_err_pid*
 
 !Docs/figure/*.pdf
 !Docs/figure/*.png
+
+# Generated VHDL
+vhdl/*
+
+# Synthclipse workspace settings directory
+.metadata/*
