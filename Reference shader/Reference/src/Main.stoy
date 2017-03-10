@@ -1,0 +1,238 @@
+//#define DEBUG_SAFETY_TESTS	1
+#define SHOW_DEBUG_PLANE	1
+
+#define MaxRaySteps 	121
+#define MaxRayLength	140.0		//max length of a single ray (distance is reset at reflection)
+#define MinStep			0.00091		//#define MinStep			0.000021
+const vec3 normOffset 	  = vec3(0.0006,0,0);  //make const perhaps  //const vec3 normOffset2=vec3(0.06,0,0); //vec3 normOffset=vec3(0.0006*normEps_s,0,0);  //make const perhaps  //const vec3 normOffset2=vec3(0.06,0,0);
+
+struct DistInfo
+{	float d;
+	uint obj;
+};
+DistInfo DistToScene(vec3 p);
+vec3 GetNormalByObj(uint objId, vec3 p, float d);
+#include "Uniforms.glsl"
+#include "Materials.glsl"
+#include "Distance_operations.glsl"
+#include "Primitives.glsl"
+#include "Object_definitions.glsl"
+#include "Light_definitions.glsl"
+#include "CameraSetup.glsl"
+
+
+vec3 OrthProj(vec3 Vec1,vec3 Vec2){ //Projects vector 1 on vector 2. Do not use
+	return dot(Vec1,Vec2)*Vec2;
+}
+
+bool ShouldDraw(vec3 posRelToEye, float radi,vec3 rayDir){ //decides if something should be drawn.
+	if (dot(rayDir,posRelToEye) < 0){ return false;}
+	vec3 ray = OrthProj(posRelToEye,rayDir);
+	float closestDist = length(posRelToEye - ray);
+	return closestDist < radi;
+}
+
+vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
+{	DistInfo di;
+	vec3 pRayPos, col=vec3(0,0,0);
+	float marchedDist = 0.0, curAlpha=1.0, distDbgPlane;
+
+    for(int i=0; i!=MaxRaySteps; i++)	//while(gNumStepsTaken!=MaxRaySteps) //gNumStepsTaken++;
+    {
+    	if(marchedDist == 0.0){
+    		for(int z=1; z!=NumObjects+1; z++)
+    		{
+    		    //RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
+    		    RenderList[z] = true; //unoptimized
+    		}
+    	}
+
+
+
+    	pRayPos = pEye + marchedDist * vRayDir;
+		di = DistToScene(pRayPos);
+
+
+#ifdef SHOW_DEBUG_PLANE
+		distDbgPlane = pRayPos.y-1;  //distDbgPlane = sdPlane( pRayPos, vec4(0,1,0,-1) );
+		if(  distDbgPlane<MinStep) {	return col+clamp(vec3( 2-di.d*2,di.d*2-0.1,0 ),0,1)*clamp(sin(di.d*40)*4+4.25,0,1)*curAlpha; }
+		else di.d = min(di.d,distDbgPlane);
+#endif
+		//if(di.obj>1) return vec3(0,0.6,0); //remove. dbgcol
+		//use object id to look up material id, then do a switch on materials to create the color of the pixel.
+		switch (matIdList[di.obj])
+		{	case Mat_SolidColor:
+				col += Shader_SolidColor(vec3 (1,0,1), curAlpha);
+				return col;
+
+			case Mat_Reflection:
+				col += Shader_Reflection(0.55555, di, pRayPos, vRayDir, pEye, curAlpha);
+	            marchedDist=0.0;
+
+
+
+	            continue; //since the ray is reflected, continue the loop, but reset the marched distance counter;
+		}
+
+		marchedDist += di.d;
+        if(marchedDist>MaxRayLength) break;
+    }
+	 //if this point is reached, no objects intersected the ray, thus the background color should be calculated
+	return col + texture(iChannel1, -vRayDir).rgb*curAlpha ;	//return vec3(0,0,0);	//return texture(iChannel1, vRayDir).rgb;  //return vec3(0,0,0.3);//temp
+}
+
+void main()
+{
+	InitObjDefs();
+	gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0); // black default color with opaque alpha.
+	//calculate current pixel on screen to aspect corrected +-1x +-1/ar cartesian system
+	vec2 uv = (gl_FragCoord.xy / iResolution.xy*2.0-1.0); uv.y *= iResolution.y/iResolution.x;
+
+	//these two points define the camera origin and target, and are initialized by their corresponding uniforms, up is atm hardcoded to (0,1,0)
+    vec3 pEye 	 = pEye_slider;    //pEye.y +=	cos(iGlobalTime*0.5)*1;
+    vec3 pLookAt = pLookAt_slider; //;vec3( 1.5, 1.2 , 0.0);
+
+    vec3 vRayDir ; //gets initialized by CameraSetup();
+	CameraSetup( pEye, pLookAt, uv, vRayDir );
+    vRayDir_orig = vRayDir; //store the original direction from camera through pixel in a global variable
+
+    //calculate the output pixel color using origin in pEye, in the direction vector vRayDir
+    gl_FragColor.rgb = GetRayColor( pEye, vRayDir );  //GetRayColor ramyarches the specified ray and retrieves its final color
+    return;
+}
+
+//loop over the objects in the scene, and return the distance to the closest one, along with its object identifier (uint)
+DistInfo DistToScene(vec3 p)
+{	DistInfo ret;
+	ret.obj = 0;
+	ret.d = MaxRayLength;
+
+	//ret.d = DistToObjectId(p,1);   DIS IS FASTER
+	//if( ret.d<MinStep ) { ret.obj=1; return ret; };
+	//if(NumObjects<=1) return ret;  //should not be needeed
+
+//	for(uint i=1; i!=NumObjects+1; i++ )
+//	{	ret.d = min( ret.d, DistToObjectId(p,i)) ;
+//		if( ret.d<MinStep ) { ret.obj=i; return ret; };
+//	}
+
+	for(uint i=1; i!=NumObjects+1; i++ )
+	{
+		if(RenderList[i])
+		{
+			ret.d = min( ret.d, DistToObjectId(p,i)) ;
+			if( ret.d<MinStep ) { ret.obj=i; return ret; };
+		}
+
+	}
+
+//	ret.d = min( ret.d, DistToObjectId(p,2)) ;
+//	if( ret.d<MinStep ) { ret.obj=2; return ret; };
+//
+//	ret.d = min( ret.d, DistToObjectId(p,3)) ;
+//	if( ret.d<MinStep ) { ret.obj=3; return ret; };
+	return ret;
+}
+
+//calculate surface normal vector of object by its identifier
+vec3 GetNormalByObj(uint objId, vec3 p, float d)
+{	if( objId==0 ) return vec3(1,1,1); //remove
+	return normalize( d-vec3(  DistToObjectId( p-normOffset, 	 objId )
+						     , DistToObjectId( p-normOffset.yxy, objId )
+					         , DistToObjectId( p-normOffset.yyx, objId )
+	   	   	    	));
+//	return normalize( vec3(  d-DistToObjectId( p-normOffset, objId )
+//			      	   	   , d-DistToObjectId( p-normOffset.yxy, objId )
+//						   , d-DistToObjectId( p-normOffset.yyx, objId )
+//		   	   	    ));
+}
+
+//! <preset file="Main.preset" />
+
+
+
+
+///temp-storage-jox
+/*
+
+  		if(di.obj==3)
+		{	norm = GetNormalByObj(di.obj, pRayPos, di.d);
+			float light,light2,chess;
+			light2 = dot( norm, -vRayDir_orig ) * 0.5;
+			light = dot( norm, normalize(-pRayPos+pLight1) );
+			light += light2+0.2;
+			light *=0.45;
+			light = clamp(light,0,1);
+
+			chess = clamp(mod(pRayPos.x,2.0)*30.0-30.0,-1.0,1.0) * clamp(mod(pRayPos.z,2.0)*60.0-60.0, -1.0,1.0 );
+			chess *= clamp(mod(pRayPos.y+0.1,2)*30.0-30.0,-1.0,1.0)*2;
+
+//			c = ( clamp(
+//					clamp(chess*light,0.0,1.0) +clamp((light-.3),0.0,1.0) +pow( clamp(light2*2.2,0.0,1.0) , 8 )
+//				  , 0,1)
+//				).xxx;
+			c = chess.xxx;
+			//c.r *=(pRayPos.y-1.2);
+			col += c*curAlpha;
+			//return col;
+			return vec3(0,0,0);
+
+			//return chess.xxx*light;
+			//return vec3(   clamp(pow( light2*2.2 , 8 ),0.0,1.0).xx,0 );
+		}
+		else if(di.obj==1 || di.obj==2)
+		{
+			norm = GetNormalByObj(di.obj, pRayPos, di.d);
+			//return norm;
+			float light,light2;
+
+			//float xsec = floor(abs(pRayPos.x))*0.5;
+			//p.xz = mod(p.xz,2);
+
+			//return vec3(1,1,1);
+
+			vec3 dirToCam = normalize( -(pRayPos + vec3(0,0,0)) + pEye );
+
+			light2 = dot( norm, dirToCam );
+			//light2 = dot( norm, -vRayDir_orig );
+			//return light2.xxx*0.5;
+//			light = dot( norm, normalize(-pRayPos+pLight1) );
+//			light += light2;
+//			light *=0.45;
+//			light = clamp(light,0,1);
+
+			c = vec3(0,0,0);
+//			if (di.obj==2) c.r = acos(dot(norm, -vRayDir_orig))/1.57;
+//			else
+
+			float reflectivity = 0.9;//0.665;
+			c.r = clamp( sin(2.6-dot(norm, -vRayDir)*4.3)*1 ,0,1);
+			c.gb = clamp( sin(2.6-dot(-vRayDir,norm*7.0)*1.4)*0.85 ,0,1).xx;
+			col += c*(1.0-reflectivity)*curAlpha;
+			curAlpha *= reflectivity;
+			//col += pow( clamp(light2*2.02,0.0,1.003) , 12 )*0.892;
+
+
+
+            pEye = pRayPos;
+            //FWELL//vRayDir = 2*norm + vRayDir; //reflektera: eftersom raydir är riktad inåt objektet blir det -(-vRayDir) //denna är redan normaliserad eftersom den är en spegling av en normaliserad vektor
+
+            vRayDir = 2*dot(-vRayDir,norm)*(norm) +vRayDir;
+
+            if(di.d < 0.0) pEye -= vRayDir * di.d*1;  //- eftersom även dist2 alltid är negativ här  //mer korrekt, men verkar inte behövas om man kör utan dynminstep
+            //pEye += vRayDir * MinStep * 1.5;  //*1.5
+            pEye += vRayDir *MinStep*minstepmul_s;
+            marchedDist=0.0;
+            continue;
+			//return vec3(0.5,1,1);
+		}
+
+float3 blinn_phong(float3 normal, float3 view, float3 light, float3 diffuseColor) {
+  float3 halfLV = normalize(light + view);
+  float spe = pow(max( dot(normal, halfLV), Spec.x ), Spec.y);
+  float dif = dot(normal, light) * 0.1 + 0.15;
+  return dif*diffuseColor + spe*Specular*Specular.a;
+}
+*/
+
+
