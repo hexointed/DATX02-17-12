@@ -7,19 +7,22 @@ import Control.DeepSeq
 import Float
 import Base
 
-data FunOp
+type FunId = Unsigned 16
+type FunIndex = Unsigned 8
+
+data FunOp -- 0 000000000000000000000000000000000000000000000000000000000000000000
 	= Fun Op
 	| FunData Data
 	deriving (Eq, Show, Generic)
 
-data Data
+data Data -- 00 0000000000000000000000000000000000000000000000000000000000000000
 	= Val Float
 	| X
 	| Y
 	| Z
 	deriving (Eq, Show, Generic)
 
-data Op
+data Op -- 000
 	= Max
 	| Min
 	| Add

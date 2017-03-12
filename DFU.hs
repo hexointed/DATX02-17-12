@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module DFU where
+module DFU (DFU, clean, pushFunOp, currentValue) where
 
 import GHC.Generics (Generic)
 import Control.DeepSeq
@@ -17,8 +17,8 @@ data DFU = DFU
 
 instance NFData DFU
 
-clean :: DFU
-clean = DFU (repeat 0) (-1) origin
+clean :: Position -> DFU
+clean = DFU (repeat maxBound) (-1)
 
 pushValue :: DFU -> Float -> DFU
 pushValue dfu v = dfu {
@@ -49,22 +49,5 @@ pushFunOp :: DFU -> FunOp -> DFU
 pushFunOp dfu (Fun op)    = pushOp dfu op
 pushFunOp dfu (FunData d) = pushData dfu d
 
-exec :: DFU -> Either FunOp Position -> (DFU, Maybe Float)
-exec dfu op = case op of
-	Left op -> (dfu' op, Nothing)
-	Right p -> (clean{position=p}, Just (stack dfu !! index dfu))
-	where 
-		dfu' op = pushFunOp dfu op
-
-testdata = [
-		Left (FunData X), 
-		Left (FunData X),
-		Left (Fun Mul),
-		Left (FunData Y),
-		Left (FunData Y),
-		Left (Fun Mul),
-		Left (Fun Add),
-		Left (FunData (Val (-1))),
-		Left (Fun Add),
-		Right origin
-	]
+currentValue :: DFU -> Float
+currentValue dfu = stack dfu !! index dfu
