@@ -1,13 +1,27 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module Base	(
 		module CLaSH.Prelude,
 		module P,
-		minWith
+		minWith,
+		liftf
 	) where
 
 import CLaSH.Prelude hiding (Float, Double)
 import qualified Prelude as P
 
-minWith :: Ord a => (a, b) -> (a, b) -> (a, b)
-minWith (a,b) (c,d)
-	| a <= c    = (a, b)
-	| otherwise = (c, d)
+liftf f a b = (\x -> a x `f` b x)
+
+instance Num a => Num (a -> a) where 
+	(+) = liftf (+)
+	(-) = liftf (-)
+	(*) = liftf (*)
+	negate = (negate .)
+	abs    = (abs .)
+	signum = (signum .)
+	fromInteger = const . fromInteger
+
+minWith :: Ord a => (b -> a) -> b -> b -> b
+minWith f a b
+	| f a <= f b = a
+	| otherwise  = b

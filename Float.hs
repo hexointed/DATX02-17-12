@@ -7,9 +7,6 @@ import Base
 type GenFloat (a :: Nat) = Fixed Signed a a
 type Float = GenFloat 32
 
---inf :: KnownNat a => GenFloat a
---inf = Fixed (-1)
-
 instance KnownNat a => Floating (GenFloat a) where
 	pi = undefined
 	exp = undefined

@@ -1,5 +1,6 @@
 module DFUQC where
 
+import qualified Prelude as P
 import SceneUnit
 import DistFunc
 import Base
@@ -7,24 +8,24 @@ import Base
 testdata :: [Reset]
 testdata = [
 		Reset origin 1,
-		Continue (FunData X), 
-		Continue (FunData X),
-		Continue (Fun Mul),
-		Continue (FunData Y),
-		Continue (FunData Y),
-		Continue (Fun Mul),
-		Continue (Fun Add),
-		Continue (FunData (Val (-1))),
-		Continue (Fun Add),
+		Continue (Right X), 
+		Continue (Right X),
+		Continue (Left Mul),
+		Continue (Right Y),
+		Continue (Right Y),
+		Continue (Left Mul),
+		Continue (Left Add),
+		Continue (Right (Val (-1))),
+		Continue (Left Add),
 		Reset (Position (-3000) 2 0) 2,
-		Continue (FunData X), 
-		Continue (FunData X),
-		Continue (Fun Mul),
-		Continue (FunData Y),
-		Continue (FunData Y),
-		Continue (Fun Mul),
-		Continue (Fun Add),
-		Continue (FunData (Val (-1))),
-		Continue (Fun Add),
+		Continue (Right X), 
+		Continue (Right X),
+		Continue (Left Mul),
+		Continue (Right Y),
+		Continue (Right Y),
+		Continue (Left Mul),
+		Continue (Left Add),
+		Continue (Right (Val (-1))),
+		Continue (Left Add),
 		Reset origin 3
 	]
