@@ -2,8 +2,6 @@
 
 module DistFunc where
 
-import GHC.Generics (Generic)
-import Control.DeepSeq
 import Float
 import Base
 

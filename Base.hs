@@ -1,12 +1,16 @@
 module Base	(
 		module CLaSH.Prelude,
 		module P,
+		module GHC.Generics,
+		module Control.DeepSeq,
 		minWith,
 		liftf
 	) where
 
 import CLaSH.Prelude hiding (Float, Double)
 import qualified Prelude as P
+import GHC.Generics (Generic)
+import Control.DeepSeq
 
 liftf f a b = (\x -> a x `f` b x)
 

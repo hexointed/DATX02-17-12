@@ -1,15 +1,13 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module SceneUnit (SceneUnit, Reset(..), Result(..), clean, step) where
+module DFU (DFU, Reset(..), Result(..), clean, step) where
 
-import GHC.Generics (Generic)
-import Control.DeepSeq
 import DistFunc
 import Float
 import Base
 import Stack
 
-data SceneUnit = SceneUnit
+data DFU = DFU
 	{ minValue :: Float
 	, minId :: FunId
 	, stack :: Stack Float
@@ -30,37 +28,36 @@ data Result
 	| NoResult
 	deriving (Eq, Show, Generic)
 
-instance NFData SceneUnit
+instance NFData DFU
 instance NFData Reset
 instance NFData Result
 
-clean :: SceneUnit
-clean = SceneUnit maxBound 0 (filled maxBound) 0 0
+clean :: DFU
+clean = DFU maxBound 0 (filled maxBound) 0 0
 
-stepOp :: SceneUnit -> Position -> FunOp -> SceneUnit
+stepOp :: DFU -> Position -> FunOp -> DFU
 stepOp scene pos op = scene {
 		stack = pushFunOp op pos (stack scene),
 		index = index scene + 1
 	}
 
-reset :: SceneUnit -> FunId -> SceneUnit
+reset :: DFU -> FunId -> DFU
 reset s id = s {
-		minValue = minValue',
-		minId = minId',
-		stack = filled maxBound,
+		minValue = fst min',
+		minId = snd min',
 		index = 0,
 		funId = id
 	}
 	where
-		(minValue', minId') = minWith fst current next
+		min' = minWith fst current next
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
 
-step :: SceneUnit -> (Reset, Position) -> (SceneUnit, Result)
+step :: DFU -> (Reset, Position) -> (DFU, Result)
 step scene (r,p) = case r of
 	Continue op -> (stepOp scene p op, memAccess scene)
-	Next id -> (reset scene id, NoResult)
-	Done -> (clean, result scene)
+	Next id     -> (reset scene id, NoResult)
+	Done        -> (clean, result scene)
 
 memAccess = liftf MemAccess funId index
 result= liftf Result minId minValue
