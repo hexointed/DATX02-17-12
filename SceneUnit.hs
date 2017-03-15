@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module SceneUnit where
+module SceneUnit (SceneUnit, Reset(..), Result(..), clean, step) where
 
 import GHC.Generics (Generic)
 import Control.DeepSeq
@@ -14,48 +14,56 @@ data SceneUnit = SceneUnit
 	, minId :: FunId
 	, stack :: Stack Float
 	, index :: FunIndex
-	, currentId :: FunId
-	, position :: Position
+	, funId :: FunId
 	}
 	deriving (Eq, Show, Generic)
 
 data Reset 
-	= Reset Position FunId
-	| Continue FunOp
+	= Continue FunOp
+	| Done
+	| Next FunId
+	deriving (Eq, Show, Generic)
+
+data Result
+	= Result FunId Float
+	| MemAccess FunId FunIndex
+	| NoResult
 	deriving (Eq, Show, Generic)
 
 instance NFData SceneUnit
 instance NFData Reset
+instance NFData Result
 
-init :: SceneUnit
-init = SceneUnit maxBound 0 (filled maxBound) 0 0 origin
+clean :: SceneUnit
+clean = SceneUnit maxBound 0 (filled maxBound) 0 0
 
-stepOp :: SceneUnit -> FunOp -> SceneUnit
-stepOp scene op = scene {
-		stack = pushFunOp op (position scene) (stack scene),
+stepOp :: SceneUnit -> Position -> FunOp -> SceneUnit
+stepOp scene pos op = scene {
+		stack = pushFunOp op pos (stack scene),
 		index = index scene + 1
 	}
 
-reset :: SceneUnit -> Position -> FunId -> SceneUnit
-reset s p id = s {
+reset :: SceneUnit -> FunId -> SceneUnit
+reset s id = s {
 		minValue = minValue',
 		minId = minId',
 		stack = filled maxBound,
 		index = 0,
-		currentId = id,
-		position = p
+		funId = id
 	}
 	where
 		(minValue', minId') = minWith fst current next
-		next = (minValue s, minId s)
-		current = (top (stack s), currentId s)
+		current = (minValue s, minId s)
+		next = (top (stack s), funId s)
 
-type MemAccess = (FunId, FunIndex)
+step :: SceneUnit -> (Reset, Position) -> (SceneUnit, Result)
+step scene (r,p) = case r of
+	Continue op -> (stepOp scene p op, memAccess scene)
+	Next id -> (reset scene id, NoResult)
+	Done -> (clean, result scene)
 
-step :: SceneUnit -> Reset -> (SceneUnit, Either MemAccess Float)
-step scene r = case r of
-	Continue op -> (stepOp scene op, Left (currentId scene, index scene))
-	Reset p id  -> (reset scene p id, Right $ top $ stack scene)
+memAccess = liftf MemAccess funId index
+result= liftf Result minId minValue
 
 pushOp :: Op -> Stack Float -> Stack Float
 pushOp op s = push newValue (popN (arity op) s)

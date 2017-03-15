@@ -5,27 +5,35 @@ import SceneUnit
 import DistFunc
 import Base
 
-testdata :: [Reset]
+testdata :: [(Reset,Position)]
 testdata = [
-		Reset origin 1,
-		Continue (Right X), 
-		Continue (Right X),
-		Continue (Left Mul),
-		Continue (Right Y),
-		Continue (Right Y),
-		Continue (Left Mul),
-		Continue (Left Add),
-		Continue (Right (Val (-1))),
-		Continue (Left Add),
-		Reset (Position (-3000) 2 0) 2,
-		Continue (Right X), 
-		Continue (Right X),
-		Continue (Left Mul),
-		Continue (Right Y),
-		Continue (Right Y),
-		Continue (Left Mul),
-		Continue (Left Add),
-		Continue (Right (Val (-1))),
-		Continue (Left Add),
-		Reset origin 3
+		(Next 1, Position 0 0 0 ),
+		(Continue (Right X), Position 0 0 0 ),
+		(Continue (Right X), Position 0 0 0 ),
+		(Continue (Left Mul), Position 0 0 0 ),
+		(Continue (Right Y), Position 0 0 0 ),
+		(Continue (Right Y), Position 0 0 0 ),
+		(Continue (Left Mul), Position 0 0 0 ),
+		(Continue (Left Add), Position 0 0 0 ),
+		(Continue (Right (Val (-1))), Position 0 0 0 ),
+		(Continue (Left Add), Position 0 0 0 ),
+		(Next 2, Position 0 0 0 ),
+		(Continue (Right X), Position 0 0 0 ),
+		(Continue (Right X), Position 0 0 0 ),
+		(Continue (Left Mul), Position 0 0 0 ),
+		(Continue (Right Y), Position 0 0 0 ),
+		(Continue (Right Y), Position 0 0 0 ),
+		(Continue (Left Mul), Position 0 0 0 ),
+		(Continue (Left Add), Position 0 0 0 ),
+		(Continue (Right (Val (-1))), Position 0 0 0 ),
+		(Continue (Left Add), Position 0 0 0 ),
+		(Next 3, Position 0 0 0 ),
+		(Done, Position 0 0 0)
 	]
+
+simulate' a b = 
+	putStr .
+	unlines . 
+	P.map show . 
+	P.take (P.length b) $ 
+	simulate a b
