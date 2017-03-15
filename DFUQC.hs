@@ -1,7 +1,7 @@
 module DFUQC where
 
 import qualified Prelude as P
-import SceneUnit
+import DFU
 import DistFunc
 import Base
 

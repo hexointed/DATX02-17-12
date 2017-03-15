@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module DistFunc where
 
@@ -7,7 +7,6 @@ import Base
 
 type FunId = Unsigned 16
 type FunIndex = Unsigned 8
-
 type FunOp = Either Op Data
 
 data Data
@@ -15,7 +14,7 @@ data Data
 	| X
 	| Y
 	| Z
-	deriving (Eq, Show, Generic)
+	deriving (Eq, Show, Generic, NFData)
 
 data Op
 	= Max
@@ -24,14 +23,14 @@ data Op
 	| Mul
 	| Sqrt
 	| Abs
-	deriving (Eq, Show, Generic)
+	deriving (Eq, Show, Generic, NFData)
 
 data Position = Position
 	{ x :: Float
 	, y :: Float
 	, z :: Float
 	}
-	deriving (Eq, Show, Generic)
+	deriving (Eq, Show, Generic, NFData)
 
 origin :: Position
 origin = Position 0 0 0
@@ -53,8 +52,3 @@ lookUp p (Val v) = v
 lookUp p X       = x p
 lookUp p Y       = y p
 lookUp p Z       = z p
-
---instance NFData Either Op Data)
-instance NFData Data
-instance NFData Op
-instance NFData Position
