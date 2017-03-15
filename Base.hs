@@ -1,5 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-
 module Base	(
 		module CLaSH.Prelude,
 		module P,
@@ -12,7 +10,7 @@ import qualified Prelude as P
 
 liftf f a b = (\x -> a x `f` b x)
 
-instance Num a => Num (a -> a) where 
+instance Num r => Num (a -> r) where 
 	(+) = liftf (+)
 	(-) = liftf (-)
 	(*) = liftf (*)

@@ -4,8 +4,6 @@ module Stack (Stack, filled, empty, push, pop, popN, top, topN) where
 
 import GHC.Generics (Generic)
 import Control.DeepSeq
-import DistFunc
-import Float
 import Base
 
 data Stack a = Stack

@@ -50,9 +50,11 @@ reset s p id = s {
 		next = (minValue s, minId s)
 		current = (top (stack s), currentId s)
 
-step :: SceneUnit -> Reset -> (SceneUnit, Either FunIndex Float)
+type MemAccess = (FunId, FunIndex)
+
+step :: SceneUnit -> Reset -> (SceneUnit, Either MemAccess Float)
 step scene r = case r of
-	Continue op -> (stepOp scene op, Left $ index scene)
+	Continue op -> (stepOp scene op, Left (currentId scene, index scene))
 	Reset p id  -> (reset scene p id, Right $ top $ stack scene)
 
 pushOp :: Op -> Stack Float -> Stack Float
