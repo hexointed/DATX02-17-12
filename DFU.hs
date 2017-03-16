@@ -12,7 +12,6 @@ data DFU = DFU
 	{ minValue :: Float
 	, minId :: FunId
 	, stack :: Stack Float
-	, index :: FunIndex
 	, funId :: FunId
 	}
 	deriving (Eq, Show, Generic, NFData)
@@ -23,26 +22,21 @@ data Reset
 	| Next FunId
 	deriving (Eq, Show, Generic, NFData)
 
-data Result
-	= Result FunId Float
-	| MemAccess FunId FunIndex
-	| NoResult
-	deriving (Eq, Show, Generic, NFData)
+type Result = Maybe (FunId, Float)
 
 clean :: DFU
-clean = DFU maxBound 0 (push maxBound empty) 0 0
+clean = DFU maxBound 0 (push maxBound empty) 0
 
 step :: DFU -> (Reset, Position) -> (DFU, Result)
 step scene (r,p) = case r of
-	Continue op -> (stepOp scene p op, memAccess scene)
-	Next id     -> (reset scene id, NoResult)
+	Continue op -> (stepOp scene p op, Nothing)
+	Next id     -> (reset scene id, Nothing)
 	Done        -> (clean, result $ reset scene 0)
 
 reset :: DFU -> FunId -> DFU
 reset s id = s {
 		minValue = fst min',
 		minId = snd min',
-		index = 0,
 		funId = id
 	}
 	where
@@ -50,13 +44,11 @@ reset s id = s {
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
 
-memAccess = liftf MemAccess funId index
-result = liftf Result minId minValue
+result = Just . liftf (,) minId minValue
 
 stepOp :: DFU -> Position -> FunOp -> DFU
 stepOp scene p op = scene {
-		stack = either pushOp (push . lookUp p) op (stack scene),
-		index = index scene + 1
+		stack = either pushOp (push . lookUp p) op (stack scene)
 	}
 
 pushOp :: Op -> Stack Float -> Stack Float

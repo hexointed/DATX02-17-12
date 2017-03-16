@@ -4,16 +4,17 @@ import qualified Prelude as P
 import DFU
 import DistFunc
 import Base
+import Vector
 
 testdata :: [(Reset,Position)]
 testdata =
-	[(Next 1, Position 0 0 0 )]
-	P.++ p' (Position 2 3 0) (parse "x x * y y * + 1 -") P.++
-	[(Next 2, Position 0 0 0 )]
-	P.++ p' (Position 1 2 0) (parse "x x * y y * + 1 -") P.++
-	[(Next 3, Position 0 0 0 )]
-	P.++ p' (Position 5 7 0) (parse "x x * y y * + 1 -") P.++
-	[(Done, Position 0 0 0)]
+	[(Next 1, position 0 0 0 )]
+	P.++ p' (position 2 3 0) (parse "x x * y y * + 1 -") P.++
+	[(Next 2, position 0 0 0 )]
+	P.++ p' (position 1 2 0) (parse "x x * y y * + 1 -") P.++
+	[(Next 3, position 0 0 0 )]
+	P.++ p' (position 5 7 0) (parse "x x * y y * + 1 -") P.++
+	[(Done, position 0 0 0)]
 
 simulate' a b = 
 	putStr .

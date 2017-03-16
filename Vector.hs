@@ -1,9 +1,12 @@
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
+
 module Vector where
 
 import Base
 import Float
 
 data Vector n a = Vector (Vec n a)
+	deriving (Eq, Show, Generic, NFData)
 
 type Position = Vector 3 Float.Float
 
@@ -27,4 +30,5 @@ instance KnownNat n => Applicative (Vector n) where
 (.-) = zipVec (-)
 (.*) = foldr (+) . zipVec (*)
 
+scale d = fmap (*d)
 length = sqrt . foldr (+) . liftf (zipVec (*)) id id
