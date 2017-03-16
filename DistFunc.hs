@@ -7,7 +7,7 @@ import Vector
 import Base
 
 type FunId = Unsigned 16
-type FunIndex = Unsigned 8
+type FunIndex = Unsigned 16
 type FunOp = Either Op Data
 
 data Data

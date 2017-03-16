@@ -5,6 +5,7 @@ import DFU
 import DistFunc
 import Base
 import Vector
+import RayUnit
 
 testdata :: [(Reset,Position)]
 testdata =
