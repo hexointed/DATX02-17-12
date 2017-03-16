@@ -5,7 +5,7 @@ module Stack (Stack, filled, empty, push, pop, popN, top, topN) where
 import Base
 
 data Stack a = Stack (Vec 16 a) (Unsigned 4)
-	deriving (Eq, Show, Generic)
+	deriving (Eq, Generic)
 
 filled :: a -> Stack a
 filled a = Stack (repeat a) (-1)
@@ -25,6 +25,13 @@ topN n (Stack v i) = v !! (i - n)
 popN n (Stack v i) = Stack v (i - n)
 
 instance NFData a => NFData (Stack a)
+
+instance Show a => Show (Stack a) where
+	show (Stack v i) = show $ take (i + 1) list
+		where
+			list = foldr (:) [] v
+			take 0 xs     = []
+			take n (x:xs) = x : take (n - 1) xs
 
 instance Functor Stack where
 	fmap f (Stack v i) = Stack (fmap f v) i

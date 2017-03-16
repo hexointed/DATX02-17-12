@@ -6,30 +6,14 @@ import DistFunc
 import Base
 
 testdata :: [(Reset,Position)]
-testdata = [
-		(Next 1, Position 0 0 0 ),
-		(Continue (Right X), Position 0 0 0 ),
-		(Continue (Right X), Position 0 0 0 ),
-		(Continue (Left Mul), Position 0 0 0 ),
-		(Continue (Right Y), Position 0 0 0 ),
-		(Continue (Right Y), Position 0 0 0 ),
-		(Continue (Left Mul), Position 0 0 0 ),
-		(Continue (Left Add), Position 0 0 0 ),
-		(Continue (Right (Val (-1))), Position 0 0 0 ),
-		(Continue (Left Add), Position 0 0 0 ),
-		(Next 2, Position 0 0 0 ),
-		(Continue (Right X), Position 0 0 0 ),
-		(Continue (Right X), Position 0 0 0 ),
-		(Continue (Left Mul), Position 0 0 0 ),
-		(Continue (Right Y), Position 0 0 0 ),
-		(Continue (Right Y), Position 0 0 0 ),
-		(Continue (Left Mul), Position 0 0 0 ),
-		(Continue (Left Add), Position 0 0 0 ),
-		(Continue (Right (Val (-1))), Position 0 0 0 ),
-		(Continue (Left Add), Position 0 0 0 ),
-		(Next 3, Position 0 0 0 ),
-		(Done, Position 0 0 0)
-	]
+testdata =
+	[(Next 1, Position 0 0 0 )]
+	P.++ p' (Position 2 3 0) (parse "x x * y y * + 1 -") P.++
+	[(Next 2, Position 0 0 0 )]
+	P.++ p' (Position 1 2 0) (parse "x x * y y * + 1 -") P.++
+	[(Next 3, Position 0 0 0 )]
+	P.++ p' (Position 5 7 0) (parse "x x * y y * + 1 -") P.++
+	[(Done, Position 0 0 0)]
 
 simulate' a b = 
 	putStr .
@@ -37,3 +21,18 @@ simulate' a b =
 	P.map show . 
 	P.take (P.length b) $ 
 	simulate a b
+
+p' :: Position -> [FunOp] -> [(Reset, Position)]
+p' p l = flip P.zip (let x = p : x in x) (P.map Continue l)
+
+parse :: String -> [FunOp]
+parse str = P.map pw $ words str
+	where
+		pw "+" = Left Add
+		pw "-" = Left Sub
+		pw "*" = Left Mul
+		pw "/" = Left Div
+		pw "x" = Right X
+		pw "y" = Right Y
+		pw "z" = Right Z
+		pw str = Right $ Val $ read str

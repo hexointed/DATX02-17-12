@@ -29,13 +29,13 @@ data Result
 	deriving (Eq, Show, Generic, NFData)
 
 clean :: DFU
-clean = DFU maxBound 0 (filled maxBound) 0 0
+clean = DFU maxBound 0 (push maxBound empty) 0 0
 
 step :: DFU -> (Reset, Position) -> (DFU, Result)
 step scene (r,p) = case r of
 	Continue op -> (stepOp scene p op, memAccess scene)
 	Next id     -> (reset scene id, NoResult)
-	Done        -> (clean, result scene)
+	Done        -> (clean, result $ reset scene 0)
 
 reset :: DFU -> FunId -> DFU
 reset s id = s {
@@ -61,4 +61,4 @@ stepOp scene p op = scene {
 pushOp :: Op -> Stack Float -> Stack Float
 pushOp op s = push newValue (popN (arity op) s)
 	where
-		newValue = apply op (topN 0 s) (topN 1 s)
+		newValue = apply op (topN 1 s) (topN 0 s)

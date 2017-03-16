@@ -4,13 +4,17 @@ module Base	(
 		module GHC.Generics,
 		module Control.DeepSeq,
 		minWith,
-		liftf
+		liftf,
+		small,
+		medium,
+		large
 	) where
 
 import CLaSH.Prelude hiding (Float, Double)
 import qualified Prelude as P
 import GHC.Generics (Generic)
 import Control.DeepSeq
+import Test.QuickCheck
 
 liftf f a b = (\x -> a x `f` b x)
 
@@ -27,3 +31,7 @@ minWith :: Ord a => (b -> a) -> b -> b -> b
 minWith f a b
 	| f a <= f b = a
 	| otherwise  = b
+
+small  = Args Nothing  1000 100  200 True
+medium = Args Nothing  2000 100 1000 True
+large  = Args Nothing 10000 100 1000 True
