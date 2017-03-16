@@ -3,6 +3,7 @@
 module DistFunc where
 
 import Float
+import Vector
 import Base
 
 type FunId = Unsigned 16
@@ -27,15 +28,8 @@ data Op
 	| Abs
 	deriving (Eq, Show, Generic, NFData)
 
-data Position = Position
-	{ x :: Float
-	, y :: Float
-	, z :: Float
-	}
-	deriving (Eq, Show, Generic, NFData)
-
 origin :: Position
-origin = Position 0 0 0
+origin = position 0 0 0
 
 arity Sqrt = 1
 arity Abs = 1

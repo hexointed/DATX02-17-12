@@ -41,7 +41,7 @@ instance Applicative Stack where
 	(<*>) (Stack va ia) (Stack vb ib) = Stack (va <*> vb) (min ia ib)
 
 instance Alternative Stack where
-	empty = Stack (repeat undefined) (-1)
+	empty = filled undefined
 	(<|>) a@(Stack va ia) b@(Stack vb ib) 
 		| ia <= ib  = a
 		| otherwise = b

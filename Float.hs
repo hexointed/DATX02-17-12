@@ -2,7 +2,7 @@
 
 module Float where
 
-import Base
+import CLaSH.Prelude
 
 type GenFloat (a :: Nat) = Fixed Signed a a
 type Float = GenFloat 32

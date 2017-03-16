@@ -6,6 +6,7 @@ import DistFunc
 import Float
 import Base
 import Stack
+import Vector
 
 data DFU = DFU
 	{ minValue :: Float
