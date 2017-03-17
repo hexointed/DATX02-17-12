@@ -1,11 +1,11 @@
 module RayUnitQC where
 
-import RayUnit
 import Test.QuickCheck
 import DFUQC
 import Base
 import DistFunc
 import Vector
+import RayUnit
 import qualified Prelude as P
 
 toListExtend :: KnownNat n => [a] -> a -> Vec n a
@@ -19,6 +19,10 @@ parse' :: String -> [Maybe FunOp]
 parse' = (P.++ [Nothing]) . P.map Just .parse
 
 testFuncs :: Vec 128 (Maybe FunOp)
-testFuncs = flip toListExtend Nothing $ do 
-	parse' "1 2 x + +"
-	parse' "0 x - 7 +"
+testFuncs = flip toListExtend Nothing $ 
+	parse' "1 2 3 + +" P.++
+	parse' "0 2 3 + +"
+
+simRU = simulate (mealy stepR (initialize origin (position 1 0 0) testFuncs)) l'
+	where
+		l' = (let x = (origin, position 1 0 0) : x in x)
