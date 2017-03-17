@@ -7,7 +7,8 @@ module Base	(
 		liftf,
 		small,
 		medium,
-		large
+		large,
+		dup
 	) where
 
 import CLaSH.Prelude hiding (Float, Double)
@@ -35,3 +36,5 @@ minWith f a b
 small  = Args Nothing  1000 100  200 True
 medium = Args Nothing  2000 100 1000 True
 large  = Args Nothing 10000 100 1000 True
+
+dup a = (a, a)

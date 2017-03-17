@@ -28,9 +28,6 @@ data Op
 	| Abs
 	deriving (Eq, Show, Generic, NFData)
 
-origin :: Position
-origin = position 0 0 0
-
 arity Sqrt = 1
 arity Abs = 1
 arity _ = 2
