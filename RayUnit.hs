@@ -34,7 +34,7 @@ initialize p dir funcs = RayUnit {
 stepR :: RayUnit -> (Position, Vector 3 Float) -> (RayUnit, Maybe (FunId, Float))
 stepR r (p,dir) = case result' of
 	Just (fun, val) -> if
-		| val <= epsilon || steps r == 255 -> (initialize p dir (cache r), Just (fun, val))
+		| val <= epsilon || steps r == 5 -> (initialize p dir (cache r), Just (fun, val))
 		| otherwise -> flip (,) Nothing $ r {
 				dfu = clean,
 				pos = pos r .+ scale val (mdir r),
