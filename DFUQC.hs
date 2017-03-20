@@ -36,4 +36,6 @@ parse str = P.map pw $ words str
 		pw "x" = Right X
 		pw "y" = Right Y
 		pw "z" = Right Z
+		pw "M" = Left Max
+		pw "m" = Left Min
 		pw str = Right $ Val $ read str

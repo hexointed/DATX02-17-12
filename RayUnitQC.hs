@@ -20,7 +20,8 @@ parse' = (P.++ [Nothing]) . P.map Just .parse
 
 testFuncs :: Vec 128 (Maybe FunOp)
 testFuncs = flip toListExtend Nothing $ 
-	parse' "x y -"
+	parse' "x y -" P.++
+	parse' "y 5 + x - x 3 / y + 15 - M"
 
 simRU = simulate (mealy stepR (initialize origin (position 1 0 0) testFuncs)) l'
 	where
