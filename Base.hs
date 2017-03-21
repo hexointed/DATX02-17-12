@@ -8,7 +8,9 @@ module Base	(
 		small,
 		medium,
 		large,
-		dup
+		dup,
+		bitWith,
+		BitEq
 	) where
 
 import CLaSH.Prelude hiding (Float, Double)
@@ -38,3 +40,8 @@ medium = Args Nothing  2000 100 1000 True
 large  = Args Nothing 10000 100 1000 True
 
 dup a = (a, a)
+
+type BitEq a b = (BitSize a ~ BitSize b, BitPack a, BitPack b)
+
+bitWith :: (BitEq a b, BitEq c a) => (b -> c) -> a -> a
+bitWith f = bitCoerce . f . bitCoerce
