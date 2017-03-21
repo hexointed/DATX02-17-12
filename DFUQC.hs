@@ -6,6 +6,23 @@ import DistFunc
 import Base
 import Vector
 
+toListExtend :: KnownNat n => [a] -> a -> Vec n a
+toListExtend l e = repl' 0 l vec
+	where
+		vec = repeat e
+		repl' n []     v = v
+		repl' n (x:xs) v = repl' (n+1) xs (replace n x v)
+
+parse' :: String -> [Maybe FunOp]
+parse' = (P.++ [Nothing]) . P.map Just .parse
+
+testFuncs :: Vec 128 (Maybe FunOp)
+testFuncs = flip toListExtend Nothing $ 
+	parse' "x y -" P.++
+	parse' "y 5 + x - x 3 / y + 15 - M" P.++
+	parse' "x 30 - x 30 - * y 10 - y 10 - * + 10 -"
+
+
 testdata :: [(Reset,Position)]
 testdata =
 	[(Next 1, position 0 0 0 )]
