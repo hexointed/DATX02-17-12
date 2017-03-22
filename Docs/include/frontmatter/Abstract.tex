@@ -8,33 +8,24 @@ Chalmers University of Technology \setlength{\parskip}{0.5cm}
 \thispagestyle{plain}			% Supress header 
 \setlength{\parskip}{0pt plus 1.0pt}
 \section*{Abstract}
-The aim of this project is to develop the fundamental building blocks for a real-
-time 3D graphics processing unit (GPU) that is optimized to run a rendering 
-algorithm which is different to the Polygon-based rendering that is almost 
-exclusively used in today's 3D graphics cards. During the early 90’s many types of 
-rendering algorithms were developed and used, since they all ran in software on the 
-main computer processor. Better performance (better graphics) was a key selling 
-point among competing computer systems, the computer industry moved towards 
-dedicated hardware based rendering systems. These systems were almost exclusively 
-using polygon-based rendering. Today, 3D graphics cards have become more 
-programmable but are still based on the old paradigm of polygon rendering. The last 
-5 years have seen a small resurgence in the use of a sphere tracing rendering 
-algorithm known as Ray- Marching. This has a whole new set of pros and cons when 
-compared to the polygon renderers.  However, while the algorithm seems to have a lot 
-of potential for future 3D graphics, that potential might be unreachable on current 
-GPUs due to the underlying architecture being designed with other things in mind. 
-This project will examine what could be achieved if graphics cards were optimized 
-for ray-marching instead of drawing polygons.  
 
 This report documents the results of us taking the ray-marching algorithm
-\footnote{for 3D real-time rendering, as opposed to ray-tracing etc.} and doing
-a first-pass design of a GPU with some optimizations applied. We begin with an
-in-depth description of the algorithm and the simplest instance of the GPU. 
+\footnote{A 3D-rendering technique, similar to ray-tracing etc.} and designing
+a GPU made to run it using a hardware descriptory language named
+Clash.\cite{Raa2015} The report starts with an in-depth description of the
+ray-marching algorithm followed by "insert and describe in short the
+optimizations". We then go through the parts that make up the bare minimum GPU
+followed by "insert and describe in short the hardware optimizations". The
+analysis presented in this report is intended to give a hint of what, if
+anything, could be gained from an alternative approach to graphic cards. More
+work is needed before an actual prototype can be printed. An
+FPGA\footnote{Field Programmable Gate Array} implementation, however, would not
+require too much additional work.
 
 
 % KEYWORDS (MAXIMUM 10 WORDS)
 \vfill
-Keywords: lorem, ipsum, dolor, sit, amet, consectetur, adipisicing, elit, sed, do.
+Keywords: ray-marching, GPU, real-time rendering.
 
 \newpage				% Create empty back of side
 \thispagestyle{empty}
