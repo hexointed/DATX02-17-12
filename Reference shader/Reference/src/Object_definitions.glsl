@@ -1,16 +1,15 @@
-#define NumObjects	10
+#define NumObjects	3
 
 
 bool RenderList[NumObjects+1]; //is not initialised here since we will do it later at start of each ray
 vec3 objectCoords[NumObjects+1];
 float objectRadii[NumObjects+1];
 
-uint  matIdList[NumObjects+1] = {0,Mat_Reflection,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_Reflection,
-		Mat_SolidColor,Mat_Reflection,Mat_SolidColor,Mat_Reflection,Mat_SolidColor};
+uint  matIdList[NumObjects+1] = {0,Mat_Reflection,Mat_Reflection,Mat_SolidColor};
 
-vec3  s1Coord	= vec3(-0.5, 1.5, 0.0 );
+vec3  s1Coord	= vec3(0, 1.5, 0.0 );
 float s1Radius	= 0.5;
-vec3  s2Coord	= vec3(0.5, 1.5, 0.0 );
+vec3  s2Coord	= vec3(0, 1.5, 0.0 );
 float s2Radius	= 0.4;
 
 void InitObjDefs()
@@ -18,41 +17,42 @@ void InitObjDefs()
 	//vec3  s1Coord	= vec3(-0.5, 1.5, 0.0 );
 	//float s1Radius	= 0.5;
 	//animation
-	s1Coord.y += sin( mod(iGlobalTime*0.57, 3.1416) );
-	s2Coord.y += sin( mod(iGlobalTime*0.653, 3.1416) )*0.8;
+	//s1Coord.y += sin( mod(iGlobalTime*0.57, 3.1416) );
+	//s2Coord.x += sin(iGlobalTime/3)*0.6;
+	//s2Coord.z += cos(iGlobalTime/3)*0.6;
 	objectCoords[1] = (s1Coord+s2Coord)/2;
 	objectRadii[1] = (length(s1Coord-s2Coord)/2)+max(s1Radius,s2Radius);
 
 	//vec3  s2Coord	= vec3(0.5, 1.5, 0.0 );
 	//float s2Radius	= 0.4;
-	objectCoords[2] = vec3(2,2,0);
-	objectRadii[2] = 0.4;
+	objectCoords[2] = vec3(4,2,0);
+	objectRadii[2] = 0;
 
 	//vec3  s3Coord	= vec3(cos(iGlobalTime),3+sin(iGlobalTime),0);
 	//float s3Radius	= 1.11;
-	objectCoords[3] = vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
+	objectCoords[3] = vec3(6,6,6); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
 	objectRadii[3]=0.5;
 
-	objectCoords[4] = vec3(-4.5,4,0);
-	objectRadii[4] = 0.5;
-
-	objectCoords[5] = vec3(-3,4,0);
-	objectRadii[5] = 0.5;
-
-	objectCoords[6] = vec3(-1.5,4,0);
-	objectRadii[6] = 0.5;
-
-	objectCoords[7] = vec3(0,4,0);
-	objectRadii[7] = 0.5;
-
-	objectCoords[8] = vec3(1.5,4,0);
-	objectRadii[8] = 0.5;
-
-	objectCoords[9] = vec3(3,4,0);
-	objectRadii[9] = 0.5;
-
-	objectCoords[10] = vec3(-5,5,0);
-	objectRadii[10] = 0.5;
+//	objectCoords[4] = vec3(-4.5,4,0);
+//	objectRadii[4] = 0.5;
+//
+//	objectCoords[5] = vec3(-3,4,0);
+//	objectRadii[5] = 0.5;
+//
+//	objectCoords[6] = vec3(-1.5,4,0);
+//	objectRadii[6] = 0.5;
+//
+//	objectCoords[7] = vec3(0,4,0);
+//	objectRadii[7] = 0.5;
+//
+//	objectCoords[8] = vec3(1.5,4,0);
+//	objectRadii[8] = 0.5;
+//
+//	objectCoords[9] = vec3(3,4,0);
+//	objectRadii[9] = 0.5;
+//
+//	objectCoords[10] = vec3(-5,5,0);
+//	objectRadii[10] = 0.5;
 
 //	objectCoords[11] = vec3(-4,5,0);
 //	objectRadii[11] = 0.5;
@@ -122,7 +122,8 @@ float DistToModfield(vec3 p)
 float DistToMetaballs(vec3 p)
 {   float dist = length( (p-s1Coord) ) - s1Radius;
     float dist2 = length( (p-s2Coord) ) - s2Radius;
-    dist = smin(dist, dist2, 0.35  );
+    //dist = smin(dist, dist2, 0.35  );
+    dist = max(dist,-dist2);
 
     //dist = smin(dist,sdPlane(p, vec4(0, 1.0, 0, 0.0) ) , 0.15 ) ;
     //dist = min(dist,sdPlane(p, vec4(0, 1.0, 0, 0.0) )  ) ;
@@ -152,20 +153,20 @@ float DistToObjectId(vec3 p, uint objId)
 			return sdSphere( p, objectCoords[2], objectRadii[2]);
 		case 3:
 			return sdSphere( p, objectCoords[3], objectRadii[3]);
-		case 4:
-			return sdSphere( p, objectCoords[4], objectRadii[4]);
-		case 5:
-			return sdSphere( p, objectCoords[5], objectRadii[5]);
-		case 6:
-			return sdSphere( p, objectCoords[6], objectRadii[6]);
-		case 7:
-			return sdSphere( p, objectCoords[7], objectRadii[7]);
-		case 8:
-			return sdSphere( p, objectCoords[8], objectRadii[8]);
-		case 9:
-			return sdSphere( p, objectCoords[9], objectRadii[9]);
-		case 10:
-			return sdSphere( p, objectCoords[10], objectRadii[10]);
+//		case 4:
+//			return sdSphere( p, objectCoords[4], objectRadii[4]);
+//		case 5:
+//			return sdSphere( p, objectCoords[5], objectRadii[5]);
+//		case 6:
+//			return sdSphere( p, objectCoords[6], objectRadii[6]);
+//		case 7:
+//			return sdSphere( p, objectCoords[7], objectRadii[7]);
+//		case 8:
+//			return sdSphere( p, objectCoords[8], objectRadii[8]);
+//		case 9:
+//			return sdSphere( p, objectCoords[9], objectRadii[9]);
+//		case 10:
+//			return sdSphere( p, objectCoords[10], objectRadii[10]);
 //		case 11:
 //			return sdSphere( p, objectCoords[11], objectRadii[11]);
 //		case 12:
