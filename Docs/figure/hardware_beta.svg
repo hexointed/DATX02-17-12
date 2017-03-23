@@ -6,12 +6,14 @@
 </defs>
 
 <g stroke="#949731">
-	<path d="M560 195.4l135.6 5.8"/>
-	<path d="M557 305.4L695.8 240"/>
-	<path d="M447.6 314.7c36.8-31 165.5-6.7 248-41.4"/>
-	<path d="M253.8 203.4c20 37 119 31.3 218.5 33 201 3.7 168.5 79 223.6 101.6"/>
-	<path d="M207 508c645 151.4 325.8-130.6 488.6-196"/>
-	<g fill-opacity=".3" fill="#bbc040">
+	<path d="
+		M557 305.4L695.8 240 
+		M560 195.4l135.6 5.8
+		M447.6 314.7c36.8-31 165.5-6.7 248-41.4
+		M253.8 203.4c20 37 119 31.3 218.5 33 201 3.7 168.5 79 223.6 101.6
+		M207 508c645 151.4 325.8-130.6 488.6-196
+	"/>
+	<g fill="#ebecc6">
 		<ellipse cx="180" cy="370" rx="130" ry="140"/>
 		<ellipse cx="220" cy="195" rx="35" ry="25"/>
 		<ellipse cx="420" cy="195" rx="150" ry="25"/>
@@ -21,31 +23,31 @@
 </g>
 
 <g stroke="#000">
-	<g fill="#eaa">
-		<path d="M60 446h240v34H60z"/>
-		<path d="M330 446h240v34H330z"/>
-	</g>
-	<g fill="#aea">
-		<path d="M190 175h60v40h-60z"/>
-		<path d="M110 175h60v40h-60z"/>
-		<path d="M270 180h300v30H270z"/>
-	</g>
-	<g fill="#eae">
-		<path d="M360 330h60v74h-60z"/>
-		<path d="M440 330h60v74h-60z"/>
-		<path d="M170 330h60v74h-60z"/>
-		<path d="M90 330h60v74H90z"/>
-	</g>
-	<g fill="#aae">
-		<path d="M330 250h240v40H330z"/>
-		<path d="M60 250h240v40H60z"/>
-		<path d="M60 40h510v50H60z"/>
-	</g>
-	<g fill="#aee">
-		<path d="M270 120H570v40H270z"/>
-		<path d="M250 310h50v114h-50z"/>
-		<path d="M520 310h50v114h-50z"/>
-	</g>
+	<path fill="#eaa" d="
+		M60 446h240v34H60z
+		M330 446h240v34H330z
+	"/>
+	<path fill="#aea" d="
+		M190 175h60v40h-60z
+		M110 175h60v40h-60z
+		M270 180h300v30H270z
+	"/>
+	<path fill="#eae" d="
+		M170 330h60v74h-60z
+		M440 330h60v74h-60z
+		M360 330h60v74h-60z
+		M90 330h60v74H90z
+	"/>
+	<path fill="#aae" d="
+		M330 250h240v40H330z
+		M60 250h240v40H60z
+		M60 40h510v50H60z
+	"/>
+	<path fill="#aee" d="
+		M270 120H570v40H270z
+		M250 310h50v114h-50z
+		M520 310h50v114h-50z
+	"/>
 </g>
 
 <g stroke="#000" marker-end="url(#Out)">
@@ -88,17 +90,17 @@
 <g font-family="Sans" font-size="20" fill="#000">
 	<svg x="268">
 		<text y="335">Q</text>
-		<text y="355">U</text>
-		<text y="375">E</text>
-		<text y="395">U</text> 
-		<text y="415">E</text>
+		<text y="355">u</text>
+		<text y="375">e</text>
+		<text y="395">u</text> 
+		<text y="415">e</text>
 	</svg>
 	<svg x="537">
 		<text y="335">Q</text>
-		<text y="355">U</text> 
-		<text y="375">E</text> 
-		<text y="395">U</text> 
-		<text y="415">E</text>
+		<text y="355">u</text> 
+		<text y="375">e</text> 
+		<text y="395">u</text> 
+		<text y="415">e</text>
 	</svg>
 	<text x="275" y="70">Memory</text>
 	<text x="385" y="145">Queue</text>
