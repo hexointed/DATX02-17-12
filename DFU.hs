@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
-module DFU (DFU, Reset(..), Result(..), clean, step) where
+module DFU (DFU, Reset(..), Result(..), clean, step, stack) where
 
 import DistFunc
 import Float
