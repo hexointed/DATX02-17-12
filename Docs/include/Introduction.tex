@@ -1,12 +1,35 @@
 % CREATED BY DAVID FRISK, 2016
-\chapter{Introduction}
-The primary goal of the project is a ray-marching graphics card proof-of-concept that 
-hopefully will look promising enough to warrant further work in making a ray-marching based 
-graphics card. If the results show that there is more performance potential in ray-marching 
-than in the current industry’s approach, then that could become a link from the theory of 
-ray-marching to the practice of hardware-accelerated ray-marching. This would be useful in 
-order to more accurately estimate what kind of performance you could expect if the current 
-industry focused on ray-marching instead of polygon based graphics.
+\chapter{Introduction} 
+
+The primary goal of the project is a ray-marching graphics card
+proof-of-concept that hopefully will look promising enough to warrant further
+work in making a ray-marching based graphics card. If the results show that
+there is more performance potential in ray-marching than in the current
+industry’s approach, then that could become a link from the theory of
+ray-marching to the practice of hardware-accelerated ray-marching. This would
+be useful in order to more accurately estimate what kind of performance you
+could expect if the current industry focused on ray-marching instead of polygon
+based graphics.
+
+The aim of this project is to develop the fundamental building blocks for a real-
+time 3D graphics processing unit (GPU) that is optimized to run a rendering 
+algorithm which is different to the Polygon-based rendering that is almost 
+exclusively used in today's 3D graphics cards. During the early 90’s many types of 
+rendering algorithms were developed and used, since they all ran in software on the 
+main computer processor. Better performance (better graphics) was a key selling 
+point among competing computer systems, the computer industry moved towards 
+dedicated hardware based rendering systems. These systems were almost exclusively 
+using polygon-based rendering. Today, 3D graphics cards have become more 
+programmable but are still based on the old paradigm of polygon rendering. The last 
+5 years have seen a small resurgence in the use of a sphere tracing rendering 
+algorithm known as Ray- Marching. This has a whole new set of pros and cons when 
+compared to the polygon renderers.  However, while the algorithm seems to have a lot 
+of potential for future 3D graphics, that potential might be unreachable on current 
+GPUs due to the underlying architecture being designed with other things in mind. 
+This project will examine what could be achieved if graphics cards were optimized 
+for ray-marching instead of drawing polygons.  
+
+
 
 \section{Section levels}
 The following table presents an overview of the section levels that are used in this 

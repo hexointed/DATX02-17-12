@@ -11,6 +11,7 @@ struct DistInfo
 	uint obj;
 };
 DistInfo DistToScene(vec3 p);
+DistInfo DistToScene2(vec3 p);
 vec3 GetNormalByObj(uint objId, vec3 p, float d);
 #include "Uniforms.glsl"
 #include "Materials.glsl"
@@ -42,8 +43,8 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
     	if(marchedDist == 0.0){
     		for(int z=1; z!=NumObjects+1; z++)
     		{
-    		    //RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
-    		    RenderList[z] = true; //unoptimized
+    		    RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
+    		    //RenderList[z] = true; //unoptimized
     		}
     	}
 
@@ -54,14 +55,22 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
 
 
 #ifdef SHOW_DEBUG_PLANE
+
 		distDbgPlane = pRayPos.y-1;  //distDbgPlane = sdPlane( pRayPos, vec4(0,1,0,-1) );
-		if(  distDbgPlane<MinStep) {	return col+clamp(vec3( 2-di.d*2,di.d*2-0.1,0 ),0,1)*clamp(sin(di.d*40)*4+4.25,0,1)*curAlpha; }
+		if(  distDbgPlane<MinStep)
+		{
+			di = DistToScene2(pRayPos);
+			return col+clamp(vec3( 2-di.d*2,di.d*2-0.1,0 ),0,1)*clamp(sin(di.d*40)*4+4.25,0,1)*curAlpha;
+		}
 		else di.d = min(di.d,distDbgPlane);
 #endif
 		//if(di.obj>1) return vec3(0,0.6,0); //remove. dbgcol
 		//use object id to look up material id, then do a switch on materials to create the color of the pixel.
+
+
 		switch (matIdList[di.obj])
-		{	case Mat_SolidColor:
+		{
+			case Mat_SolidColor:
 				col += Shader_SolidColor(vec3 (1,0,1), curAlpha);
 				return col;
 
@@ -107,15 +116,6 @@ DistInfo DistToScene(vec3 p)
 	ret.obj = 0;
 	ret.d = MaxRayLength;
 
-	//ret.d = DistToObjectId(p,1);   DIS IS FASTER
-	//if( ret.d<MinStep ) { ret.obj=1; return ret; };
-	//if(NumObjects<=1) return ret;  //should not be needeed
-
-//	for(uint i=1; i!=NumObjects+1; i++ )
-//	{	ret.d = min( ret.d, DistToObjectId(p,i)) ;
-//		if( ret.d<MinStep ) { ret.obj=i; return ret; };
-//	}
-
 	for(uint i=1; i!=NumObjects+1; i++ )
 	{
 		if(RenderList[i])
@@ -126,13 +126,23 @@ DistInfo DistToScene(vec3 p)
 
 	}
 
-//	ret.d = min( ret.d, DistToObjectId(p,2)) ;
-//	if( ret.d<MinStep ) { ret.obj=2; return ret; };
-//
-//	ret.d = min( ret.d, DistToObjectId(p,3)) ;
-//	if( ret.d<MinStep ) { ret.obj=3; return ret; };
 	return ret;
 }
+
+
+DistInfo DistToScene2(vec3 p) //used to render distance field while using optimization.
+{	DistInfo ret;
+	ret.obj = 0;
+	ret.d = MaxRayLength;
+
+	for(uint i=1; i!=NumObjects+1; i++ )
+	{	ret.d = min( ret.d, DistToObjectId(p,i)) ;
+		if( ret.d<MinStep ) { ret.obj=i; return ret; };
+	}
+
+	return ret;
+}
+
 
 //calculate surface normal vector of object by its identifier
 vec3 GetNormalByObj(uint objId, vec3 p, float d)
@@ -141,10 +151,7 @@ vec3 GetNormalByObj(uint objId, vec3 p, float d)
 						     , DistToObjectId( p-normOffset.yxy, objId )
 					         , DistToObjectId( p-normOffset.yyx, objId )
 	   	   	    	));
-//	return normalize( vec3(  d-DistToObjectId( p-normOffset, objId )
-//			      	   	   , d-DistToObjectId( p-normOffset.yxy, objId )
-//						   , d-DistToObjectId( p-normOffset.yyx, objId )
-//		   	   	    ));
+
 }
 
 //! <preset file="Main.preset" />
