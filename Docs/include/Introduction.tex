@@ -1,29 +1,31 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Introduction} 
 
-The algorithm in question that we want to design a custom GPU for is called
-sphere tracing\ref{Hart1996}, using spheres to incrementally advance a
-ray\footnotemark in 3D space. The method of advancing rays incrementally is
-called ray marching and is a particular subset of ray tracing\ref{Appel1968}.
-Ray tracing, then, is a way of wholly or partially rendering the world through
-rays, cast from the eye of the observer into the scene.  Sphere tracing has
-been around since at least as early as the late eighties and ray tracing as
-early as the sixties. Since ray tracing traditionally has been a more
-computation-intensive method compared to scanlining\ref{Wylie1967} an as such
-it has generally seen more use in movie production rather than in real-time
-applications.\ref{ref needed?} 
+The algorithm in question that we designed a custom GPU for is called sphere
+tracing.\cite{Hart1996} So called since it uses spheres to incrementally
+advance a ray\footnotemark in 3D space. The method of advancing rays
+incrementally is called ray marching and is a particular subset of ray
+tracing.\cite{Whitted1980} Ray tracing, then, is a way of wholly or partially
+rendering the world through rays, cast from the eye of the observer into the
+scene.  Sphere tracing has been around since at least as early as the late
+eighties and ray tracing as early as the sixties.\cite{Hart1989,Appel1968}
+Since ray tracing traditionally has been a more computation-intensive method
+compared to scanlining\cite{Wylie1967} an as such it has generally seen more
+use in movie production rather than in real-time applications.\cite{ref_needed?} 
 
 %TODO(bjorn): Nån som är bätre än mig på detta får gärna skriva om denna delen
               %nedanför. låter inte proffsigt alls.
 
 The advent of the programmable shader brought back the discussion of real time
 ray marching to the forefront. which is where we caught on to it.
-\ref{JamieWong2016} It still favours poorly compared to other techniques wich
+\cite{JamieWong2016} It still favours poorly compared to other techniques wich
 natrually begged the question if it would be able to compete in real time if
 only the hardware for it was there.
 
 \footnotetext{vector that emerges and bounces from a view-point} 
 
 \section{Sphere tracing}
+
+At its most simple form 
 
 \section{Hardware implementation}
