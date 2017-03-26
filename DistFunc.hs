@@ -6,12 +6,13 @@ import Float
 import Vector
 import Pack
 import Base
+import Indexed
 
 type FunOp = Either Op Data
 
 data Data
 	= Val Float
-	| Arg PackPtr
+	| Arg (Ptr Pack)
 	deriving (Eq, Show, Generic, NFData)
 
 data Op

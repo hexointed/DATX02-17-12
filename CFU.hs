@@ -14,13 +14,13 @@ data Choice
 	deriving Eq
 
 data Cond
-	= Cond Choice StackPtr
+	= Cond Choice (Ptr (Stack Float))
 
 data Action
 	= PushQ
 	| PushF
 	| Drop
-	| SetVal PackPtr StackPtr
+	| SetVal (Ptr Pack) (Ptr (Stack Float))
 
 data Instr
 	= Instr Cond Action
@@ -30,7 +30,7 @@ instance Indexed Instr where
 
 --------------------------------------------------------------------------------
 
-data CFU = CFU IPtr Pack
+data CFU = CFU (Ptr Instr) Pack
 data Out
 	= Q Pack
 	| F Pack
