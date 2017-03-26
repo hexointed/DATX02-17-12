@@ -1,58 +1,31 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Introduction} 
 
-The primary goal of the project is a ray-marching graphics card
-proof-of-concept that hopefully will look promising enough to warrant further
-work in making a ray-marching based graphics card. If the results show that
-there is more performance potential in ray-marching than in the current
-industry’s approach, then that could become a link from the theory of
-ray-marching to the practice of hardware-accelerated ray-marching. This would
-be useful in order to more accurately estimate what kind of performance you
-could expect if the current industry focused on ray-marching instead of polygon
-based graphics.
+The algorithm in question that we designed a custom GPU for is called sphere
+tracing.\cite{Hart1996} So called since it uses spheres to incrementally
+advance a ray\footnotemark in 3D space. The method of advancing rays
+incrementally is called ray marching and is a particular subset of ray
+tracing.\cite{Whitted1980} Ray tracing, then, is a way of wholly or partially
+rendering the world through rays, cast from the eye of the observer into the
+scene.  Sphere tracing has been around since at least as early as the late
+eighties and ray tracing as early as the sixties.\cite{Hart1989,Appel1968}
+Since ray tracing traditionally has been a more computation-intensive method
+compared to scanlining\cite{Wylie1967} an as such it has generally seen more
+use in movie production rather than in real-time applications.\cite{ref_needed?} 
 
-The aim of this project is to develop the fundamental building blocks for a real-
-time 3D graphics processing unit (GPU) that is optimized to run a rendering 
-algorithm which is different to the Polygon-based rendering that is almost 
-exclusively used in today's 3D graphics cards. During the early 90’s many types of 
-rendering algorithms were developed and used, since they all ran in software on the 
-main computer processor. Better performance (better graphics) was a key selling 
-point among competing computer systems, the computer industry moved towards 
-dedicated hardware based rendering systems. These systems were almost exclusively 
-using polygon-based rendering. Today, 3D graphics cards have become more 
-programmable but are still based on the old paradigm of polygon rendering. The last 
-5 years have seen a small resurgence in the use of a sphere tracing rendering 
-algorithm known as Ray- Marching. This has a whole new set of pros and cons when 
-compared to the polygon renderers.  However, while the algorithm seems to have a lot 
-of potential for future 3D graphics, that potential might be unreachable on current 
-GPUs due to the underlying architecture being designed with other things in mind. 
-This project will examine what could be achieved if graphics cards were optimized 
-for ray-marching instead of drawing polygons.  
+%TODO(bjorn): Nån som är bätre än mig på detta får gärna skriva om denna delen
+              %nedanför. låter inte proffsigt alls.
 
+The advent of the programmable shader brought back the discussion of real time
+ray marching to the forefront. which is where we caught on to it.
+\cite{JamieWong2016} It still favours poorly compared to other techniques wich
+natrually begged the question if it would be able to compete in real time if
+only the hardware for it was there.
 
+\footnotetext{vector that emerges and bounces from a view-point} 
 
-\section{Section levels}
-The following table presents an overview of the section levels that are used in this 
-document. The number of levels that are numbered and included in the table of contents is 
-set in the settings file \texttt{Settings.tex}. 
-The levels are shown in Section \ref{Section_ref}.
+\section{Sphere tracing}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{ll} \hline\hline
-Name & Command\\ \hline
-Chapter & \textbackslash\texttt{chapter\{\emph{Chapter name}\}}\\
-Section & \textbackslash\texttt{section\{\emph{Section name}\}}\\
-Subsection & \textbackslash\texttt{subsection\{\emph{Subsection name}\}}\\
-Subsubsection & \textbackslash\texttt{subsubsection\{\emph{Subsubsection name}\}}\\
-Paragraph & \textbackslash\texttt{paragraph\{\emph{Paragraph name}\}}\\
-Subparagraph & \textbackslash\texttt{paragraph\{\emph{Subparagraph name}\}}\\ \hline\hline
-\end{tabular}
-\end{table}
+At its most simple form 
 
-\section{Section} \label{Section_ref}
-\subsection{Subsection}
-\subsubsection{Subsubsection}
-\paragraph{Paragraph}
-\subparagraph{Subparagraph}
-
+\section{Hardware implementation}
