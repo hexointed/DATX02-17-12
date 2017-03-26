@@ -1,9 +1,12 @@
-module CFU where
+module CFU (CFU, module Stateful, Instr) where
 
 import Base
 import Float
 import DFU
 import Stack
+import Pack
+import Stateful
+import Indexed
 
 data Choice
 	= NZ
@@ -12,9 +15,6 @@ data Choice
 
 data Cond
 	= Cond Choice StackPtr
-
-type PackPtr = Unsigned 4
-type StackPtr = Unsigned 4
 
 data Action
 	= PushQ
@@ -25,26 +25,31 @@ data Action
 data Instr
 	= Instr Cond Action
 
+instance Indexed Instr where
+	type Size Instr = 8
+
 --------------------------------------------------------------------------------
 
-type IPtr = Unsigned 8
-type Pack = Vec 8 Float
-
 data CFU = CFU IPtr Pack
-data Output
+data Out
 	= Q Pack
 	| F Pack
 	| Ready
 	| Wait
 
-step :: CFU -> (Stack Float, Maybe Instr) -> (CFU, Output)
-step (CFU iptr pack) (st, inst) = case inst of
-	Nothing          -> (CFU iptr pack, Ready)
-	Just (Instr c a) -> case checkCond c st of
-		True  -> trySend a $ CFU nexti (upack a pack st)
-		False -> (CFU nexti pack, Wait)
-		where
-			nexti = iptr + 1
+instance Stateful CFU where
+	type Input CFU = (Stack Float, Maybe Instr)
+	type Output CFU = Out
+
+	step (CFU iptr pack) (st, inst) = case inst of
+		Nothing          -> (CFU iptr pack, Ready)
+		Just (Instr c a) -> case checkCond c st of
+			True  -> trySend a $ CFU nexti (upack a pack st)
+			False -> (CFU nexti pack, Wait)
+			where
+				nexti = iptr + 1
+	
+	initial = CFU 0 (repeat undefined)
 
 upack a p s = case a of
 	SetVal pptr sptr -> replace pptr (topN sptr s) p

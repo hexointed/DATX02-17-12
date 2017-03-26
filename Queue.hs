@@ -4,8 +4,8 @@
 module Queue (Queue, module Container, popN, topN) where
 
 import Base hiding (Index)
-import GHC.TypeLits.Extra
 import Container
+import Indexed
 
 type Index n = Unsigned (Log 2 n)
 type Pow2 n = (FLog 2 n ~ CLog 2 n, KnownNat n)
@@ -49,3 +49,5 @@ popN n (Q v h t f) = Q v h (t + n) 0
 topN :: Pow2 n => Unsigned (Log 2 n) -> Q n a -> a
 topN n (Q v h t f) = v !! (t + n)
 
+instance Pow2 n => Indexed (Queue n a) where
+	type Size (Queue n a) = Log 2 n
