@@ -4,17 +4,15 @@ module DistFunc where
 
 import Float
 import Vector
+import Pack
 import Base
+import Indexed
 
-type FunId = Unsigned 16
-type FunIndex = Unsigned 16
 type FunOp = Either Op Data
 
 data Data
 	= Val Float
-	| X
-	| Y
-	| Z
+	| Arg (Ptr Pack)
 	deriving (Eq, Show, Generic, NFData)
 
 data Op
@@ -42,8 +40,6 @@ apply Div a b = a / b
 apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
-lookUp :: Position -> Data -> Float
+lookUp :: Pack -> Data -> Float
 lookUp p (Val v) = v
-lookUp p X       = x p
-lookUp p Y       = y p
-lookUp p Z       = z p
+lookUp p (Arg a) = p !! a

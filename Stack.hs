@@ -4,6 +4,7 @@ module Stack (Stack, module Container, popN, topN) where
 
 import Base
 import Container
+import Indexed
 
 data Stack a = Stack (Vec 16 a) (Unsigned 4)
 	deriving (Eq, Generic, NFData)
@@ -42,3 +43,5 @@ instance Show a => Show (Stack a) where
 			take 0 xs     = []
 			take n (x:xs) = x : take (n - 1) xs
 
+instance Indexed (Stack a) where
+	type Size (Stack a) = 4

@@ -1,12 +1,13 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
-module DFU (DFU, Reset(..), Result(..), clean, step, stack) where
+module DFU (DFU, Reset(..)) where
 
 import DistFunc
 import Float
 import Base
 import Stack
-import Vector
+import Pack
+import Stateful
 
 data DFU = DFU
 	{ minValue :: Float
@@ -18,20 +19,22 @@ data DFU = DFU
 
 data Reset 
 	= Continue FunOp
-	| Done
 	| Next FunId
+	| Compute
+	| Done
 	deriving (Eq, Show, Generic, NFData)
 
-type Result = Maybe (FunId, Float)
+instance Stateful DFU where
+	type In DFU = (Reset, Pack)
+	type Out DFU = Stack Float
 
-clean :: DFU
-clean = DFU maxBound 0 (push maxBound empty) 0
-
-step :: DFU -> (Reset, Position) -> (DFU, Result)
-step scene (r,p) = case r of
-	Continue op -> (stepOp scene p op, Nothing)
-	Next id     -> (reset scene id, Nothing)
-	Done        -> (clean, result $ reset scene 0)
+	step scene (r,p) = case r of
+		Continue op -> (stepOp scene p op, WaitI)
+		Next id     -> (reset scene id, WaitI)
+		Compute     -> (reset scene 0, Result $ stack scene)
+		Done        -> (initial, Ready)
+	
+	initial = DFU maxBound 0 (push maxBound empty) 0
 
 reset :: DFU -> FunId -> DFU
 reset s id = s {
@@ -44,9 +47,7 @@ reset s id = s {
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
 
-result = Just . liftf (,) minId minValue
-
-stepOp :: DFU -> Position -> FunOp -> DFU
+stepOp :: DFU -> Pack -> FunOp -> DFU
 stepOp scene p op = scene {
 		stack = either pushOp (push . lookUp p) op (stack scene)
 	}
