@@ -14,3 +14,7 @@ class Stateful a where
 
 	output :: a -> Input a -> Output a
 	output a i = snd $ step a i
+
+data Ready
+	= Ready
+	| Wait
