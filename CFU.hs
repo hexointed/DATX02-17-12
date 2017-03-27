@@ -1,8 +1,7 @@
-module CFU (CFU, module Stateful, Instr) where
+module CFU (CFU, Out(..), Instr) where
 
 import Base
 import Float
-import DFU
 import Stack
 import Pack
 import Stateful
@@ -31,6 +30,7 @@ instance Indexed Instr where
 --------------------------------------------------------------------------------
 
 data CFU = CFU (Ptr Instr) Pack
+
 data Out
 	= Q Pack
 	| F Pack

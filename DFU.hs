@@ -1,6 +1,6 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
-module DFU (DFU, module Stateful, stack) where
+module DFU (DFU, Result(..), stack) where
 
 import DistFunc
 import Float
@@ -20,19 +20,24 @@ data DFU = DFU
 data Reset 
 	= Continue FunOp
 	| Next FunId
-	| Result
+	| Compute
 	| Done
 	deriving (Eq, Show, Generic, NFData)
 
+data Result
+	= Result FunId Float
+	| Ready
+	| Wait
+
 instance Stateful DFU where
 	type Input DFU = (Reset, Pack)
-	type Output DFU = Either (FunId, Float) Ready
+	type Output DFU = Result
 
 	step scene (r,p) = case r of
-		Continue op -> (stepOp scene p op, Right Wait)
-		Next id     -> (reset scene id, Right Wait)
-		Result      -> (initial, Left . result $ reset scene 0)
-		Done        -> (scene, Right Ready)
+		Continue op -> (stepOp scene p op, Wait)
+		Next id     -> (reset scene id, Wait)
+		Compute     -> (initial, result $ reset scene 0)
+		Done        -> (scene, Ready)
 	
 	initial = DFU maxBound 0 (push maxBound empty) 0
 
@@ -47,7 +52,7 @@ reset s id = s {
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
 
-result = liftf (,) minId minValue
+result = liftf Result minId minValue
 
 stepOp :: DFU -> Pack -> FunOp -> DFU
 stepOp scene p op = scene {
