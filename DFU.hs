@@ -19,18 +19,20 @@ data DFU = DFU
 
 data Reset 
 	= Continue FunOp
-	| Done
 	| Next FunId
+	| Result
+	| Done
 	deriving (Eq, Show, Generic, NFData)
 
 instance Stateful DFU where
 	type Input DFU = (Reset, Pack)
-	type Output DFU = Maybe (FunId, Float)
+	type Output DFU = Either (FunId, Float) Ready
 
 	step scene (r,p) = case r of
-		Continue op -> (stepOp scene p op, Nothing)
-		Next id     -> (reset scene id, Nothing)
-		Done        -> (initial, result $ reset scene 0)
+		Continue op -> (stepOp scene p op, Right Wait)
+		Next id     -> (reset scene id, Right Wait)
+		Result      -> (initial, Left . result $ reset scene 0)
+		Done        -> (scene, Right Ready)
 	
 	initial = DFU maxBound 0 (push maxBound empty) 0
 
@@ -45,7 +47,7 @@ reset s id = s {
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
 
-result = Just . liftf (,) minId minValue
+result = liftf (,) minId minValue
 
 stepOp :: DFU -> Pack -> FunOp -> DFU
 stepOp scene p op = scene {
