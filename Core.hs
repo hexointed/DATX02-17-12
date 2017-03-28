@@ -36,10 +36,12 @@ data CoreOut = CoreOut
 	{ dfuIPtr :: Ptr DIMem
 	, dfuDPtr :: Ptr DDMem
 	, cfuIPtr :: Ptr CIMem
-	, frameOut :: Pack
-	, queueOut :: Pack
+	, packOut :: Pack
+	, packType :: PackType
 	, ready :: Bool
 	}
+
+data PackType = Frame | Queue
 
 initial' :: Core
 initial' = undefined
