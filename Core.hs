@@ -24,6 +24,7 @@ data Core = Core
 	, ddptr :: Ptr DDMem
 	, pack :: Pack
 	}
+	deriving (Eq, Show)
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
@@ -77,7 +78,7 @@ step'' core rpn instr = (core', compResult, output)
 			, idptr = idptr' core
 			}
 		(dfu', compResult) = step (dfu core) (rpn, pack core)
-		(cfu', output) = step (cfu core) (compResult, Just instr)
+		(cfu', output) = step (cfu core) (compResult, Just instr, pack core)
 		idptr' = case compResult of
 			WaitI -> idptr + 1
 			_     -> idptr
