@@ -41,20 +41,20 @@ data CoreOut = CoreOut
 	, ready :: Bool
 	}
 
-instance Stateful Core where
-	type In Core = Pack
-	type Out Core = Out CFU
+initial' :: Core
+initial' = undefined
 
-	initial = undefined
+ready' :: CoreOut
+ready' = undefined
 
-	step core p = case cfuS of
-		Ready -> (core' { pack = p }, Ready)
-		
-		where
-			(core', dfuS, cfuS) = step' core undefined undefined
+step' core input = case cfuS of
+	Ready -> case nextPack input of
+		Nothing -> (core, ready')
+		Just p  -> (initial', ready')
+	where
+		(core', dfuS, cfuS) = step'' core undefined undefined
 
-
-step' core rpn instr = (core', compResult, output)
+step'' core rpn instr = (core', compResult, output)
 	where
 		core' = core 
 			{ cfu = cfu'
