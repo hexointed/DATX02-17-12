@@ -41,7 +41,7 @@ data CoreOut = CoreOut
 	, ready :: Bool
 	}
 
-data PackType = Frame | Queue
+data PackType = Frame | Queue | None
 
 initial' :: Core
 initial' = undefined
