@@ -33,9 +33,27 @@ part refers to the distance being negated when measured inside of the surface.
 If we define a $ray(s) = \vec{d} \cdot s + \vec{o}$ where $\vec{d}$ is the
 normalized direction of the ray and $\vec{o}$ the origin, then $SDF\circ ray(s)
   = 0$ means that the ray intersects a surface at distance $s$. Finding the
-  surface can then be done by iterating over points further along the ray.
-  $p_{i+1} = p_i + \vec{d}\cdot SDF(p_i)$ which is repeated until $SFD(p) = 0$.
-  $SDF(p_i)$ is the furthest we can march the ray while still be sure we don't
-  overshoot any potential surfaces. 
+  surface can then be done by iterating point by point from the origin along
+  the ray.  $p_{i+1} = p_i + \vec{d}\cdot SDF(p_i)$ which is repeated until
+  $SFD(p) = 0$.  $SDF(p_i)$ is the furthest we can march the ray while still be
+  sure we don't overshoot any potential surfaces. The direction of the closest
+  surface point is never known thus $SDF(p_i)$ can be interpreted as a sphere
+  bound, giving the algorithm its namesake. This ray marching is then performed
+  for each pixel of the screen reversely simulating the light from a scene
+  entering the lens of the onlooker.
+
+\subsection{Reflections and refractions}
+
+Once a point on a surface for a given pixel has been located new multiple rays
+can then be further marched to determine reflections, towards the scene's
+sources of light determening light and shadows, or through the object with an
+angle, simulating refractions. A lot of these depend on the surface normal
+which can be calculated by normalizing the aproximate gradient of $SDF$. 
+
+\subsection{Textures}
+
+
 
 \section{Hardware implementation}
+
+
