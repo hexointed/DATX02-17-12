@@ -19,10 +19,10 @@ figure/%.pdf: figure/%.svg
 #	inkscape -D -z --file=$(shell pwd)/$^ --export-pdf=$(shell pwd)/$@ >> ./log.log
 
 %.pdf: %.tex
-	pdflatex $^
-	bibtex $*  
-	pdflatex $^
-	pdflatex $^
+	- pdflatex $^
+	- bibtex $*  
+	- pdflatex $^
+	- pdflatex $^
 
 #Remove all temporary files created by pdfLaTeX
 clean: 
