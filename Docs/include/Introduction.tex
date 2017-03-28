@@ -26,6 +26,16 @@ only the hardware for it was there.
 
 \section{Sphere tracing}
 
-At its most simple form 
+At the base of the algorithm are the signed distance functions
+$SDF:\mathbb{R}^{3}\mapsto\mathbb{R}$. The "distance" is the distance between a
+point and the closest point on the implicit surface $SDF^{-1}(0)$. The "signed"
+part refers to the distance being negated when measured inside of the surface.
+If we define a $ray(s) = \vec{d} \cdot s + \vec{o}$ where $\vec{d}$ is the
+normalized direction of the ray and $\vec{o}$ the origin, then $SDF\circ ray(s)
+  = 0$ means that the ray intersects a surface at distance $s$. Finding the
+  surface can then be done by iterating over points further along the ray.
+  $p_{i+1} = p_i + \vec{d}\cdot SDF(p_i)$ which is repeated until $SFD(p) = 0$.
+  $SDF(p_i)$ is the furthest we can march the ray while still be sure we don't
+  overshoot any potential surfaces. 
 
 \section{Hardware implementation}
