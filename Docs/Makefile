@@ -1,7 +1,7 @@
 ### Makefile for compiling .tex files ###
 
 #All targets
-DOCS = $(patsubst %.tex,%.pdf,$(wildcard *.tex))
+DOCS = Main.pdf
 IMGS = $(patsubst %.svg,%.pdf,$(wildcard figure/*.svg))
 
 #Fail silently
@@ -15,14 +15,14 @@ no-imgs: $(DOCS)
 
 #NOTE(bjorn) "convert" is from lib ImageMagick. Couldn't get inkscape to work properly on OSX.
 figure/%.pdf: figure/%.svg
-	convert $^ $@ >> ./log.log
+	convert $^ $@
 #	inkscape -D -z --file=$(shell pwd)/$^ --export-pdf=$(shell pwd)/$@ >> ./log.log
 
 %.pdf: %.tex
-	- pdflatex $^ >> ./log.log
-	- bibtex $*   >> ./log.log
-	- pdflatex $^ >> ./log.log
-	- pdflatex $^ >> ./log.log
+	pdflatex $^
+	bibtex $*  
+	pdflatex $^
+	pdflatex $^
 
 #Remove all temporary files created by pdfLaTeX
 clean: 
