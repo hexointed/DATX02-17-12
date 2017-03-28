@@ -1,66 +1,77 @@
-module CFU (CFU, module Stateful, Instr) where
+{-# LANGUAGE UndecidableInstances #-}
+
+module CFU (CFU, Out(..), Instr(..), Choice(..), Cond(..), Action(..)) where
 
 import Base
 import Float
-import DFU
 import Stack
 import Pack
 import Stateful
 import Indexed
+import DFU
 
 data Choice
 	= NZ
 	| Z
-	deriving Eq
+	| A
+	deriving (Eq, Show)
 
 data Cond
 	= Cond Choice (Ptr (Stack Float))
+	deriving (Eq, Show)
 
 data Action
-	= PushQ
-	| PushF
+	= PushF
 	| Drop
 	| SetVal (Ptr Pack) (Ptr (Stack Float))
+	deriving (Eq, Show)
 
 data Instr
 	= Instr Cond Action
+	deriving (Eq, Show)
 
 instance Indexed Instr where
 	type Size Instr = 8
 
 --------------------------------------------------------------------------------
 
-data CFU = CFU (Ptr Instr) Pack
-data Out
-	= Q Pack
-	| F Pack
-	| Ready
-	| Wait
+data CFU = CFU 
+	{ pack :: Pack 
+	, stack :: Stack Float
+	, st :: CFUState
+	}
+	deriving (Eq, Show)
+
+data CFUState
+	= Waiting
+	| Working
+	deriving (Eq, Show)
 
 instance Stateful CFU where
-	type Input CFU = (Stack Float, Maybe Instr)
-	type Output CFU = Out
+	type In CFU = (Output DFU, Maybe Instr, Pack)
+	type Out CFU = Pack
 
-	step (CFU iptr pack) (st, inst) = case inst of
-		Nothing          -> (CFU iptr pack, Ready)
-		Just (Instr c a) -> case checkCond c st of
-			True  -> trySend a $ CFU nexti (upack a pack st)
-			False -> (CFU nexti pack, Wait)
-			where
-				nexti = iptr + 1
+	step cfu (dfuOut, inst, p) = case st cfu of
+		Working -> case inst of
+			Nothing          -> (cfu, WaitI)
+			Just (Instr c a) -> execInst c a cfu
+		Waiting -> case dfuOut of
+			WaitI      -> (cfu, Ready)
+			Ready      -> (cfu, Ready)
+			Result sta -> (cfu { st = Working, stack = sta, pack = p}, WaitI)
 	
-	initial = CFU 0 (repeat undefined)
+	initial = CFU (repeat 0) empty Waiting
 
-upack a p s = case a of
-	SetVal pptr sptr -> replace pptr (topN sptr s) p
-	_                -> p
-
-trySend a (CFU iptr pack) = case a of
-	PushF -> (CFU iptr pack, F pack)
-	PushQ -> (CFU iptr pack, Q pack)
-	_     -> (CFU iptr pack, Wait)
+execInst c a cfu = case checkCond c (stack cfu) of
+	False -> (cfu, WaitI)
+	True  -> case a of
+		PushF      -> (cfu, Result $ pack cfu)
+		Drop       -> (cfu { st = Waiting }, Ready)
+		SetVal p s -> 
+			(cfu { pack = replace p (topN s (stack cfu)) (pack cfu) }, WaitI)
 
 checkCond (Cond ch ptr) stack = f (topN ptr stack)
 	where f 
 		| ch == NZ = (/= 0)
 		| ch ==  Z = (== 0)
+		| ch ==  A = (const True)

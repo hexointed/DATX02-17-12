@@ -13,7 +13,7 @@ module Base	(
 		BitEq
 	) where
 
-import CLaSH.Prelude hiding (Float, Double)
+import CLaSH.Prelude hiding (Float, Double, pack)
 import qualified Prelude as P
 import GHC.Generics (Generic)
 import Control.DeepSeq

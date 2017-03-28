@@ -4,7 +4,8 @@ import qualified Prelude as P
 import DFU
 import DistFunc
 import Base
-import Vector
+import Pack
+import Stateful
 
 toListExtend :: KnownNat n => [a] -> a -> Vec n a
 toListExtend l e = repl' 0 l vec
@@ -18,20 +19,20 @@ parse' = (P.++ [Nothing]) . P.map Just .parse
 
 testFuncs :: Vec 128 (Maybe FunOp)
 testFuncs = flip toListExtend Nothing $ 
-	parse' "x y -" P.++
-	parse' "y 5 + x - x 3 / y + 15 - M" P.++
-	parse' "x 30 - x 30 - * y 10 - y 10 - * + 10 -"
+	parse' "p0 p1 -" P.++
+	parse' "p1 5 + p0 - p0 3 / p1 + 15 - M" P.++
+	parse' "p0 30 - p0 30 - * p1 10 - p1 10 - * + 10 -"
 
 
-testdata :: [(Reset,Position)]
+testdata :: [(Reset,Pack)]
 testdata =
-	[(Next 1, position 0 0 0 )]
-	P.++ p' (position 2 3 0) (parse "x x * y y * + 1 -") P.++
-	[(Next 2, position 0 0 0 )]
-	P.++ p' (position 1 2 0) (parse "x x * y y * + 1 -") P.++
-	[(Next 3, position 0 0 0 )]
-	P.++ p' (position 5 7 0) (parse "x x * y y * + 1 -") P.++
-	[(Done, position 0 0 0)]
+	[(Next 1, repeat 0)]
+	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Next 2, repeat 0)]
+	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Next 3, repeat 0)]
+	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Compute,   repeat 0)]
 
 simulate' a b = 
 	putStr .
@@ -40,7 +41,7 @@ simulate' a b =
 	P.take (P.length b) $ 
 	simulate a b
 
-p' :: Position -> [FunOp] -> [(Reset, Position)]
+p' :: Pack -> [FunOp] -> [(Reset, Pack)]
 p' p l = flip P.zip (let x = p : x in x) (P.map Continue l)
 
 parse :: String -> [FunOp]
@@ -50,9 +51,7 @@ parse str = P.map pw $ words str
 		pw "-" = Left Sub
 		pw "*" = Left Mul
 		pw "/" = Left Div
-		pw "x" = Right X
-		pw "y" = Right Y
-		pw "z" = Right Z
 		pw "M" = Left Max
 		pw "m" = Left Min
-		pw str = Right $ Val $ read str
+		pw ('p':n) = Right $ Arg $ read n
+		pw str     = Right $ Val $ read str

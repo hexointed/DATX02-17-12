@@ -4,122 +4,120 @@
 		<path d="M4.6 0l-7 4v-8l7 4z" stroke="#000"/>
 	</marker>
 </defs>
-<g stroke-width=".1" transform="scale(10)">
 <g stroke="#993">
 	<path d="
-		M56 20l13 1
-		M56 31L69 24 
-		M45 32c4-.3 1.7-1 24-5
-		M21 50c65 15 33-13 48-20
-		M25 20c1 8 38 -3.6 44 13
+		M557 305.4L695.8 240 
+		M560 195.4l135.6 5.8
+		M447.6 314.7c36.8-31 165.5-6.7 248-41.4
+		M253.8 203.4c20 37 119 31.3 218.5 33 201 3.7 168.5 79 223.6 101.6
+		M207 508c645 151.4 325.8-130.6 488.6-196
 	"/>
 	<g fill="#eec">
-		<ellipse cx="18" cy="37" rx="13" ry="14"/>
-		<ellipse cx="22" cy="19.5" rx="4" ry="2"/>
-		<ellipse cx="42" cy="19.5" rx="15" ry="3"/>
-		<ellipse cx="43" cy="37" rx="8" ry="5"/>
-		<ellipse cx="54.5" cy="37" rx="3" ry="7"/>
+		<ellipse cx="180" cy="370" rx="130" ry="140"/>
+		<ellipse cx="220" cy="195" rx="35" ry="25"/>
+		<ellipse cx="420" cy="195" rx="150" ry="25"/>
+		<ellipse cx="430" cy="370" rx="80" ry="55"/>
+		<ellipse cx="545" cy="370" rx="30" ry="70"/>
 	</g>
 </g>
 
 <g stroke="#000">
 	<path fill="#eaa" d="
-		M6 44h24v4H6z
-		M33 44h24v4H33z
+		M60 446h240v34H60z
+		M330 446h240v34H330z
 	"/>
 	<path fill="#aea" d="
-		M19 18h6v3h-6z
-		M11 18h6v3h-6z
-		M27 18h30v3H27z
+		M190 175h60v40h-60z
+		M110 175h60v40h-60z
+		M270 180h300v30H270z
 	"/>
 	<path fill="#eae" d="
-		M17 33h6v7h-6z
-		M44 33h6v7h-6z
-		M36 33h6v7h-6z
-		M9 33h6v7H9z
+		M170 330h60v74h-60z
+		M440 330h60v74h-60z
+		M360 330h60v74h-60z
+		M90 330h60v74H90z
 	"/>
 	<path fill="#aae" d="
-		M33 25h24v4H33z
-		M6 25h24v4H6z
-		M6 4h51v5H6z
+		M330 250h240v40H330z
+		M60 250h240v40H60z
+		M60 40h510v50H60z
 	"/>
 	<path fill="#aee" d="
-		M27 12H57v4H27z
-		M25 31h5v11h-5z
-		M52 31h5v11h-5z
+		M270 120H570v40H270z
+		M250 310h50v114h-50z
+		M520 310h50v114h-50z
 	"/>
 </g>
 
 <g stroke="#000" marker-end="url(#Out)">
-	<path d="M44 9v3"/>
-	<path d="M40 12v-3"/>
-	<path d="M40 16v2"/>
-	<path d="M44 18v-2"/>
-	<path d="M27 14h-4v4"/>
-	<path d="M21 9v9"/>
-	<path d="M23 21v2h12v2"/>
-	<path d="M26 14v10h6v8h5v1"/>
-	<path d="M37 32h8v1"/>
-	<path d="M54 31v-1h-8v3"/>
-	<path d="M46 30h-8v3"/>
-	<path d="M40 29v4"/>
-	<path d="M48 29v4"/>
-	<path d="M54 44v-2"/>
-	<path d="M47 40v4"/>
-	<path d="M39 40v4"/>
-	<path d="M34 29v15"/>
-	<path d="M35 44V29"/>
-	<path d="M27 13H15v5"/>
-	<path d="M13 9v9"/>
-	<path d="M10 32h8v1"/>
-	<path d="M27 31v-1h-8v3"/>
-	<path d="M19 30h-8v3"/>
-	<path d="M13 29v4"/>
-	<path d="M21 29v4"/>
-	<path d="M27 44v-2"/>
-	<path d="M20 40v4"/>
-	<path d="M12 40v4"/>
-	<path d="M7 29v15"/>
-	<path d="M8 44v-15"/>
-	<path d="M13 21v4"/>
-	<path d="M15 13H5v19h5v1"/>
-	<path d="M55 48v1h3V15h-1"/>
-	<path d="M28 48v3h31V13h-2"/>
+	<path d="M440 90v30"/>
+	<path d="M400 120v-30"/>
+	<path d="M400 160v20"/>
+	<path d="M440 180v-20"/>
+	<path d="M270 140h-40v35"/>
+	<path d="M210 90v85"/>
+	<path d="M230 215v15h120v20"/>
+	<path d="M260 140v100h60v80h55v10"/>
+	<path d="M375 320h80v10"/>
+	<path d="M545 310v-10h-75v30"/>
+	<path d="M470 300h-80v30"/>
+	<path d="M405 290v40"/>
+	<path d="M485 290v40"/>
+	<path d="M545 445v-20"/>
+	<path d="M470 405v40"/>
+	<path d="M390 405v40"/>
+	<path d="M340 290v155"/>
+	<path d="M350 445V290"/>
+	<path d="M270 130H150v45"/>
+	<path d="M130 90v85"/>
+	<path d="M105 320h80v10"/>
+	<path d="M275 310v-10h-75v30"/>
+	<path d="M200 300h-80v30"/>
+	<path d="M135 290v40"/>
+	<path d="M215 290v40"/>
+	<path d="M275 445v-20"/>
+	<path d="M200 405v40"/>
+	<path d="M120 405v40"/>
+	<path d="M70 290v155"/>
+	<path d="M80 445v-155"/>
+	<path d="M130 215v35"/>
+	<path d="M150 130H50v190h55v10"/>
+	<path d="M555 480v15h30V150h-15"/>
+	<path d="M285 480v30h315V130h-30"/>
 </g>
 
-<g font-family="Sans" font-size="2" fill="#000">
-	<svg x="26.8">
-		<text y="33">Q</text>
-		<text y="35">u</text>
-		<text y="37">e</text>
-		<text y="39">u</text> 
-		<text y="41">e</text>
+<g font-family="Sans" font-size="20" fill="#000">
+	<svg x="268">
+		<text y="335">Q</text>
+		<text y="355">u</text>
+		<text y="375">e</text>
+		<text y="395">u</text> 
+		<text y="415">e</text>
 	</svg>
-	<svg x="53.7">
-		<text y="33">Q</text>
-		<text y="35">u</text> 
-		<text y="37">e</text> 
-		<text y="39">u</text> 
-		<text y="41">e</text>
+	<svg x="537">
+		<text y="335">Q</text>
+		<text y="355">u</text> 
+		<text y="375">e</text> 
+		<text y="395">u</text> 
+		<text y="415">e</text>
 	</svg>
-	<text x="27.5" y="7">Memory</text>
-	<text x="38.5" y="14.5">Queue</text>
-	<text x="37" y="20">Optimizer</text>
-	<text x="12" y="20">Cull</text>
-	<text x="20" y="20">Cull</text>
-	<text x="15" y="27.5">Cache</text>
-	<text x="42" y="27.5">Cache</text>
-	<text x="10" y="37">DFU</text>
-	<text x="18" y="37">DFU</text>
-	<text x="37" y="37">DFU</text>
-	<text x="45" y="37">DFU</text>
-	<text x="12" y="47">Control Flow</text>
-	<text x="39" y="47">Control Flow</text>
-	<text x="70" y="22">Queue optimizer</text>
-	<text x="70" y="25">Local queue</text>
-	<text x="70" y="28">Lockstepping</text>
-	<text x="70" y="31">Multi-Core</text>
-	<text x="70" y="34">Ortho-Cull</text>
-</g>
+	<text x="275" y="70">Memory</text>
+	<text x="385" y="145">Queue</text>
+	<text x="370" y="200">Optimizer</text>
+	<text x="120" y="200">Cull</text>
+	<text x="200" y="200">Cull</text>
+	<text x="150" y="275">Cache</text>
+	<text x="420" y="275">Cache</text>
+	<text x="100" y="375">DFU</text>
+	<text x="180" y="375">DFU</text>
+	<text x="370" y="375">DFU</text>
+	<text x="450" y="375">DFU</text>
+	<text x="120" y="470">Control Flow</text>
+	<text x="390" y="470">Control Flow</text>
+	<text x="700" y="340">Ortho-Cull</text>
+	<text x="700" y="310">Multi-Core</text>
+	<text x="700" y="280">Lockstepping</text>
+	<text x="700" y="250">Local queue</text>
+	<text x="700" y="220">Queue optimizer</text>
 </g>
 </svg>
