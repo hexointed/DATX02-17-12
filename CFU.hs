@@ -1,6 +1,6 @@
 {-# LANGUAGE UndecidableInstances #-}
 
-module CFU (CFU, Out(..), Instr) where
+module CFU (CFU, Out(..), Instr(..), Choice(..), Cond(..), Action(..)) where
 
 import Base
 import Float
@@ -14,18 +14,21 @@ data Choice
 	= NZ
 	| Z
 	| A
-	deriving Eq
+	deriving (Eq, Show)
 
 data Cond
 	= Cond Choice (Ptr (Stack Float))
+	deriving (Eq, Show)
 
 data Action
 	= PushF
 	| Drop
 	| SetVal (Ptr Pack) (Ptr (Stack Float))
+	deriving (Eq, Show)
 
 data Instr
 	= Instr Cond Action
+	deriving (Eq, Show)
 
 instance Indexed Instr where
 	type Size Instr = 8

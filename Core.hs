@@ -32,6 +32,7 @@ data CoreIn = CoreIn
 	, dfuData :: Float
 	, cfuInstr :: Instr
 	}
+	deriving (Eq, Show)
 
 data CoreOut = CoreOut
 	{ dfuIPtr :: Ptr DIMem
@@ -41,8 +42,10 @@ data CoreOut = CoreOut
 	, packType :: PackType
 	, ready :: Bool
 	}
+	deriving (Eq, Show)
 
 data PackType = Frame | Queue | None
+	deriving (Eq, Show)
 
 initial' :: Core
 initial' = Core initial initial 0 0 0 (repeat 0)
@@ -67,7 +70,7 @@ step' core input = case cfuS of
 	WaitI    -> (core', output core')
 	Result p -> (core', (output core') {packOut = p, packType = Frame})
 	where
-		(core', dfuS, cfuS) = step'' core undefined undefined
+		(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
 
 step'' core rpn instr = (core', compResult, output)
 	where
