@@ -58,3 +58,5 @@ pushOp :: Op -> Stack Float -> Stack Float
 pushOp op s = push newValue (popN (arity op) s)
 	where
 		newValue = apply op (topN 1 s) (topN 0 s)
+
+

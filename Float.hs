@@ -6,6 +6,7 @@ import CLaSH.Prelude
 
 type GenFloat (a :: Nat) = Fixed Signed a a
 type Float = GenFloat 32
+type Point = Unsigned 4
 
 instance KnownNat a => Floating (GenFloat a) where
 	pi = undefined

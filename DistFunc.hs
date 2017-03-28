@@ -11,7 +11,7 @@ import Indexed
 type FunOp = Either Op Data
 
 data Data
-	= Val Float
+	= Point p
 	| Arg (Ptr Pack)
 	deriving (Eq, Show, Generic, NFData)
 
@@ -41,5 +41,10 @@ apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
 lookUp :: Pack -> Data -> Float
-lookUp p (Val v) = v
+lookUp p (Point p) = getData p
 lookUp p (Arg a) = p !! a
+
+getData :: Point -> Float
+getData p = mainStack !! p
+
+
