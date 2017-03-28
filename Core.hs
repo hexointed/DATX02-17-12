@@ -10,7 +10,7 @@ import Queue
 import Pack
 import CFU
 import DFU
-import Stateful
+import Stateful hiding (output)
 
 type CIMem = Vec 16 Instr
 type DIMem = Vec 16 Reset
@@ -44,15 +44,27 @@ data CoreOut = CoreOut
 data PackType = Frame | Queue | None
 
 initial' :: Core
-initial' = undefined
+initial' = Core initial initial 0 0 0 (repeat 0)
 
 ready' :: CoreOut
-ready' = undefined
+ready' = (output initial') {ready = True}
+
+output :: Core -> CoreOut
+output c = CoreOut
+	{ dfuIPtr = idptr c
+	, dfuDPtr = 0
+	, cfuIPtr = icptr c
+	, packOut = pack c
+	, packType = None
+	, ready = False
+	}
 
 step' core input = case cfuS of
-	Ready -> case nextPack input of
+	Ready    -> case nextPack input of
 		Nothing -> (core, ready')
-		Just p  -> (initial', ready')
+		Just p  -> (initial' {pack = p}, ready')
+	WaitI    -> (core', output core')
+	Result p -> (core', (output core') {packOut = p, packType = Frame})
 	where
 		(core', dfuS, cfuS) = step'' core undefined undefined
 
