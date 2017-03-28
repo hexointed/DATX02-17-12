@@ -33,8 +33,7 @@ instance Indexed Instr where
 --------------------------------------------------------------------------------
 
 data CFU = CFU 
-	{ iptr :: (Ptr Instr) 
-	, pack :: Pack 
+	{ pack :: Pack 
 	, stack :: Stack Float
 	, st :: CFUState
 	}
@@ -55,10 +54,8 @@ instance Stateful CFU where
 			WaitI      -> (cfu, Ready)
 			Ready      -> (cfu, Ready)
 			Result sta -> (cfu { st = Working, stack = sta }, WaitI)
-		where
-				nexti = iptr + 1
 	
-	initial = CFU 0 (repeat undefined) empty Waiting
+	initial = CFU (repeat undefined) empty Waiting
 
 execInst c a cfu = case checkCond c (stack cfu) of
 	False -> (cfu, WaitI)

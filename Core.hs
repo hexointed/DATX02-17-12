@@ -12,17 +12,33 @@ import CFU
 import DFU
 import Stateful
 
-type ICache = Vec 16 Instr
-type FCache = Vec 16 Reset
+type CIMem = Vec 16 Instr
+type DIMem = Vec 16 Reset
+type DDMem = Vec 16 Float
 
 data Core = Core
 	{ cfu :: CFU
 	, dfu :: DFU
-	, icache :: ICache 
-	, iptr :: Ptr ICache
-	, fcache :: FCache
-	, fptr :: Ptr FCache
+	, icptr :: Ptr CIMem
+	, idptr :: Ptr DIMem
+	, ddptr :: Ptr DDMem
 	, pack :: Pack
+	}
+
+data CoreIn = CoreIn
+	{ nextPack :: Maybe Pack
+	, dfuInstr :: Reset
+	, dfuData :: Float
+	, cfuInstr :: Instr
+	}
+
+data CoreOut = CoreOut
+	{ dfuIPtr :: Ptr DIMem
+	, dfuDPtr :: Ptr DDMem
+	, cfuIPtr :: Ptr CIMem
+	, frameOut :: Pack
+	, queueOut :: Pack
+	, ready :: Bool
 	}
 
 instance Stateful Core where
@@ -32,28 +48,26 @@ instance Stateful Core where
 	initial = undefined
 
 	step core p = case cfuS of
-		Ready -> core' { pack = p }
+		Ready -> (core' { pack = p }, Ready)
 		
 		where
-			(core', dfuS, cfuS) = step' core
+			(core', dfuS, cfuS) = step' core undefined undefined
 
 
-step' core = (core', compResult, output)
+step' core rpn instr = (core', compResult, output)
 	where
 		core' = core 
 			{ cfu = cfu'
 			, dfu = dfu'
-			, iptr = iptr' core
-			, fptr = fptr' core
+			, icptr = icptr' core
+			, idptr = idptr' core
 			}
 		(dfu', compResult) = step (dfu core) (rpn, pack core)
 		(cfu', output) = step (cfu core) (compResult, Just instr)
-		rpn = fcache core !! fptr core
-		instr = icache core !! iptr core
-		fptr' = case compResult of
-			WaitI -> fptr + 1
-			_     -> fptr
-		iptr' = case output of
-			WaitI -> iptr + 1
-			_     -> iptr
+		idptr' = case compResult of
+			WaitI -> idptr + 1
+			_     -> idptr
+		icptr' = case output of
+			WaitI -> icptr + 1
+			_     -> icptr
 
