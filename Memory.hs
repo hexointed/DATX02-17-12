@@ -2,12 +2,13 @@ module Memory where
 
 import Core
 
-fetch :: CoreOut -> CoreIn 
-fetch CO = { Nothing
-           , fetchDFUInstr (dfuIPtr CO)
-           , fetchDFUData (dfuDPtr CO)
-           , fetchCFUInstr (cfuIPtr CO)
-           }
+dfuIMemory = asyncRomFile d512 "dfuIMemory.bin"
+dfuDMemory = asyncRomFile d512 "dfuDMemory.bin"
+cfuIMemory = asyncRomFile d512 "cfuIMemory.bin"
 
-fetchDFUInstr :: Ptr DIMem -> -> Reset
-fetchDFUInstr 
+fetch :: CoreOut -> CoreIn 
+fetch CO = { nextPack=Nothing
+           , dfuInstr=dfuIMemory (dfuIPtr CO)
+           , dfuData=dfuDMemory (dfuDPtr CO)
+           , cfuInstr=cfuIMemory (cfuIPtr CO)
+           }
