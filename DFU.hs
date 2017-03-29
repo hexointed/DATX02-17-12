@@ -25,14 +25,16 @@ data Reset
 	deriving (Eq, Show, Generic, NFData)
 
 instance Stateful DFU where
-	type In DFU = (Reset, Pack)
+	type In DFU = (Maybe Reset, Pack)
 	type Out DFU = Stack Float
 
 	step scene (r,p) = case r of
-		Continue op -> (stepOp scene p op, WaitI)
-		Next id     -> (reset scene id, WaitI)
-		Compute     -> (reset scene 0, Result $ stack scene)
-		Done        -> (initial, Ready)
+		Nothing -> (scene, WaitI)
+		Just r  -> case r of
+			Continue op -> (stepOp scene p op, WaitI)
+			Next id     -> (reset scene id, WaitI)
+			Compute     -> (reset scene 0, Result $ stack scene)
+			Done        -> (initial, Ready)
 	
 	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 

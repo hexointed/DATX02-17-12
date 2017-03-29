@@ -6,7 +6,6 @@ import Float
 import Base
 import Indexed
 
-import Queue
 import Pack
 import CFU
 import DFU
@@ -34,9 +33,9 @@ data CoreState
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
-	, dfuInstr :: Reset
-	, dfuData :: Float
-	, cfuInstr :: Instr
+	, dfuInstr :: Maybe Reset
+	, dfuData :: Maybe Float
+	, cfuInstr :: Maybe Instr
 	}
 	deriving (Eq, Show)
 
@@ -87,7 +86,7 @@ step'' core rpn instr = (core', compResult, output)
 			, idptr = idptr' core
 			}
 		(dfu', compResult) = step (dfu core) (rpn, pack core)
-		(cfu', output) = step (cfu core) (compResult, Just instr, pack core)
+		(cfu', output) = step (cfu core) (compResult, instr, pack core)
 		idptr' = case compResult of
 			WaitI -> idptr + 1
 			_     -> idptr
