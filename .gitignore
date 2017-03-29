@@ -65,8 +65,6 @@ Thumbs.db
 *.blg
 *.lof
 *.lot
-# Syncing bib files
-*.bib
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
