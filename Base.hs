@@ -12,7 +12,8 @@ module Base	(
 		bitWith,
 		BitEq,
 		bTake,
-		bDrop
+		bDrop,
+		bSlice
 	) where
 
 import CLaSH.Prelude hiding (Float, Double, pack)
@@ -53,3 +54,5 @@ bTake n b = resize (shiftR b $ fromInteger $ natVal n)
 
 bDrop :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector n
 bDrop n b = resize b
+
+bSlice n m b = bDrop n . bTake (addSNat m n)
