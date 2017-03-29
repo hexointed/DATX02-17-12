@@ -23,7 +23,14 @@ data Core = Core
 	, idptr :: Ptr DIMem
 	, ddptr :: Ptr DDMem
 	, pack :: Pack
+	, st :: CoreState
 	}
+	deriving (Eq, Show)
+
+data CoreState
+	= Working
+	| Waiting
+	deriving (Show, Eq)
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
@@ -31,6 +38,7 @@ data CoreIn = CoreIn
 	, dfuData :: Float
 	, cfuInstr :: Instr
 	}
+	deriving (Eq, Show)
 
 data CoreOut = CoreOut
 	{ dfuIPtr :: Ptr DIMem
@@ -40,14 +48,13 @@ data CoreOut = CoreOut
 	, packType :: PackType
 	, ready :: Bool
 	}
+	deriving (Eq, Show)
 
 data PackType = Frame | Queue | None
+	deriving (Eq, Show)
 
 initial' :: Core
-initial' = Core initial initial 0 0 0 (repeat 0)
-
-ready' :: CoreOut
-ready' = (output initial') {ready = True}
+initial' = Core initial initial 0 0 0 (repeat 0) Waiting
 
 output :: Core -> CoreOut
 output c = CoreOut
@@ -56,17 +63,20 @@ output c = CoreOut
 	, cfuIPtr = icptr c
 	, packOut = pack c
 	, packType = None
-	, ready = False
+	, ready = st c == Waiting
 	}
 
-step' core input = case cfuS of
-	Ready    -> case nextPack input of
-		Nothing -> (core, ready')
-		Just p  -> (initial' {pack = p}, ready')
-	WaitI    -> (core', output core')
-	Result p -> (core', (output core') {packOut = p, packType = Frame})
-	where
-		(core', dfuS, cfuS) = step'' core undefined undefined
+step' core input = case st core of
+	Waiting -> case nextPack input of
+		Nothing -> (core, output core)
+		Just p  -> (c', output c')
+			where c' = initial' {pack = p, st = Working}
+	Working -> case cfuS of
+		Ready    -> (core', output core')
+		WaitI    -> (core', output core')
+		Result p -> (core', (output core') {packOut = p, packType = Frame})
+		where
+			(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
 
 step'' core rpn instr = (core', compResult, output)
 	where
@@ -77,7 +87,7 @@ step'' core rpn instr = (core', compResult, output)
 			, idptr = idptr' core
 			}
 		(dfu', compResult) = step (dfu core) (rpn, pack core)
-		(cfu', output) = step (cfu core) (compResult, Just instr)
+		(cfu', output) = step (cfu core) (compResult, Just instr, pack core)
 		idptr' = case compResult of
 			WaitI -> idptr + 1
 			_     -> idptr

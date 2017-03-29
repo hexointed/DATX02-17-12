@@ -2,7 +2,7 @@
 
 % IMPORT SETTINGS
 \documentclass[12pt,a4paper,twoside,openright]{report}
-\input{include/settings/Settings}
+\input{Settings}
 
 \begin{document} 
 
@@ -18,27 +18,20 @@
 % A Subtitle that can be Very Much Longer if Necessary
 \newcommand{\varSubtitle}{A rudimentary GPU written in Clash(Haskell) compiled to VHDL}
 % Department of Some Subject or Technology
-\newcommand{\varDepartment}{Computer Science and Engineering}
+\newcommand{\varDepartment}{Department of Computer Science and Engineering}
 % Division of Division name
 \newcommand{\varDivision}{Undergrad}
 % Name of research group (if applicable)
 \newcommand{\varResearchGroupName}{DATX-02-17-12}
 % NAME FAMILYNAME
-\newcommand{\varNames}{André Perzon, Björn Strömberg, Chi Thong Luong, 
+\newcommand{\varNames}{André Perzon, Björn Strömberg, Chi Thong Luong,  \\
 Elias Forsberg, Jesper Åberg, Jon Johnsson}
 
-\input{include/frontmatter/Titlepage}
+\input{Titlepage}
 
 % ABSTRACT
 \newpage
-\input{include/frontmatter/Abstract}
-
-% TODO(Bjorn): Do we really want this?
-\begin{comment}
-% ACKNOWLEDGEMENTS
-\newpage
-\input{include/frontmatter/Acknowledgements}
-\end{comment}
+\input{Abstract}
 
 % TABLE OF CONTENTS
 \newpage
@@ -65,24 +58,24 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 \setlength{\parskip}{0pt plus 1pt}
 
 % INTRODUCTION
-\input{include/Introduction}
+\input{Introduction}
 
 % THEORY
-\input{include/Theory}
+\input{Theory}
 
 % METHODS
-\input{include/Methods}
+\input{Methods}
 
 % RESULTS
-\input{include/Results}
+\input{Results}
 
 % CONCLUSION
-\input{include/Conclusion}
+\input{Conclusion}
 
 % REFERENCES / BIBLIOGRAPHY
 \cleardoublepage
 \addcontentsline{toc}{chapter}{Bibliography}
-\input{include/backmatter/References}
+\input{References}
 
 % APPENDICES
 \cleardoublepage
@@ -90,7 +83,7 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 \setcounter{page}{1}
 \pagenumbering{Roman}			% Capitalized roman numbering starting from I (one)
 
-\input{include/backmatter/Appendix_1}
+\input{Appendix_1}
 
 
 \end{document}

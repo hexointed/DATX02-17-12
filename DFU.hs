@@ -34,7 +34,7 @@ instance Stateful DFU where
 		Compute     -> (reset scene 0, Result $ stack scene)
 		Done        -> (initial, Ready)
 	
-	initial = DFU maxBound 0 (push maxBound empty) 0
+	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 
 reset :: DFU -> FunId -> DFU
 reset s id = s {
