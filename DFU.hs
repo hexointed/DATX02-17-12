@@ -17,6 +17,8 @@ data DFU = DFU
 	}
 	deriving (Eq, Show, Generic, NFData)
 
+type FunId = Unsigned 16
+
 data Reset 
 	= Continue FunOp
 	| Next FunId
