@@ -44,8 +44,5 @@ lookUp :: Pack -> Data -> Float
 lookUp p (Arg a) = p !! a
 lookUp p (Point pointer) = getData pointer
 
-
 getData :: (Ptr Pack) -> Float
 getData p = mainStack !! p
-
-
