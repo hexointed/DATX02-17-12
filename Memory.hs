@@ -46,8 +46,8 @@ encodeCfuI b = Just $ Instr cond action
 			2 -> error "invalid action"
 			3 -> SetVal pptr sptr
 		
-		bcho = bTake d2 b
-		cptr = bTake d4 (bDrop d2 b)
-		bact = btake d2 (bDrop d6 b)
-		pptr = 
-		sptr =
+		bcho = bSlice d0 d2 b
+		cptr = bitCoerce $ bSlice d2 d6 b
+		bact = bSlice d6 d8 b
+		pptr = bitCoerce $ bSlice d8 d12 b
+		sptr = bitCoerce $ bSlice d12 d14 b
