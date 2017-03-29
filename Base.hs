@@ -10,14 +10,16 @@ module Base	(
 		large,
 		dup,
 		bitWith,
-		BitEq
+		BitEq,
+		bTake,
+		bDrop
 	) where
 
 import CLaSH.Prelude hiding (Float, Double, pack)
 import qualified Prelude as P
 import GHC.Generics (Generic)
 import Control.DeepSeq
-import Test.QuickCheck
+import Test.QuickCheck hiding (resize)
 
 liftf f a b = (\x -> a x `f` b x)
 
@@ -45,3 +47,9 @@ type BitEq a b = (BitSize a ~ BitSize b, BitPack a, BitPack b)
 
 bitWith :: (BitEq a b, BitEq c a) => (b -> c) -> a -> a
 bitWith f = bitCoerce . f . bitCoerce
+
+bTake :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector n
+bTake n b = resize (shiftR b $ fromInteger $ natVal n)
+
+bDrop :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector n
+bDrop n b = resize b
