@@ -40,6 +40,7 @@ apply Div a b = a / b
 apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
+
 lookUp :: Pack -> Data -> Pack -> Float
 lookUp p (Arg a) stack = p !! a
 lookUp p (Point pointer) stack = stack !! pointer
