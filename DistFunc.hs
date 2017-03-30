@@ -40,12 +40,8 @@ apply Div a b = a / b
 apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
-lookUp :: Pack -> Data -> Float
-lookUp p (Arg a) = p !! a
-lookUp p (Point pointer) = getData pointer
-
-
-getData :: (Ptr Pack) -> Float
-getData p = mainStack !! p
+lookUp :: Pack -> Data -> Pack -> Float
+lookUp p (Arg a) stack = p !! a
+lookUp p (Point pointer) stack = stack !! pointer
 
 
