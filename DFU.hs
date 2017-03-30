@@ -38,15 +38,18 @@ instance Stateful DFU where
 	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 
 reset :: DFU -> FunId -> (DFU,(State(Stack Float, Ptr Pack)))
-reset s id = s {
+reset s id = (s {
 		minValue = fst min',
 		minId = snd min',
 		funId = id
-	}
+	}, (getStack s, Ptr Pack 2))
 	where
 		min' = minWith fst current next
 		current = (minValue s, minId s)
 		next = (top (stack s), funId s)
+
+getStack :: DFU -> Stack Float
+getStack (DFU _ _ stack _) = stack
 
 stepOp :: DFU -> Pack -> FunOp -> Float -> DFU
 stepOp scene p op value = scene {
