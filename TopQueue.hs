@@ -3,11 +3,11 @@
 module TopQueue where
 
 import Base
-import Core
+import Core hiding (pack)
 import Pack
 import Queue
 import CLaSH.Sized.Fixed
-import CLaSH.Sized.Internal.Signed
+import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 
 width = d16
@@ -15,7 +15,7 @@ height = d16
 
 frameBuffer = asyncRam (width `mulSNat` height)
 
-serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signal (BitVector d24))
+serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signal (BitVector 24))
 serve ( CoreOut { packOut  = p
                 , packType = pt
                 , ready    = rdy
@@ -36,10 +36,10 @@ serve ( CoreOut { packOut  = p
     q' _ _          = q
     s' Frame        = frameBuffer (signal addr) (signal (Just (addr, color))) 
     s' _            = frameBuffer (signal addr) (signal Nothing) 
-    color           = r ++# g ++# b
-    r               = bSlice d32 d40 $ pack# $ unSF (p !! 2)
-    g               = bSlice d32 d40 $ pack# $ unSF (p !! 3)
-    b               = bSlice d32 d40 $ pack# $ unSF (p !! 4)
-    addr            = (natVal width) * y + x
-    x               = toInteger# $ unpack# $ bSlice d32 d64 $ pack# $ unSF (p !! 0)
-    y               = toInteger# $ unpack# $ bSlice d32 d64 $ pack# $ unSF (p !! 1)
+    addr            = (16::Signed 32) * y + x
+    x               = unpack $ bSlice d0 d32 $ pack $ unSF $ (p !! 0)
+    y               = unpack $ bSlice d0 d32 $ pack $ unSF $ (p !! 1) :: Signed 32
+    color           = bSlice d8 d24 (r+g+b)
+    r               = bSlice d0 d32 $ pack $ unSF $ (p !! 2)
+    g               = flip shiftL 8 $ bSlice d0 d32 $ pack $ unSF $ (p !! 3)
+    b               = flip shiftL 16 $ bSlice d0 d32 $ pack $ unSF $ (p !! 4)

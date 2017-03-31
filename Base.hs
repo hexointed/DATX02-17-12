@@ -52,7 +52,7 @@ bitWith f = bitCoerce . f . bitCoerce
 bTake :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector n
 bTake n b = resize (shiftR b $ fromInteger $ natVal n)
 
-bDrop :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector n
+bDrop :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector m
 bDrop n b = resize b
 
-bSlice n m b = bDrop n . bTake (addSNat m n)
+bSlice n m = bDrop n . bTake (addSNat m n)
