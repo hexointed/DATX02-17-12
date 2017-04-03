@@ -8,12 +8,7 @@ import CLaSH.Sized.Fixed
 import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 
-width = d16
-height = d16
-
-frameBuffer = asyncRam (width `mulSNat` height)
-
-serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signal (BitVector 24))
+serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signed 32, Maybe (Signed 32, BitVector 24))
 serve (CoreOut _ _ _ p pt rdy) q = 
 			( CoreIn { nextPack  = np' rdy
                       , dfuInstr = Nothing
@@ -21,7 +16,8 @@ serve (CoreOut _ _ _ p pt rdy) q =
                       , cfuInstr = Nothing
                       }
             , q' pt rdy
-            , s' pt
+            , addr
+            , px pt
             )
   where
     np' True        = Just (top q)
@@ -29,8 +25,8 @@ serve (CoreOut _ _ _ p pt rdy) q =
     q' _ True       = pop q
     q' Core.Queue _ = push p q
     q' _ _          = q
-    s' Frame        = frameBuffer (signal addr) (signal (Just (addr, color))) 
-    s' _            = frameBuffer (signal addr) (signal Nothing) 
+    px Frame        = Just (addr, color) 
+    px _            = Nothing 
     addr            = (16::Signed 32) * y + x
     x               = unpack $ bSlice d0 d32 $ pack $ unSF $ (p !! 0)
     y               = unpack $ bSlice d0 d32 $ pack $ unSF $ (p !! 1) :: Signed 32
