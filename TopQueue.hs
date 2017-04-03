@@ -8,7 +8,11 @@ import CLaSH.Sized.Fixed
 import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 
-serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signed 32, Maybe (Signed 32, BitVector 24))
+type TopQueue = Queue 64 Pack
+type Address = Signed 32
+type RGBValue = BitVector 24
+
+serve :: CoreOut -> TopQueue -> (CoreIn, TopQueue, Address, Maybe (Address, RGBValue))
 serve (CoreOut _ _ _ p pt rdy) q = 
 			( CoreIn { nextPack  = np' rdy
                       , dfuInstr = Nothing

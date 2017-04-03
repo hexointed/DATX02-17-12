@@ -12,15 +12,17 @@ frameBufferWidth = d16
 frameBufferHeight = d16
 frameBuffer = asyncRam (frameBufferWidth `mulSNat` frameBufferHeight)
 
-gpu = pixelOut
+gpu = sigPxOut
         where
-        pixelOut = frameBuffer (signal addr) (signal px)
-        coreIn = CoreIn { nextPack = pack
-                        , dfuInstr = dfui
-                        , dfuData = dfud
-                        , cfuInstr = cfui
-                        }
+        sigPxOut = frameBuffer sigAddr sigWritePx
+        (sigCoreIn, sigAddr, sigWritePx) = unbundle $ mealyCombi sigCoreOut
+        sigCoreOut = mealyStep sigCoreIn
+
+mealyStep = mealy step' initial'
+
+mealyCombi = mealy combi (empty :: TopQueue)
+
+combi queue coreOut = (newQueue, ((CoreIn pack dfui dfud cfui), addr, px))  
+        where
         ((CoreIn pack _ _ _), newQueue, addr, px) = serve coreOut queue
         (CoreIn _ dfui dfud cfui) = fetch coreOut
-        queue = newQueue
-        (core, coreOut) = step' initial' coreIn
