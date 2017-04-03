@@ -1,5 +1,3 @@
-{-# LANGUAGE MagicHash #-}
-
 module TopQueue where
 
 import Base
@@ -16,11 +14,8 @@ height = d16
 frameBuffer = asyncRam (width `mulSNat` height)
 
 serve :: CoreOut -> Queue 64 Pack -> (CoreIn, Queue 64 Pack, Signal (BitVector 24))
-serve ( CoreOut { packOut  = p
-                , packType = pt
-                , ready    = rdy
-                } 
-      ) q = ( CoreIn { nextPack  = np' rdy
+serve (CoreOut _ _ _ p pt rdy) q = 
+			( CoreIn { nextPack  = np' rdy
                       , dfuInstr = Nothing
                       , dfuData  = Nothing
                       , cfuInstr = Nothing

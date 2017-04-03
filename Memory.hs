@@ -31,7 +31,7 @@ encodeDfuI b = Just $ undefined
 encodeDfuD :: BitVector 64 -> Maybe Float
 encodeDfuD b = Just $ bitCoerce b
 
-encodeCfuI :: BitVector 68 -> Maybe Instr
+encodeCfuI :: BitVector 16 -> Maybe Instr
 encodeCfuI b = Just $ Instr cond action
 	where
 		cond = Cond choice cptr
@@ -46,8 +46,8 @@ encodeCfuI b = Just $ Instr cond action
 			2 -> error "invalid action"
 			3 -> SetVal pptr sptr
 		
-		bcho = bSlice d0 d2 b
-		cptr = bitCoerce $ bSlice d2 d6 b
-		bact = bSlice d6 d8 b
-		pptr = bitCoerce $ bSlice d8 d12 b
-		sptr = bitCoerce $ bSlice d12 d14 b
+		bcho =             bSlice d0  d2 b
+		cptr = bitCoerce $ bSlice d2  d4 b
+		bact =             bSlice d6  d2 b
+		pptr = bitCoerce $ bSlice d8  d3 b
+		sptr = bitCoerce $ bSlice d12 d4 b
