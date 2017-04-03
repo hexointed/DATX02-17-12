@@ -42,7 +42,7 @@ reset s id = (s {
 		minValue = fst min',
 		minId = snd min',
 		funId = id
-	}, (getStack s, Ptr Pack 2))
+	}, State (getStack s, Ptr Pack 2))
 	where
 		min' = minWith fst current next
 		current = (minValue s, minId s)
