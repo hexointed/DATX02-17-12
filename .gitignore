@@ -78,5 +78,8 @@ hs_err_pid*
 # Generated VHDL
 vhdl/*
 
+# Generated Verilog
+verilog/*
+
 # Synthclipse workspace settings directory
 .metadata/*
