@@ -18,13 +18,14 @@ dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
 cfuIMemory :: Ptr CIMem -> Maybe Instr
 cfuIMemory = encodeCfuI . asyncRomFile d512 "cfuIMemory.bin"
 
-fetch :: Ptr DIMem -> Ptr DDMem -> Ptr CIMem -> (Maybe Reset, Maybe Float, Maybe Instr) 
-fetch dfuip dfudp cfuip = (dfuIMemory dfuip, dfuDMemory dfudp, cfuIMemory cfuip)
+fetch :: () -> (Ptr DIMem, Ptr DDMem, Ptr CIMem) -> 
+		((), (Maybe Reset, Maybe Float, Maybe Instr)) 
+fetch () (di, dd, ci) = (,) () (dfuIMemory di, dfuDMemory dd, cfuIMemory ci)
 
 encodeDfuI :: BitVector 68 -> Maybe Reset
-encodeDfuI b = Just $ undefined
+encodeDfuI b = Just $ Done
 
-encodeDfuD :: BitVector 64 -> Maybe Float
+encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
 encodeDfuD b = Just $ bitCoerce b
 
 encodeCfuI :: BitVector 16 -> Maybe Instr

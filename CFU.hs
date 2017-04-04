@@ -1,4 +1,5 @@
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module CFU (CFU, Out(..), Instr(..), Choice(..), Cond(..), Action(..)) where
 
@@ -14,21 +15,21 @@ data Choice
 	= NZ
 	| Z
 	| A
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data Cond
 	= Cond Choice (Ptr (Stack Float))
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data Action
 	= PushF
 	| Drop
 	| SetVal (Ptr Pack) (Ptr (Stack Float))
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data Instr
 	= Instr Cond Action
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 instance Indexed Instr where
 	type Size Instr = 8
@@ -40,12 +41,12 @@ data CFU = CFU
 	, stack :: Stack Float
 	, st :: CFUState
 	}
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data CFUState
 	= Waiting
 	| Working
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 instance Stateful CFU where
 	type In CFU = (Output DFU, Maybe Instr, Pack)

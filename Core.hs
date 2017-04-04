@@ -1,4 +1,5 @@
 {-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module Core where
 
@@ -24,12 +25,12 @@ data Core = Core
 	, pack :: Pack
 	, st :: CoreState
 	}
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data CoreState
 	= Working
 	| Waiting
-	deriving (Show, Eq)
+	deriving (Eq, Show, Generic, NFData)
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
@@ -37,7 +38,7 @@ data CoreIn = CoreIn
 	, dfuData :: Maybe Float
 	, cfuInstr :: Maybe Instr
 	}
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data CoreOut = CoreOut
 	{ dfuIPtr :: Ptr DIMem
@@ -47,10 +48,10 @@ data CoreOut = CoreOut
 	, packType :: PackType
 	, ready :: Bool
 	}
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 data PackType = Frame | Queue | None
-	deriving (Eq, Show)
+	deriving (Eq, Show, Generic, NFData)
 
 initial' :: Core
 initial' = Core initial initial 0 0 0 (repeat 0) Waiting

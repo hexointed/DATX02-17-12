@@ -5,7 +5,7 @@ module Float where
 import CLaSH.Prelude
 
 type GenFloat (a :: Nat) = Fixed Signed a a
-type Float = GenFloat 32
+type Float = GenFloat 16
 
 instance KnownNat a => Floating (GenFloat a) where
 	pi = undefined

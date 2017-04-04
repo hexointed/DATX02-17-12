@@ -9,11 +9,14 @@ module Base	(
 		medium,
 		large,
 		dup,
+		dup3,
 		bitWith,
 		BitEq,
 		bTake,
 		bDrop,
-		bSlice
+		bSlice,
+		curry3,
+		uncurry3
 	) where
 
 import CLaSH.Prelude hiding (Float, Double, pack)
@@ -43,6 +46,7 @@ medium = Args Nothing  2000 100 1000 True
 large  = Args Nothing 10000 100 1000 True
 
 dup a = (a, a)
+dup3 a = (a, a, a)
 
 type BitEq a b = (BitSize a ~ BitSize b, BitPack a, BitPack b)
 
@@ -56,3 +60,7 @@ bDrop :: (KnownNat n, KnownNat m) => SNat n -> BitVector (n + m) -> BitVector m
 bDrop n b = resize b
 
 bSlice n m = bDrop n . bTake (addSNat m n)
+
+curry3 f (a, b, c) = f a b c
+uncurry3 f a b c = f (a, b, c)
+
