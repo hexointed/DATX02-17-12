@@ -42,7 +42,7 @@ apply Abs a b = abs a
 
 
 lookUp :: Pack -> Data -> Pack -> Float
-lookUp p (Arg a) stack = p !! a
-lookUp p (Point pointer) stack = stack !! pointer
+lookUp globalp (Arg a) stack = stack !! a
+lookUp globalp (Point pointer) stack = globalp !! pointer
 
 

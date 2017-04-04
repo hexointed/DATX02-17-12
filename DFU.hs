@@ -20,29 +20,33 @@ data DFU = DFU
 
 data Reset 
 	= Continue FunOp
-	| Next FunId
-	| Compute
+	| Next FunId FunOp
+	| Compute FunOp
 	| Done
 	deriving (Eq, Show, Generic, NFData)
 
 instance Stateful DFU where
-	type In DFU = (Reset, Pack, Float)
-	type Out DFU = (Stack Float, Ptr Pack)
+	type In DFU = (Reset, Pack)
+	type Out DFU = (Stack Float, Maybe (Ptr Pack))
 
-	step scene (r,p, value) = case r of
-		Continue op -> (stepOp scene p op value, WaitI)
-		Next id     -> (reset scene id, WaitI)
-		Compute     -> (reset scene 0, Result $ stack scene)
+	step scene (r,p) = case r of
+		Continue op -> (stepOp scene p op, WaitI)
+		Next id op   -> (d, WaitI)
+                        where (d, b) = reset scene id op
+		Compute op   -> (e, Result a)
+                        where (e, a) = reset scene 0 op
 		Done        -> (initial, Ready)
+                        
+                      
 	
 	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 
-reset :: DFU -> FunId -> (DFU,(State(Stack Float, Ptr Pack)))
-reset s id = (s {
+reset :: DFU -> FunId -> FunOp -> (DFU,(Stack Float, Maybe (Ptr Pack)))
+reset s id op = (s {
 		minValue = fst min',
 		minId = snd min',
 		funId = id
-	}, State (getStack s, Ptr Pack 2))
+	}, (getStack s, getPointer op))
 	where
 		min' = minWith fst current next
 		current = (minValue s, minId s)
@@ -51,9 +55,18 @@ reset s id = (s {
 getStack :: DFU -> Stack Float
 getStack (DFU _ _ stack _) = stack
 
-stepOp :: DFU -> Pack -> FunOp -> Float -> DFU
-stepOp scene p op value = scene {
-		stack = either pushOp (push . lookUp p value) op (stack scene)
+getPointer :: FunOp -> Maybe (Ptr Pack)
+getPointer (Right (Point a)) = Just a
+getPointer (Right (Arg a))   = Just a
+getPointer _              = Nothing
+
+getData :: FunOp -> Maybe Data
+getData (Right a) = Just a
+getData _       = Nothing
+
+stepOp :: DFU -> Pack -> FunOp -> DFU
+stepOp scene globalstack op = scene {
+		stack = either pushOp (push . lookUp globalstack) op (stack scene)
 	}
 
 pushOp :: Op -> Stack Float -> Stack Float
