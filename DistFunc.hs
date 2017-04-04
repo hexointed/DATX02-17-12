@@ -41,8 +41,8 @@ apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
 
-lookUp :: Pack -> Data -> Pack -> Float
-lookUp globalp (Arg a) stack = stack !! a
-lookUp globalp (Point pointer) stack = globalp !! pointer
+lookUp :: Pack -> Pack -> Data -> Float
+lookUp globalp stack (Arg a) = stack !! a
+lookUp globalp stack (Point pointer) = globalp !! pointer
 
 

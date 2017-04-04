@@ -15,7 +15,7 @@ toListExtend l e = repl' 0 l vec
 		repl' n (x:xs) v = repl' (n+1) xs (replace n x v)
 
 parse' :: String -> [Maybe FunOp]
-parse' = (P.++ [Nothing]) . P.map Just .parse
+parse' = (P.++ [Nothing]) . P.map Just . parse
 
 testFuncs :: Vec 128 (Maybe FunOp)
 testFuncs = flip toListExtend Nothing $ 
@@ -24,15 +24,15 @@ testFuncs = flip toListExtend Nothing $
 	parse' "p0 30 - p0 30 - * p1 10 - p1 10 - * + 10 -"
 
 
-testdata :: [(Reset,Pack)]
+testdata :: [(Reset,Pack,Pack)]
 testdata =
-	[(Next 1, repeat 0)]
-	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
-	[(Next 2, repeat 0)]
-	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
-	[(Next 3, repeat 0)]
-	P.++ p'  (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
-	[(Compute,   repeat 0)]
+	[(Next 1 (Right(Arg 0)), repeat 0, repeat 0)]
+	P.++ p'  (repeat 0) (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Next 2 (Right(Arg 0)), repeat 0, repeat 0)]
+	P.++ p'  (repeat 0) (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Next 3 (Right (Arg 0)), repeat 0, repeat 0)]
+	P.++ p'  (repeat 0) (repeat 0) (parse "p0 p0 * p1 p1 * + 1 -") P.++
+	[(Compute (Right (Arg 0)),   repeat 0, repeat 0)]
 
 simulate' a b = 
 	putStr .
@@ -41,8 +41,8 @@ simulate' a b =
 	P.take (P.length b) $ 
 	simulate a b
 
-p' :: Pack -> [FunOp] -> [(Reset, Pack)]
-p' p l = flip P.zip (let x = p : x in x) (P.map Continue l)
+p' :: Pack -> Pack -> [FunOp] -> [(Reset, Pack, Pack)]
+p' p p1 l = P.zip3 (P.map Continue l) (let x = p : x in x) (let x = p1 : x in x)
 
 parse :: String -> [FunOp]
 parse str = P.map pw $ words str
@@ -54,4 +54,7 @@ parse str = P.map pw $ words str
 		pw "M" = Left Max
 		pw "m" = Left Min
 		pw ('p':n) = Right $ Arg $ read n
-		pw str     = Right $ Val $ read str
+		pw str     = Right $ Point $ read str
+
+
+

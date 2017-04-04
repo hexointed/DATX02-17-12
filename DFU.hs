@@ -26,11 +26,11 @@ data Reset
 	deriving (Eq, Show, Generic, NFData)
 
 instance Stateful DFU where
-	type In DFU = (Reset, Pack)
+	type In DFU = (Reset, Pack, Pack)
 	type Out DFU = (Stack Float, Maybe (Ptr Pack))
 
-	step scene (r,p) = case r of
-		Continue op -> (stepOp scene p op, WaitI)
+	step scene (r,p, p1) = case r of
+		Continue op -> (stepOp scene p op p1, WaitI)
 		Next id op   -> (d, WaitI)
                         where (d, b) = reset scene id op
 		Compute op   -> (e, Result a)
@@ -64,10 +64,10 @@ getData :: FunOp -> Maybe Data
 getData (Right a) = Just a
 getData _       = Nothing
 
-stepOp :: DFU -> Pack -> FunOp -> DFU
-stepOp scene globalstack op = scene {
-		stack = either pushOp (push . lookUp globalstack) op (stack scene)
-	}
+stepOp :: DFU -> Pack -> FunOp -> Pack -> DFU
+stepOp scene globalstack op localstack = scene {
+        stack = either pushOp (push . lookUp globalstack localstack) op (stack scene)
+        }
 
 pushOp :: Op -> Stack Float -> Stack Float
 pushOp op s = push newValue (popN (arity op) s)
