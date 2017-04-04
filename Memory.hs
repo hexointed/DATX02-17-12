@@ -22,8 +22,38 @@ fetch :: () -> (Ptr DIMem, Ptr DDMem, Ptr CIMem) ->
 		((), (Maybe Reset, Maybe Float, Maybe Instr)) 
 fetch () (di, dd, ci) = (,) () (dfuIMemory di, dfuDMemory dd, cfuIMemory ci)
 
-encodeDfuI :: BitVector 68 -> Maybe Reset
-encodeDfuI b = Just $ Done
+encodeDfuI :: BitVector (BitSize Float + 4) -> Maybe Reset
+encodeDfuI b = Just stage
+	where
+		stage = case bsta of
+			0 -> Continue funop
+			1 -> Next funid
+			2 -> Compute
+			3 -> Done
+		funop = case bfop of
+			0 -> Left datae
+			1 -> Right op
+		op = case bop of
+			0 -> Val bflo
+			1 -> Arg bpac
+		datae = case bdat of
+			0 -> Max
+			1 -> Min
+			2 -> Add
+			3 -> Sub
+			4 -> Mul
+			5 -> Div
+			6 -> Sqrt
+			7 -> Abs
+		funid = bfid
+
+		bsta =             bSlice d0  d2 b
+		bfop =             bSlice d2  d1 b
+		bop  =             bSlice d3  d1 b
+		bflo = bitCoerce $ bSlice d4  d32 b
+		bpac = bitCoerce $ bSlice d4  d3 b
+		bdat =             bSlice d3  d3 b
+		bfid = bitCoerce $ bSlice d0  d16 b
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
 encodeDfuD b = Just $ bitCoerce b
