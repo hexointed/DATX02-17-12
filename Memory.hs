@@ -53,7 +53,7 @@ encodeDfuI b = Just stage
 		bflo = bitCoerce $ bSlice d4  d32 b
 		bpac = bitCoerce $ bSlice d4  d3 b
 		bdat =             bSlice d3  d3 b
-		bfid = bitCoerce $ bSlice d0  d16 b
+		bfid = bitCoerce $ bSlice d2  d16 b
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
 encodeDfuD b = Just $ bitCoerce b

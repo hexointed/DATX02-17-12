@@ -15,7 +15,7 @@ type RGBValue = BitVector 24
 serve :: TopQueue -> (Bool, Maybe Pack) -> (TopQueue, Maybe Pack)
 serve q (rdy, pack) = mpop $ psh q
 	where
-		mpop = case rdy && isEmpty q of
+		mpop = case rdy && not (isEmpty q) of
 			True  -> (\q -> (pop q, Just $ top q))
 			False -> (\q -> (q, Nothing))
 		psh = case pack of
