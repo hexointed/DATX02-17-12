@@ -59,7 +59,7 @@ instance Stateful CFU where
 		Waiting -> case dfuOut of
 			WaitI      -> (cfu, Ready)
 			Ready      -> (cfu, Ready)
-			Result sta -> (cfu { st = Working, stack = sta, pack = p}, WaitI)
+			Result sta -> (cfu { st = Working, stack = sta, pack = p}, Ready)
 	
 	initial = CFU (repeat 0) empty Waiting
 
