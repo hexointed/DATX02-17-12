@@ -31,12 +31,12 @@ encodeDfuI b = Just stage
 			2 -> Compute
 			3 -> Done
 		funop = case bfop of
-			0 -> Left datae
-			1 -> Right op
-		op = case bop of
+			0 -> Left op
+			1 -> Right datae
+		datae = case bop of
 			0 -> Val bflo
 			1 -> Arg bpac
-		datae = case bdat of
+		op = case bdat of
 			0 -> Max
 			1 -> Min
 			2 -> Add

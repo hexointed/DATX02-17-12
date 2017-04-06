@@ -88,10 +88,12 @@ step'' core rpn instr = (core', compResult, output)
 			}
 		(dfu', compResult) = step (dfu core) (rpn, pack core)
 		(cfu', output) = step (cfu core) (compResult, instr, pack core)
-		idptr' = case compResult of
-			WaitI -> idptr + 1
-			_     -> idptr
-		icptr' = case output of
-			WaitI -> icptr + 1
-			_     -> icptr
+		idptr' = case (compResult, rpn) of
+			(Ready, _)   -> idptr
+			(_, Nothing) -> idptr
+			_            -> idptr + 1
+		icptr' = case (output,instr) of
+			(Ready, _)   -> icptr
+			(_, Nothing) -> icptr
+			_            -> icptr + 1
 
