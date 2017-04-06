@@ -36,7 +36,7 @@ instance Stateful DFU where
 			Continue op -> (stepOp scene p op, WaitI)
 			Next id     -> (reset scene id, WaitI)
 			Compute     -> (reset scene 0, Result $ stack scene)
-			Done        -> (scene, Ready)
+			Done        -> (initial, Ready)
 	
 	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 

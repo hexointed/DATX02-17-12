@@ -2,6 +2,7 @@ module GPU where
 
 import Base
 import Core
+import CFU
 import Pack
 import Queue
 import TopQueue
@@ -19,7 +20,7 @@ coreIn = meld (register Nothing mealyQueue) (register (Nothing, Nothing, Nothing
 mealyQueue = mealy serve (filled $ repeat 0) (fmap (\c -> (ready c, pack' c)) coreOut)
 	where
 		pack' c = case packType c of
-			Core.Queue -> Just $ packOut c
+			CFU.Queue -> Just $ packOut c
 			_          -> Nothing
 
 mealyMemory = mealy fetch () $ 

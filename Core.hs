@@ -50,9 +50,6 @@ data CoreOut = CoreOut
 	}
 	deriving (Eq, Show, Generic, NFData)
 
-data PackType = Frame | Queue | None
-	deriving (Eq, Show, Generic, NFData)
-
 initial' :: Core
 initial' = Core initial initial 0 0 0 (repeat 0) Waiting
 
@@ -72,9 +69,11 @@ step' core input = case st core of
 		Just p  -> (c', output c')
 			where c' = initial' {pack = p, st = Working}
 	Working -> case cfuS of
-		Ready    -> (core', output core')
+		Ready    -> case dfuS of
+			Ready -> (initial', output initial')
+			_     -> (core', output core')
 		WaitI    -> (core', output core')
-		Result p -> (core', (output core') {packOut = p, packType = Frame})
+		Result p -> (core', (output core') {packOut = fst p, packType = snd p})
 		where
 			(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
 

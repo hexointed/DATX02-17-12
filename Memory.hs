@@ -69,8 +69,8 @@ encodeCfuI b = Just $ Instr cond action
 			3 -> error "invalid choice"
 		action = case bact of
 			0 -> PushF
-			1 -> Drop
-			2 -> error "invalid action"
+			1 -> PushQ
+			2 -> Drop
 			3 -> SetVal pptr sptr
 		
 		bcho =             bSlice d0  d2 b

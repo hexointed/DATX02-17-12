@@ -1,7 +1,9 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
-module CFU (CFU, Out(..), Instr(..), Choice(..), Cond(..), Action(..)) where
+module CFU (
+		PackType(..), CFU, Out(..), Instr(..), Choice(..), Cond(..), Action(..)
+	) where
 
 import Base
 import Float
@@ -23,6 +25,7 @@ data Cond
 
 data Action
 	= PushF
+	| PushQ
 	| Drop
 	| SetVal (Ptr Pack) (Ptr (Stack Float))
 	deriving (Eq, Show, Generic, NFData)
@@ -48,9 +51,12 @@ data CFUState
 	| Working
 	deriving (Eq, Show, Generic, NFData)
 
+data PackType = Frame | Queue | None
+	deriving (Eq, Show, Generic, NFData)
+
 instance Stateful CFU where
 	type In CFU = (Output DFU, Maybe Instr, Pack)
-	type Out CFU = Pack
+	type Out CFU = (Pack, PackType)
 
 	step cfu (dfuOut, inst, p) = case st cfu of
 		Working -> case inst of
@@ -66,7 +72,8 @@ instance Stateful CFU where
 execInst c a cfu = case checkCond c (stack cfu) of
 	False -> (cfu, WaitI)
 	True  -> case a of
-		PushF      -> (cfu, Result $ pack cfu)
+		PushF      -> (cfu, Result (pack cfu, Frame))
+		PushQ      -> (cfu, Result (pack cfu, Queue))
 		Drop       -> (cfu { st = Waiting }, Ready)
 		SetVal p s -> 
 			(cfu { pack = replace p (topN s (stack cfu)) (pack cfu) }, WaitI)
