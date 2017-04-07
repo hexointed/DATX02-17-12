@@ -43,7 +43,7 @@ apply Abs a b = abs a
 
 
 lookUp :: SPack -> Pack -> Data -> Float
-lookUp spack pack (Arg a) = pack !! a
-lookUp spack pack (Point pointer) = spack !! pointer
+lookUp global local (Arg a) = local !! a
+lookUp global local (Point pointer) = global !! pointer
 
 

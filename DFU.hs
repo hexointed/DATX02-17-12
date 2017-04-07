@@ -29,10 +29,11 @@ instance Stateful DFU where
 	type In DFU = (Reset, SPack, Pack)
 	type Out DFU = (Stack Float, Either (Maybe (Ptr Pack)) (Maybe (Ptr SPack)))
 
-	step scene (r,p, p1) = case r of
-		Continue op -> (stepOp scene p op p1, WaitI)
+	step scene (res,global, local) = case res of
+		Continue operation -> (stepOp scene global 
+                                        operation local, WaitI)
 		Next id     -> (reset scene id, WaitI)
-		Compute     -> (reset scene 0, Result (stack (reset scene 0), Left Nothing))
+		Compute     -> (reset scene 0, Result (stack (reset scene 0),                             Left Nothing))
 		Done        -> (initial, Ready)
                         
                       
@@ -40,15 +41,15 @@ instance Stateful DFU where
 	initial = DFU maxBound 0 (push maxBound (filled 0)) 0
 
 reset :: DFU -> FunId -> DFU
-reset s id = (s {
+reset scene id = (scene {
 		minValue = fst min',
 		minId = snd min',
 		funId = id
 	})
 	where
 		min' = minWith fst current next
-		current = (minValue s, minId s)
-		next = (top (stack s), funId s)
+		current = (minValue scene, minId scene)
+		next = (top (stack scene), funId scene)
 
 
 
@@ -57,13 +58,13 @@ getData (Right a) = Just a
 getData _       = Nothing
 
 stepOp :: DFU -> SPack -> FunOp -> Pack -> DFU
-stepOp scene globalstack op localstack = scene {
-        stack = either pushOp (push . lookUp globalstack localstack) op (stack scene)
+stepOp scene globalstack operation localstack = scene {
+        stack = either pushOp (push . lookUp globalstack localstack) operation (stack scene)
         }
 
 pushOp :: Op -> Stack Float -> Stack Float
-pushOp op s = push newValue (popN (arity op) s)
+pushOp operation s = push newValue (popN (arity operation) s)
 	where
-		newValue = apply op (topN 1 s) (topN 0 s)
+		newValue = apply operation (topN 1 s) (topN 0 s)
 
 
