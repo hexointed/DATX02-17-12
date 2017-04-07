@@ -52,11 +52,6 @@ reset scene id = (scene {
 		next = (top (stack scene), funId scene)
 
 
-
-getData :: FunOp -> Maybe Data
-getData (Right a) = Just a
-getData _       = Nothing
-
 stepOp :: DFU -> SPack -> FunOp -> Pack -> DFU
 stepOp scene globalstack operation localstack = scene {
         stack = either pushOp (push . lookUp globalstack localstack) operation (stack scene)
