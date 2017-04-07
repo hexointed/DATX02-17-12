@@ -27,7 +27,7 @@ testFuncs = flip toListExtend Nothing $
 testdata :: [(Reset,SPack,Pack)]
 testdata =
 	[(Next 1, repeat 0, repeat 0)]
-	P.++ p'  (repeat 2) (repeat 6) (parse "s0 p1 * p1 s1 * - s1 +") P.++
+	P.++ p'  (repeat 2) (repeat 6) (parse "s0 p1 * p1 s1 * / s1 +") P.++
 	[(Next 2, repeat 0, repeat 0)]
 	P.++ p'  (repeat 10) (repeat 5) (parse "p0 p0 * p1 p1 * + s1 m") P.++
 	[(Next 3, repeat 0, repeat 0)]
