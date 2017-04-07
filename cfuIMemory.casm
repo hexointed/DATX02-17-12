@@ -1,3 +1,14 @@
-A SetVal pp1 sp0
+Z cp1 Drop
+A SetVal pp1 sp1
+A PushQ
+A SetVal pp0 sp0
+A PushQ
+A Drop
+A SetVal pp0 sp0
+A SetVal pp2 sp1
+A SetVal pp3 sp2
+A PushQ
+A Drop
+A SetVal pp4 sp0
 A PushF
 A Drop

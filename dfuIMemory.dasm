@@ -1,6 +1,47 @@
-Next id8
+Next id1
 Arg pp1
-Arg pp1
+Val 1.0
+Sub
+Arg pp0
+Val 10
 Add
+Compute
+Done
+Next id2
+Arg pp1
+Val 1.0
+Sub
+Val 8.0
+Div
+Val 32
+Div
+Val 32
+Mul
+Arg pp1
+Val 1.0
+Sub
+Arg pp1
+Val 1.0
+Sub
+Val 8.0
+Div
+Val 32
+Div
+Val 32
+Mul
+Val 8.0
+Mul
+Sub
+Arg pp0
+Val 30
+Add
+Compute
+Done
+Next id3
+Arg pp2
+Val 128
+Div
+Val 128
+Mul
 Compute
 Done

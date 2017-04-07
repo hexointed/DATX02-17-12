@@ -17,7 +17,7 @@ coreIn = meld
 	(register (Nothing, Nothing, Nothing) mealyMemory)
 
 mealyQueue = mealy serve 
-	(filled $ 0 :> repeat 0) 
+	(push (0 :> 64 :> repeat 0) empty) 
 	(fmap (\c -> (ready c, pack' c)) coreOut)
 	where
 		pack' c = case packType c of
@@ -29,11 +29,14 @@ mealyMemory = mealy fetch () $
 
 meld q m = fmap (curry3 . CoreIn) q <*> m
 
-mealyFrame = fmap pprint $ (mealy f' (repeat False) coreOut :: Signal (Vec 64 Bool))
+mealyFrame = 
+	fmap pprint $ 
+	(mealy f' (repeat False) coreOut :: Signal (Vec 64 Bool))
 	where
 		f' frame cin = case packType cin of
-			CFU.Frame -> (replace (packOut cin !! 1) (packOut cin !! 2 == 0) frame, frame)
+			CFU.Frame -> (replace (shiftR (p' !! 1) 16) (p' !! 4 == 0) frame, frame)
 			_         -> (frame, frame)
+			where p' = packOut cin
 		pprint p = 
 			(P.++"\n") $
 			foldr (\a b -> a P.++ "\n" P.++ b) "" $ 

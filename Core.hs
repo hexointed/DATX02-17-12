@@ -12,9 +12,9 @@ import CFU
 import DFU
 import Stateful hiding (output)
 
-type CIMem = Vec 16 Instr
-type DIMem = Vec 16 Reset
-type DDMem = Vec 16 Float
+type CIMem = Vec 256 Instr
+type DIMem = Vec 256 Reset
+type DDMem = Vec 256 Float
 
 data Core = Core
 	{ cfu :: CFU
@@ -69,9 +69,9 @@ step' core input = case st core of
 		Just p  -> (c', output c')
 			where c' = initial' {
 					pack = p, 
-					idptr = resize $ bitCoerce $ shiftR (last p) 0,
-					icptr = resize $ bitCoerce $ shiftR (last p) 8,
-					ddptr = resize $ bitCoerce $ shiftR (last p) 16,
+					idptr = resize $ bitCoerce $ shiftR (head p) 0,
+					icptr = resize $ bitCoerce $ shiftR (head p) 8,
+					ddptr = resize $ bitCoerce $ shiftR (head p) 16,
 					st = Working
 				}
 	Working -> case cfuS of

@@ -44,7 +44,9 @@ assembleDI = assemble wtb
 			| w == "Arg"  = "0011"
 			| "pp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ zeroes 29
 			| "id" `isInfixOf` w = (u16ToBinary $ drop 2 w) ++ zeroes 18
-			| otherwise = rationalToBinary w
+			| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
+			| "-" `isInfixOf` w = s32ToBinary w 
+			| otherwise = u32ToBinary w 
 
 assembleDD :: String -> String
 assembleDD = assemble wtb
