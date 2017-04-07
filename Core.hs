@@ -67,7 +67,13 @@ step' core input = case st core of
 	Waiting -> case nextPack input of
 		Nothing -> (core, output core)
 		Just p  -> (c', output c')
-			where c' = initial' {pack = p, st = Working}
+			where c' = initial' {
+					pack = p, 
+					idptr = resize $ bitCoerce $ shiftR (last p) 0,
+					icptr = resize $ bitCoerce $ shiftR (last p) 8,
+					ddptr = resize $ bitCoerce $ shiftR (last p) 16,
+					st = Working
+				}
 	Working -> case cfuS of
 		Ready    -> case dfuS of
 			Ready -> (initial', output initial')

@@ -8,16 +8,11 @@ import Queue
 import TopQueue
 import Memory
 
-
-frameBufferWidth = d16
-frameBufferHeight = d16
-frameBuffer = asyncRam (frameBufferWidth `mulSNat` frameBufferHeight)
-
 coreOut = mealy step' initial' coreIn
 
 coreIn = meld (register Nothing mealyQueue) (register (Nothing, Nothing, Nothing) mealyMemory)
 
-mealyQueue = mealy serve (filled $ repeat 0) (fmap (\c -> (ready c, pack' c)) coreOut)
+mealyQueue = mealy serve (filled $ 0 :> repeat 6) (fmap (\c -> (ready c, pack' c)) coreOut)
 	where
 		pack' c = case packType c of
 			CFU.Queue -> Just $ packOut c
