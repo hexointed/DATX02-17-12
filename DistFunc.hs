@@ -9,9 +9,10 @@ import Base
 import Indexed
 
 type FunOp = Either Op Data
+type SPack = Vec 32 Float
 
 data Data
-	= Point (Ptr Pack)
+	= Point (Ptr SPack)
 	| Arg (Ptr Pack)
 	deriving (Eq, Show, Generic, NFData)
 
@@ -41,8 +42,8 @@ apply Sqrt a b = sqrt a
 apply Abs a b = abs a
 
 
-lookUp :: Pack -> Pack -> Data -> Float
-lookUp globalp stack (Arg a) = stack !! a
-lookUp globalp stack (Point pointer) = globalp !! pointer
+lookUp :: SPack -> Pack -> Data -> Float
+lookUp spack pack (Arg a) = pack !! a
+lookUp spack pack (Point pointer) = spack !! pointer
 
 
