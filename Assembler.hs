@@ -1,9 +1,10 @@
-module Assembler where
+module Assembler (asm) where
 
 import qualified Float
 import CLaSH.Sized.Unsigned
 import CLaSH.Class.BitPack
 import CLaSH.Sized.Fixed
+import CLaSH.Sized.Internal.Signed
 import Data.String
 import Data.List
 import qualified Prelude (Float)
@@ -16,6 +17,7 @@ assemble f = concat . fmap ((++"\n") . (concat . fmap f . words)) . lines
 asm f = case dropWhile (/='.') f of
 	".dasm" -> asm' f assembleDI
 	".casm" -> asm' f assembleCI
+	".masm" -> asm' f assembleDD
 	_       -> error "Unrecognized file extension"
 
 asm' :: String -> (String -> String) -> IO ()
@@ -47,7 +49,10 @@ assembleDI = assemble wtb
 assembleDD :: String -> String
 assembleDD = assemble wtb
 	where
-		wtb w = rationalToBinary w 
+		wtb w
+			| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
+			| "-" `isInfixOf` w = s32ToBinary w 
+			| otherwise = u32ToBinary w 
 
 assembleCI :: String -> String
 assembleCI = assemble wtb
@@ -66,6 +71,8 @@ assembleCI = assemble wtb
 
 clashToBin = filter (/= '_') . show . pack
 
+s32ToBinary = clashToBin . (read :: String -> Signed 32) 
+u32ToBinary = clashToBin . (read :: String -> Unsigned 32) 
 u16ToBinary = clashToBin . (read :: String -> Unsigned 16) 
 u4ToBinary = clashToBin . (read :: String -> Unsigned 4)
 u3ToBinary = clashToBin . (read :: String -> Unsigned 3)
