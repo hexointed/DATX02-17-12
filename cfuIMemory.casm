@@ -1,8 +1,8 @@
-Z cp1 Drop
 A SetVal pp1 sp1
-A PushQ
+NZ cp1 PushQ
 A SetVal pp0 sp0
 A PushQ
+Z cp1 Drop
 A Drop
 A SetVal pp0 sp0
 A SetVal pp2 sp1

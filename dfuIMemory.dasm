@@ -3,45 +3,34 @@ Arg pp1
 Val 1.0
 Sub
 Arg pp0
-Val 10
+Val 1545
 Add
 Compute
 Done
 Next id2
 Arg pp1
-Val 1.0
-Sub
 Val 8.0
 Div
-Val 32
-Div
-Val 32
-Mul
+Floor
 Arg pp1
-Val 1.0
-Sub
 Arg pp1
-Val 1.0
-Sub
 Val 8.0
 Div
-Val 32
-Div
-Val 32
-Mul
+Floor
 Val 8.0
 Mul
 Sub
 Arg pp0
-Val 30
+Val 1298
 Add
 Compute
 Done
 Next id3
-Arg pp2
-Val 128
+Arg pp3
+Val 4.0
 Div
-Val 128
+Floor
+Val 4.0
 Mul
 Compute
 Done
