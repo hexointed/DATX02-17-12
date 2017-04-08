@@ -24,21 +24,24 @@ data Op
 	| Div
 	| Sqrt
 	| Abs
+	| Floor
 	deriving (Eq, Show, Generic, NFData)
 
 arity Sqrt = 1
 arity Abs = 1
+arity Floor = 1
 arity _ = 2
 
-apply :: (Ord a, Floating a) => Op -> a -> a -> a
+apply :: Op -> Float -> Float -> Float
 apply Max a b = max a b
 apply Min a b = min a b
 apply Add a b = a + b
 apply Sub a b = a - b
 apply Mul a b = a * b
 apply Div a b = a / b
-apply Sqrt a b = sqrt a
-apply Abs a b = abs a
+apply Sqrt a b = sqrt b
+apply Abs a b = abs b
+apply Floor a b = shiftL (shiftR b 16) 16
 
 lookUp :: Pack -> Data -> Float
 lookUp p (Val v) = v

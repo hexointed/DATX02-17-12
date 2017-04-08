@@ -32,14 +32,15 @@ assembleDI = assemble wtb
 			| w == "Next"     = "01"
 			| w == "Compute"  = "10" ++ zeroes 34
 			| w == "Done"     = "11" ++ zeroes 34
-			| w == "Max"  = "000000" ++ zeroes 30
-			| w == "Min"  = "000001" ++ zeroes 30
-			| w == "Add"  = "000010" ++ zeroes 30
-			| w == "Sub"  = "000011" ++ zeroes 30
-			| w == "Mul"  = "000100" ++ zeroes 30
-			| w == "Div"  = "000101" ++ zeroes 30
-			| w == "Sqrt" = "000110" ++ zeroes 30
-			| w == "Abs"  = "000111" ++ zeroes 30
+			| w == "Max"   = "0000000" ++ zeroes 29
+			| w == "Min"   = "0000001" ++ zeroes 29
+			| w == "Add"   = "0000010" ++ zeroes 29
+			| w == "Sub"   = "0000011" ++ zeroes 29
+			| w == "Mul"   = "0000100" ++ zeroes 29
+			| w == "Div"   = "0000101" ++ zeroes 29
+			| w == "Sqrt"  = "0000110" ++ zeroes 29
+			| w == "Abs"   = "0000111" ++ zeroes 29
+			| w == "Floor" = "0001000" ++ zeroes 29
 			| w == "Val"  = "0010"
 			| w == "Arg"  = "0011"
 			| "pp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ zeroes 29

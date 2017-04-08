@@ -45,6 +45,7 @@ encodeDfuI b = Just stage
 			5 -> Div
 			6 -> Sqrt
 			7 -> Abs
+			8 -> Floor
 		funid = bfid
 
 		bsta =             bSlice d0  d2 b
@@ -52,7 +53,7 @@ encodeDfuI b = Just stage
 		bop  =             bSlice d3  d1 b
 		bflo = bitCoerce $ bSlice d4  d32 b
 		bpac = bitCoerce $ bSlice d4  d3 b
-		bdat =             bSlice d3  d3 b
+		bdat =             bSlice d3  d4 b
 		bfid = bitCoerce $ bSlice d2  d16 b
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
