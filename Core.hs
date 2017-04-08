@@ -28,7 +28,8 @@ data Core = Core
 	deriving (Eq, Show, Generic, NFData)
 
 data CoreState
-	= Working
+	= WorkingD
+	| WorkingC
 	| Waiting
 	deriving (Eq, Show, Generic, NFData)
 
@@ -72,16 +73,17 @@ step' core input = case st core of
 					idptr = resize $ bitCoerce $ shiftR (head p) 0,
 					icptr = resize $ bitCoerce $ shiftR (head p) 8,
 					ddptr = resize $ bitCoerce $ shiftR (head p) 16,
-					st = Working
+					st = WorkingD
 				}
-	Working -> case cfuS of
-		Ready    -> case dfuS of
-			Ready -> (initial', output initial')
-			_     -> (core', output core')
+	WorkingD -> case dfuS of
+		Result r -> let c' = core' {st = WorkingC} in (c', output c')
+		_        -> (core', output core')
+	WorkingC -> case cfuS of
+		Ready    -> (initial', output initial')
 		WaitI    -> (core', output core')
 		Result p -> (core', (output core') {packOut = fst p, packType = snd p})
-		where
-			(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
+	where
+		(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
 
 step'' core rpn instr = (core', compResult, output)
 	where
@@ -97,8 +99,9 @@ step'' core rpn instr = (core', compResult, output)
 			(Ready, _)   -> idptr
 			(_, Nothing) -> idptr
 			_            -> idptr + 1
-		icptr' = case (output,instr) of
-			(Ready, _)   -> icptr
-			(_, Nothing) -> icptr
-			_            -> icptr + 1
+		icptr' = case (output,instr,compResult) of
+			(Ready, _, _)    -> icptr
+			(_, Nothing, _)  -> icptr
+			(_, _, Result _) -> icptr
+			_                -> icptr + 1
 
