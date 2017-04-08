@@ -17,7 +17,7 @@ coreIn = meld
 	(register (Nothing, Nothing, Nothing) mealyMemory)
 
 mealyQueue = mealy serve 
-	(push (0 :> 64 :> repeat 0) empty) 
+	(push (0 :> 256 :> repeat 0) empty) 
 	(fmap (\c -> (ready c, pack' c)) coreOut)
 	where
 		pack' c = case packType c of
@@ -31,7 +31,7 @@ meld q m = fmap (curry3 . CoreIn) q <*> m
 
 mealyFrame = 
 	fmap pprint $ 
-	(mealy f' (repeat False) coreOut :: Signal (Vec 64 Bool))
+	(mealy f' (repeat False) coreOut :: Signal (Vec 256 Bool))
 	where
 		f' frame cin = case packType cin of
 			CFU.Frame -> (replace (shiftR (p' !! 1) 16) (p' !! 4 == 0) frame, frame)
@@ -41,6 +41,6 @@ mealyFrame =
 			(P.++"\n") $
 			foldr (\a b -> a P.++ "\n" P.++ b) "" $ 
 			map (foldr (\a b -> show' a P.++ b) "") $ 
-			unconcat d8 p
+			unconcat d16 p
 		show' True = " "
 		show' False = "\x2588"
