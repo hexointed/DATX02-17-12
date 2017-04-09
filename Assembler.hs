@@ -16,7 +16,6 @@ assemble f = concat . fmap ((++"\n") . (concat . fmap f . words)) . lines
 
 asm f = case dropWhile (/='.') f of
 	".dasm" -> asm' f assembleDI
-	".casm" -> asm' f assembleCI
 	".masm" -> asm' f assembleDD
 	_       -> error "Unrecognized file extension"
 
@@ -29,21 +28,29 @@ assembleDI :: String -> String
 assembleDI = assemble wtb
 	where
 		wtb w 
-			| w == "Next"     = "01"
-			| w == "Compute"  = "10" ++ zeroes 34
-			| w == "Done"     = "11" ++ zeroes 34
-			| w == "Max"   = "0000000" ++ zeroes 29
-			| w == "Min"   = "0000001" ++ zeroes 29
-			| w == "Add"   = "0000010" ++ zeroes 29
-			| w == "Sub"   = "0000011" ++ zeroes 29
-			| w == "Mul"   = "0000100" ++ zeroes 29
-			| w == "Div"   = "0000101" ++ zeroes 29
-			| w == "Sqrt"  = "0000110" ++ zeroes 29
-			| w == "Abs"   = "0000111" ++ zeroes 29
-			| w == "Floor" = "0001000" ++ zeroes 29
-			| w == "Val"  = "0010"
-			| w == "Arg"  = "0011"
+			| w == "Next"  = "10"
+			| w == "Max"   = "0100000" ++ zeroes 29
+			| w == "Min"   = "0100001" ++ zeroes 29
+			| w == "Add"   = "0100010" ++ zeroes 29
+			| w == "Sub"   = "0100011" ++ zeroes 29
+			| w == "Mul"   = "0100100" ++ zeroes 29
+			| w == "Div"   = "0100101" ++ zeroes 29
+			| w == "Sqrt"  = "0100110" ++ zeroes 29
+			| w == "Abs"   = "0100111" ++ zeroes 29
+			| w == "Floor" = "0101000" ++ zeroes 29
+			| w == "Val"   = "0110"
+			| w == "Arg"   = "0111"
+			| w == "NZ"    = "0000"
+			| w == "Z"     = "0001"
+			| w == "A"     = "00100000"
+			| w == "PushF" = "00" ++ zeroes 26
+			| w == "PushQ" = "01" ++ zeroes 26
+			| w == "Drop"  = "10" ++ zeroes 26
+			| w == "SetVal" = "11"
 			| "pp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ zeroes 29
+			| "rp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ "0"
+			| "cp" `isInfixOf` w = (u4ToBinary $ drop 2 w)
+			| "sp" `isInfixOf` w = (u4ToBinary $ drop 2 w) ++ zeroes 18
 			| "id" `isInfixOf` w = (u16ToBinary $ drop 2 w) ++ zeroes 18
 			| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
 			| "-" `isInfixOf` w = s32ToBinary w 
@@ -56,21 +63,6 @@ assembleDD = assemble wtb
 			| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
 			| "-" `isInfixOf` w = s32ToBinary w 
 			| otherwise = u32ToBinary w 
-
-assembleCI :: String -> String
-assembleCI = assemble wtb
-	where
-		wtb w 
-			| w == "NZ" = "00"
-			| w == "Z"  = "01"
-			| w == "A"  = "100000"
-			| w == "PushF" = "00" ++ zeroes 8
-			| w == "PushQ" = "01" ++ zeroes 8
-			| w == "Drop"  = "10" ++ zeroes 8
-			| w == "SetVal" = "11"
-			| "cp" `isInfixOf` w = (u4ToBinary $ drop 2 w)
-			| "pp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ zeroes 1
-			| "sp" `isInfixOf` w = (u4ToBinary $ drop 2 w)
 
 clashToBin = filter (/= '_') . show . pack
 

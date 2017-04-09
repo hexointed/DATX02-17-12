@@ -3,10 +3,14 @@ Arg pp1
 Val 1.0
 Sub
 Arg pp0
-Val 1545
+Val 13
 Add
-Compute
-Done
+A SetVal rp1 sp1
+NZ cp1 PushQ
+A SetVal rp0 sp0
+A PushQ
+Z cp1 Drop
+A Drop
 Next id2
 Arg pp1
 Val 16.0
@@ -21,10 +25,13 @@ Val 16.0
 Mul
 Sub
 Arg pp0
-Val 1298
+Val 21
 Add
-Compute
-Done
+A SetVal rp0 sp0
+A SetVal rp2 sp1
+A SetVal rp3 sp2
+A PushQ
+A Drop
 Next id3
 Arg pp2
 Val 8.0
@@ -44,5 +51,7 @@ Add
 Val 20.0
 Div
 Floor
-Compute
-Done
+A SetVal rp4 sp0
+A PushF
+A Drop
+A Drop
