@@ -5,31 +5,25 @@ import Base
 import Indexed
 import Pack
 import DFU
-import CFU
 import DistFunc
 import Float
 
-dfuIMemory :: Ptr DIMem -> Maybe Reset
+dfuIMemory :: Ptr DIMem -> Maybe Instr
 dfuIMemory = encodeDfuI . asyncRomFile d512 "dfuIMemory.bin"
 
 dfuDMemory :: Ptr DDMem -> Maybe Float
 dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
 
-cfuIMemory :: Ptr CIMem -> Maybe Instr
-cfuIMemory = encodeCfuI . asyncRomFile d512 "cfuIMemory.bin"
+fetch :: () -> (Ptr DIMem, Ptr DDMem) -> ((), (Maybe Instr, Maybe Float)) 
+fetch () (di, dd) = (,) () (dfuIMemory di, dfuDMemory dd)
 
-fetch :: () -> (Ptr DIMem, Ptr DDMem, Ptr CIMem) -> 
-		((), (Maybe Reset, Maybe Float, Maybe Instr)) 
-fetch () (di, dd, ci) = (,) () (dfuIMemory di, dfuDMemory dd, cfuIMemory ci)
-
-encodeDfuI :: BitVector (BitSize Float + 4) -> Maybe Reset
+encodeDfuI :: BitVector (Max (BitSize Float + 4) 18) -> Maybe Instr
 encodeDfuI b = Just stage
 	where
 		stage = case bsta of
-			0 -> Continue funop
-			1 -> Next funid
-			2 -> Compute
-			3 -> Done
+			0 -> Instr cond action
+			1 -> Comp funop
+			2 -> Next funid
 		funop = case bfop of
 			0 -> Left op
 			1 -> Right datae
@@ -47,21 +41,6 @@ encodeDfuI b = Just stage
 			7 -> Abs
 			8 -> Floor
 		funid = bfid
-
-		bsta =             bSlice d0  d2 b
-		bfop =             bSlice d2  d1 b
-		bop  =             bSlice d3  d1 b
-		bflo = bitCoerce $ bSlice d4  d32 b
-		bpac = bitCoerce $ bSlice d4  d3 b
-		bdat =             bSlice d3  d4 b
-		bfid = bitCoerce $ bSlice d2  d16 b
-
-encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
-encodeDfuD b = Just $ bitCoerce b
-
-encodeCfuI :: BitVector 16 -> Maybe Instr
-encodeCfuI b = Just $ Instr cond action
-	where
 		cond = Cond choice cptr
 		choice = case bcho of
 			0 -> NZ
@@ -73,9 +52,19 @@ encodeCfuI b = Just $ Instr cond action
 			1 -> PushQ
 			2 -> Drop
 			3 -> SetVal pptr sptr
-		
-		bcho =             bSlice d0  d2 b
-		cptr = bitCoerce $ bSlice d2  d4 b
-		bact =             bSlice d6  d2 b
-		pptr = bitCoerce $ bSlice d8  d3 b
-		sptr = bitCoerce $ bSlice d12 d4 b
+
+		bsta =             bSlice d0  d2 b
+		bfop =             bSlice d2  d1 b
+		bop  =             bSlice d3  d1 b
+		bflo = bitCoerce $ bSlice d4  d32 b
+		bpac = bitCoerce $ bSlice d4  d3 b
+		bdat =             bSlice d3  d4 b
+		bfid = bitCoerce $ bSlice d2  d16 b
+		bcho =             bSlice d2  d2 b
+		cptr = bitCoerce $ bSlice d4  d4 b
+		bact =             bSlice d8  d2 b
+		pptr = bitCoerce $ bSlice d10  d3 b
+		sptr = bitCoerce $ bSlice d14 d4 b
+
+encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
+encodeDfuD b = Just $ bitCoerce b

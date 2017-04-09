@@ -6,102 +6,65 @@ module Core where
 import Float
 import Base
 import Indexed
-
 import Pack
-import CFU
 import DFU
-import Stateful hiding (output)
 
-type CIMem = Vec 256 Instr
-type DIMem = Vec 256 Reset
+type DIMem = Vec 256 Instr
 type DDMem = Vec 256 Float
 
 data Core = Core
-	{ cfu :: CFU
-	, dfu :: DFU
-	, icptr :: Ptr CIMem
+	{ dfu :: DFU
 	, idptr :: Ptr DIMem
 	, ddptr :: Ptr DDMem
-	, pack :: Pack
-	, st :: CoreState
 	}
-	deriving (Eq, Show, Generic, NFData)
-
-data CoreState
-	= WorkingD
-	| WorkingC
-	| Waiting
 	deriving (Eq, Show, Generic, NFData)
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
-	, dfuInstr :: Maybe Reset
+	, dfuInstr :: Maybe Instr
 	, dfuData :: Maybe Float
-	, cfuInstr :: Maybe Instr
 	}
 	deriving (Eq, Show, Generic, NFData)
 
 data CoreOut = CoreOut
 	{ dfuIPtr :: Ptr DIMem
 	, dfuDPtr :: Ptr DDMem
-	, cfuIPtr :: Ptr CIMem
 	, packOut :: Pack
 	, packType :: PackType
-	, ready :: Bool
+	, wantPack :: Bool
 	}
 	deriving (Eq, Show, Generic, NFData)
 
 initial' :: Core
-initial' = Core initial initial 0 0 0 (repeat 0) Waiting
+initial' = Core initial 0 0
 
-output :: Core -> CoreOut
-output c = CoreOut
+output :: Core -> (Core, CoreOut)
+output c = (,) c $ CoreOut
 	{ dfuIPtr = idptr c
 	, dfuDPtr = 0
-	, cfuIPtr = icptr c
-	, packOut = pack c
+	, packOut = pack (dfu c)
 	, packType = None
-	, ready = st c == Waiting
+	, wantPack = ready (dfu c)
 	}
 
-step' core input = case st core of
-	Waiting -> case nextPack input of
-		Nothing -> (core, output core)
-		Just p  -> (c', output c')
-			where c' = initial' {
-					pack = p, 
+step' core input = case ready (dfu core) of
+	True -> case nextPack input of
+		Nothing       -> output core
+		Just p        -> output start
+			where start = core {
+					dfu = (dfu core) { pack = p, ready = False },
 					idptr = resize $ bitCoerce $ shiftR (head p) 0,
-					icptr = resize $ bitCoerce $ shiftR (head p) 8,
-					ddptr = resize $ bitCoerce $ shiftR (head p) 16,
-					st = WorkingD
+					ddptr = resize $ bitCoerce $ shiftR (head p) 16
 				}
-	WorkingD -> case dfuS of
-		Result r -> let c' = core' {st = WorkingC} in (c', output c')
-		_        -> (core', output core')
-	WorkingC -> case cfuS of
-		Ready    -> (initial', output initial')
-		WaitI    -> (core', output core')
-		Result p -> (core', (output core') {packOut = fst p, packType = snd p})
-	where
-		(core', dfuS, cfuS) = step'' core (dfuInstr input) (cfuInstr input)
+	False -> case dfuS of
+		Left _   -> output core'
+		Right pt -> fmap (\x -> x { packType = pt }) (output core')
+		where
+			(core', dfuS) = step'' core (dfuInstr input)
 
-step'' core rpn instr = (core', compResult, output)
-	where
-		core' = core 
-			{ cfu = cfu'
-			, dfu = dfu'
-			, icptr = icptr' core
-			, idptr = idptr' core
-			}
-		(dfu', compResult) = step (dfu core) (rpn, pack core)
-		(cfu', output) = step (cfu core) (compResult, instr, pack core)
-		idptr' = case (compResult, rpn) of
-			(Ready, _)   -> idptr
-			(_, Nothing) -> idptr
-			_            -> idptr + 1
-		icptr' = case (output,instr,compResult) of
-			(Ready, _, _)    -> icptr
-			(_, Nothing, _)  -> icptr
-			(_, _, Result _) -> icptr
-			_                -> icptr + 1
-
+step'' core instr = case instr of
+	Nothing    -> (core, Left Nothing)
+	Just instr -> (core { dfu = dfu', idptr = idptr' }, output)
+		where
+			(dfu', output) = step (dfu core) instr
+			idptr' = idptr core + 1
