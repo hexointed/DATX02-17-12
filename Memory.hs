@@ -17,7 +17,7 @@ dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
 fetch :: () -> (Ptr DIMem, Ptr DDMem) -> ((), (Maybe Instr, Maybe Float)) 
 fetch () (di, dd) = (,) () (dfuIMemory di, dfuDMemory dd)
 
-encodeDfuI :: BitVector (Max (BitSize Float + 4) 18) -> Maybe Instr
+encodeDfuI :: BitVector 18 -> Maybe Instr
 encodeDfuI b = Just stage
 	where
 		stage = case bsta of
@@ -63,7 +63,7 @@ encodeDfuI b = Just stage
 		bcho =             bSlice d2  d2 b
 		cptr = bitCoerce $ bSlice d4  d4 b
 		bact =             bSlice d8  d2 b
-		pptr = bitCoerce $ bSlice d10  d3 b
+		pptr = bitCoerce $ bSlice d10 d3 b
 		sptr = bitCoerce $ bSlice d14 d4 b
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float

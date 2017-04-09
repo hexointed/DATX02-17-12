@@ -1,9 +1,9 @@
 Next id1
 Arg pp1
-Val 1.0
+Val 0
 Sub
 Arg pp0
-Val 13
+Val 1
 Add
 A SetVal rp1 sp1
 NZ cp1 PushQ
@@ -13,19 +13,19 @@ Z cp1 Drop
 A Drop
 Next id2
 Arg pp1
-Val 16.0
+Val 2
 Div
 Floor
 Arg pp1
 Arg pp1
-Val 16.0
+Val 2
 Div
 Floor
-Val 16.0
+Val 2
 Mul
 Sub
 Arg pp0
-Val 21
+Val 3
 Add
 A SetVal rp0 sp0
 A SetVal rp2 sp1
@@ -34,21 +34,21 @@ A PushQ
 A Drop
 Next id3
 Arg pp2
-Val 8.0
+Val 4
 Sub
 Arg pp2
-Val 8.0
+Val 4
 Sub
 Mul
 Arg pp3
-Val 8.0
+Val 4
 Sub
 Arg pp3
-Val 8.0
+Val 4
 Sub
 Mul
 Add
-Val 20.0
+Val 5
 Div
 Floor
 A SetVal rp4 sp0
