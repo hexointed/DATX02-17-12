@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass, UndecidableInstances #-}
 
 module DFU where
 
@@ -54,35 +54,35 @@ data DFU = DFU
 
 initial = DFU maxBound 0 (push maxBound (filled 0)) 0 (repeat 0) True
 
-step dfu inst = case inst of
-		Comp r    -> (stepOp dfu (pack dfu) r, Left Nothing)
-		Next i    -> (reset dfu i, Left Nothing)
+step dfu (inst, global) = case inst of
+		Comp r    -> (stepOp dfu global r, Left $ dataAddr r)
+		Next i    -> (reset dfu i, noAddr)
 		Instr c a -> execInst c a dfu
 
-stepOp :: DFU -> Pack -> FunOp -> DFU
+stepOp :: DFU -> Float -> FunOp -> DFU
 stepOp scene p op = scene {
-		stack = either pushOp (push . lookUp p) op (stack scene)
+		stack = either pushOp (push . lookUp p (pack scene)) op (stack scene)
 	}
 
 reset :: DFU -> FunId -> DFU
-reset s id = s {
+reset scene id = (scene {
 		minValue = fst min',
 		minId = snd min',
 		funId = id
-	}
+	})
 	where
 		min' = minWith fst current next
-		current = (minValue s, minId s)
-		next = (top (stack s), funId s)
+		current = (minValue scene, minId scene)
+		next = (top (stack scene), funId scene)
 
 execInst c a dfu = case checkCond c (stack dfu) of
-	False -> (dfu, Left Nothing)
+	False -> (dfu, noAddr)
 	True  -> case a of
 		PushF      -> (dfu, Right Frame)
 		PushQ      -> (dfu, Right Queue)
-		Drop       -> (dfu { ready = True }, Left Nothing)
+		Drop       -> (dfu { ready = True }, noAddr)
 		SetVal p s -> 
-			(dfu { pack = replace p (topN s (stack dfu)) (pack dfu) }, Left Nothing)
+			(dfu { pack = replace p (topN s (stack dfu)) (pack dfu) }, noAddr)
 
 checkCond (Cond ch ptr) stack = f (topN ptr stack)
 	where f 
@@ -91,6 +91,12 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 		| ch ==  A = (const True)
 
 pushOp :: Op -> Stack Float -> Stack Float
-pushOp op s = push newValue (popN (arity op) s)
+pushOp operation s = push newValue (popN (arity operation) s)
 	where
-		newValue = apply op (topN 1 s) (topN 0 s)
+		newValue = apply operation (topN 1 s) (topN 0 s)
+
+dataAddr inst = case inst of
+	Right (Point ptr) -> Just ptr
+	_                 -> Nothing
+
+noAddr = Left Nothing

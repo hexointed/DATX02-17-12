@@ -28,7 +28,7 @@ encodeDfuI b = Just stage
 			0 -> Left op
 			1 -> Right datae
 		datae = case bop of
-			0 -> Val bflo
+			0 -> Point bflo
 			1 -> Arg bpac
 		op = case bdat of
 			0 -> Max
@@ -56,7 +56,7 @@ encodeDfuI b = Just stage
 		bsta =             bSlice d0  d2 b
 		bfop =             bSlice d2  d1 b
 		bop  =             bSlice d3  d1 b
-		bflo = bitCoerce $ bSlice d4  d32 b
+		bflo = bitCoerce $ bSlice d4  d8 b
 		bpac = bitCoerce $ bSlice d4  d3 b
 		bdat =             bSlice d3  d4 b
 		bfid = bitCoerce $ bSlice d2  d16 b

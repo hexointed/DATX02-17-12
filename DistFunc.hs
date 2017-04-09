@@ -9,9 +9,10 @@ import Base
 import Indexed
 
 type FunOp = Either Op Data
+type SPack = Vec 256 Float
 
 data Data
-	= Val Float
+	= Point (Ptr SPack)
 	| Arg (Ptr Pack)
 	deriving (Eq, Show, Generic, NFData)
 
@@ -43,6 +44,7 @@ apply Sqrt a b = sqrt b
 apply Abs a b = abs b
 apply Floor a b = shiftL (shiftR b 16) 16
 
-lookUp :: Pack -> Data -> Float
-lookUp p (Val v) = v
-lookUp p (Arg a) = p !! a
+
+lookUp :: Float -> Pack -> Data -> Float
+lookUp global local (Arg a)   = local !! a
+lookUp global local (Point p) = global

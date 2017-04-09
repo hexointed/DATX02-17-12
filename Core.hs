@@ -16,6 +16,7 @@ data Core = Core
 	{ dfu :: DFU
 	, idptr :: Ptr DIMem
 	, ddptr :: Ptr DDMem
+	, stall :: Bool
 	}
 	deriving (Eq, Show, Generic, NFData)
 
@@ -36,7 +37,7 @@ data CoreOut = CoreOut
 	deriving (Eq, Show, Generic, NFData)
 
 initial' :: Core
-initial' = Core initial 0 0
+initial' = Core initial 0 0 False
 
 output :: Core -> (Core, CoreOut)
 output c = (,) c $ CoreOut
@@ -57,14 +58,22 @@ step' core input = case ready (dfu core) of
 					ddptr = resize $ bitCoerce $ shiftR (head p) 16
 				}
 	False -> case dfuS of
-		Left _   -> output core'
+		Left ptr -> case ptr of
+			Just ptr -> fmap (setPtr ptr) $ case stall core of
+				False -> output $ core  { stall = True }
+				True  -> output $ core' { stall = False }
+			Nothing  -> output core'
 		Right pt -> fmap (\x -> x { packType = pt }) (output core')
 		where
-			(core', dfuS) = step'' core (dfuInstr input)
+			(core', dfuS) = step'' core (dfuInstr input) d 
+			d = case dfuData input of
+				Nothing -> 0
+				Just d  -> d
+			setPtr ptr x = x { dfuDPtr = ptr }
 
-step'' core instr = case instr of
+step'' core instr global = case instr of
 	Nothing    -> (core, Left Nothing)
 	Just instr -> (core { dfu = dfu', idptr = idptr' }, output)
 		where
-			(dfu', output) = step (dfu core) instr
+			(dfu', output) = step (dfu core) (instr, global)
 			idptr' = idptr core + 1
