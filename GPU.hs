@@ -44,3 +44,9 @@ mealyFrame =
 			unconcat d16 p
 		show' True = " "
 		show' False = "\x2588"
+
+simGPU = 
+	sequence $ 
+	fmap putStr $ 
+	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
+	sample mealyFrame
