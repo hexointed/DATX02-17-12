@@ -15,7 +15,6 @@ type DDMem = Vec 256 Float
 data Core = Core
 	{ dfu :: DFU
 	, idptr :: Ptr DIMem
-	, ddptr :: Ptr DDMem
 	, stall :: Bool
 	}
 	deriving (Eq, Show, Generic, NFData)
@@ -37,7 +36,7 @@ data CoreOut = CoreOut
 	deriving (Eq, Show, Generic, NFData)
 
 initial' :: Core
-initial' = Core initial 0 0 False
+initial' = Core initial 0 False
 
 output :: Core -> (Core, CoreOut)
 output c = (,) c $ CoreOut
@@ -54,8 +53,7 @@ step' core input = case ready (dfu core) of
 		Just p        -> output start
 			where start = core {
 					dfu = (dfu core) { pack = p, ready = False },
-					idptr = resize $ bitCoerce $ shiftR (head p) 0,
-					ddptr = resize $ bitCoerce $ shiftR (head p) 16
+					idptr = resize $ bitCoerce (head p)
 				}
 	False -> case dfuS of
 		Left ptr -> case ptr of
