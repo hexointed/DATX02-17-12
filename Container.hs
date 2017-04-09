@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
-
 module Container where
 
 import Base

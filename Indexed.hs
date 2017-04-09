@@ -1,5 +1,3 @@
-{-# LANGUAGE FlexibleInstances #-}
-
 module Indexed where
 
 import CLaSH.Prelude

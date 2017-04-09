@@ -1,4 +1,3 @@
-{-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
 module Core where

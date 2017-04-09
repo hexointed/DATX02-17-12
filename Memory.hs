@@ -3,7 +3,6 @@ module Memory where
 import Core
 import Base
 import Indexed
-import Pack
 import DFU
 import DistFunc
 import Float
