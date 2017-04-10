@@ -1,3 +1,5 @@
+
+
 module Assembler (asm) where
 
 import qualified Float
@@ -12,8 +14,6 @@ import Prelude hiding (Float)
 
 zeroes n = take n $ repeat '0'
 
-assemble f = concat . fmap ((++"\n") . (concat . fmap f . words)) . lines
-
 asm f = case dropWhile (/='.') f of
 	".dasm" -> asm' f assembleDI
 	".masm" -> asm' f assembleDD
@@ -24,35 +24,60 @@ asm' f ass = do
 	f' <- readFile f
 	writeFile (takeWhile (/='.') f ++ ".bin") (ass f')
 
-assembleDI :: String -> String
-assembleDI = assemble wtb
+assemble f s = fWordsInSrc (f gotos) s'
 	where
-		wtb w 
-			| w == "Next"  = "10"
-			| w == "Max"   = "0100000" ++ zeroes 11
-			| w == "Min"   = "0100001" ++ zeroes 11
-			| w == "Add"   = "0100010" ++ zeroes 11
-			| w == "Sub"   = "0100011" ++ zeroes 11
-			| w == "Mul"   = "0100100" ++ zeroes 11
-			| w == "Div"   = "0100101" ++ zeroes 11
-			| w == "Sqrt"  = "0100110" ++ zeroes 11
-			| w == "Abs"   = "0100111" ++ zeroes 11
-			| w == "Floor" = "0101000" ++ zeroes 11
-			| w == "Val"   = "0110"
-			| w == "Arg"   = "0111"
-			| w == "NZ"    = "0000"
-			| w == "Z"     = "0001"
-			| w == "A"     = "00100000"
-			| w == "PushF" = "00" ++ zeroes 8
-			| w == "PushQ" = "01" ++ zeroes 8
-			| w == "Drop"  = "10" ++ zeroes 8
-			| w == "SetVal" = "11"
-			| "pp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ zeroes 11
-			| "rp" `isInfixOf` w = (u3ToBinary $ drop 2 w) ++ "0"
-			| "cp" `isInfixOf` w = (u4ToBinary $ drop 2 w)
-			| "sp" `isInfixOf` w = (u4ToBinary $ drop 2 w)
-			| "id" `isInfixOf` w = (u16ToBinary $ drop 2 w)
-			| otherwise = u8ToBinary w ++ zeroes 6
+		gotos = fmap (\(ln,l) -> (ln, drop 1 . concat . take 1 . takeWhile (isInfixOf "#") . words $ l)) (zipWith [0..] $ lines s)
+		s' = fWordsInSrc (rmCmm . takeWhile (not . isInfixOf "#")) s
+		rmCmm w:sw = if not $ isInfixOf ";" w then w:(rmCmm sw) else ""
+
+assembleDI :: String -> String
+assembleDI = assemble ltb
+	where
+		ltb "nz":w2:"SetVal":w4:w5:[] gt = "0000" ++ cp ++ "11" ++ rp ++ sp
+		ltb "z" :w2:"SetVal":w4:w5:[] gt = "0001" ++ cp ++ "11" ++ rp ++ sp
+			rp = (numToBin w3 :: KnownNat 3) ++ "0"
+			sp = (numToBin w4 :: KnownNat 4)
+			cp = (numToBin w4 :: KnownNat 4)
+		ltb "a":"SetVal":w3:w4:[] gt = "0010000011" ++ rp ++ sp 
+			rp = (numToBin w3 :: KnownNat 3) ++ "0"
+			sp = (numToBin w4 :: KnownNat 4)
+		ltb "nz":w2:w3:[] gt = "0000" ++ cp ++ act w3
+		ltb "z" :w2:w3:[] gt = "0001" ++ cp ++ act w3
+			cp = (numToBin w2 :: KnownNat 4)
+			act "PushQ" = "1010101"
+			act "PushF" = "1010101"
+			act "Drop" = "1010101"
+		ltb "next":w2:[] gt = "01" ++ idp
+		ltb "val" :w2:[] gt = "0010" ++ val
+		ltb "arg" :w2:[] gt = "0011" ++ pp
+		ltb "a"   :w2:[] gt = "00100000" ++ act
+			idp = (numToBin w2 :: KnownNat 3) ++ zeroes 11
+			val = (numToBin w2 :: KnownNat 32)
+			pp = (numToBin w2 :: KnownNat 16)
+			act "PushQ" = "1010101"
+			act "PushF" = "1010101"
+			act "Drop" = "1010101"
+		ltb "max"  :[] _ = "0000000" ++ zeroes 29
+		ltb "min"  :[] _ = "0000001" ++ zeroes 29
+		ltb "add"  :[] _ = "0000010" ++ zeroes 29
+		ltb "sub"  :[] _ = "0000011" ++ zeroes 29
+		ltb "mul"  :[] _ = "0000100" ++ zeroes 29
+		ltb "div"  :[] _ = "0000101" ++ zeroes 29
+		ltb "sqrt" :[] _ = "0000110" ++ zeroes 29
+		ltb "abs"  :[] _ = "0000111" ++ zeroes 29
+		ltb "floor":[] _ = "0001000" ++ zeroes 29
+
+numToBin :: KnownNat a => String -> String
+numToBin w 
+	| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
+	| "-" `isInfixOf` w = sNToBinary w :: Signed a
+        | otherwise = uNToBinary w :: Unsigned a
+
+sNToBinary = clashToBin . (read :: String -> Signed a) 
+uNToBinary = clashToBin . (read :: String -> Unsigned a) 
+rationalToBinary = clashToBin . (fLitR :: Double -> Float.Float) . read
+
+clashToBin = filter (/= '_') . show . pack
 
 assembleDD :: String -> String
 assembleDD = assemble wtb
@@ -61,14 +86,3 @@ assembleDD = assemble wtb
 			| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
 			| "-" `isInfixOf` w = s32ToBinary w 
 			| otherwise = u32ToBinary w 
-
-clashToBin = filter (/= '_') . show . pack
-
-s32ToBinary = clashToBin . (read :: String -> Signed 32) 
-u32ToBinary = clashToBin . (read :: String -> Unsigned 32) 
-u16ToBinary = clashToBin . (read :: String -> Unsigned 16) 
-u8ToBinary = clashToBin . (read :: String -> Unsigned 8)
-u4ToBinary = clashToBin . (read :: String -> Unsigned 4)
-u3ToBinary = clashToBin . (read :: String -> Unsigned 3)
-rationalToBinary = clashToBin . (fLitR :: Double -> Float.Float) . read
-
