@@ -46,6 +46,7 @@ calcLables (dat, txt) = (dat', txt, ldat)
 getLabels :: Int -> [Line] -> [(String,Int)]
 getLabels count [] = []
 getLabels count (l:ls)
+	| words l == [] = getLabels count ls
 	| isLabel l = (head (words l) \\ ":", count) : getLabels count ls
 	| otherwise = getLabels (count + 1) ls
 
@@ -69,15 +70,16 @@ splitSections (l:ls)
 		_       -> error l
 	| otherwise = error "Expected directive"
 	where
-		p = takeWhile ((/='.') . head) ls
-		d = dropWhile ((/='.') . head) ls
+		p = takeWhile (not . isPrefixOf ".") ls
+		d = dropWhile (not . isPrefixOf ".") ls
 		(d', t') = splitSections d
 
 makeData :: [Line] -> String
 makeData tt = 
 	unlines $ 
 	map datToBin $ 
-	filter (not . isLabel) tt 
+	filter (not . isLabel) $
+	filter (\l -> words l /= []) tt 
 	where
 		undata (Data d) = d
 		isData (Data d) = True
