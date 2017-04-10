@@ -12,15 +12,18 @@ type Bits' n = Either String (BitVector n)
 type Line = String
 type Word = String
 
-cleanupCode :: String -> [(Int, Line)]
+cleanupCode :: [Line] -> [(Int, Line)]
 cleanupCode = 
 	filter (not . isDirective . snd) .
 	filter (not . isEmpty . snd) .
+	filter (not . isNumber . snd) .
 	map filterLabels .
-	zip [1 ..] .
-	lines
+	zip [1 ..] 
 	where
 		isEmpty line = words line == []
+		isNumber line = case reads line :: [(Double,String)] of
+			[] -> False
+			_  -> True
 
 		isDirective ('.':line) = True
 		isDirective _          = False
