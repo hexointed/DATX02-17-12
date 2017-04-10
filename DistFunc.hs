@@ -3,7 +3,6 @@
 module DistFunc where
 
 import Float
-import Vector
 import Pack
 import Base
 import Indexed
