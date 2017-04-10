@@ -2,12 +2,32 @@
 
 module Assembler where
 
-import CLaSH.Prelude hiding (tail)
-import Prelude (tail)
+import CLaSH.Prelude hiding (tail, Word, lines, zip, map)
+import Prelude (tail, zip, lines, map)
+import Data.List (isInfixOf)
 
 type Bits' n = Either String (BitVector n)
+type Line = String
+type Word = String
 
-assembleInst :: String -> Bits' 16
+cleanupCode :: String -> [(Int, Line)]
+cleanupCode = 
+	filter (not . isDirective . snd) .
+	filter (not . isEmpty . snd) .
+	map filterLabels .
+	zip [1 ..] .
+	lines
+	where
+		isEmpty line = words line == []
+
+		isDirective ('.':line) = True
+		isDirective _          = False
+
+		filterLabels (nr, line)
+			| ":" `isInfixOf` line = (,) nr $ tail $ dropWhile (/=':') line
+			| otherwise            = (nr, line)
+
+assembleInst :: Line -> Bits' 16
 assembleInst str = case words str of
 	[]   -> Left "Expected instruction, found nothing"
 	w:ws -> if
@@ -17,7 +37,7 @@ assembleInst str = case words str of
 		| w == "pack" -> assemblePack ws
 		| otherwise   -> assembleDFU (w:ws)
 
-assembleCFU :: [String] -> Bits' 16
+assembleCFU :: [Word] -> Bits' 16
 assembleCFU ws = case ws of
 	"a"   :inst -> ass "a" "0"  inst
 	c:cptr:inst -> ass c   cptr inst
@@ -28,7 +48,7 @@ assembleCFU ws = case ws of
 			tra <- tran c
 			return $ con ++# ptr ++# tra
 
-		tran :: [String] -> Bits' 10
+		tran :: [Word] -> Bits' 10
 		tran ws = do
 			name <- head' ws
 			case name of
@@ -43,10 +63,10 @@ assembleCFU ws = case ws of
 				"drop"   -> return 3
 				_        -> Left "Unrecognized instruction"
 		
-		rptr :: String -> Bits' 4
+		rptr :: Word -> Bits' 4
 		rptr = readUnsigned d4
 		
-		cond :: String -> Bits' 2
+		cond :: Word -> Bits' 2
 		cond "a"  = Right 0
 		cond "z"  = Right 1
 		cond "nz" = Right 2
@@ -54,17 +74,17 @@ assembleCFU ws = case ws of
 assembleVal ws = do
 	n <- single ws
 	n <- readUnsigned d12 n
-	return $ 0xD ++# n 
+	return $ (0xD :: BitVector 4) ++# n 
 
 assemblePack ws = do
 	n <- single ws
-	n <- readUnsigned d12 n
-	return $ 0xC ++# n
+	n <- readUnsigned d4 n
+	return $ (0xC :: BitVector 4) ++# 0 ++# n
 
 assembleNext ws = do
 	n <- single ws
 	n <- readUnsigned d12 n
-	return $ 0xE ++# n
+	return $ (0xE :: BitVector 4) ++# n
 
 assembleDFU ws = do
 	n <- single ws
@@ -83,7 +103,7 @@ assembleDFU ws = do
 
 readUnsigned s n = fmap pack $ read' s n 
 	where
-		read' :: KnownNat n => SNat n -> String -> Either String (Unsigned n)
+		read' :: KnownNat n => SNat n -> Word -> Either String (Unsigned n)
 		read' _ n = case reads n of
 			[(n', "")] -> Right n'
 			[]         -> Left "Expected number"
