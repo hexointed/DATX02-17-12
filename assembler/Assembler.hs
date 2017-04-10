@@ -17,9 +17,8 @@ type Float = Fixed Signed 16 16
 asm f = do
 	file <- fmap lines $ readFile f
 	let
-		(dat,txt) = splitSections file
+		(dat,txt, labels) = calcLables $ splitSections file
 		dataOut = makeData dat
-		labels = getLabels 0 dat ++ getLabels 0 txt
 		newC = 
 			fmap (fmap assembleInst) $ 
 			cleanupCode $ 
@@ -36,6 +35,13 @@ asm f = do
 compile = 
 	sequence . 
 	map (\(l,c) -> left (("Line " ++ show l ++ ": ") ++) c)
+
+calcLables :: ([Line], [Line]) -> ([Line], [Line], [(String, Int)])
+calcLables (dat, txt) = (dat', txt, ldat)
+	where
+		ldat = getLabels 0 dat'
+		ltxt = getLabels 0 txt
+		dat' = dat ++ concat (map (\(str,val) -> [str ++ ":", show val]) ltxt)
 
 getLabels :: Int -> [Line] -> [(String,Int)]
 getLabels count [] = []
