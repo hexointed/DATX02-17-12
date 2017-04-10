@@ -8,14 +8,10 @@ import Prelude hiding (Word, Float, break)
 
 import Inst
 
-data TextType
-	= Data [Word] 
-	| Text [Word]
-
 type Float = Fixed Signed 16 16
 
 asm f = do
-	file <- fmap lines $ readFile f
+	file <- fmap (fmap (takeWhile (/=';'))) $ fmap lines $ readFile f
 	let
 		(dat,txt, labels) = calcLables $ splitSections file
 		dataOut = makeData dat
@@ -67,9 +63,9 @@ splitSections (l:ls)
 	| head l == '.' = case l of
 		".data:" -> (p ++ d', t')
 		".text:" -> (d', p ++ t')
-		_       -> error l
-	| otherwise = error "Expected directive"
-	where
+		_       -> error $ "Unknown directive " ++ l
+		| otherwise = error "Expected directive"
+		where
 		p = takeWhile (not . isPrefixOf ".") ls
 		d = dropWhile (not . isPrefixOf ".") ls
 		(d', t') = splitSections d
@@ -80,17 +76,18 @@ makeData tt =
 	map datToBin $ 
 	filter (not . isLabel) $
 	filter (\l -> words l /= []) tt 
-	where
-		undata (Data d) = d
-		isData (Data d) = True
-		isData _        = False
 
 datToBin :: String -> String
 datToBin w 
 	| ("." `isInfixOf` w || "e" `isInfixOf` w) = rationalToBinary w 
- 	| otherwise = u32ToBinary w
+	| otherwise = u32ToBinary w
 
-u32ToBinary = clashToBin . (read :: String -> Unsigned 32) 
-rationalToBinary = clashToBin . (fLitR :: Double -> Float) . read
+u32ToBinary str = clashToBin $ case reads str of
+	[(n, "")] -> n :: Unsigned 32
+	_         -> error $ "Parse Error: " ++ str
+
+rationalToBinary str = clashToBin $ case reads str of
+	[(n, "")] -> fLitR (n :: Double) :: Float
+	_         -> error $ "Parse Error: " ++ str
 
 clashToBin = filter (/= '_') . show . pack

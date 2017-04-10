@@ -4,7 +4,7 @@ module Inst
 		(Bits', Line, Word, cleanupCode, assembleInst) 
 	where
 
-import CLaSH.Prelude hiding (tail, Word, lines, zip, map)
+import CLaSH.Prelude hiding (tail, Word, lines, zip, map, (++))
 import Data.List
 import Prelude hiding (Word)
 
@@ -103,7 +103,7 @@ assembleDFU ws = do
 		"sqrt"  -> Right 6
 		"abs"   -> Right 7
 		"floor" -> Right 8
-		_       -> Left "Unrecognized instruction"
+		_       -> Left $ "Unrecognized instruction" ++ show ws
 	return $ (2 :: BitVector 2) ++# (i :: BitVector 6) ++# 0
 
 readUnsigned s n = fmap pack $ read' s n 
