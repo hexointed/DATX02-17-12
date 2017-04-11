@@ -51,25 +51,28 @@ assembleCFU ws = case ws of
 			con <- cond a
 			ptr <- rptr b
 			tra <- tran c
-			return $ con ++# ptr ++# tra
+			return $ 0 ++# ptr ++# con ++# tra
 
 		tran :: [Word] -> Bits' 10
 		tran ws = do
 			name <- head' ws
 			case name of
-				"pushf"  -> return 0
-				"pushq"  -> return 1
-				"setval" -> do
-					a1 <- head' (tail ws)
-					a2 <- head' (tail $ tail ws)
-					n1 <- readUnsigned d4 a1
-					n2 <- readUnsigned d4 a2
-					return $ 2 ++# n1 ++# n2
-				"drop"   -> return 3
+				"pushf"  -> return (0 ++#) <*> args 0 []
+				"pushq"  -> return (1 ++#) <*> args 0 []
+				"drop"   -> return (2 ++#) <*> args 0 []
+				"setval" -> return (3 ++#) <*> args 2 (tail ws)
 				_        -> Left "Unrecognized instruction"
+
+		args :: Int -> [Word] -> Bits' 8
+		args 0 []       = return 0
+		args 2 (a:b:[]) = do
+			n1 <- readUnsigned d4 a
+			n2 <- readUnsigned d4 b
+			return $ n1 ++# n2
+		args _ _ = Left "Wrong number of arguments"
 		
-		rptr :: Word -> Bits' 4
-		rptr = readUnsigned d4
+		rptr :: Word -> Bits' 3
+		rptr = readUnsigned d3
 		
 		cond :: Word -> Bits' 2
 		cond "a"  = Right 0

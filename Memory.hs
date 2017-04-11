@@ -16,54 +16,51 @@ dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
 fetch :: () -> (Ptr DIMem, Ptr DDMem) -> ((), (Maybe Instr, Maybe Float)) 
 fetch () (di, dd) = (,) () (dfuIMemory di, dfuDMemory dd)
 
-encodeDfuI :: BitVector 18 -> Maybe Instr
-encodeDfuI b = Just stage
+encodeDfuI :: BitVector 16 -> Maybe Instr
+encodeDfuI b = Just instr
 	where
-		stage = case bsta of
-			0 -> Instr cond action
-			1 -> Comp funop
-			2 -> Next funid
-		funop = case bfop of
-			0 -> Left op
-			1 -> Right datae
-		datae = case bop of
-			0 -> Point bflo
-			1 -> Arg bpac
-		op = case bdat of
-			0 -> Max
-			1 -> Min
-			2 -> Add
-			3 -> Sub
-			4 -> Mul
-			5 -> Div
-			6 -> Sqrt
-			7 -> Abs
-			8 -> Floor
-		funid = bfid
-		cond = Cond choice cptr
-		choice = case bcho of
-			0 -> NZ
-			1 -> Z
-			2 -> A
-			3 -> error "invalid choice"
-		action = case bact of
-			0 -> PushF
-			1 -> PushQ
-			2 -> Drop
-			3 -> SetVal pptr sptr
+		instr = case sel of
+			0xC -> Comp . Right $ Arg arg1
+			0xD -> Comp . Right $ Point argn
+			0xE -> Next . resize $ aptr
+			0xF -> undefined
+			_   -> case hsel of
+				0x0 -> Instr (Cond contition (resize cptr)) action
+				0x1 -> Comp (Left op)
+		op = case opcd of
+			0x00 -> Max
+			0x01 -> Min
+			0x02 -> Add
+			0x03 -> Sub
+			0x04 -> Mul
+			0x05 -> Div
+			0x06 -> Sqrt
+			0x07 -> Abs
+			0x08 -> Floor
+		contition = case opcc of
+			0x0 -> A
+			0x1 -> Z
+			0x2 -> NZ
+			0x3 -> error "Invalid contition"
+		action = case opca of
+			0x0 -> PushF
+			0x1 -> PushQ
+			0x2 -> Drop
+			0x3 -> SetVal arg2 arg1
+		
+		arg1 = bitCoerce $ bSlice d12 d4  b
+		arg2 = bitCoerce $ bSlice d8  d4  b
+		argn = bitCoerce $ bSlice d8  d8  b
+		aptr = bitCoerce $ bSlice d4  d12 b
+		cptr = bitCoerce $ bSlice d1  d3  b
 
-		bsta =             bSlice d0  d2 b
-		bfop =             bSlice d2  d1 b
-		bop  =             bSlice d3  d1 b
-		bflo = bitCoerce $ bSlice d4  d8 b
-		bpac = bitCoerce $ bSlice d4  d3 b
-		bdat =             bSlice d3  d4 b
-		bfid = bitCoerce $ bSlice d2  d16 b
-		bcho =             bSlice d2  d2 b
-		cptr = bitCoerce $ bSlice d4  d4 b
-		bact =             bSlice d8  d2 b
-		pptr = bitCoerce $ bSlice d10 d3 b
-		sptr = bitCoerce $ bSlice d14 d4 b
+		opcd = bSlice d2  d6  b
+		opcc = bSlice d4  d2  b
+		opca = bSlice d6  d2  b
+
+		sel  = bSlice d0  d4  b
+		hsel = bSlice d0  d1  b
+
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
-encodeDfuD b = Just $ bitCoerce b
+encodeDfuD = Just . bitCoerce

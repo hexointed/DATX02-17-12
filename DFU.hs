@@ -9,7 +9,7 @@ import Stack
 import Pack
 import Indexed
 
-type FunId = Unsigned 16
+type FunId = Unsigned 24
 
 data PackType = Frame | Queue | None
 	deriving (Eq, Show, Generic, NFData)
