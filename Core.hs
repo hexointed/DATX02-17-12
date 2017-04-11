@@ -22,6 +22,7 @@ data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
 	, dfuInstr :: Maybe Instr
 	, dfuData :: Maybe Float
+	, queueAck :: Bool
 	}
 	deriving (Eq, Show, Generic, NFData)
 
@@ -60,7 +61,9 @@ step' core input = case ready (dfu core) of
 				False -> output $ core  { stall = True }
 				True  -> output $ core' { stall = False }
 			Nothing  -> output core'
-		Right pt -> fmap (\x -> x { packType = pt }) (output core')
+		Right pt -> case queueAck input of
+			False -> fmap (\x -> x { packType = pt }) (output core)
+			True  -> fmap (\x -> x { packType = pt }) (output core')
 		where
 			(core', dfuS) = step'' core (dfuInstr input) d 
 			d = case dfuData input of
