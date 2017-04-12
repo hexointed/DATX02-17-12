@@ -12,7 +12,7 @@ import Float
 
 import qualified Prelude as P
 
-type Cores = 2
+type Cores = 32
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
@@ -48,7 +48,9 @@ zip' f a b = fmap f a <*> b
 
 mealyFrame = fst fb
 
-fb = framebuffer coreOut
+fb = framebuffer $ fmap (register (CoreOut 0 0 (repeat 0) None False)) coreOut
+
+topEntity = snd fb
 
 showFrame = fmap show' (snd fb)
 	where

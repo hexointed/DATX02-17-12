@@ -13,13 +13,13 @@ greenshift:
 .text:
 generate:
 	next 1 ; comment
+	val &calcpos
 	pack 1
 	val &one
 	sub
-	val &calcpos
-	a setval 1 1
-	nz 1 pushq
-	a setval 0 0
+	a setval 1 0
+	nz 0 pushq
+	a setval 0 1
 	a pushq
 	a drop
 

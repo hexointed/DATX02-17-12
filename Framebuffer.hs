@@ -13,7 +13,7 @@ framebuffer :: KnownNat n =>
 	(Vec (n + 1) (Signal Bool), Signal (Vec 256 Pixel))
 
 framebuffer reqs = (,)
-	(unbundle $ fmap onehot (fmap fst selected))
+	(unbundle $ fmap onehot selected)
 	(mealy buffer (repeat (0,0,0)) (fmap snd selected))
 	where
 		selected = 
@@ -21,7 +21,7 @@ framebuffer reqs = (,)
 			choice hasFrame $
 			fmap (\(i,o) -> fmap ((,) i) o) $
 			imap (,) reqs
-		onehot i = replace i True (repeat False)
+		onehot i = replace (fst i) (snd (snd i) /= Nothing) (repeat False)
 
 hasFrame (i,l) (j,r) = case packType l of
 	Frame -> (i, l)
