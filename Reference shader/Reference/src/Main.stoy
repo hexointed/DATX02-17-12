@@ -130,7 +130,7 @@ DistInfo DistToScene(vec3 p)
 }
 
 
-DistInfo DistToScene2(vec3 p) //used to render distance field while using optimization.
+DistInfo DistToScene2(vec3 p) //used to render distance field visualization while using optimization.
 {	DistInfo ret;
 	ret.obj = 0;
 	ret.d = MaxRayLength;

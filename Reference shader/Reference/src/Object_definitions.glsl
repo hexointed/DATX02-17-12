@@ -14,22 +14,23 @@ float s2Radius	= 0.4;
 
 void InitObjDefs()
 {
+	// USED WHEN RENDERING METABALLS
+
 	//vec3  s1Coord	= vec3(-0.5, 1.5, 0.0 );
 	//float s1Radius	= 0.5;
 	//animation
 	//s1Coord.y += sin( mod(iGlobalTime*0.57, 3.1416) );
 	//s2Coord.x += sin(iGlobalTime/3)*0.6;
 	//s2Coord.z += cos(iGlobalTime/3)*0.6;
+
 	objectCoords[1] = (s1Coord+s2Coord)/2;
 	objectRadii[1] = (length(s1Coord-s2Coord)/2)+max(s1Radius,s2Radius);
 
-	//vec3  s2Coord	= vec3(0.5, 1.5, 0.0 );
-	//float s2Radius	= 0.4;
-	objectCoords[2] = vec3(4,2,0);
-	objectRadii[2] = 0;
 
-	//vec3  s3Coord	= vec3(cos(iGlobalTime),3+sin(iGlobalTime),0);
-	//float s3Radius	= 1.11;
+	objectCoords[2] = vec3(4,2,0);
+	objectRadii[2] = 1;
+
+
 	objectCoords[3] = vec3(6,6,6); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
 	objectRadii[3]=0.5;
 
