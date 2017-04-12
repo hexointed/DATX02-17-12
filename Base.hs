@@ -16,10 +16,11 @@ module Base	(
 		bDrop,
 		bSlice,
 		curry3,
-		uncurry3
+		uncurry3,
+		choice
 	) where
 
-import CLaSH.Prelude hiding (Float, Double, pack)
+import CLaSH.Prelude hiding (Float, Double, pack, gather)
 import qualified Prelude as P
 import GHC.Generics (Generic)
 import Control.DeepSeq
@@ -65,3 +66,4 @@ bSlice n m = bDrop n . bTake (addSNat m n)
 curry3 f (a, b, c) = f a b c
 uncurry3 f a b c = f (a, b, c)
 
+choice f cs = fold (\l r -> fmap f l <*> r) cs
