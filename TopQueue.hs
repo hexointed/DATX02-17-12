@@ -25,7 +25,9 @@ serve q ps = (q'', injectL rdyindex mpout $ injectR mpindex acc $ repeat (Nothin
 			Just p -> (push p q, True)
 			otherwise -> (q, False)
 		(q'', mpout) = case rdy of
-			True -> (pop q', topOfq q')
+			True -> case (topOfq q') of
+				Just p -> (pop q', Just p)
+				otherwise -> (q', Nothing)
 			otherwise -> (q', Nothing)
 
 topOfq :: TopQueue -> Maybe Pack
