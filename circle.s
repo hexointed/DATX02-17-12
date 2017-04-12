@@ -7,6 +7,8 @@ pos:
 	7.5
 radius:
 	35.0
+greenshift:
+	256
 
 .text:
 generate:
@@ -62,7 +64,8 @@ draw:
 	val &radius
 	div
 	floor
-	a setval 4 0
+	val &greenshift
+	mul
+	a setval 2 0
 	a pushf
-	a drop
 	a drop

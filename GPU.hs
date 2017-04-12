@@ -7,6 +7,7 @@ import Pack
 import Queue
 import TopQueue
 import Memory
+import Framebuffer
 import Float
 
 import qualified Prelude as P
@@ -37,21 +38,19 @@ meld q m = zip' (uncurry . CoreIn) q m <*> pure True
 
 zip' f a b = fmap f a <*> b
 
-mealyFrame = 
-	fmap pprint $ 
-	(mealy f' (repeat False) (head coreOut) :: Signal (Vec 256 Bool))
+mealyFrame = fmap show' fb
 	where
-		f' frame cin = case packType cin of
-			DFU.Frame -> (replace (shiftR (p' !! 1) 16) (p' !! 4 == 0) frame, frame)
-			_         -> (frame, frame)
-			where p' = packOut cin
-		pprint p = 
-			(P.++"\n") $
-			foldr (\a b -> a P.++ "\n" P.++ b) "" $ 
-			map (foldr (\a b -> show' a P.++ b) "") $ 
-			unconcat d16 p
-		show' True = " "
-		show' False = "\x2588"
+		fb = framebuffer coreOut
+
+		show' vs = 
+			('\n':)$
+			foldr (\a b -> a P.++ '\n':b) "" $
+			fmap (foldr (:) "") $ 
+			unconcat d16 $
+			fmap showPixel vs 
+		
+		showPixel (0,0,0) = ' '
+		showPixel _       = '\x2588'
 
 simGPU = 
 	sequence $ 

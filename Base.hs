@@ -20,7 +20,7 @@ module Base	(
 		choice
 	) where
 
-import CLaSH.Prelude hiding (Float, Double, pack)
+import CLaSH.Prelude hiding (Float, Double, pack, gather)
 import qualified Prelude as P
 import GHC.Generics (Generic)
 import Control.DeepSeq
