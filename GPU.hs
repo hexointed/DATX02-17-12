@@ -11,29 +11,32 @@ import Float
 
 import qualified Prelude as P
 
-coreOut :: Vec 1 (Signal CoreOut)
+type Cores = 1
+
+coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
 
-coreIn :: Vec 1 (Signal CoreIn)
+coreIn :: Vec Cores (Signal CoreIn)
 coreIn = zip' meld 
-	(fmap (register Nothing) mealyQueue) 
+	(fmap (register (Nothing, False)) mealyQueue) 
 	(fmap (register (Nothing, Nothing)) mealyMemory)
 
-mealyQueue :: Vec 1 (Signal (Maybe Pack))
-mealyQueue = repeat (mealy serve (push (0 :> 256 :> repeat 0) empty)) <*>
-	(fmap (fmap (\c -> (wantPack c, pack' c))) coreOut)
+mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
+mealyQueue = mealyB serve (push (0 :> 256 :> repeat 0) empty) wiw
 	where
-		pack' c = case packType c of
-			DFU.Queue -> Just $ packOut c
+		wiw = fmap (fmap (\co -> (wantPack co, pack' co))) coreOut
+		pack' co = case packType co of
+			DFU.Queue -> Just $ packOut co
 			_         -> Nothing
 
-mealyMemory :: Vec 1 (Signal (Maybe Instr, Maybe Float))
+mealyMemory :: Vec Cores (Signal (Maybe Instr, Maybe Float))
 mealyMemory = 
 	repeat (mealy fetch () . fmap (\c -> (dfuIPtr c, dfuDPtr c))) <*>
 	coreOut
 
-meld :: Signal (Maybe Pack) -> Signal (Maybe Instr, Maybe Float) -> Signal CoreIn
-meld q m = zip' (uncurry . CoreIn) q m <*> pure True
+meld :: Signal (Maybe Pack, Bool) -> Signal (Maybe Instr, Maybe Float) -> Signal CoreIn
+meld q m = zip' mergeTuple q m
+	where mergeTuple (p,b) (i,f) = CoreIn p b i f
 
 zip' f a b = fmap f a <*> b
 

@@ -20,9 +20,9 @@ data Core = Core
 
 data CoreIn = CoreIn
 	{ nextPack :: Maybe Pack
+	, queueAck :: Bool
 	, dfuInstr :: Maybe Instr
 	, dfuData :: Maybe Float
-	, queueAck :: Bool
 	}
 	deriving (Eq, Show, Generic, NFData)
 
