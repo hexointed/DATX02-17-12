@@ -8,18 +8,27 @@ import Float
 
 type Pixel = (Unsigned 8, Unsigned 8, Unsigned 8)
 
-framebuffer :: Vec (n + 1) (Signal CoreOut) -> Signal (Vec 256 Pixel)
-framebuffer = 
-	mealy buffer (repeat (0,0,0)) . 
-	fmap gather . 
-	choice hasFrame
+framebuffer :: KnownNat n =>
+	Vec (n + 1) (Signal CoreOut) -> 
+	(Vec (n + 1) (Signal Bool), Signal (Vec 256 Pixel))
 
-hasFrame l r = case packType l of
-	Frame -> l
-	_     -> r
+framebuffer reqs = (,)
+	(unbundle $ fmap onehot (fmap fst selected))
+	(mealy buffer (repeat (0,0,0)) (fmap snd selected))
+	where
+		selected = 
+			fmap gather $
+			choice hasFrame $
+			fmap (\(i,o) -> fmap ((,) i) o) $
+			imap (,) reqs
+		onehot i = replace i True (repeat False)
 
-gather :: CoreOut -> (Unsigned 32, Maybe Pixel)
-gather o = case packType o of
+hasFrame (i,l) (j,r) = case packType l of
+	Frame -> (i, l)
+	_     -> (j, r)
+
+gather :: (i, CoreOut) -> (i, (Unsigned 32, Maybe Pixel))
+gather (i,o) = (,) i $ case packType o of
 	Frame -> (bitCoerce $ shiftR (out !! 1) 16, Just . pixel $ out)
 	_     -> (bitCoerce $ shiftR (out !! 1) 16, Nothing)
 	where

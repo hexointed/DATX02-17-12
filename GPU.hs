@@ -12,15 +12,16 @@ import Float
 
 import qualified Prelude as P
 
-type Cores = 1
+type Cores = 2
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
 
 coreIn :: Vec Cores (Signal CoreIn)
-coreIn = zip' meld 
+coreIn = fmap meld 
 	(fmap (register (Nothing, False)) mealyQueue) 
-	(fmap (register (Nothing, Nothing)) mealyMemory)
+	<*> (fmap (register (Nothing, Nothing)) mealyMemory)
+	<*> mealyFrame
 
 mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
 mealyQueue = mealyB serve (push (0 :> 256 :> repeat 0) empty) wiw
@@ -35,16 +36,22 @@ mealyMemory =
 	repeat (mealy fetch () . fmap (\c -> (dfuIPtr c, dfuDPtr c))) <*>
 	coreOut
 
-meld :: Signal (Maybe Pack, Bool) -> Signal (Maybe Instr, Maybe Float) -> Signal CoreIn
-meld q m = zip' mergeTuple q m
-	where mergeTuple (p,b) (i,f) = CoreIn p b i f
+meld :: 
+	Signal (Maybe Pack, Bool) -> 
+	Signal (Maybe Instr, Maybe Float) -> 
+	Signal Bool-> 
+	Signal CoreIn
+meld q m f = fmap mergeTuple q <*> m <*> f
+	where mergeTuple (p,b) (i,f) fb = CoreIn p (b || fb) i f
 
 zip' f a b = fmap f a <*> b
 
-mealyFrame = fmap show' fb
-	where
-		fb = framebuffer coreOut
+mealyFrame = fst fb
 
+fb = framebuffer coreOut
+
+showFrame = fmap show' (snd fb)
+	where
 		show' vs = 
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
@@ -59,4 +66,4 @@ simGPU =
 	sequence $ 
 	fmap putStr $ 
 	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
-	sample mealyFrame
+	sample showFrame

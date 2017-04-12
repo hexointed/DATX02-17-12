@@ -62,7 +62,9 @@ step' core input = case ready (dfu core) of
 				True  -> output $ core' { stall = False }
 			Nothing  -> output core'
 		Right pt -> case queueAck input of
-			False -> fmap (\x -> x { packType = pt }) (output core)
+			False -> case pt of
+				None -> fmap (\x -> x { packType = pt }) (output core')
+				_    -> fmap (\x -> x { packType = pt }) (output core)
 			True  -> fmap (\x -> x { packType = pt }) (output core')
 		where
 			(core', dfuS) = step'' core (dfuInstr input) d 
