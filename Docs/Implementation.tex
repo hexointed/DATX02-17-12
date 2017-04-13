@@ -1,0 +1,71 @@
+\chapter{Implementation}
+
+\section{Processor Unit}
+	The properties of the ray marching algorithm as described above led to the
+	decision of designing a GPU architecture that does not utilize multi-ALU 
+	SIMD with lockstepping to the same extent as traditional graphics 
+	processors. Instead, a solution with slightly simpler independent cores was
+	decided upon. This is similar to reasoning employed by \cite{Woop2005} for a
+	ray-tracing hardware design.
+
+	\subsection{Instruction Set}
+		A representation for distance functions was also designed. The 
+		representation that was chosen is a reverse polish notation inspired 
+		stack based instruction set.
+
+		There are a total of five instruction types with different instruction 
+		encodings, these are
+		\begin{description}
+			\item[D-type] instructions
+			\item[C-type] instructions
+			\item[V-type] instructions
+			\item[R-type] instructions
+		\end{description}
+		The layout of these instructions in memory is shown in figure
+		\ref{encodingfig}.
+	
+	\subsection{Execution Model}
+		The processor contains a global queue that is shared among all cores,
+		onto which all threads that are ready for execution waits until a core
+		is ready to start executing them.
+		
+		Each shader thread has 16 mutable registers that are automatically 
+		loaded into the core when execution starts. These registers are also
+		saved when execution pauses and they are also copyed whenever a thread 
+		spawns a new child. The instruction \texttt{setval} can be used to 
+		change the value of a register, and the instruction \texttt{pack} reads
+		the value of a register.
+
+		All calculations are performed with intermediate values stored on a
+		stack, with the ability to move any values between the stack and any of
+		the registers using the \texttt{setval} and \texttt{pack} instructions.
+
+		There are three main instructions for control flow: \texttt{pushq},
+		\texttt{pushf}, and \texttt{drop}. 
+		
+		Threads can spawn new threads at any time using the instruction
+		\texttt{pushq}; this will cause the core to make a copy of all of the
+		registers and push it onto the global queue, where another (or the
+		same) core may later access them and start executing from the
+		instruction pointer register (\texttt{r0}).
+		
+		Threads can also terminate execution in two ways. Executing the
+		instruction \texttt{drop} will terminate the thread and discard all
+		registers. Executing \texttt{pushf} will terminate the thread and
+		discard all values except the pixel pointer (\texttt{r1}) and color
+		register (\texttt{r2}), which will be sent to the frame buffer in order 
+		to be displayed on the screen.
+
+		This set of instructions for control flow might initially seem to be
+		neither useful nor easy to implement but they are powerful enough to
+		implement for all branching that is needed in our ray marchers 
+		efficiently while being restrictive enough to make instruction memory 
+		accesses very predictable.
+	
+	\subsection{Implementation considerations}
+
+\section{Reference Shader}
+
+	\subsection{GLSL Based}
+
+	\subsection{}
