@@ -25,7 +25,7 @@ encodeDfuI b = Just instr
 			0xE -> Next . resize $ aptr
 			0xF -> undefined
 			_   -> case hsel of
-				0x0 -> Instr (Cond contition (resize cptr)) action
+				0x0 -> Instr (Cond condition (resize cptr)) action
 				0x1 -> Comp (Left op)
 		op = case opcd of
 			0x00 -> Max
@@ -37,11 +37,11 @@ encodeDfuI b = Just instr
 			0x06 -> Sqrt
 			0x07 -> Abs
 			0x08 -> Floor
-		contition = case opcc of
+		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z
 			0x2 -> NZ
-			0x3 -> error "Invalid contition"
+			0x3 -> error "Invalid condition"
 		action = case opca of
 			0x0 -> PushF
 			0x1 -> PushQ
