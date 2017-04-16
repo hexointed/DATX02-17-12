@@ -20,23 +20,24 @@ encodeDfuI :: BitVector 16 -> Maybe Instr
 encodeDfuI b = Just instr
 	where
 		instr = case sel of
-			0xC -> Comp . Right $ Arg arg1
-			0xD -> Comp . Right $ Point argn
+			0xC -> Comp $ Arg arg1
+			0xD -> Comp $ Point argn
 			0xE -> Next . resize $ aptr
 			0xF -> undefined
 			_   -> case hsel of
 				0x0 -> Instr (Cond condition (resize cptr)) action
-				0x1 -> Comp (Left op)
+				0x1 -> Comp op
 		op = case opcd of
-			0x00 -> Max
-			0x01 -> Min
-			0x02 -> Add
-			0x03 -> Sub
-			0x04 -> Mul
-			0x05 -> Div
-			0x06 -> Sqrt
-			0x07 -> Abs
-			0x08 -> Floor
+			0x00 -> Oper Max
+			0x01 -> Oper Min
+			0x02 -> Oper Add
+			0x03 -> Oper Sub
+			0x04 -> Oper Mul
+			0x05 -> Oper Div
+			0x06 -> Oper Sqrt
+			0x07 -> Oper Abs
+			0x08 -> Oper Floor
+			0x09 -> Acc
 		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z

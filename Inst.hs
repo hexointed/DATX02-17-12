@@ -97,15 +97,16 @@ assembleNext ws = do
 assembleDFU ws = do
 	n <- single ws
 	i <- case n of
-		"max"   -> Right 0
-		"min"   -> Right 1
-		"add"   -> Right 2
-		"sub"   -> Right 3
-		"mul"   -> Right 4
-		"div"   -> Right 5
-		"sqrt"  -> Right 6
-		"abs"   -> Right 7
-		"floor" -> Right 8
+		"max"   -> Right 0x00
+		"min"   -> Right 0x01
+		"add"   -> Right 0x02
+		"sub"   -> Right 0x03
+		"mul"   -> Right 0x04
+		"div"   -> Right 0x05
+		"sqrt"  -> Right 0x06
+		"abs"   -> Right 0x07
+		"floor" -> Right 0x08
+		"accum" -> Right 0x09
 		_       -> Left $ "Unrecognized instruction" ++ show ws
 	return $ (2 :: BitVector 2) ++# (i :: BitVector 6) ++# 0
 

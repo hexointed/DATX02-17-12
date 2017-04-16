@@ -61,7 +61,11 @@ step dfu (inst, global) = case inst of
 
 stepOp :: DFU -> Float -> FunOp -> DFU
 stepOp scene p op = scene {
-		stack = either pushOp (push . lookUp p (pack scene)) op (stack scene)
+		stack = flip ($) (stack scene) $ case op of
+			Point _ -> push p
+			Arg a   -> push (pack scene !! a)
+			Oper op -> pushOp op
+			Acc     -> push (minValue scene)
 	}
 
 reset :: DFU -> FunId -> DFU
@@ -80,7 +84,7 @@ execInst c a dfu = case checkCond c (stack dfu) of
 	True  -> case a of
 		PushF      -> (dfu, Right Frame)
 		PushQ      -> (dfu, Right Queue)
-		Drop       -> (dfu { ready = True }, noAddr)
+		Drop       -> (initial, noAddr)
 		SetVal p s -> 
 			(dfu { pack = replace p (topN s (stack dfu)) (pack dfu) }, noAddr)
 
@@ -96,7 +100,7 @@ pushOp operation s = push newValue (popN (arity operation) s)
 		newValue = apply operation (topN 1 s) (topN 0 s)
 
 dataAddr inst = case inst of
-	Right (Point ptr) -> Just ptr
-	_                 -> Nothing
+	(Point ptr) -> Just ptr
+	_           -> Nothing
 
 noAddr = Left Nothing
