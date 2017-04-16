@@ -26,16 +26,29 @@
 			inspired stack based instruction set.
 	
 			There are a total of four instruction types with different
-			instruction encodings, these are
+			instruction encodings, their layout in memory is shown in figure
+			\ref{encodingfig}, and the type of instructions are:
 
 			\begin{description}
-				\item[D-type] instructions
-				\item[C-type] instructions
-				\item[V-type] instructions
-				\item[R-type] instructions
+				\item[C-type] instructions are for control flow, that is, 
+					instructions that affect the global queue or frame buffer or
+					terminates the current thread. C-type instructions can be 
+					conditionally execuded, based on the condition encoded in
+					the two highest bits in the opcode. The condition can not
+					be \texttt{11}, as this is reserved for the other 
+					instruction types.
+
+				\item[D-type] instructions, which encode arithmetic- and vector
+					stack instructions. These operate only on the internal stack
+					in the core. They can take up to six arguments and return up
+					to three return values.
+					
+				\item[V-type] instructions deal with memory accesses. The
+					\texttt{p} bit encodes whether this access is for pack
+					(mutable) or read-only memory.
+
+				\item[R-type] instructions are not currently in use.
 			\end{description}
-			The layout of these instructions in memory is shown in figure
-			\ref{encodingfig}.
 		
 		\subsection{Execution Model}
 
@@ -59,7 +72,7 @@
 			\texttt{pushf}, and \texttt{drop}. 
 			
 			Threads can spawn new threads at any time using the instruction
-			\texttt{pushq}; this will cause the core to make a copy of all of
+			\texttt{pushq}: this will cause the core to make a copy of all of
 			the registers and push it onto the global queue, where another (or
 			the same) core may later access them and start executing from the
 			instruction pointer register (\texttt{r0}).
@@ -80,6 +93,10 @@
 		\subsection{Implementation considerations}
 	
 	\section{Reference Shader} \label{implshader}
+		
+		A reference shader was written in order to be able fulfill the
+		requirement of comparing the performance of our graphics processor with
+		that of a modern traditional graphics card. 
 	
 		\subsection{GLSL Based}
 	
