@@ -10,9 +10,7 @@ import Memory
 import Framebuffer
 import Float
 
-import qualified Prelude as P
-
-type Cores = 32
+type Cores = 8
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
@@ -46,26 +44,6 @@ meld q m f = fmap mergeTuple q <*> m <*> f
 
 zip' f a b = fmap f a <*> b
 
-mealyFrame = fst fb
+mealyFrame = fst $ fb (pure 0)
 
-fb = framebuffer $ fmap (register (CoreOut 0 0 (repeat 0) None False)) coreOut
-
-topEntity = snd fb
-
-showFrame = fmap show' (snd fb)
-	where
-		show' vs = 
-			('\n':)$
-			foldr (\a b -> a P.++ '\n':b) "" $
-			fmap (foldr (:) "") $ 
-			unconcat d16 $
-			fmap showPixel vs 
-		
-		showPixel (0,0,0) = ' '
-		showPixel _       = '\x2588'
-
-simGPU = 
-	sequence $ 
-	fmap putStr $ 
-	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
-	sample showFrame
+fb read = framebuffer read $ fmap (register (CoreOut 0 0 (repeat 0) None False)) coreOut

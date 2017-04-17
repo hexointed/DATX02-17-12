@@ -1,3 +1,5 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
+
 module Framebuffer where
 
 import Base
@@ -9,12 +11,13 @@ import Float
 type Pixel = (Unsigned 8, Unsigned 8, Unsigned 8)
 
 framebuffer :: KnownNat n =>
+	Signal (Unsigned 32) ->
 	Vec (n + 1) (Signal CoreOut) -> 
-	(Vec (n + 1) (Signal Bool), Signal (Vec 256 Pixel))
+	(Vec (n + 1) (Signal Bool), Signal Pixel)
 
-framebuffer reqs = (,)
+framebuffer read reqs = (,)
 	(unbundle $ fmap onehot selected)
-	(mealy buffer (repeat (0,0,0)) (fmap snd selected))
+	(buffer read $ fmap (fix . snd) selected)
 	where
 		selected = 
 			fmap gather $
@@ -22,6 +25,9 @@ framebuffer reqs = (,)
 			fmap (\(i,o) -> fmap ((,) i) o) $
 			imap (,) reqs
 		onehot i = replace (fst i) (snd (snd i) /= Nothing) (repeat False)
+		fix (i,p) = do
+			p <- p
+			return (i,p)
 
 hasFrame (i,l) (j,r) = case packType l of
 	Frame -> (i, l)
@@ -41,6 +47,8 @@ pixel a = (
 		resize $ shiftR (bitCoerce $ a !! 2)  8
 	)
 
-buffer v (a, Nothing) = dup v
-buffer v (a, Just px) = dup out
-	where out = replace a px v
+buffer :: (Num a, Enum a) => Signal a -> Signal (Maybe (a, Pixel)) -> Signal Pixel
+buffer read px = bram
+	where 
+		bram = blockRam init read px
+		init = repeat (0,0,0) :: Vec 256 Pixel
