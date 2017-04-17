@@ -41,7 +41,11 @@
 				\item[D-type] instructions, which encode arithmetic- and vector
 					stack instructions. These operate only on the internal stack
 					in the core. They can take up to six arguments and return up
-					to three return values.
+					to three return values. D-type instructions can be split up 
+					in chunks using the \texttt{next} instruction, where the 
+					last computed result will be accumulated using the minimum
+					automatically by the core. This is useful for encoding 
+					distance functions.
 					
 				\item[V-type] instructions deal with memory accesses. The
 					\texttt{p} bit encodes whether this access is for pack
