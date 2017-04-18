@@ -87,6 +87,21 @@ draw: ; hanterar det faktiska ritandet, här kan en raymarchingloop implementera
 
 
 
+setEyePoint:
+	pack 2
+	a setval 8 0
+	pack 3
+	a setval 9 0
+
+setRayDir:
+	val &zero
+	a setval 4 0
+	a setval 6 0
+	val &one
+	a setval 5 0
+
+
+
 length:
 				 	
 			;calculates the current march pos and stores in temp vector
@@ -133,11 +148,7 @@ length:
 	pack 12
 	pack 13
 	add
-	adiv
-den övre delat på den undre
-
-sub
-den övre minus den undredd
+	add
 	sqrt
 
 

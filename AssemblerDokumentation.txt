@@ -37,13 +37,14 @@ den övre minus den undre
 
 pow
 
-"less than/more than (< / >)" (returnerar 1 om det är mindre än, annars returnerar 0)
+"less than/more than (< / >)" (returnerar 1 om det är mindre än, annars returnerar)
 
 
 
-
-
-Register 0-3       ajabaja
+register 0         ajabaja
+register 1         pixelfärg
+register 2         x-värde för pixel
+register 3         y-värde för pixel
 Register 4-6       riktning
 Register 7         raylängd
 Register 8-10      Eye point (temporary)  
