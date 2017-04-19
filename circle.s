@@ -11,17 +11,18 @@ radius:
 	35.0
 greenshift:
 	256
-
+stuff:
+	65280.0
 epsilon:
 	0.01
 ballr:
-	10
+	10.0
 ballx:
-	0
+	0.0
 bally:
-	10
+	10.0
 ballz:
-	0
+	0.0
 
 
 .text:
@@ -58,7 +59,14 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	a pushq
 	a drop
 
-draw: ; hanterar det faktiska ritandet, här kan en raymarchingloop implementeras
+draw: 
+	val &stuff
+	a setval 2 0
+	a pushf
+	a drop
+
+
+		; hanterar det faktiska ritandet, här bör en raymarchingloop implementeras
 	next 3
 	pack 2
 	val &pos
@@ -87,24 +95,17 @@ draw: ; hanterar det faktiska ritandet, här kan en raymarchingloop implementera
 
 
 
+
+
+
 setEyePoint:
 	pack 2
 	a setval 8 0
 	pack 3
 	a setval 9 0
 
-setRayDir:
-	val &zero
-	a setval 4 0
-	a setval 6 0
-	val &one
-	a setval 5 0
-
-
-
 length:
-				 	
-			;calculates the current march pos and stores in temp vector
+		;calculates the current march pos and stores in temp vector
 	pack 4
 	pack 7
 	mul
@@ -127,22 +128,32 @@ length:
 	a setval 13 0
 
 
+	pack 0
+	a setval 15 0
 
-			;calculates the length between temp vec and object
-	val &ballx
+
+		;calculates the length between temp vec and object
+	val &ballx	; squares the difference in x-led
 	pack 11
 	sub
-	pow
+	a setval 14 0
+	pack 14
+	mul
+	a setval 11 0
 
 	val &bally
 	pack 12
 	sub
-	pow
+	a setval 14 0
+	pack 14
+	mul
 
 	val &ballz 
 	pack 13
 	sub
-	pow
+	a setval 14 0
+	pack 14
+	mul
 
 	pack 11
 	pack 12
@@ -155,10 +166,21 @@ length:
 			; if done after "length", will deduce whether the march point is
 			; sufficiently close to the surface
 	val &epsilon
-	lessthan
-	z pushq 	; om epsilon är mindre än d, välj färg på pixel
+	;lessthan
+	z 0 pushq 	; om epsilon är mindre än d, välj färg på pixel
 
-	nz pushq	; om epsilon är större än d, gör om hela skiten
+	nz 0 pushq	; om epsilon är större än d, gör om hela skiten
 
 
+;subrutiner
 
+;powerfunktion, return x*x
+pow:
+	pack 14
+	pack 14
+	mul
+	a setval 14 0
+	pack 15
+	a setval 0 0
+	a pushq
+	a drop

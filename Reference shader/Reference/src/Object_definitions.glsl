@@ -9,7 +9,7 @@ uint  matIdList[NumObjects+1] = {0,Mat_Reflection,Mat_Reflection,Mat_SolidColor}
 
 vec3  s1Coord	= vec3(0, 1.5, 0.0 );
 float s1Radius	= 0.5;
-vec3  s2Coord	= vec3(0, 1.5, 0.0 );
+vec3  s2Coord	= vec3(0, 1.8+0.2*sin(2*iGlobalTime), 0.0 );
 float s2Radius	= 0.4;
 
 void InitObjDefs()
@@ -31,7 +31,7 @@ void InitObjDefs()
 	objectRadii[2] = 1;
 
 
-	objectCoords[3] = vec3(6,6,6); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
+	objectCoords[3] = vec3(6,1,6); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
 	objectRadii[3]=0.5;
 
 //	objectCoords[4] = vec3(-4.5,4,0);

@@ -2,20 +2,20 @@ register 0 instruktionspekare
 register 1 pixelpekare
 register 2 färg
 
-setval a b          
-värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet.
+setval a b - c         
+värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet. påverkar inte stacken.
 
-pushq	            
+pushq - c
 pushar hela tråden till kön
 
-pushf				
+pushf - c
 pushar hela skiten till framebuffer, register 1 är pekare till vilken pixel, register 2 innehåller pixelfärg (8 bitar per kanal, sista 8 används ej)
 
-drop
+drop - c
 dumpar hela tråden
 
 pack 
-läser från minnet (registren)
+läser från minnet (registren) och pushar till stack
 
 accum 
 hämtar next's resultat
@@ -41,11 +41,10 @@ pow
 
 
 
-register 0         ajabaja
-register 1         pixelfärg
-register 2         x-värde för pixel
+register 0         instr-pekare
+register 1         pixelpekare
+register 2         (pixelfärg) x-värde för pixel
 register 3         y-värde för pixel
-Register 4-6       riktning
-Register 7         raylängd
-Register 8-10      Eye point (temporary)  
-Register 11-13     temp vec
+register 4-6       riktning
+register 7         raylängd 
+register 11-13     temp vec
