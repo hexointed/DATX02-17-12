@@ -17,7 +17,8 @@ module Base	(
 		bSlice,
 		curry3,
 		uncurry3,
-		choice
+		choice,
+		setFirst
 	) where
 
 import CLaSH.Prelude hiding (Float, Double, pack, gather)
@@ -67,3 +68,5 @@ curry3 f (a, b, c) = f a b c
 uncurry3 f a b c = f (a, b, c)
 
 choice f cs = fold (\l r -> fmap f l <*> r) cs
+
+setFirst v s = mux (register True $ signal False) (signal v) s
