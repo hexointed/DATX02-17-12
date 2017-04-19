@@ -95,9 +95,12 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 		| ch ==  A = (const True)
 
 pushOp :: Op -> Stack Float -> Stack Float
-pushOp operation s = push newValue (popN (arity operation) s)
+pushOp operation s 
+	| operation == Cross = push x (push y (push z (pop ((popN (arity operation) s)))))
+	| otherwise =  push newValue (popN (arity operation) s)
 	where
-		newValue = apply operation (topN 1 s) (topN 0 s)
+		Right (x,y,z) = apply operation (topN 0 s) (topN 1 s) (topN 2 s) (topN 3 s) (topN 4 s) (topN 5 s)
+		Left newValue = apply operation (topN 0 s) (topN 1 s) (topN 2 s) (topN 3 s) (topN 4 s) (topN 5 s)
 
 dataAddr inst = case inst of
 	(Point ptr) -> Just ptr
