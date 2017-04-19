@@ -1,0 +1,51 @@
+register 0 instruktionspekare
+register 1 pixelpekare
+register 2 färg
+
+setval a b          
+värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet.
+
+pushq	            
+pushar hela tråden till kön
+
+pushf				
+pushar hela skiten till framebuffer, register 1 är pekare till vilken pixel, register 2 innehåller pixelfärg (8 bitar per kanal, sista 8 används ej)
+
+drop
+dumpar hela tråden
+
+pack 
+läser från minnet (registren)
+
+accum 
+hämtar next's resultat
+
+next 
+används för att göra distansfunktioner
+
+val 
+laddar in pekaren till värdet
+
+div
+den övre delat på den undre
+
+sub
+den övre minus den undre
+
+
+-- förhoppningsvis inkommande operationer
+
+pow
+
+"less than/more than (< / >)" (returnerar 1 om det är mindre än, annars returnerar)
+
+
+
+register 0         ajabaja
+register 1         pixelfärg
+register 2         x-värde för pixel
+register 3         y-värde för pixel
+Register 4-6       riktning
+Register 7         raylängd
+Register 8-10      Eye point (temporary)  
+Register 11-13     temp vec
