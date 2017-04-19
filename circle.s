@@ -1,12 +1,14 @@
 .data:
 one:
 	1.0
-displaysize:
-	16.0
+displaysizex:
+	128.0
+displaysizey:
+	32.0
 pos:
 	7.5
 radius:
-	35.0
+	45.0
 greenshift:
 	256
 
@@ -26,15 +28,15 @@ generate:
 calcpos:
 	next 2
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
 	pack 1
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
-	val &displaysize
+	val &displaysizex
 	mul
 	sub
 	val &draw

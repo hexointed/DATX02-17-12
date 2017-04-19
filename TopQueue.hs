@@ -8,7 +8,7 @@ import CLaSH.Sized.Fixed
 import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 
-type TopQueue = Queue 64 Pack
+type TopQueue = Queue 8 Pack
 type Address = Signed 32
 type RGBValue = BitVector 24
 

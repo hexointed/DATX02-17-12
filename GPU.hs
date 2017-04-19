@@ -10,7 +10,7 @@ import Memory
 import Framebuffer
 import Float
 
-type Cores = 8
+type Cores = 1
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
@@ -22,7 +22,7 @@ coreIn = fmap meld
 	<*> mealyFrame
 
 mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
-mealyQueue = mealyB serve (push (0 :> 256 :> repeat 0) empty) wiw
+mealyQueue = mealyB serve (push (0 :> 4096 :> repeat 0) empty) wiw
 	where
 		wiw = fmap (fmap (\co -> (wantPack co, pack' co))) coreOut
 		pack' co = case packType co of

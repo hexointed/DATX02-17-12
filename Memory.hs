@@ -42,7 +42,7 @@ encodeDfuI b = Just instr
 			0x0 -> A
 			0x1 -> Z
 			0x2 -> NZ
-			0x3 -> error "Invalid condition"
+			0x3 -> error "Invalid contition"
 		action = case opca of
 			0x0 -> PushF
 			0x1 -> PushQ
