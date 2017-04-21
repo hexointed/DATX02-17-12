@@ -1,6 +1,8 @@
-register 0 instruktionspekare
-register 1 pixelpekare
-register 2 färg
+hur man simulerar:
+ladda assembler
+asm "filnamn"
+ladda simulate
+simGPU
 
 setval a b - c         
 värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet. påverkar inte stacken.

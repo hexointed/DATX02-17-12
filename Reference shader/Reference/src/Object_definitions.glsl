@@ -9,7 +9,7 @@ uint  matIdList[NumObjects+1] = {0,Mat_Reflection,Mat_Reflection,Mat_SolidColor}
 
 vec3  s1Coord	= vec3(0, 1.5, 0.0 );
 float s1Radius	= 0.5;
-vec3  s2Coord	= vec3(0, 1.8+0.2*sin(2*iGlobalTime), 0.0 );
+vec3  s2Coord	= vec3(0, 1.5, 0.0);
 float s2Radius	= 0.4;
 
 void InitObjDefs()
@@ -123,8 +123,13 @@ float DistToModfield(vec3 p)
 float DistToMetaballs(vec3 p)
 {   float dist = length( (p-s1Coord) ) - s1Radius;
     float dist2 = length( (p-s2Coord) ) - s2Radius;
+    float dist3 = length(p - vec3(0,20,0)) - 18.5;
+
+    dist = max(-dist2,(max(dist,-dist3)));
+
+
     //dist = smin(dist, dist2, 0.35  );
-    dist = max(dist,-dist2);
+
 
     //dist = smin(dist,sdPlane(p, vec4(0, 1.0, 0, 0.0) ) , 0.15 ) ;
     //dist = min(dist,sdPlane(p, vec4(0, 1.0, 0, 0.0) )  ) ;
