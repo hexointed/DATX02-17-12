@@ -1,8 +1,10 @@
 .data:
-one:
-	1.0
 zero:
 	0.0
+one:
+	1.0
+two:
+	2.0
 displaysize:
 	16.0
 pos:
@@ -11,8 +13,15 @@ radius:
 	35.0
 greenshift:
 	256
-stuff:
+red:
 	65280.0
+shift:
+	256.0
+
+
+
+
+
 epsilon:
 	0.01
 ballr:
@@ -60,13 +69,47 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	a drop
 
 draw: 
-	val &stuff
+	val &one
+	a setval 2 0 
+
+	val &one
+	pack 1
+	sub
+	z 0 pushf 
+	z 0 drop
+
+	val &zero
 	a setval 2 0
 	a pushf
 	a drop
 
 
-		; hanterar det faktiska ritandet, här bör en raymarchingloop implementeras
+	pack 1
+	sqrt
+	val &two
+	sub
+	z 0 pushf
+	z 0 drop
+
+	val &white
+	a setval 0 0
+	a pushq
+	a drop
+
+
+
+white:
+	val &one
+	a setval 2 0
+	a pushf
+	a drop
+
+
+
+
+
+
+		; ritar ut cirkel om placeras i draw
 	next 3
 	pack 2
 	val &pos
