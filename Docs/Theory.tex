@@ -1,28 +1,31 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Theory}
-
+	% vi måste bestämma oss för vad vi kallar algoritmen. nu har vi 2 konkurrerande termer
 	The algorithm in question that we designed a custom GPU for is called
 	sphere tracing.\cite{Hart1996} So called since it uses spheres to
+	%finns inte heller i den citerade artikeln.. todo
 	incrementally advance a ray in 3D space. The method of advancing rays
 	incrementally is called ray marching and is a particular subset of ray
 	tracing.\cite{Whitted1980} Ray tracing, then, is a way of wholly or
 	partially rendering the world through rays, cast from the eye of the
 	observer into the scene.  Sphere tracing has been around since at least as
 	early as the late eighties and ray tracing as early as the
-	sixties.\cite{Hart1989,Appel1968} Since ray tracing traditionally has been
-	a more computation-intensive method compared to scanlining\cite{Wylie1967}
-	and as such it has generally seen more use in movie production rather than
+	sixties.\cite{Hart1989,Appel1968} Ray tracing has traditionally been
+	a more computationally intensive method compared to polygon rendering\cite{Wylie1967}
+	and thus it has generally seen more use in movie production rather than
 	in real-time applications.\cite{ref_needed?} 
 	
 	%TODO(bjorn): Nån som är bätre än mig på detta får gärna skriva om denna
 	%delen nedanför. låter inte proffsigt alls.
+	%bättre? /Jon
 	
-	The advent of the programmable shader brought back the discussion of real
-	time ray marching to the forefront. which is where we caught on to it.
-	\cite{JamieWong2016} It still favours poorly compared to other techniques
-	which natrually begged the question if it would be able to compete in real
-	time if only the hardware for it was there.
+	The advent of per pixel programmable hardware in graphics cards made it
+	possible to implement real time graphics rendering based on ray marching, 
+	albeit only using relatively simple geometry. This raises the question of 
+	whether this rendering method could be competetive for real time graphics,
+	if hardware that was specifically designed for it was available.
 	
+		
 	\section{Sphere tracing} 
 	
 		\begin{minipage}{0.6\textwidth} 
