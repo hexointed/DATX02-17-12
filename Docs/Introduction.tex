@@ -1,14 +1,39 @@
 \chapter{Introduction} 
 	
 	\section{Background}
+		During the early 90’s many types of real time rendering algorithms were 
+		developed and used. This was possible because they all ran in software 
+		on the main computer processor, and software is easily changed and 
+		enhanced. Photorealistic rendering could be done using a method called 
+		Ray Tracing, but this was very slow. Effort was made to improve this and 
+		and one such algorithm; Sphere Tracing,  proved useful for Ray Tracing 
+		3D fractals. It was still slow on current hardware and could 
+		thus not be done in real time. Better graphics rendering
+		(fast real time graphics) was a key selling point among competing 
+		computer systems, so to improve graphics rendering performance the 
+		computer industry moved towards dedicated hardware based graphics 
+		rendering. These systems were almost exclusively using polygon-based 
+		rendering, and most Ray Tracing algorithms can not be rendered this 
+		way. Today, 3D graphics cards have become more programmable and the 
+		last 5 years have seen a small resurgence in the use of Sphere Tracing
+		rendering. Simple scenes can now be rendered in real time using a state 
+		of the art consumer 3D graphics card. This has a whole new set of pros 
+		and cons when compared to polygon rendering. However, while 
+		the algorithm seems to have a lot of potential for future 3D graphics, 
+		that potential might be unreachable on current GPU:s 
+		(Graphics Processing Unit, the central part of a 3D graphics card) due 
+		to the underlying architecture being designed for polygon rendering. 
+		This project will examine ideas for what could be achieved if graphics 
+		cards were optimized and built specifically for Sphere Tracing Graphics
+		instead of todays polygon based hardware.
+		 
 	
 	\section{Project goals}
 		
-		The main goal for this project was to design and implement a basic
-		graphics processor unit (GPU) architecture that is with is designed to
-		be able to accomodate the ray-marching algorithm well. In addition to
-		this, an aim was to look at possible optimizations, both algorithmic
-		and hardware based, for the ray-marching algorithm.
+		The main goal for this project was to design and implement a basic GPU 
+		architecture that is with is designed to be able to accomodate the Sphere 
+		Tracing algorithm well. In addition, another aim was to look at possible 
+		optimizations, both algorithmic	and hardware based, for this algorithm.
 		
 	\section{Scope}
 		
