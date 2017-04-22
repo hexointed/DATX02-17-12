@@ -93,6 +93,14 @@
 			enough to implement for all branching that is needed in our ray
 			marchers efficiently while being restrictive enough to make
 			instruction memory accesses very predictable.
+
+			In addition to this, each core can acelerate finding the minimum 
+			distance for a set of distance functions using a built-in 
+			accumulator, together with the instructions \texttt{next} and 
+			\texttt{accum}. Because of this, distance functions can be written
+			without any regard for how the shader that called them works, and
+			this very common operation is automated, reducing the size of each
+			distance function slightly.
 		
 		\subsection{Implementation considerations}
 	
