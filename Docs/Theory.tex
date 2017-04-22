@@ -5,7 +5,6 @@
 	% konkurrerande termer
 	The algorithm in question that we designed a custom GPU for is called
 	sphere tracing.\cite{Hart1996} So called since it uses spheres to
-	%finns inte heller i den citerade artikeln.. todo
 	incrementally advance a ray in 3D space. The method of advancing rays
 	incrementally is called ray marching and is a particular subset of ray
 	tracing.\cite{Whitted1980} Ray tracing, then, is a way of wholly or
@@ -28,19 +27,19 @@
 	if hardware that was specifically designed for it was available.
 	
 		
-	\section{Sphere tracing} 
+	\section{Sphere Tracing} 
 	
 		\begin{minipage}{0.6\textwidth} 
 		
-			At the base of the algorithm are the signed distance functions.
-			$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The "distance" is
+			The algorithm is based on the concept of Signed Distance Functions (SDF).
+			$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ 
+			The "distance" is
 			the distance between a point and the closest point on the implicit
 			surface $\text{SDF}^{-1}(0)$. The "signed" part refers to the
-			distance being negated when measured inside of the surface.  If we
-			define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$ where $\vec{d}$
-			is the normalized direction of the ray and $\vec{o}$ the origin,
-			then $$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a
-			surface at exactly the distance $s$ from its origin.
+			distance being negated when measured on the other side of the
+			surface. If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
+			where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin,	then $$\text{SDF}\circ r(s) = 0$$ means that the ray
+			intersects a surface at exactly the distance $s$ from its origin.
 		
 		\end{minipage} 
 		
@@ -73,20 +72,29 @@
 				normal which can be calculated by normalizing the aproximate
 				gradient of $\text{SDF}(p)$. 
 		
-			\subsection{Textures}
-		
-				Texturizing could at least be done in two ways. The
-				straightforward way would be to use the surface point coupled
-				with an id-signature of the figure. After translating and
-				re-scaling the point to the origin, it could then be directly
-				looked up in a 1:1 3D texture as per its id. A more indirect
-				but space-saving alternative could be to replace the last step
-				with a sphere trace from the translated point along its surface
-				normal\footnotemark out towards a simple wrapping geometry. The
-				resulting surface coordinate could then along with the whole
-				surface be transformed into a 2D flat plane mapping to a
-				corresponding 2D texture. The texture and enclosing geometry
-				again being variable according to the id of the figure.
-		
+			\subsection{Materials}
+				Coloring a certain ray in a scene is based on the material ID
+				assigned to the first object that the ray interects. The color
+				can then be either calculated by a material formula or be 
+				derived from a texture lookup. True 3D materials can be done by
+				texturing but this generally needs a large dataset and thus a 
+				formula is mostly preferred where three dimensional materials 
+				are employed. 2D texturing can be done by projecting points from
+				a flat image onto a simple geometric shape  wich is more or less 
+				enveloping the objec in question. this is called texture-mapping 
+				and commonly uses simple shapes like planes cubes spheres and 
+				cylinders. 
+				
+				Light can be calculated by taking the angle of incidence between
+				the previously mentioned surface normal and the direction of one 
+				or more predefined light sources. Shadows can be caculated by 
+				ray marching from the intersection point to the lights and 
+				applying shadowing if the path traversed was interected by any
+				object in the scene. 
+				
+				Light and shadow values are then blended with the material color,
+				based on parameters from the material ID, to form the final 
+				output pixel color.
+						
 				\footnotetext{Or along the normal of the point.}
 		
