@@ -61,22 +61,23 @@
 		
 		\subsection{GPU} 
 		
-			The project originally intended to create a simple single-core GPU that
-			could fully render a scene given enough time, and then add on components
-			as time allowed. As happens with projects like these, every design
-			decision one makes clarifies what further needs to be done and reveals
-			previously unseen flaws in the design that needs to be resolved. In the
-			end we implemented the core and enabled multiple cores running in
-			parallel utilizing a global queue, with some caveats. While the
-			implementation works and can be simulated for up to 128 cores it cannot
-			be compiled in a reasonable amount of time and even when compiled for
-			only four cores, the result serializes to a layout bigger than the FPGA
-			we had access to. We identified this being due to idioms used rather than
-			a general flaw in the architecture meaning that we could probably reduce
-			the layout drastically utilizing BRAMs instead of FLUTs without having to
-			change our design to a large extent. 
+			The project originally intended to create a simple single-core GPU
+			that could fully render a scene given enough time, and then add on
+			components as time allowed. As happens with projects like these,
+			every design decision one makes clarifies what further needs to be
+			done and reveals previously unseen flaws in the design that needs
+			to be resolved. In the end we implemented the core and enabled
+			multiple cores running in parallel utilizing a global queue, with
+			some caveats. While the implementation works and can be simulated
+			for up to 128 cores it cannot be compiled in a reasonable amount of
+			time and even when compiled for only four cores, the result
+			serializes to a layout bigger than the FPGA we had access to. We
+			identified this being due to idioms used rather than a general flaw
+			in the architecture meaning that we could probably reduce the
+			layout drastically utilizing BRAMs instead of FLUTs without having
+			to change our design to a large extent. 
 			
-			If we were to continue the work in a
-			future project we would rewrite the basic core in a number of ways,
-			pushing it out to FPGA to verify our design choices and try to be more
-			empiric before extending further with more modules and ideas. 
+			If we were to continue the work in a future project we would
+			rewrite the basic core in a number of ways, pushing it out to FPGA
+			to verify our design choices and try to be more empiric before
+			extending further with more modules and ideas. 
