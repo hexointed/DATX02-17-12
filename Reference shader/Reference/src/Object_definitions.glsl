@@ -23,66 +23,65 @@ void InitObjDefs()
 	//s2Coord.x += sin(iGlobalTime/3)*0.6;
 	//s2Coord.z += cos(iGlobalTime/3)*0.6;
 
-	objectCoords[1] = (s1Coord+s2Coord)/2;
-	objectRadii[1] = (length(s1Coord-s2Coord)/2)+max(s1Radius,s2Radius);
+	objectCoords[1] = vec3(-5,4,0); //(s1Coord+s2Coord)/2;
+	objectRadii[1] = 0.5; //(length(s1Coord-s2Coord)/2)+max(s1Radius,s2Radius);
 
 
-	objectCoords[2] = vec3(4,2,0);
-	objectRadii[2] = 1;
+//	objectCoords[2] = vec3(-4,4,0);
+//	objectRadii[2] = 0.5;
 
+//	objectCoords[3] = vec3(-3,4,0); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
+//	objectRadii[3]=0.5;
 
-	objectCoords[3] = vec3(6,1,6); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
-	objectRadii[3]=0.5;
-
-//	objectCoords[4] = vec3(-4.5,4,0);
+//	objectCoords[4] = vec3(-2,4,0);
 //	objectRadii[4] = 0.5;
-//
-//	objectCoords[5] = vec3(-3,4,0);
+
+//	objectCoords[5] = vec3(-1,4,0);
 //	objectRadii[5] = 0.5;
-//
-//	objectCoords[6] = vec3(-1.5,4,0);
+
+//	objectCoords[6] = vec3(0,4,0);
 //	objectRadii[6] = 0.5;
-//
-//	objectCoords[7] = vec3(0,4,0);
+
+//	objectCoords[7] = vec3(1,4,0);
 //	objectRadii[7] = 0.5;
-//
-//	objectCoords[8] = vec3(1.5,4,0);
+
+//	objectCoords[8] = vec3(2,4,0);
 //	objectRadii[8] = 0.5;
-//
+
 //	objectCoords[9] = vec3(3,4,0);
 //	objectRadii[9] = 0.5;
-//
-//	objectCoords[10] = vec3(-5,5,0);
+
+//	objectCoords[10] = vec3(4,5,0);
 //	objectRadii[10] = 0.5;
 
-//	objectCoords[11] = vec3(-4,5,0);
+//	objectCoords[11] = vec3(-5,5,0);
 //	objectRadii[11] = 0.5;
-//
-//	objectCoords[12] = vec3(-3,5,0);
+
+//	objectCoords[12] = vec3(-4,5,0);
 //	objectRadii[12] = 0.5;
-//
-//	objectCoords[13] = vec3(-2,5,0);
+
+//	objectCoords[13] = vec3(-3,5,0);
 //	objectRadii[13] = 0.5;
-//
-//	objectCoords[14] = vec3(-1,5,0);
+
+//	objectCoords[14] = vec3(-2,5,0);
 //	objectRadii[14] = 0.5;
-//
-//	objectCoords[15] = vec3(0,5,0);
+
+//	objectCoords[15] = vec3(1,5,0);
 //	objectRadii[15] = 0.5;
-//
-//	objectCoords[16] = vec3(1,5,0);
+
+//	objectCoords[16] = vec3(0,5,0);
 //	objectRadii[16] = 0.5;
-//
-//	objectCoords[17] = vec3(2,5,0);
+
+//	objectCoords[17] = vec3(1,5,0);
 //	objectRadii[17] = 0.5;
-//
-//	objectCoords[18] = vec3(3,5,0);
+
+//	objectCoords[18] = vec3(2,5,0);
 //	objectRadii[18] = 0.5;
-//
-//	objectCoords[19] = vec3(4,5,0);
+
+//	objectCoords[19] = vec3(3,5,0);
 //	objectRadii[19] = 0.5;
-//
-//	objectCoords[20] = vec3(5,5,0);
+
+//	objectCoords[20] = vec3(4,5,0);
 //	objectRadii[20] = 0.5;
 
 
@@ -92,8 +91,8 @@ void InitObjDefs()
 
 }
 
-vec3  s4Coord	= vec3(2, 1.5, -3.5 );
-float s4Radius	= 1.5;
+vec3  s4Coord	= vec3(0, 1.5, 0 );
+float s4Radius	= 0.5;
 
 vec3  skysphereCoord	= vec3(0, 0, 0 );
 float skysphereRadius	= 20;
@@ -151,8 +150,8 @@ float DistToObjectId(vec3 p, uint objId)
 	switch (objId)
 	{
 		case 1:
-			//return sdSphere( p, s3Coord, s3Radius);
-			return DistToMetaballs(p);
+			return sdSphere( p, objectCoords[1], objectRadii[1]);
+			//return DistToMetaballs(p);
 			//return DistToModfield(p);
 			//return sdSphere( p, s4Coord, s4Radius);
 		case 2:
