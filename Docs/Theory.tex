@@ -23,7 +23,7 @@
 	The advent of per pixel programmable hardware in graphics cards made it
 	possible to implement real time graphics rendering based on ray marching, 
 	albeit only using relatively simple geometry. This raises the question of 
-	whether this rendering method could be competetive for real time graphics,
+	whether this rendering method could be competitive for real time graphics,
 	if hardware that was specifically designed for it was available.
 	
 		
@@ -66,30 +66,30 @@
 		
 				Once a point on a surface for a given pixel has been located
 				new multiple rays can then be further marched to determine
-				reflections, towards the scene's sources of light determening
+				reflections, towards the scene's sources of light determining
 				light and shadows, or through the object with an angle,
 				simulating refractions. A lot of these depend on the surface
-				normal which can be calculated by normalizing the aproximate
+				normal which can be calculated by normalizing the approximate
 				gradient of $\text{SDF}(p)$. 
 		
 			\subsection{Materials}
 				Coloring a certain ray in a scene is based on the material ID
-				assigned to the first object that the ray interects. The color
+				assigned to the first object that the ray intersects The color
 				can then be either calculated by a material formula or be 
 				derived from a texture lookup. True 3D materials can be done by
-				texturing but this generally needs a large dataset and thus a 
+				texturing but this generally needs a large data set and thus a 
 				formula is mostly preferred where three dimensional materials 
 				are employed. 2D texturing can be done by projecting points from
-				a flat image onto a simple geometric shape  wich is more or less 
-				enveloping the objec in question. this is called texture-mapping 
+				a flat image onto a simple geometric shape  which is more or less 
+				enveloping the object in question. this is called texture-mapping 
 				and commonly uses simple shapes like planes cubes spheres and 
 				cylinders. 
 				
 				Light can be calculated by taking the angle of incidence between
 				the previously mentioned surface normal and the direction of one 
-				or more predefined light sources. Shadows can be caculated by 
+				or more predefined light sources. Shadows can be calculated by 
 				ray marching from the intersection point to the lights and 
-				applying shadowing if the path traversed was interected by any
+				applying shadowing if the path traversed was intersected by any
 				object in the scene. 
 				
 				Light and shadow values are then blended with the material color,
