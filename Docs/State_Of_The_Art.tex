@@ -1,7 +1,7 @@
 \chapter{State of the Art}
 
 Sphere tracing is currently being used to visualize complex data such as 
-fractals, but there is no hardware designed to run it efficiently.Today's top 
+fractals, but there is no hardware designed to run it efficiently. Today's top 
 of the line consumer 3d graphics cards are made for real time rendering of 
 polygons. They achieve high speeds by executing the pixel color calculation in 
 parallel. To make this efficient they use what is known as lockstepping, which 
@@ -12,7 +12,8 @@ silicon real estate, enabling more cores per chip and thus greater performance.
 Pixels rendered by a polygon based method can usually be queued for calculation 
 in such a way that pixels belonging to the same object in the scene can be 
 grouped for computation. The drawback of the cooperating cores only being able 
-to work on the same instruction at any one give time is thus greatly reduced. 
+to work on the same instruction at any one give time is thus greatly reduced.
+
 Using this hardware for Sphere Tracing (as is currently being done) will make 
 this drawback significantly more burdening. Partly because pixels are not 
 grouped by what object in the scene they belong to, and partly because even 
@@ -21,6 +22,8 @@ instruction execution path.
 
 
 
-
-hårdvaruutveeckling idag
-clash->verilog
+The development of Integrated Circuitry is generally done by describing the 
+operation of the chip in a hardware description language. This can then be 
+compiled into a list of components and connections that constitutes the 
+necessary parts for building the chip. The most prevalent ones are VHDL and 
+Verilog. 
