@@ -1,14 +1,14 @@
 \chapter{Implementation}
 	
-	To realize this project, two separate peices of software and one peice of
+	To realize this project, two separate pieces of software and one piece of
 	hardware were written. The hardware is comprised of a multi-core
 	programmable parallell processing unit designed for the ray-marching
 	algorithm, detailed in section \ref{implproc}, and the software programs
 	are two different implementations of a reference shader.  The first of
-	these was written in GLSL for traditional graphics hardware (in our case it
-	was tested on a GeForce GTX 1060M ), and the second is written in an assembly language we
-	designed for the ray-marching processor. Both of these shaders are
-	described in section \ref{implshader}.
+	these was written in GLSL for traditional graphics hardware (in our case 
+	it was tested on a GeForce GTX 1060M ), and the second is written in an 
+	assembly language we designed for the ray-marching processor. Both of 
+	these shaders are described in section \ref{implshader}.
 	
 	\section{Processor Unit} \label{implproc}
 
@@ -33,7 +33,7 @@
 				\item[C-type] instructions are for control flow, that is, 
 					instructions that affect the global queue or frame buffer or
 					terminates the current thread. C-type instructions can be 
-					conditionally execuded, based on the condition encoded in
+					conditionally executed, based on the condition encoded in
 					the two highest bits in the opcode. The condition can not
 					be \texttt{11}, as this is reserved for the other 
 					instruction types.
@@ -62,7 +62,7 @@
 			
 			Each shader thread has 16 mutable registers that are automatically
 			loaded into the core when execution starts. These registers are
-			also saved when execution pauses and they are also copyed whenever
+			also saved when execution pauses and they are also copied whenever
 			a thread spawns a new child. The instruction \texttt{setval} can be
 			used to change the value of a register, and the instruction
 			\texttt{pack} reads the value of a register.
@@ -94,7 +94,7 @@
 			marchers efficiently while being restrictive enough to make
 			instruction memory accesses very predictable.
 
-			In addition to this, each core can acelerate finding the minimum 
+			In addition to this, each core can accelerate finding the minimum 
 			distance for a set of distance functions using a built-in 
 			accumulator, together with the instructions \texttt{next} and 
 			\texttt{accum}. Because of this, distance functions can be written

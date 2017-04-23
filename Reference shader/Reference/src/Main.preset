@@ -58,3 +58,15 @@
  *  reflection_minStep = <1.0|0.5|300.0> 2.0
  * </preset>
  */
+
+/*!
+ * <preset name="ManyBalls">
+ *  fieldBallPos = <0.3, 0.3, 0.3|-3.0, -3.0, -3.0|3.0, 3.0, 3.0> 1.0, 1.5365877, 1.0
+ *  fieldBallSize = <0.1995|0.01|4.0> 0.5
+ *  iChannel1 = ..\..\..\..\..\Downloads\synthclipse-1.1.4-eclipse-neon-win32-x86_64\cube\GoldenGateBridge_0.jpg
+ *  normEps_s = <1.0|0.01|100.0> 1.0
+ *  pEye_slider = <1.0, 1.0, 1.0|-19.0, -19.0, -19.0|19.0, 19.0, 19.0> -0.5, 4.5, 6.0
+ *  pLookAt_slider = <1.0, 1.0, 1.0|-19.0, -19.0, -19.0|19.0, 19.0, 19.0> -0.5, 4.5, 0.0
+ *  reflection_minStep = <1.0|0.5|300.0> 2.0
+ * </preset>
+ */
