@@ -1,5 +1,5 @@
 //#define DEBUG_SAFETY_TESTS	1
-#define SHOW_DEBUG_PLANE	1
+//#define SHOW_DEBUG_PLANE	1
 
 #define MaxRaySteps 	121
 #define MaxRayLength	140.0		//max length of a single ray (distance is reset at reflection)
