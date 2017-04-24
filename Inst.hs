@@ -23,7 +23,7 @@ cleanupCode =
 		isEmpty line = words line == []
 		isNumber line = case reads line :: [(Double,String)] of
 			[] -> False
-			_  -> True
+			_  -> error "There is a line in a \".text:\" block that is only a number."
 
 		isDirective ('.':line) = True
 		isDirective _          = False
@@ -109,10 +109,10 @@ assembleDFU ws = do
 		"accum" -> Right 0x09
 		"dot"   -> Right 0x0a
 		"cross" -> Right 0x0b
-                "addv"  -> Right 0x0c
-                "subv"  -> Right 0x0d
-                "scale" -> Right 0x0e
-                "copy"  -> Right 0x0f
+		"addv"  -> Right 0x0c
+		"subv"  -> Right 0x0d
+		"scale" -> Right 0x0e
+		"copy"  -> Right 0x0f
 		_       -> Left $ "Unrecognized instruction" ++ show ws
 	return $ (2 :: BitVector 2) ++# (i :: BitVector 6) ++# 0
 

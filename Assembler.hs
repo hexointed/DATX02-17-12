@@ -18,7 +18,7 @@ asm f = do
 		newC = 
 			fmap (fmap assembleInst) $ 
 			cleanupCode $ 
-			replaceLabels labels file
+			replaceLabels labels txt
 	case compile newC of
 		Right code -> do
 			writeFile 
