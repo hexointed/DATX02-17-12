@@ -9,6 +9,8 @@ import Stack
 import Pack
 import Indexed
 
+type DStack = Stack 16 Float
+
 type FunId = Unsigned 24
 
 data PackType = Frame | Queue | None
@@ -21,14 +23,14 @@ data Choice
 	deriving (Eq, Show, Generic, NFData)
 
 data Cond
-	= Cond Choice (Ptr (Stack Float))
+	= Cond Choice (Ptr DStack)
 	deriving (Eq, Show, Generic, NFData)
 
 data Action
 	= PushF
 	| PushQ
 	| Drop
-	| SetVal (Ptr Pack) (Ptr (Stack Float))
+	| SetVal (Ptr Pack) (Ptr DStack)
 	deriving (Eq, Show, Generic, NFData)
 
 data Instr
@@ -45,7 +47,7 @@ instance Indexed Instr where
 data DFU = DFU
 	{ minValue :: Float
 	, minId :: FunId
-	, stack :: Stack Float
+	, stack :: DStack
 	, funId :: FunId
 	, pack :: Pack
 	, ready :: Bool
@@ -94,7 +96,7 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 		| ch ==  Z = (== 0)
 		| ch ==  A = (const True)
 
-pushOp :: Op -> Stack Float -> Stack Float
+pushOp :: Op -> DStack -> DStack
 pushOp operation s = push newValue (popN (arity operation) s)
 	where
 		newValue = apply operation (topN 1 s) (topN 0 s)

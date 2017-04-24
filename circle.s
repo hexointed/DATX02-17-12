@@ -11,8 +11,6 @@ radius:
 	45.0
 greenshift:
 	256
-
-.text:
 numPixels:
 	256.0
 
@@ -27,14 +25,19 @@ initialize:
 
 generate:
 	next 1 ; comment
-	val &calcpos
+
 	pack 1
 	val &one
 	sub
 	a setval 1 0
+
 	nz 0 pushq
-	a setval 0 1
+
+	val &calcpos
+	a setval 0 0
+
 	a pushq
+
 	a drop
 
 calcpos:

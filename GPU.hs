@@ -17,7 +17,7 @@ coreOut = fmap (mealy step' initial') coreIn
 
 coreIn :: Vec Cores (Signal CoreIn)
 coreIn = fmap meld 
-	(mealyQueue) 
+	mealyQueue
 	<*> (fmap (register (Nothing, Nothing)) mealyMemory)
 	<*> mealyFrame
 

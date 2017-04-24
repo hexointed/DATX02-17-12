@@ -25,25 +25,21 @@ data Decision
 	deriving (Eq, Generic, Show, NFData)
 
 topQueue :: KnownNat n => Signal (VecIn (n + 1)) -> Signal (VecOut (n + 1))
-topQueue inputs = undefined
+topQueue inputs = fmap coresInterface inputsDelayed <*> packOut
 	where
-		out = makeDecision (fmap calcDecision inputs)
-		wantsDelayed = register (repeat False)   $ fmap (map fst) inputs
-		has'sDelayed = register (repeat Nothing) $ fmap (map snd) inputs
+		out = fmap calcDecision inputs
+		inputsDelayed = register (repeat (False, Nothing)) inputs
+		packDelayed = register Nothing $ fmap packFromDecision out
+		bram = fmap snd $ 
+			bramStack (fmap needsPop out) (fmap packFromDecision out)
+		packOut = mux select bram packDelayed
+		select = register True $ fmap decisionSelector out
 
-noMultiAcc :: Vec n (Maybe Pack) -> Vec n Bool -> Vec n (Maybe Pack)
-noMultiAcc v v' = zipWith f v v'
+coresInterface :: VecIn n -> Maybe Pack -> VecOut n
+coresInterface v p = zipWith (,) outs acc
 	where
-		f p a
-			| a         = Nothing
-			| otherwise = p
-
-makeDecision :: Signal Decision -> Signal (Maybe Pack)
-makeDecision d = mux select bram altPack
-	where
-		bram = fmap snd $ bramStack (fmap decision d) (fmap packFromDecision d)
-		select = register True $ fmap decisionSelector d
-		altPack = register (Just $ repeat 0) (fmap packFromDecision' d)
+		acc = accCorrect (map snd v)
+		outs = giveBackCorrect (map fst v) p
 
 accCorrect :: Vec n (Maybe Pack) -> Vec n Bool
 accCorrect v = snd $ mapAccumL onlyFirst True v
@@ -64,22 +60,15 @@ decisionSelector (Send p) = False
 decisionSelector Nop      = False
 decisionSelector _        = True
 
-decision :: Decision -> (Bool, Bool)
-decision (Nop   ) = dup False
-decision (Pop   ) = (False, True)
-decision (Push p) = (True, False)
-decision (Send p) = dup False
+needsPop :: Decision -> Bool
+needsPop (Pop) = True
+needsPop _     = False
 
-packFromDecision :: Decision -> Pack
-packFromDecision (Send p) = p
-packFromDecision (Push p) = p
-packFromDecision _        = repeat 0
-
-packFromDecision' :: Decision -> Maybe Pack
-packFromDecision' (Send p) = Just p
-packFromDecision' (Push p) = Just p
-packFromDecision' Nop      = Nothing
-packFromDecision' Pop      = Nothing
+packFromDecision :: Decision -> Maybe Pack
+packFromDecision (Send p) = Just p
+packFromDecision (Push p) = Just p
+packFromDecision Nop      = Nothing
+packFromDecision Pop      = Nothing
 
 calcDecision :: VecIn (n + 1) -> Decision
 calcDecision inputs = case packIn of

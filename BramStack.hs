@@ -7,45 +7,39 @@ import Float
 type QSize = 64
 type QIndex = Unsigned (CLog 2 QSize + 1)
 
-bramStack :: Signal (Bool, Bool) -> Signal Pack -> Signal (QIndex, Maybe Pack)
-bramStack pp pack = 
-	(fmap (\p i -> if i == -1 then (0, Nothing) else (i+1, Just p)) $
-	setFirst (repeat 0) $ 
+bramStack :: Signal Bool -> Signal (Maybe Pack) -> Signal (QIndex, Maybe Pack)
+bramStack pop push = 
+	(fmap hasPack stackIndex <*>) $
+	setFirst (repeat 0) $
 	readNew (blockRam (repeat (repeat 0) :: Vec QSize Pack))
-		(fmap nextIndex i <*> pp)
-		push''
-	) <*> register (-1) i
+		readAddr
+		writeAddr
 	where
-		i = (index pp)
+		stackIndex = index $ bundle (fmap (/= Nothing) push, pop)
+		stackIndex' = register 0 stackIndex
+		
+		readAddr = fmap safeRead stackIndex'
+		writeAddr = fmap pushAddr stackIndex' <*> push
 
-		push'' :: Signal (Maybe (QIndex, Pack))
-		push'' = fmap push' pack <*> i <*> pp
+hasPack (-1) out = (-1, Nothing)
+hasPack i out = (i, Just out)
 
-push' pack i pp = case fst pp of
-	True  -> Just (i + 1, pack)
-	False -> Nothing
+pushAddr i p = do
+	p <- p
+	return (i, p)
+
+safeRead (-1) = 0
+safeRead i    = i
 
 index = mealy index' 0
-
-index' :: QIndex -> (Bool, Bool) -> (QIndex, QIndex)
-index' i (push, pop) = case pop of
-	True -> case push of
-		True  -> dup i
-		False -> case i of
-			-1 -> dup i
-			_  -> (i - 1, i)
-	False -> case push of
-		True  -> (i + 1, i)
-		False -> dup i
-
-nextIndex i (push, pop)
-	| i >= 64   = 0
-	| otherwise = case pop of
-		True -> case push of
-			True  -> i
-			False -> case i == 0 of
-				True  -> i
-				False -> i - 1
-		False -> case push of
-			True  -> i + 1
-			False -> i
+	where
+		index' :: QIndex -> (Bool, Bool) -> (QIndex, QIndex)
+		index' i (push, pop) = case pop of
+			True -> case push of
+				True  -> dup i
+				False -> case i of
+					-1 -> dup i
+					_  -> (i - 1, i)
+			False -> case push of
+				True  -> (i + 1, i)
+				False -> dup i
