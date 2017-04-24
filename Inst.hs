@@ -107,6 +107,8 @@ assembleDFU ws = do
 		"abs"   -> Right 0x07
 		"floor" -> Right 0x08
 		"accum" -> Right 0x09
+		"dot"  -> Right 0x0a
+		"cross" -> Right 0x0b
 		_       -> Left $ "Unrecognized instruction" ++ show ws
 	return $ (2 :: BitVector 2) ++# (i :: BitVector 6) ++# 0
 

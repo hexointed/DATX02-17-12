@@ -38,6 +38,8 @@ encodeDfuI b = Just instr
 			0x07 -> Oper Abs
 			0x08 -> Oper Floor
 			0x09 -> Acc
+			0x0a -> Oper Dot
+			0x0b -> Oper Cross
 		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z
