@@ -34,7 +34,7 @@ arity Sqrt = 1
 arity Abs = 1
 arity Floor = 1
 arity Dot = 6
-arity Cross = 4
+arity Cross = 6
 arity _ = 2
 
 apply :: Op -> Float -> Float -> Float -> Float -> Float -> Float -> Either Float (Float,Float,Float)
