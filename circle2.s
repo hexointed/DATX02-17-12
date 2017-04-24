@@ -78,9 +78,14 @@ draw:
 	dot
 	sqrt
 
-	val &one
-	val &one
-	val &one
+
+
+	
+
+        val &three
+        copy
+        copy
+        
 
 	val &two
 	val &one
