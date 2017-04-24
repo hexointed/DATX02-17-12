@@ -40,6 +40,10 @@ encodeDfuI b = Just instr
 			0x09 -> Acc
 			0x0a -> Oper Dot
 			0x0b -> Oper Cross
+                        0x0c -> Oper Addv
+                        0x0d -> Oper Subv
+                        0x0e -> Oper Scale
+                        0x0f -> Oper Copy
 		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z

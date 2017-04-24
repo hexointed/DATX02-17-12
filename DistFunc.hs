@@ -58,6 +58,8 @@ apply Floor a b _ _ _ _ = Left (shiftL (shiftR a 16) 16)
 apply Dot   a1 a2 a3 b1 b2 b3 = Left (a1*b1 + a2*b2 + a3*b3)
 apply Cross a1 a2 a3 b1 b2 b3 = Right (((a2*b3-a3*b2),(a3*b1-a1*b3),(a1*b2-b1*a2)))
 apply Addv a1 a2 a3 b1 b2 b3 = Right ((a1+b1),(a2+b2),(a3+b3))
-apply Subv a1 a2 a3 b1 b2 b3 = Right ((a1-b1),(a2-b2),(a3-b3))
+apply Subv a1 a2 a3 b1 b2 b3 = Right ((b1-a1),(b2-a2),(b3-a3))
 apply Scale s a1 a2 a3 _  _ = Right ((s*a1), (s*a2),(s*a3))
 apply Copy c _ _ _ _ _ = Left c
+
+
