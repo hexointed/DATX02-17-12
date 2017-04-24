@@ -13,6 +13,18 @@ greenshift:
 	256
 
 .text:
+numPixels:
+	256.0
+
+.text:
+initialize:
+	val &generate
+	a setval 0 0
+	val &numPixels
+	a setval 1 0
+	a pushq
+	a drop
+
 generate:
 	next 1 ; comment
 	val &calcpos

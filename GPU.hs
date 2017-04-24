@@ -17,12 +17,12 @@ coreOut = fmap (mealy step' initial') coreIn
 
 coreIn :: Vec Cores (Signal CoreIn)
 coreIn = fmap meld 
-	(fmap (register (Nothing, False)) mealyQueue) 
+	(mealyQueue) 
 	<*> (fmap (register (Nothing, Nothing)) mealyMemory)
 	<*> mealyFrame
 
 mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
-mealyQueue = mealyB serve (push (0 :> 4096 :> repeat 0) empty) wiw
+mealyQueue = unbundle $ topQueue $ bundle wiw
 	where
 		wiw = fmap (fmap (\co -> (wantPack co, pack' co))) coreOut
 		pack' co = case packType co of
