@@ -1,4 +1,4 @@
-hur man simulerar:
+﻿hur man simulerar:
 ladda assembler
 asm "filnamn"
 ladda simulate
@@ -33,6 +33,18 @@ den övre delat på den undre
 
 sub
 den övre minus den undre
+
+addv
+adderar två vektorer samman
+
+subv
+subtraherar den övre vektorn minus den undre
+
+scale
+gångrar den undre floaten med vektorn över
+
+copy
+tar ett värde och lägger 2 sådana på stacken 
 
 
 -- förhoppningsvis inkommande operationer
