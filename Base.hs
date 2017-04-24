@@ -18,7 +18,8 @@ module Base	(
 		curry3,
 		uncurry3,
 		choice,
-		setFirst
+		setFirst,
+		sim'
 	) where
 
 import CLaSH.Prelude hiding (Float, Double, pack, gather)
@@ -70,3 +71,5 @@ uncurry3 f a b c = f (a, b, c)
 choice f cs = fold (\l r -> fmap f l <*> r) cs
 
 setFirst v s = mux (register True $ signal False) (signal v) s
+
+sim' f l = P.take (P.length l) $ simulate f l

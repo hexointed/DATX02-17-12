@@ -6,25 +6,23 @@ import Base
 import Container
 import Indexed
 
-data Stack n a = Stack (Vec n a) (Unsigned (CLog 2 n))
+data Stack a = Stack (Vec 16 a) (Unsigned 4)
 	deriving (Eq, Generic, NFData)
 
-type Pow2 n = (FLog 2 n ~ CLog 2 n, KnownNat n)
-
-instance Functor (Stack n) where
+instance Functor Stack where
 	fmap f (Stack v i) = Stack (fmap f v) i
 
-instance Pow2 n => Applicative (Stack n) where
+instance Applicative Stack where
 	pure v = push v empty
 	(<*>) (Stack va ia) (Stack vb ib) = Stack (va <*> vb) (min ia ib)
 
-instance Pow2 n => Alternative (Stack n) where
+instance Alternative Stack where
 	empty = filled undefined
 	(<|>) a@(Stack va ia) b@(Stack vb ib) 
 		| ia <= ib  = a
 		| otherwise = b
 
-instance Pow2 n => Container (Stack n) where
+instance Container Stack where
 	filled a = Stack (repeat a) (-1)
 
 	push a (Stack v i) = Stack (replace i' a v) i' 
@@ -38,12 +36,12 @@ instance Pow2 n => Container (Stack n) where
 topN n (Stack v i) = v !! (i - n)
 popN n (Stack v i) = Stack v (i - n)
 
-instance (Show a, Pow2 n) => Show (Stack n a) where
+instance Show a => Show (Stack a) where
 	show (Stack v i) = show $ take (i + 1) list
 		where
 			list = foldr (:) [] v
 			take 0 xs     = []
 			take n (x:xs) = x : take (n - 1) xs
 
-instance Indexed (Stack n a) where
-	type Size (Stack n a) = CLog 2 n
+instance Indexed (Stack a) where
+	type Size (Stack a) = 4

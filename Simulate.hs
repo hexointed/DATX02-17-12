@@ -5,8 +5,8 @@ import Framebuffer
 import GPU
 import qualified Prelude as P
 
-type Bits = 11
-type Pixels = 2048
+type Bits = 8
+type Pixels = 256
 
 showFrame = 
 	fmap show' $
