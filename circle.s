@@ -2,9 +2,9 @@
 one:
 	1.0
 displaysizex:
-	128.0
+	16.0
 displaysizey:
-	32.0
+	16.0
 pos:
 	7.5
 radius:

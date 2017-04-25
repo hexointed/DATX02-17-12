@@ -4,7 +4,7 @@ import Base
 import Pack
 import Float
 
-type QSize = 64
+type QSize = 8192
 type QIndex = Unsigned (CLog 2 QSize + 1)
 
 bramStack :: Signal Bool -> Signal (Maybe Pack) -> Signal (QIndex, Maybe Pack)

@@ -1,12 +1,10 @@
 module Simulate where
 
-import Base hiding (Bits)
+import Base
 import Framebuffer
 import GPU
 import qualified Prelude as P
-
-type Bits = 8
-type Pixels = 256
+import System.Console.ANSI
 
 showFrame = 
 	fmap show' $
@@ -18,14 +16,14 @@ showFrame =
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
 			fmap (foldr (:) "") $ 
-			unconcat d64 $
+			unconcat d16 $
 			fmap showPixel vs 
 		
 		showPixel (0,0,0) = ' '
 		showPixel _       = '\x2588'
 
-simDisplay :: (Vec Pixels Pixel, Unsigned Bits) -> (Bool, Pixel, Unsigned Bits) ->
-	((Vec Pixels Pixel, Unsigned Bits), Vec Pixels Pixel)
+simDisplay :: (Vec 256 Pixel, Unsigned 8) -> (Bool, Pixel, Unsigned 8) ->
+	((Vec 256 Pixel, Unsigned 8), Vec 256 Pixel)
 
 simDisplay (disp, i') (r, p, i) = case r of
 	False -> ((disp, i), disp)
@@ -37,11 +35,16 @@ discardFirst p =
 	register (False, (0,0,0), 0) $ 
 	signal ((,,) True) <*> p <*> inc
 
-inc :: Signal (Unsigned Bits)
+inc :: Signal (Unsigned 8)
 inc = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 
 simGPU = 
 	sequence $ 
-	fmap putStr $ 
+	fmap putStr  ( 
 	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
-	sample showFrame
+	sample showFrame )
+
+simGPUclr = 
+	sequence $ fmap (((>>) clearScreen) .  putStr)  ( 
+	P.concatMap (P.take 1) . P.iterate (P.drop 150) $ 
+	sample showFrame )
