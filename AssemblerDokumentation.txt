@@ -71,6 +71,23 @@ norm
 normaliserar en vektor till längden ett med samma riktning
 
 
+
+
+-- metoder
+
+length - inte testad
+
+distBall - inte testad
+
+rayLength - inte testad
+
+normalize - inte testad - överflödig
+
+camSetup - inte överflödig - kan bli bättre mha addv
+
+
+
+
 -- förhoppningsvis inkommande operationer
 
 pow (låg prioritet)

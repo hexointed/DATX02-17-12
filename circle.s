@@ -3,6 +3,8 @@ zero:
 	0.0
 one:
 	1.0
+minusone:
+	-1.0
 two:
 	2.0
 displaysize:
@@ -22,35 +24,32 @@ shift:
 
 
 
+maxDist:
+	20.0
 epsilon:
-	0.01
-eyex: ;this vector might be removed once I get the hang of this
+	0.1
+	
+eyex: 
 	0.0
 eyey:
 	0.0
 eyez:
 	0.0
 
+
 lookatx:
-	0.0
+	1.0
 lookaty:
 	0.0
 lookatz:
 	0.0
 
-upVecx: ;this vector might be removed once I geet the hand of this
-	0.0
-upVecy:
-	1.0
-upVecz:
-	0.0
-
 ballr:
 	10.0
 ballx:
-	0.0
+	10
 bally:
-	10.0
+	0.0
 ballz:
 	0.0
 
@@ -91,9 +90,21 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	a pushq
 	a drop
 
-draw: 
 
-		; ritar ut cirkel om placeras i draw
+
+
+
+
+
+draw: 
+	; testing
+	val &one
+	setval 2 0
+	pushf
+	drop
+
+
+		; ritar ut cirkel
 	next 3
 	pack 2
 	val &pos
@@ -121,57 +132,59 @@ draw:
 
 
 
-length:
-		;calculates the current march pos and stores in temp vector
+rayLength:
+		; calculates the current march pos and stores in tempVec
+		; args:    reg. 4-6
+		; results: reg. 8-10
+
 	pack 4
-	pack 7
-	mul
-	pack 8
-	add
-	a setval 11 0
-
 	pack 5
-	pack 7
-	mul
-	pack 9
-	add
-	a setval 12 0
-
 	pack 6
 	pack 7
-	mul
-	pack 10
-	add
-	a setval 13 0
+
+	scale
+
+	setval 8 2
+	setval 9 1
+	setval 10 0
 
 
-	pack 0
-	a setval 15 0
 
+distBall:
+		; calculates the length between tempVec and Ball, ball should
+		; probably be easy to substitute ball with another object
+		; args: reg. 8-10 
+		; result: reg. 14
+		; note: alters reg. 11-13
 
-		;calculates the length between temp vec and object
-	val &ballx	; squares the difference in the x-axis
-	pack 11
+	; squares the difference in the x-axis, saves result in 11
+	val &ballx	
+	pack 8
 	sub
 	a setval 14 0
 	pack 14
 	mul
 	a setval 11 0
 
+	; squares the difference in the y-axis, saves result in 12
 	val &bally
-	pack 12
+	pack 9
 	sub
 	a setval 14 0
 	pack 14
 	mul
+	a setval 12 0
 
+	; squares the difference in the z-axis, saves result in 13
 	val &ballz 
-	pack 13
+	pack 10
 	sub
 	a setval 14 0
 	pack 14
 	mul
+	a setval 13 0
 
+	; adds the results and takes the square 
 	pack 11
 	pack 12
 	pack 13
@@ -179,9 +192,216 @@ length:
 	add
 	sqrt
 
+	setval 14 0
 
-			; if done after "length", will deduce whether the march point is
-			; sufficiently close to the surface
+length:
+		; calculates distance between tempVec and TempVec2. current march position 
+		; should suitably be placed in tempVec and object position in tempVec2
+		; args:   reg. 8-10, 11-13
+		; result: reg. 14
+		; note: alters reg. 11-13
+
+	; squares the difference in the x-axis, saves result in 11
+	pack 11
+	pack 8
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 11 0
+
+	; squares the difference in the y-axis, saves result in 12
+	pack 12
+	pack 9
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 12 0
+
+	; squares the difference in the z-axis, saves result in 13
+	pack 13 
+	pack 10
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 13 0
+
+	; adds the results and takes the square 
+	pack 11
+	pack 12
+	pack 13
+	add
+	add
+	sqrt
+
+	setval 14 0
+
+normalize:
+		; creates vector that has the same length as the previous but with
+		; a length of 1
+		; args:   reg. 8-10
+		; result: reg. 8-10
+
+	; prepare vector for scaling
+	pack 8
+	pack 9
+	pack 10
+
+	val &one ; prepares a one in the stack for inverting the length
+
+	; calculates length of vector
+	pack 8
+	pack 8
+	mul
+	pack 9
+	pack 9
+	mul
+	pack 10
+	pack 10 
+	mul
+	add
+	add
+	sqrt
+
+	div ; divides one by the length of the vector
+
+	scale ; scales the vector
+
+	setval 10 0
+	setval 11 1
+	setval 12 2
+
+
+
+
+
+
+camSetup: 
+		; sätter uppray-direction registren
+		; args:   reg. 1-2
+		; result: reg. 4-6
+
+	; calculate a directional vector which will be in the center of the view, stores 
+	; in ray-direction
+	val &eyex
+	val &lookatx
+	sub
+	val &eyey
+	val &lookaty
+	sub
+	val &eyez
+	val &lookatz
+	sub
+	(NORMALIZE)
+	setval 4 2
+	setval 5 1
+	setval 6 0
+	
+	; calculate a "right-direction vector", stores in tempVec
+	pack 4
+	pack 5
+	pack 6
+	val &0
+	val &1
+	val &0
+	cross
+	(NORMALIZE)
+	setval 8 2
+	setval 9 1
+	setval 10 0
+
+	; calculate actual up vector, store in tempVec2
+	pack 8
+	pack 9
+	pack 10
+	pack 4
+	pack 5
+	pack 6
+	cross
+	(NORMALIZE)
+	setval 11 2
+	setval 12 1
+	setval 13 0
+
+	; calculate screen positions as a range from 1 to -1, store in reg. 14 and 15
+	pack 2
+	val &displaysize
+	val &two
+	div
+	div
+	val & one 
+	sub
+	setval 14 0
+	pack 3
+	val &displaysize
+	val &two
+	div
+	div
+	val &minusone	; (1,1) should be in the upper right corner, not the lower right 
+					; corner, so the y-value is negated.
+	mul
+	setval 15 0
+
+	; scale the right-vector with the x-value
+	pack 8
+	pack 9
+	pack 10
+	pack 14
+	scale
+	setval 8 2
+	setval 9 1
+	setval 10 0
+
+	; sscale the up-vector with the y-value
+	pack 11
+	pack 12
+	pack 13
+	pack 15
+	scale
+	setval 11 2
+	setval 12 1
+	setval 13 0
+
+	pack 4
+	pack 8
+	pack 11
+	add
+	add
+	setval 4 0
+
+	pack 5
+	pack 9
+	pack 12
+	add
+	add
+	setval 5 0
+
+	pack 6
+	pack 10
+	pack 13
+	add
+	add
+	setval 6 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		; if done after "length", will deduce whether the march point is
+		; sufficiently close to the surface
 	val &epsilon
 	;lessthan
 	z 0 pushq 	; om epsilon är mindre än d, välj färg på pixel
@@ -191,13 +411,4 @@ length:
 
 ;subrutiner
 
-;powerfunktion, return x*x
-pow:
-	pack 14
-	pack 14
-	mul
-	a setval 14 0
-	pack 15
-	a setval 0 0
-	a pushq
-	a drop
+
