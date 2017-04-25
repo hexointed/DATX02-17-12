@@ -67,6 +67,9 @@ cross -> 4
 	-13
 	 10
 
+norm
+normaliserar en vektor till längden ett med samma riktning
+
 
 -- förhoppningsvis inkommande operationer
 
