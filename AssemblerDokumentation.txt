@@ -70,7 +70,7 @@ cross -> 4
 
 -- förhoppningsvis inkommande operationer
 
-pow
+pow (låg prioritet)
 
 "less than/more than (< / >)" (returnerar 1 om det är mindre än, annars returnerar)
 
@@ -86,3 +86,11 @@ register 4-6       ray-direction
 register 7         raylängd 
 register 8-10      temp vec
 register 11-13     temp vec 2
+
+
+
+i register sparas vektorer stigande, till exempel 
+reg. 4 5 6
+vec. x y z
+
+i stacken ligger vektorn stigande, x pushas alltså först till stacken, y sista
