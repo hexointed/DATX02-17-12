@@ -24,6 +24,27 @@ shift:
 
 epsilon:
 	0.01
+eyex: ;this vector might be removed once I get the hang of this
+	0.0
+eyey:
+	0.0
+eyez:
+	0.0
+
+lookatx:
+	0.0
+lookaty:
+	0.0
+lookatz:
+	0.0
+
+upVecx: ;this vector might be removed once I geet the hand of this
+	0.0
+upVecy:
+	1.0
+upVecz:
+	0.0
+
 ballr:
 	10.0
 ballx:
@@ -32,6 +53,8 @@ bally:
 	10.0
 ballz:
 	0.0
+
+
 
 
 .text:
@@ -69,45 +92,6 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	a drop
 
 draw: 
-	val &one
-	a setval 2 0 
-
-	val &one
-	pack 1
-	sub
-	z 0 pushf 
-	z 0 drop
-
-	val &zero
-	a setval 2 0
-	a pushf
-	a drop
-
-
-	pack 1
-	sqrt
-	val &two
-	sub
-	z 0 pushf
-	z 0 drop
-
-	val &white
-	a setval 0 0
-	a pushq
-	a drop
-
-
-
-white:
-	val &one
-	a setval 2 0
-	a pushf
-	a drop
-
-
-
-
-
 
 		; ritar ut cirkel om placeras i draw
 	next 3
@@ -136,16 +120,6 @@ white:
 	a drop
 
 
-
-
-
-
-
-setEyePoint:
-	pack 2
-	a setval 8 0
-	pack 3
-	a setval 9 0
 
 length:
 		;calculates the current march pos and stores in temp vector
@@ -176,7 +150,7 @@ length:
 
 
 		;calculates the length between temp vec and object
-	val &ballx	; squares the difference in x-led
+	val &ballx	; squares the difference in the x-axis
 	pack 11
 	sub
 	a setval 14 0

@@ -18,8 +18,7 @@ dumpar hela tråden
 
 pack 
 läser från minnet (registren) och pushar till stack
-
-accum 
+zaccum 
 hämtar next's resultat
 
 next 
@@ -29,16 +28,16 @@ val
 laddar in pekaren till värdet
 
 div
-den övre delat på den undre
+den övre delat på den undre (i stacken, alltså den först pushade delat på den senast pushade)
 
 sub
-den övre minus den undre
+den övre minus den undre (i stacken, den först pushade minus den sist pushade)
 
 addv
 adderar två vektorer samman
 
 subv
-subtraherar den övre vektorn minus den undre
+subtraherar den övre vektorn från den undre
 
 scale
 gångrar den undre floaten med vektorn över
@@ -58,11 +57,14 @@ pow
 "less than/more than (< / >)" (returnerar 1 om det är mindre än, annars returnerar)
 
 
-
+Important registers
 register 0         instr-pekare
 register 1         pixelpekare
 register 2         (pixelfärg) x-värde för pixel
 register 3         y-värde för pixel
-register 4-6       riktning
+
+How Registers are used in code
+register 4-6       ray-direction 
 register 7         raylängd 
-register 11-13     temp vec
+register 8-10      temp vec
+register 11-13     temp vec 2
