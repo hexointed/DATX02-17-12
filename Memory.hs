@@ -44,6 +44,7 @@ encodeDfuI b = Just instr
                         0x0d -> Oper Subv
                         0x0e -> Oper Scale
                         0x0f -> Oper Copy
+                        0x10 -> Oper Norm
 		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z
