@@ -4,6 +4,8 @@ asm "filnamn"
 ladda simulate
 simGPU
 
+zero-flaggan kräver en siffra som perkar på stacken.
+
 setval a b - c         
 värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet. påverkar inte stacken.
 
@@ -75,11 +77,24 @@ normaliserar en vektor till längden ett med samma riktning
 
 -- metoder
 
-length - inte testad
+length - TESTAD
+		; calculates distance between tempVec and TempVec2. current march position 
+		; should suitably be placed in tempVec and object position in tempVec2
+		; args:   reg. 8-10, 11-13
+		; result: reg. 14
+		; note: alters reg. 11-13
 
 distBall - inte testad
+		; calculates the length between tempVec and Ball, it should
+		; probably be easy to substitute Ball with another object
+		; args: reg. 8-10 
+		; result: reg. 14
+		; note: alters reg. 11-13
 
-rayLength - inte testad
+rayPos - TESTAD, verkar fungera
+		; calculates the current march pos and stores in tempVec
+		; args:    reg. 4-7
+		; results: reg. 8-10
 
 normalize - inte testad - överflödig
 
@@ -97,7 +112,7 @@ pow (låg prioritet)
 
 Important registers
 register 0         instr-pekare
-register 1         pixelpekare
+register 1         pixelpekare (returadress)
 register 2         (pixelfärg) x-värde för pixel
 register 3         y-värde för pixel
 

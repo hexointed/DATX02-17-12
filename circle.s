@@ -7,6 +7,8 @@ minusone:
 	-1.0
 two:
 	2.0
+hundred:
+	100.0
 displaysize:
 	16.0
 pos:
@@ -84,14 +86,45 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	a drop
 
 
-
-
-
-
-
 draw: 
 
 
+	;test;
+	val &one
+	val &zero
+	a setval 4 0
+	a setval 5 0
+	a setval 6 1
+	val &hundred
+	a setval 7 0
+	a setval 15 1
+
+	val &rayPos
+	a setval 0 0
+	a pushq
+	a drop
+
+
+
+
+
+testcont:
+	pack 10
+	a setval 14 0
+
+
+
+	; if reg 14 is equal to reg 15 draw white, otherwise draw black
+	;FUNKAR
+	val &zero
+	a setval 2 0
+	pack 14
+	pack 15
+	sub
+	val &one
+	z 1 setval 2 0
+	a pushf
+	a drop
 
 		; ritar ut cirkel
 	next 3
@@ -121,7 +154,7 @@ draw:
 
 
 
-rayLength:
+rayPos:
 		; calculates the current march pos and stores in tempVec
 		; args:    reg. 4-6
 		; results: reg. 8-10
@@ -136,6 +169,12 @@ rayLength:
 	a setval 8 2
 	a setval 9 1
 	a setval 10 0
+
+	val &testcont 
+	a setval 0 0
+	a pushq
+	a drop
+
 
 
 
@@ -226,6 +265,7 @@ length:
 	sqrt
 
 	a setval 14 0
+
 
 normalize:
 		; creates vector that has the same length as the previous but with
