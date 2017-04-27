@@ -29,11 +29,9 @@ topQueue inputs = fmap coresInterface inputsDelayed <*> packOut
 	where
 		out = fmap calcDecision inputs
 		inputsDelayed = register (repeat (False, Nothing)) inputs
-		packDelayed = register Nothing $ fmap packFromDecision out
-		bram = fmap snd $ 
-			bramStack (fmap needsPop out) (fmap packFromDecision out)
-		packOut = mux select bram packDelayed
-		select = register True $ fmap decisionSelector out
+		packDelayed = register None $ fmap packFromDecision out
+		bram = bramStack (fmap packFromDecision out) (fmap needsPop out)
+		packOut = bram
 
 coresInterface :: VecIn n -> Maybe Pack -> VecOut n
 coresInterface v p = zipWith (,) outs acc
@@ -55,20 +53,15 @@ giveBackCorrect v p = snd $ mapAccumL onlyFirst True v
 			True  -> (False, p)
 			False -> (isFirst, Nothing)
 
-decisionSelector :: Decision -> Bool
-decisionSelector (Send p) = False
-decisionSelector Nop      = False
-decisionSelector _        = True
-
 needsPop :: Decision -> Bool
 needsPop (Pop) = True
 needsPop _     = False
 
-packFromDecision :: Decision -> Maybe Pack
-packFromDecision (Send p) = Just p
-packFromDecision (Push p) = Just p
-packFromDecision Nop      = Nothing
-packFromDecision Pop      = Nothing
+packFromDecision :: Decision -> Push
+packFromDecision (Send p) = None
+packFromDecision (Push p) = Bottom p
+packFromDecision Nop      = None
+packFromDecision Pop      = None
 
 calcDecision :: VecIn (n + 1) -> Decision
 calcDecision inputs = case packIn of
