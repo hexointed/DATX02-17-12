@@ -42,7 +42,7 @@ lookatz:
 ballr:
 	10.0
 ballx:
-	10
+	10.0
 bally:
 	0.0
 ballz:
@@ -88,14 +88,13 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 draw: 
 	;test;
-	val &one
 	val &zero
-	val &hundred
-	a setval 8 1
-	a setval 9 1
+	a setval 8 0
+	a setval 9 0
 	a setval 10 0
+	a setval 15 0
 
-	val &normalize
+	val &distBall
 	a setval 0 0
 	a pushq
 	a drop
@@ -105,10 +104,7 @@ draw:
 
 
 testcont:
-	pack 10
-	a setval 14 0
-	val &one
-	a setval 15 0
+	
 
 
 
@@ -186,6 +182,7 @@ distBall:
 	sub
 	a setval 14 0
 	pack 14
+	pack 14
 	mul
 	a setval 11 0
 
@@ -195,6 +192,7 @@ distBall:
 	sub
 	a setval 14 0
 	pack 14
+	pack 14
 	mul
 	a setval 12 0
 
@@ -203,6 +201,7 @@ distBall:
 	pack 10
 	sub
 	a setval 14 0
+	pack 14
 	pack 14
 	mul
 	a setval 13 0
@@ -216,6 +215,14 @@ distBall:
 	sqrt
 
 	a setval 14 0
+
+	val &testcont
+	a setval 0 0
+	a pushq
+	a drop
+
+
+
 
 length:
 		; calculates distance between tempVec and TempVec2. current march position 
@@ -299,10 +306,6 @@ normalize:
 	div
 	a setval 10 0
 
-	val &testcont 
-	a setval 0 0
-	a pushq
-	a drop
 
 
 
