@@ -87,19 +87,15 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 
 draw: 
-
-
 	;test;
 	val &one
 	val &zero
-	a setval 4 0
-	a setval 5 0
-	a setval 6 1
 	val &hundred
-	a setval 7 0
-	a setval 15 1
+	a setval 8 1
+	a setval 9 1
+	a setval 10 0
 
-	val &rayPos
+	val &normalize
 	a setval 0 0
 	a pushq
 	a drop
@@ -111,6 +107,8 @@ draw:
 testcont:
 	pack 10
 	a setval 14 0
+	val &one
+	a setval 15 0
 
 
 
@@ -170,10 +168,7 @@ rayPos:
 	a setval 9 1
 	a setval 10 0
 
-	val &testcont 
-	a setval 0 0
-	a pushq
-	a drop
+
 
 
 
@@ -272,13 +267,7 @@ normalize:
 		; a length of 1
 		; args:   reg. 8-10
 		; result: reg. 8-10
-
-	; prepare vector for scaling
-	pack 8
-	pack 9
-	pack 10
-
-	val &one ; prepares a one in the stack for inverting the length
+		; note: alters reg. 14
 
 	; calculates length of vector
 	pack 8
@@ -293,14 +282,31 @@ normalize:
 	add
 	add
 	sqrt
+	a setval 14 0
 
-	div ; divides one by the length of the vector
+	pack 8
+	pack 14
+	div
+	a setval 8 0
 
-	scale ; scales the vector
+	pack 9
+	pack 14
+	div
+	a setval 9 0
 
+	pack 10
+	pack 14
+	div
 	a setval 10 0
-	a setval 11 1
-	a setval 12 2
+
+	val &testcont 
+	a setval 0 0
+	a pushq
+	a drop
+
+
+
+
 
 
 

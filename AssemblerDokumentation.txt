@@ -69,10 +69,6 @@ cross -> 4
 	-13
 	 10
 
-norm
-normaliserar en vektor till längden ett med samma riktning
-
-
 
 
 -- metoder
@@ -96,7 +92,12 @@ rayPos - TESTAD, verkar fungera
 		; args:    reg. 4-7
 		; results: reg. 8-10
 
-normalize - inte testad - överflödig
+normalize - TESTAD, verkar fungera
+		; creates vector that has the same length as the previous but with
+		; a length of 1
+		; args:   reg. 8-10
+		; result: reg. 8-10
+		; note: alters reg. 14
 
 camSetup - inte överflödig - kan bli bättre mha addv
 
