@@ -214,7 +214,10 @@ distBall:
 	add
 	sqrt
 
+	val &ballr
+	sub
 	a setval 14 0
+
 
 	val &testcont
 	a setval 0 0

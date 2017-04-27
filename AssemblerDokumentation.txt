@@ -80,7 +80,7 @@ length - TESTAD
 		; result: reg. 14
 		; note: alters reg. 11-13
 
-distBall - inte testad
+distBall - TESTAD
 		; calculates the length between tempVec and Ball, it should
 		; probably be easy to substitute Ball with another object
 		; args: reg. 8-10 
