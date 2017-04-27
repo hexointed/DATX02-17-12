@@ -11,27 +11,14 @@ import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 import BramStack
 
-type Address = Signed 32
-type RGBValue = BitVector 24
-
 type VecIn n = Vec n (Bool, Maybe Pack)
 type VecOut n = Vec n (Maybe Pack, Bool)
 
-data Decision
-	= Nop
-	| Pop
-	| Push Pack
-	| Send Pack
-	deriving (Eq, Generic, Show, NFData)
-
 topQueue :: KnownNat n => Signal (VecIn (n + 1)) -> Signal (VecOut (n + 1))
-topQueue inputs = fmap coresInterface inputsDelayed <*> packOut
+topQueue inputs = fmap coresInterface inputs <*> bram
 	where
-		out = fmap calcDecision inputs
-		inputsDelayed = register (repeat (False, Nothing)) inputs
-		packDelayed = register None $ fmap packFromDecision out
-		bram = bramStack (fmap packFromDecision out) (fmap needsPop out)
-		packOut = bram
+		(has, wants) = unbundle $ fmap calcDecision inputs
+		bram = bramStack (fmap packFromMaybe has) wants
 
 coresInterface :: VecIn n -> Maybe Pack -> VecOut n
 coresInterface v p = zipWith (,) outs acc
@@ -53,27 +40,15 @@ giveBackCorrect v p = snd $ mapAccumL onlyFirst True v
 			True  -> (False, p)
 			False -> (isFirst, Nothing)
 
-needsPop :: Decision -> Bool
-needsPop (Pop) = True
-needsPop _     = False
+packFromMaybe :: Maybe Pack -> Push
+packFromMaybe Nothing  = None
+packFromMaybe (Just p) = Bottom p
 
-packFromDecision :: Decision -> Push
-packFromDecision (Send p) = None
-packFromDecision (Push p) = Bottom p
-packFromDecision Nop      = None
-packFromDecision Pop      = None
-
-calcDecision :: VecIn (n + 1) -> Decision
-calcDecision inputs = case packIn of
-	Nothing -> case packOut of
-		False -> Nop
-		True  -> Pop
-	Just p  -> case packOut of
-		False -> Push p
-		True  -> Send p
+calcDecision :: VecIn (n + 1) -> (Maybe Pack, Bool)
+calcDecision inputs = (has, wants)
 	where
-		packIn = snd $ fold hasPack inputs
-		packOut = fst $ fold wantsPack inputs
+		has = snd $ fold hasPack inputs
+		wants = fst $ fold wantsPack inputs
 
 hasPack (w, p) (w', p') = case p of
 	Just _  -> (w, p)

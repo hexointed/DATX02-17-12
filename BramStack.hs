@@ -4,9 +4,10 @@ module BramStack  where
 
 import Base
 import Pack
+import Debug.Trace
 import Float
 
-type QSize = 16
+type QSize = 64
 type QIndex = Unsigned (CLog 2 QSize)
 
 data Push
@@ -18,30 +19,35 @@ data Push
 type Pop = Bool
 
 type BramStack = BS
-data BS = BS QIndex QIndex (Vec QSize Pack)
+data BS = BS QIndex QIndex
 	deriving (Eq, Generic, NFData, Show)
 
-empty = BS 0 (-1) (repeat (repeat 0))
+empty = BS 0 (-1)
 
 topEntity = bramStack 
 
 bramStack :: Signal Push -> Signal Pop -> Signal (Maybe Pack)
-bramStack = curry (mealy bramStep BramStack.empty . bundle)
-
-bramStep b@(BS top btm v) (push, pop) = (out, next)
+bramStack push pop = fmap nextOut b <*> ram <*> push <*> pop
 	where
-		out = BS top' btm' v'
-		next = case pop of
-			False -> Nothing
-			True  -> newTop b push
-		
+		(read, write, b) = unbundle $ 
+			(mealy bramStep BramStack.empty) $ bundle (push, pop)
+		ram = setFirst (repeat 0) $ readNew (blockRam ramInitial) read write
+
+		push' = register None push
+		pop'  = register False pop
+
+		ramInitial = repeat (repeat 0) :: Vec QSize Pack
+
+bramStep b@(BS top btm) (push, pop) = (out, (top', write, b))
+	where
+		out = BS top' btm'
+
 		top' = nextTop top btm push pop
-		
 		btm' = case push of
 			Bottom p -> btm - 1
 			_        -> btm
 		
-		v' = insert b push
+		write = insert b push
 
 nextTop top btm push pop = top + pu
 	where
@@ -56,18 +62,20 @@ nextTop top btm push pop = top + pu
 				| pop && top /= btm -> (-1)
 				| otherwise         -> 0
 
-insert (BS top btm v) push = replace ptr val v
-	where
-		(ptr, val) = case push of
-			Top p    -> (top + 1, p)
-			Bottom p -> (btm    , p)
-			None     -> (top    , v !! top)
+insert (BS top btm) push = case push of
+			Top p    -> Just (top + 1, p)
+			Bottom p -> Just (btm    , p)
+			None     -> Nothing
 
-newTop (BS top btm v) push = case push of
+nextOut b v push pop = case pop of
+	False -> Nothing
+	True  -> newTop b v push
+
+newTop (BS top btm) v push = case push of
 	Top p    -> Just p
 	Bottom p -> if 
 		| top == btm -> Just p
-		| otherwise  -> Just (v !! top)
+		| otherwise  -> Just v
 	None     -> if
 		| top == btm -> Nothing
-		| otherwise  -> Just (v !! top)
+		| otherwise  -> Just v
