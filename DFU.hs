@@ -96,7 +96,7 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 
 opCheck :: Op -> Bool
 opCheck op 
-	| op == Cross || op == Addv || op == Subv || op == Scale = True
+	| op == Cross || op == Addv || op == Subv || op == Scale || op == Norm = True
 	| otherwise = False
 
 pushOp :: Op -> Stack Float -> Stack Float
