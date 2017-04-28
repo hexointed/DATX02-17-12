@@ -10,16 +10,17 @@ import Memory
 import Framebuffer
 import Float
 
-type Cores = 8
+type Cores = 1
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn
 
 coreIn :: Vec Cores (Signal CoreIn)
-coreIn = fmap meld 
-	(fmap (register (Nothing, False)) mealyQueue) 
-	<*> (fmap (register (Nothing, Nothing)) mealyMemory)
+coreIn = fmap (meld . register (Nothing, False)) mealyQueue
+	<*> fmap (register (Nothing, Nothing)) mealyMemory
 	<*> mealyFrame
+-- coreIn = fmap meld 
+--	(fmap (register (Nothing, False)) mealyQueue) 
 
 mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
 mealyQueue = mealyB serve (push (0 :> 256 :> repeat 0) empty) wiw
