@@ -39,7 +39,7 @@ addv
 adderar två vektorer samman
 
 subv
-subtraherar den övre vektorn från den undre
+subtraherar den undre från den övre
 
 scale
 gångrar den undre floaten med vektorn över
@@ -80,7 +80,7 @@ length - TESTAD
 		; result: reg. 14
 		; note: alters reg. 11-13
 
-distBall - inte testad
+distBall - TESTAD
 		; calculates the length between tempVec and Ball, it should
 		; probably be easy to substitute Ball with another object
 		; args: reg. 8-10 
@@ -99,7 +99,7 @@ normalize - TESTAD, verkar fungera
 		; result: reg. 8-10
 		; note: alters reg. 14
 
-camSetup - inte överflödig - kan bli bättre mha addv
+camSetup - inte testad
 
 
 

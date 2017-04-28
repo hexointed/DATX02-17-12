@@ -78,6 +78,7 @@ assembleCFU ws = case ws of
 		cond "a"  = Right 0
 		cond "z"  = Right 1
 		cond "nz" = Right 2
+		cond "n"  = Right 3
 
 assembleVal ws = do
 	n <- single ws
@@ -124,7 +125,7 @@ readUnsigned s n = fmap pack $ read' s n
 			[(n', "")] -> Right n'
 			[]         -> Left "Expected number"
 
-isCond w = case filter (==w) ["a", "nz", "z"] of
+isCond w = case filter (==w) ["a", "nz", "z", "n"] of
 	[] -> False
 	_  -> True
 
