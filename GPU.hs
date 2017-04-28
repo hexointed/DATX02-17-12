@@ -44,6 +44,19 @@ meld q m f = fmap mergeTuple q <*> m <*> f
 
 zip' f a b = fmap f a <*> b
 
-mealyFrame = fst $ fb (pure 0)
+mealyFrame = fst fb'
+
+fb' = fb (fmap (resize . pxAddr . scan) inc :: Signal (Unsigned 32))
 
 fb read = framebuffer read $ fmap (register (CoreOut 0 0 (repeat 0) None False)) coreOut
+
+inc :: Signal (Unsigned 12)
+inc = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
+
+scan n = (x, y + y')
+	where
+		x  = (n `div` 8) `mod` 128
+		y  = n `mod` 8
+		y' = 8 * div n 1024
+
+pxAddr (x, y) = 4095 - (x + y * 128)

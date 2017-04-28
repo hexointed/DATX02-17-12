@@ -7,19 +7,7 @@ import Framebuffer
 import CLaSH.Sized.Internal.BitVector
 
 showFrame =
-	fmap (\px -> if px == (0,0,0) then high else low ) $
-	snd $ fb (fmap (resize . pxAddr . scan) inc :: Signal (Unsigned 32))
-
-inc :: Signal (Unsigned 12)
-inc = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
-
-scan n = (x, y + y')
-	where
-		x  = (n `div` 8) `mod` 128
-		y  = n `mod` 8
-		y' = 8 * div n 1024
-
-pxAddr (x, y) = 4095 - (x + y * 128)
+	fmap (\px -> if px == (0,0,0) then high else low ) (snd fb')
 
 accum8 (n, v) b = (,) (n', v') (send, v')
 	where
