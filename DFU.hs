@@ -16,6 +16,7 @@ data PackType = Frame | Queue | None
 
 data Choice
 	= NZ
+	| N
 	| Z
 	| A
 	deriving (Eq, Show, Generic, NFData)
@@ -92,7 +93,8 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 	where f 
 		| ch == NZ = (/= 0)
 		| ch ==  Z = (== 0)
-		| ch ==  A = (const True)
+		| ch ==  N = (<  0)
+		| ch ==  A = const True
 
 opCheck :: Op -> Bool
 opCheck op 
