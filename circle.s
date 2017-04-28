@@ -39,6 +39,20 @@ lookaty:
 lookatz:
 	0.0
 
+rightx:
+	1.0
+righty:
+	0.0
+rightz:
+	0.0
+
+upx:
+	0.0
+upy:
+	1.0
+upz:
+	0.0
+
 ballr:
 	10.0
 ballx:
@@ -87,14 +101,9 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 
 draw: 
-	;test;
-	val &zero
-	a setval 8 0
-	a setval 9 0
-	a setval 10 0
-	a setval 15 0
 
-	val &distBall
+	;test;
+	val &camSetup
 	a setval 0 0
 	a pushq
 	a drop
@@ -104,9 +113,6 @@ draw:
 
 
 testcont:
-	
-
-
 
 	; if reg 14 is equal to reg 15 draw white, otherwise draw black
 	;FUNKAR
@@ -219,14 +225,6 @@ distBall:
 	a setval 14 0
 
 
-	val &testcont
-	a setval 0 0
-	a pushq
-	a drop
-
-
-
-
 length:
 		; calculates distance between tempVec and TempVec2. current march position 
 		; should suitably be placed in tempVec and object position in tempVec2
@@ -309,11 +307,10 @@ normalize:
 	div
 	a setval 10 0
 
-
-
-
-
-
+	pack 1
+	a setval 0 0
+	a pushq
+	a drop
 
 
 
@@ -323,22 +320,136 @@ camSetup:
 		; sätter uppray-direction registren
 		; args:   reg. 1-2
 		; result: reg. 4-6
+		; alters: reg. 8-10
 
-	; calculate a directional vector which will be in the center of the view, stores 
-	; in ray-direction
+	; calculate a directional vector which will be in the center of the view, 
+	; stores in ray-direction. This will be used to offset with later.
 	val &eyex
-	val &lookatx
-	sub
 	val &eyey
-	val &lookaty
-	sub
 	val &eyez
+	val &lookatx
+	val &lookaty
 	val &lookatz
+	subv
+	a setval 4 2
+	a setval 5 1
+	a setval 6 0
+
+
+	; calculate screen positions as a range from 1 to -1, 
+	; store in reg. 14 and 15
+	pack 2
+	val &displaysize
+	val &two
+	div
+	div
+	val &one 
 	sub
+	a setval 14 0
+
+	pack 3
+	val &displaysize
+	val &two
+	div
+	div
+	val &one
+	sub
+	val &minusone	; (1,1) should be in the upper right corner, 
+					; not the lower right corner, so the y-value is negated.
+	mul
+	a setval 15 0
+
+
+	; calculate and scale upv and rightv
+	val &rightx
+	val &righty
+	val &rightz
+	pack 14
+	scale
+
+	val &upx
+	val &upy
+	val &upz
+	pack 15
+	scale
+
+	; add the x-vector, the y-vector and the directional vector.
+	addv
+
+	pack 4
+	pack 5
+	pack 6
+
+	addv
+
+	a setval 8 2
+	a setval 9 1
+	a setval 10 0
+
+	; normalize the resulting vector 
+	val &normalize
+	a setval 0 0
+	val &camCont
+	a setval 1 0
+	a pushq
+	a drop
+
+
+camCont:
+
+	pack 8
+	a setval 4 0
+	pack 9
+	a setval 5 0
+	pack 10
+	a setval 6 0
+	val &one
+	a setval 7 0
+
+	; shift x-coordinate to R channel
+	pack 4
+	val &shift
+	mul
+	val &shift
+	mul
+
+	a setval 4 0
+
+	;shift y-coordinate to G channel
+	pack 5
+	val &shift
+	mul
+	a setval 5 0
+
+	pack 6
+	a setval 6 0
+
+	pack 4
+	pack 5
+	pack 6
+	add
+	add
+	a setval 2 0
+	a pushf
+	a drop
+
+
+
+
+
+	
+
+
+
+
+
+	;--------------- probably not useful
+
 	norm
 	a setval 4 2
 	a setval 5 1
 	a setval 6 0
+
 	
 	; calculate a "right-direction vector", stores in tempVec
 	pack 4
@@ -366,24 +477,6 @@ camSetup:
 	a setval 12 1
 	a setval 13 0
 
-	; calculate screen positions as a range from 1 to -1, store in reg. 14 and 15
-	pack 2
-	val &displaysize
-	val &two
-	div
-	div
-	val &one 
-	sub
-	a setval 14 0
-	pack 3
-	val &displaysize
-	val &two
-	div
-	div
-	val &minusone	; (1,1) should be in the upper right corner, not the lower right 
-					; corner, so the y-value is negated.
-	mul
-	a setval 15 0
 
 	; scale the right-vector with the x-value
 	pack 8
@@ -405,6 +498,7 @@ camSetup:
 	a setval 12 1
 	a setval 13 0
 
+
 	pack 4
 	pack 8
 	pack 11
@@ -425,6 +519,7 @@ camSetup:
 	add
 	add
 	a setval 6 0
+	;---------------
 
 
 
