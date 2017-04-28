@@ -67,11 +67,12 @@ step' core input = case ready (dfu core) of
 				_    -> fmap (\x -> x { packType = pt }) (output core)
 			True  -> (output core')
 		where
-			(core', dfuS) = step'' core (dfuInstr input) d 
+			(core', dfuS) = step'' core nextInstruction d 
 			d = case dfuData input of
 				Nothing -> 0
 				Just d  -> d
 			setPtr ptr x = x { dfuDPtr = ptr }
+			nextInstruction = dfuInstr input
 
 step'' core instr global = case instr of
 	Nothing    -> (core, Left Nothing)

@@ -10,7 +10,7 @@ showFrame =
 	fmap show' $
 	mealy simDisplay (repeat (0,0,0), 0) $
 	discardFirst $
-	snd $ fb (fmap resize inc :: Signal (Unsigned 32))
+	snd $ fb (fmap resize incr :: Signal (Unsigned 32))
 	where
 		show' vs = 
 			('\n':)$
@@ -33,10 +33,10 @@ simDisplay (disp, i') (r, p, i) = case r of
 
 discardFirst p = 
 	register (False, (0,0,0), 0) $ 
-	signal ((,,) True) <*> p <*> inc
+	signal ((,,) True) <*> p <*> incr
 
-inc :: Signal (Unsigned 8)
-inc = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
+incr :: Signal (Unsigned 8)
+incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 
 simGPU = 
 	sequence $ 
