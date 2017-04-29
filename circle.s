@@ -33,11 +33,11 @@ eyez:
 	0.0
 
 lookatx:
-	1.0
+	0.0
 lookaty:
 	0.0
 lookatz:
-	0.0
+	1.0
 
 rightx:
 	1.0
@@ -277,6 +277,7 @@ normalize:
 		; result: reg. 8-10
 		; note: alters reg. 14
 
+
 	; calculates length of vector
 	pack 8
 	pack 8
@@ -307,7 +308,7 @@ normalize:
 	div
 	a setval 10 0
 
-	pack 1
+	pack 2
 	a setval 0 0
 	a pushq
 	a drop
@@ -324,22 +325,23 @@ camSetup:
 
 	; calculate a directional vector which will be in the center of the view, 
 	; stores in ray-direction. This will be used to offset with later.
-	val &eyex
-	val &eyey
-	val &eyez
 	val &lookatx
 	val &lookaty
 	val &lookatz
+	val &eyex
+	val &eyey
+	val &eyez
 	subv
 	a setval 4 2
 	a setval 5 1
 	a setval 6 0
 
-
 	; calculate screen positions as a range from 1 to -1, 
 	; store in reg. 14 and 15
 	pack 2
 	val &displaysize
+	val &one
+	sub
 	val &two
 	div
 	div
@@ -347,8 +349,11 @@ camSetup:
 	sub
 	a setval 14 0
 
+
 	pack 3
 	val &displaysize
+	val &one
+	sub
 	val &two
 	div
 	div
@@ -358,6 +363,7 @@ camSetup:
 					; not the lower right corner, so the y-value is negated.
 	mul
 	a setval 15 0
+
 
 
 	; calculate and scale upv and rightv
@@ -386,11 +392,13 @@ camSetup:
 	a setval 9 1
 	a setval 10 0
 
+
+
 	; normalize the resulting vector 
 	val &normalize
 	a setval 0 0
 	val &camCont
-	a setval 1 0
+	a setval 2 0
 	a pushq
 	a drop
 
@@ -406,32 +414,10 @@ camCont:
 	val &one
 	a setval 7 0
 
-	; shift x-coordinate to R channel
-	pack 4
-	val &shift
-	mul
-	val &shift
-	mul
 
-	a setval 4 0
 
-	;shift y-coordinate to G channel
-	pack 5
-	val &shift
-	mul
-	a setval 5 0
 
-	pack 6
-	a setval 6 0
 
-	pack 4
-	pack 5
-	pack 6
-	add
-	add
-	a setval 2 0
-	a pushf
-	a drop
 
 
 
