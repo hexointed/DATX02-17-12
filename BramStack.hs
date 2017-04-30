@@ -8,7 +8,7 @@ import Debug.Trace
 import Float
 
 type QSize = 64
-type QIndex = Unsigned (CLog 2 QSize)
+type QIndex = Unsigned 6
 
 data Push
 	= Top Pack
@@ -24,7 +24,7 @@ data BS = BS QIndex QIndex
 
 empty = BS 0 (-1)
 
-topEntity = bramStack 
+topEntity = bramStack
 
 bramStack :: Signal Push -> Signal Pop -> Signal (Maybe Pack)
 bramStack push pop = fmap nextOut b <*> ram <*> push <*> pop

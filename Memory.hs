@@ -8,10 +8,10 @@ import DistFunc
 import Float
 
 dfuIMemory :: Ptr DIMem -> Maybe Instr
-dfuIMemory = encodeDfuI . asyncRomFile d512 "dfuIMemory.bin"
+dfuIMemory = encodeDfuI . asyncRomFile d512 "dfuIMemory.dat"
 
 dfuDMemory :: Ptr DDMem -> Maybe Float
-dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
+dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.dat"
 
 fetch :: () -> (Ptr DIMem, Ptr DDMem) -> ((), (Maybe Instr, Maybe Float)) 
 fetch () (di, dd) = (,) () (dfuIMemory di, dfuDMemory dd)

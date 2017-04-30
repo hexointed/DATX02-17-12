@@ -22,9 +22,9 @@ asm f = do
 	case compile newC of
 		Right code -> do
 			writeFile 
-				"dfuIMemory.bin" 
+				"dfuIMemory.dat" 
 				(filter (/='_') $ unlines $ fmap show code)
-			writeFile "dfuDMemory.bin" dataOut
+			writeFile "dfuDMemory.dat" dataOut
 		Left error -> putStrLn error
 	return ()
 

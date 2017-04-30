@@ -7,6 +7,7 @@ import Base
 import Indexed
 import Pack
 import DFU
+import DistFunc
 
 type DIMem = Vec 256 Instr
 type DDMem = Vec 256 Float
@@ -49,10 +50,10 @@ output c = (,) c $ CoreOut
 
 step' core input = case ready (dfu core) of
 	True -> case nextPack input of
-		Nothing       -> output core
+		Nothing       -> output core'
 		Just p        -> output start
-			where start = core {
-					dfu = (dfu core) { pack = p, ready = False },
+			where start = core' {
+					dfu = (dfu core') { pack = p, ready = False },
 					idptr = resize $ bitCoerce (head p)
 				}
 	False -> case dfuS of
@@ -66,13 +67,15 @@ step' core input = case ready (dfu core) of
 				None -> fmap (\x -> x { packType = pt }) (output core')
 				_    -> fmap (\x -> x { packType = pt }) (output core)
 			True  -> (output core')
-		where
-			(core', dfuS) = step'' core nextInstruction d 
-			d = case dfuData input of
-				Nothing -> 0
-				Just d  -> d
-			setPtr ptr x = x { dfuDPtr = ptr }
-			nextInstruction = dfuInstr input
+	where
+		(core', dfuS) = step'' core nextInstruction d 
+		d = case dfuData input of
+			Nothing -> 0
+			Just d  -> d
+		setPtr ptr x = x { dfuDPtr = ptr }
+		nextInstruction
+			| ready (dfu core) = Just $ Comp (Oper Nop)
+			| otherwise        = dfuInstr input
 
 step'' core instr global = case instr of
 	Nothing    -> (core, Left Nothing)
