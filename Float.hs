@@ -54,8 +54,11 @@ loopStep (bit, num, res) =
 	)
 	where
 		temp = num - (res `or#` bit)		
-		cond = (temp `and#` (1 `shiftL` 47)) == 0
+		cond = isNegative temp
 		resShift = res `shiftR` 1
+
+isNegative :: Unsigned 48 -> Bool
+isNegative x = (x `and#` (1 `shiftL` 47)) == 0
 
 atEnd :: SNat n -> Vec (n + 1) a -> a
 atEnd = at
