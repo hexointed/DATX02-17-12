@@ -1,7 +1,7 @@
 How well does our hardware accommodate the sphere tracing algorithm?
 What possible optimizations are there?
 
-// being worked on.
+// done
 Currently a bit negative in the result, we only need to talk about time 
 constraints in scope and discussion.
 //
