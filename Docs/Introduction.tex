@@ -11,18 +11,19 @@
 		3D fractals. It was still slow on current hardware and could 
 		thus not be done in real time. Better graphics rendering
 		(fast real time graphics) was a key selling point among competing 
-		computer systems, so to improve graphics rendering performance the 
+		computer systems, so to improve graphics rendering, the 
 		computer industry moved towards dedicated hardware based graphics 
 		rendering. These systems were almost exclusively using polygon-based 
 		rendering, and most Ray Tracing algorithms can not be rendered this 
 		way. Today, 3D graphics cards have become more programmable and the 
 		last 5 years have seen a small resurgence in the use of Sphere Tracing
-		rendering. Simple scenes can now be rendered in real time using a state 
-		of the art consumer 3D graphics card. This has a whole new set of pros 
+		rendering. Simple scenes can now be rendered, using sphere tracing,
+		 in real time using a state of the art consumer 3D graphics card.
+		  This has a whole new set of pros 
 		and cons when compared to polygon rendering. However, while 
 		the algorithm seems to have a lot of potential for future 3D graphics, 
-		that potential might be unreachable on current GPU:s 
-		(Graphics Processing Unit, the central part of a 3D graphics card) due 
+		that potential might be unreachable on current GPUs 
+		(Graphics Processing Unit) due 
 		to the underlying architecture being designed for polygon rendering. 
 		This project will examine ideas for what could be achieved if graphics 
 		cards were optimized and built specifically for Sphere Tracing Graphics
@@ -32,19 +33,19 @@
 	\section{Project goals}
 
 		The main goal for this project was to design and implement a basic GPU 
-		architecture that is with is designed to be able to accommodate the Sphere 
-		Tracing algorithm well. In addition, another aim was to look at possible 
+		architecture that is designed to be able to accommodate the Sphere 
+		Tracing algorithm. In addition, another aim was to look at possible 
 		optimizations, both algorithmic	and hardware based, for this algorithm.
 		
 	\section{Scope}
 		
 		The scope of the project was threefold. First to research the algorithm
-		and the improvements that already exists, design a rudimentary GPU and
+		and the improvements that already exist, secondly design a rudimentary GPU and
 		finally to improve upon the design based upon what we assessed and
 		figured out from the research.
 
-		Each of these steps could span an entire bachelors thesis, so in this
+		Each of these parts could span an entire bachelors thesis on their own, so in this
 		project we instead did them on a best-effort basis as a compromise.
-		When designing the GPU we also prioritized implementing the parts
-		unique to the problem before things that all GPUs eventually need such
+		When designing the GPU decisions were made to prioritize implementing the parts
+		unique to the task before implementing the parts that all GPUs eventually need such
 		as an advanced memory and cache architecture etc.
