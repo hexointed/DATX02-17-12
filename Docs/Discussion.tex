@@ -30,19 +30,20 @@
 		\subsection{Software Shader}
 
 			The shader performed as expected, a conventional graphics card is 
-			capable of rendering scenes with low scene complexity. However 
-			scenes can easily be made to look a lot more complex than they are, 
-			for example by using modfields or fractals. On the hardware we 
+			capable of rendering scenes with low scene complexity in real-time.
+			However scenes can easily be made to look a lot more complex than they 
+			are, for example by using modfields or fractals. On the hardware we 
 			tested our shader on (Geforce GTX 1060) 20 relective sphere can
 			be rendered in real time in fullHD using our performance enhancing 
 			algorithm.
 
 			One thing that could be done to improve performance is to let the
 			processor handle object related math, such as object and camera 
-			positioning. Currently if objects in the scenes are supposed to 
+			transformation. Currently if objects in the scenes are supposed to 
 			move without doing it manually, they have to be moved using 
 			mathematical functions. These functions are then evaluated for 
-			each march step, for each pixel.
+			each march step, for each pixel, this is esentially wasted 
+			computing power.
 
 			The method used to remove objects from the distance field should
 			not be used the way it is currently used, although the current way
@@ -81,3 +82,70 @@
 			rewrite the basic core in a number of ways, pushing it out to FPGA
 			to verify our design choices and try to be more empiric before
 			extending further with more modules and ideas. 
+
+	\section{Optimizations}
+
+		\subsection{Bounding spheres}
+	
+			Bounding spheres technique is somewhat similar to the normal sphere
+			tracing. The difference is that when you march you march to the
+			edge of the MDS and then you march to the next MDS edge. With
+			bounding sphere technique you march a small distance further
+			outside the MDS edge. You then compare the original MDS with the
+			new MDS if these two spheres overlap in any way we can march that
+			little bit further. By marching that little bit further, decrease
+			in the number of times marched is achieved. Giving an increase in
+			performance. 
+			
+		
+			%picture of example bounding sphere
+
+		\subsection{Ray grouping}
+		
+			Ray grouping is an optimization that lowers the number of
+			computations the GPU have to perform. And by lowering the number of
+			computations it increases the speed of the GPU.
+			
+			It works like the name implicates by grouping adjacent rays
+			together. If a specific pixel N is to be rendered we group the
+			adjacent pixels into a "combined pixel". Then we march along the
+			ray of N. If any of the other pixels are not inside the minimum
+			distance spheres (MDS) the combined pixel is split up into two
+			smaller groups. Each of the groups then repeat the first step again
+			individually along their new center pixel's ray. This is repeated a
+			number of times depending on the scene.  The closer to a target it
+			gets, more subgroups will be created due to the MDS's volumes will
+			decrease.
+			
+			This optimization was implemented and we achieved an increase in
+			performance as excepted. The optimization decreases the number of
+			computations made by the formula ? below.  Sum o$f_1^s(1/N_s)$
+			where N = number of pixels in the group and s = number of groups
+
+			%#picture of ray grouping
+
+		\subsection{Orthogonal culling}
+
+			Traditionally culling is done to avoid the GPU rendering polygons 
+			that are "behind" the camera, this is called frustum culling. Instead 
+			of this we implemented an alternative version that we call orthogonal
+			culling.
+
+			Normally the closest distance to all objects in the scene is calculated
+			in each march-step, for each pixel. One way to make this go faster is 
+			reducing the number of objects that the distance has to be calculated 
+			to, without reducing scene complexity. 
+
+			To calculate whether the ray will hit a sphere or not orthogonal 
+			projection can be used. By projecting the center of the sphere onto
+			the directional line of the ray, its closest point to the line is known.
+			Then the distance between the line and the sphere can be calculated using
+			the radius, if the distance is less than zero the sphere will be hit
+			by the ray. If the distance is larger than zero the ray can't possibly hit 
+			that sphere. This way the number of objects that the distance has to be 
+			calculated to is decreased. 
+
+
+
+		
+			
