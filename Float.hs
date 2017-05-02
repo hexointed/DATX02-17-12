@@ -37,13 +37,14 @@ sqrtFS x =
 	(resize# (iSqrt48 $ expand x) ::Unsigned 32)
 	where
 		expand :: Fixed Signed 16 16 -> Unsigned 48
-		expand x = bitCoerce (resizeF x :: SFixed 16 32) :: Unsigned 48
+		expand x = bitCoerce (resizeF x :: SFixed 16 32)
 
 isNegative :: KnownNat n => Unsigned (n + 1) -> Bool
-isNegative x = (x `and#` (1 `shiftL` fromInteger (natVal $ y x))) == 0
+isNegative x = not $ bitCoerce $ head $ vec x
 	where
-		y = undefined :: KnownNat n => Unsigned (n + 1) -> Unsigned n
-	
+		vec :: (KnownNat n) => Unsigned n -> Vec n Bit
+		vec x = bitCoerce x
+
 iSqrt48 :: Unsigned 48 -> Unsigned 48
 iSqrt48 x =
 	snd .
@@ -73,37 +74,34 @@ iSqrt48 x =
 	loopStepN d1 $
 	(x ,0) -- these are the starting values for num, res
 
-loopStepN n (num, res) =
-	( if cond then temp else num
-	, res'
-	)
+loopStepN n (num, res) = (temp `asTypeOf` num , res')
 	where
-		temp = subHighBits n num (nextRes n'' res True)
-		cond = isNegative temp
+		(neg, temp) = subHighBits n num (nextRes n'' res True)
 		resShift = res `shiftR` 1
 		n' = mulSNat n d2
 		n'' = subSNat n' d1
-		res' = nextRes n'' resShift cond
+		res' = nextRes n'' resShift neg
 
 nextRes :: (KnownNat n, KnownNat m) => 
 	SNat n -> Unsigned (n + m + 1) -> Bool -> Unsigned (n + m + 1)
-nextRes n' r c = unpack (pack# (highBits n' r) ++# pack c ++# 0)
+nextRes n' r c = unpack (pack (highBits n' r) ++# pack c ++# 0)
 
-subHighBits n a b = unpack $
-	(++#)
-	(pack (ah' - bh'))
-	(pack $ lowBits n' a)
+subHighBits n a b = (,) neg $ unpack 
+		((pack (if neg then diff else ah)) ++# (pack $ lowBits n' a))
 	where
 		n' = mulSNat n d2
-
+	
 		ah = highBits n' a
 		bh = highBits n' b
-
+	
 		ah' = (unpack $ 0 ++# (pack $ lowBits n ah)) `asTypeOf` ah
 		bh' = (unpack $ 0 ++# (pack $ lowBits n bh)) `asTypeOf` bh
+	
+		diff = ah' - bh'
+		neg = isNegative diff
 
 highBits :: (KnownNat n, KnownNat m) => SNat n -> Unsigned (n + m) -> Unsigned n
-highBits n = unpack . bTake n . pack#
+highBits n = unpack . bTake n . pack
 
 lowBits :: (KnownNat n, KnownNat m) => SNat n -> Unsigned (n + m) -> Unsigned m
 lowBits n u = resize u
