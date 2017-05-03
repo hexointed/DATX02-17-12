@@ -54,13 +54,13 @@ upz:
 	0.0
 
 ballr:
-	2
+	2.0
 ballx:
-	10.0
+	0.0
 bally:
 	0.0
 ballz:
-	0.0
+	10.0
 
 greenshift:
 	256
@@ -264,10 +264,23 @@ camCont:
 
 
 afterSetup:
+	val &zero
+	a setval 2 0
+	a setval 3 0
+	a setval 7 0
+	a setval 8 0
+	a setval 9 0
+	a setval 10 0
+	a setval 11 0
+	a setval 12 0
+	a setval 13 0
+	a setval 14 0
+	a setval 15 0
+
 
 rayPos:
 		; calculates the current march pos and stores in tempVec
-		; args:    reg. 4-6
+		; args:    reg. 4-7
 		; results: reg. 8-10
 
 	pack 4
@@ -280,6 +293,7 @@ rayPos:
 	a setval 8 2
 	a setval 9 1
 	a setval 10 0
+
 
 ;-----
 	;distBall
@@ -333,6 +347,7 @@ rayPos:
 	sub
 	a setval 14 0
 
+
 ;----
 
 
@@ -362,14 +377,14 @@ hit:
 	;scaler over 100?
 	;continue
 tooFar:
-	val &hundred
+	val &zero
 	val &hundred
 	pack 7
 	sub
 	n 0 setval 2 1
 	n 0 pushf
 	n 0 drop
-	val &afterSetup
+	val &rayPos
 	a setval 0 0
 	a pushq
 	a drop
