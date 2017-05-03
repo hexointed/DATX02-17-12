@@ -9,7 +9,9 @@ constraints in scope and discussion.
 All the initial questions from the planning report don't really need to be 
 completed, as they are not a part of the grading criteria.
 
+// done
 Move the unimplemented optimizations from Results to Discussion.
+//
 
 6.2 GPU Performance doesn't contain any results
 
