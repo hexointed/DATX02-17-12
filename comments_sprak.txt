@@ -1,8 +1,10 @@
 How well does our hardware accommodate the sphere tracing algorithm?
 What possible optimizations are there?
 
+// done
 Currently a bit negative in the result, we only need to talk about time 
 constraints in scope and discussion.
+//
 
 All the initial questions from the planning report don't really need to be 
 completed, as they are not a part of the grading criteria.

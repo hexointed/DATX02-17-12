@@ -33,11 +33,11 @@ eyez:
 	0.0
 
 lookatx:
-	1.0
+	0.0
 lookaty:
 	0.0
 lookatz:
-	0.0
+	1.0
 
 rightx:
 	1.0
@@ -54,7 +54,7 @@ upz:
 	0.0
 
 ballr:
-	10.0
+	2
 ballx:
 	10.0
 bally:
@@ -102,57 +102,168 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 draw: 
 
-	;test;
-	val &camSetup
+;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
+
+camSetup: 
+		; sätter upp ray-direction registren
+		; args:   reg. 1-2
+		; result: reg. 4-6
+		; alters: reg. 8-10
+
+	; calculate a directional vector which will be in the center of the view, 
+	; stores in ray-direction. This will be used to offset with later.
+	val &lookatx
+	val &lookaty
+	val &lookatz
+	val &eyex
+	val &eyey
+	val &eyez
+	subv
+	a setval 4 2
+	a setval 5 1
+	a setval 6 0
+
+	; calculate screen positions as a range from 1 to -1, 
+	; store in reg. 14 and 15
+	pack 2
+	val &displaysize
+	val &one
+	sub
+	val &two
+	div
+	div
+	val &one 
+	sub
+	a setval 14 0
+
+
+	pack 3
+	val &displaysize
+	val &one
+	sub
+	val &two
+	div
+	div
+	val &one
+	sub
+	val &minusone	; (1,1) should be in the upper right corner, 
+					; not the lower right corner, so the y-value is negated.
+	mul
+	a setval 15 0
+
+
+
+	; calculate and scale upv and rightv
+	val &rightx
+	val &righty
+	val &rightz
+	pack 14
+	scale
+
+	val &upx
+	val &upy
+	val &upz
+	pack 15
+	scale
+
+	; add the x-vector, the y-vector and the directional vector.
+	addv
+
+	pack 4
+	pack 5
+	pack 6
+
+	addv
+
+	a setval 8 2
+	a setval 9 1
+	a setval 10 0
+
+
+
+	; normalize the resulting vector 
+	val &normalize
+	a setval 0 0
+	val &camCont
+	a setval 2 0
+	a pushq
+	a drop
+
+
+camCont:
+
+
+
+	pack 8
+	a setval 4 0
+	pack 9
+	a setval 5 0
+	pack 10
+	a setval 6 0
+	val &one
+	a setval 7 0
+
+	val &afterSetup
 	a setval 0 0
 	a pushq
 	a drop
 
 
+	;-------
 
 
 
-testcont:
+	normalize:
+		; creates vector that has the same length as the previous but with
+		; a length of 1
+		; args:   reg. 8-10
+		; result: reg. 8-10
+		; note: alters reg. 14
 
-	; if reg 14 is equal to reg 15 draw white, otherwise draw black
-	;FUNKAR
-	val &zero
-	a setval 2 0
-	pack 14
-	pack 15
-	sub
-	val &one
-	z 1 setval 2 0
-	a pushf
-	a drop
 
-		; ritar ut cirkel
-	next 3
-	pack 2
-	val &pos
-	sub
-	pack 2
-	val &pos
-	sub
+	; calculates length of vector
+	pack 8
+	pack 8
 	mul
-	pack 3
-	val &pos
-	sub
-	pack 3
-	val &pos
-	sub
+	pack 9
+	pack 9
+	mul
+	pack 10
+	pack 10 
 	mul
 	add
-	val &radius
+	add
+	sqrt
+	a setval 14 0
+
+	pack 8
+	pack 14
 	div
-	floor
-	val &greenshift
-	mul
-	a setval 2 0
-	a pushf
+	a setval 8 0
+
+	pack 9
+	pack 14
+	div
+	a setval 9 0
+
+	pack 10
+	pack 14
+	div
+	a setval 10 0
+
+	pack 2
+	a setval 0 0
+	a pushq
 	a drop
 
+	;-------
 
+
+
+
+
+
+afterSetup:
 
 rayPos:
 		; calculates the current march pos and stores in tempVec
@@ -170,12 +281,10 @@ rayPos:
 	a setval 9 1
 	a setval 10 0
 
+;-----
+	;distBall
 
-
-
-
-
-distBall:
+	distBall:
 		; calculates the length between tempVec and Ball, ball should
 		; probably be easy to substitute ball with another object
 		; args: reg. 8-10 
@@ -224,6 +333,73 @@ distBall:
 	sub
 	a setval 14 0
 
+;----
+
+
+
+
+
+
+
+
+	;hit?
+hit:
+	val &one
+	pack 14
+	val &epsilon
+	sub
+
+	pack 14
+	a setval 2 0
+	a pushf
+	a drop
+
+	n 0 setval 2 1
+	n 0 pushf
+	n 0 drop
+
+	;increase scaler
+	pack 14
+	pack 7
+	add
+	a setval 7 0
+
+	;scaler over 100?
+	;continue
+tooFar:
+	val &hundred
+	val &hundred
+	pack 7
+	sub
+	n 0 setval 0 1
+	n 0 pushf
+	n 0 drop
+	val &afterSetup
+	a setval 0 0
+	a pushq
+	a drop
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 length:
 		; calculates distance between tempVec and TempVec2. current march position 
@@ -270,168 +446,18 @@ length:
 	a setval 14 0
 
 
-normalize:
-		; creates vector that has the same length as the previous but with
-		; a length of 1
-		; args:   reg. 8-10
-		; result: reg. 8-10
-		; note: alters reg. 14
-
-	; calculates length of vector
-	pack 8
-	pack 8
-	mul
-	pack 9
-	pack 9
-	mul
-	pack 10
-	pack 10 
-	mul
-	add
-	add
-	sqrt
-	a setval 14 0
-
-	pack 8
-	pack 14
-	div
-	a setval 8 0
-
-	pack 9
-	pack 14
-	div
-	a setval 9 0
-
-	pack 10
-	pack 14
-	div
-	a setval 10 0
-
-	pack 1
-	a setval 0 0
-	a pushq
-	a drop
 
 
 
 
 
-camSetup: 
-		; sätter uppray-direction registren
-		; args:   reg. 1-2
-		; result: reg. 4-6
-		; alters: reg. 8-10
-
-	; calculate a directional vector which will be in the center of the view, 
-	; stores in ray-direction. This will be used to offset with later.
-	val &eyex
-	val &eyey
-	val &eyez
-	val &lookatx
-	val &lookaty
-	val &lookatz
-	subv
-	a setval 4 2
-	a setval 5 1
-	a setval 6 0
 
 
-	; calculate screen positions as a range from 1 to -1, 
-	; store in reg. 14 and 15
-	pack 2
-	val &displaysize
-	val &two
-	div
-	div
-	val &one 
-	sub
-	a setval 14 0
-
-	pack 3
-	val &displaysize
-	val &two
-	div
-	div
-	val &one
-	sub
-	val &minusone	; (1,1) should be in the upper right corner, 
-					; not the lower right corner, so the y-value is negated.
-	mul
-	a setval 15 0
 
 
-	; calculate and scale upv and rightv
-	val &rightx
-	val &righty
-	val &rightz
-	pack 14
-	scale
-
-	val &upx
-	val &upy
-	val &upz
-	pack 15
-	scale
-
-	; add the x-vector, the y-vector and the directional vector.
-	addv
-
-	pack 4
-	pack 5
-	pack 6
-
-	addv
-
-	a setval 8 2
-	a setval 9 1
-	a setval 10 0
-
-	; normalize the resulting vector 
-	val &normalize
-	a setval 0 0
-	val &camCont
-	a setval 1 0
-	a pushq
-	a drop
 
 
-camCont:
 
-	pack 8
-	a setval 4 0
-	pack 9
-	a setval 5 0
-	pack 10
-	a setval 6 0
-	val &one
-	a setval 7 0
-
-	; shift x-coordinate to R channel
-	pack 4
-	val &shift
-	mul
-	val &shift
-	mul
-
-	a setval 4 0
-
-	;shift y-coordinate to G channel
-	pack 5
-	val &shift
-	mul
-	a setval 5 0
-
-	pack 6
-	a setval 6 0
-
-	pack 4
-	pack 5
-	pack 6
-	add
-	add
-	a setval 2 0
-	a pushf
-	a drop
 
 
 

@@ -5,16 +5,16 @@ fractals, but there is no hardware designed to run it efficiently. Today's top
 of the line consumer 3d graphics cards are made for real time rendering of 
 polygons. They achieve high speeds by executing the pixel color calculation in 
 parallel. To make this efficient they use what is known as lockstepping, which 
-means to have a group of calculation units always operate on the same 
+means a group of calculation units that is always operating on the same 
 instruction, but with differing input data. Doing this enables all of the 
 cooperating cores to use only a single instruction memory and bus. This saves 
 silicon real estate, enabling more cores per chip and thus greater performance. 
 Pixels rendered by a polygon based method can usually be queued for calculation 
 in such a way that pixels belonging to the same object in the scene can be 
 grouped for computation. The drawback of the cooperating cores only being able 
-to work on the same instruction at any one give time is thus greatly reduced.
+to work on the same instruction at any one given time is thus greatly reduced.
 
-Using this hardware for Sphere Tracing (as is currently being done) will make 
+Using this hardware for Sphere Tracing, as is currently being done, will make 
 this drawback significantly more burdening. Partly because pixels are not 
 grouped by what object in the scene they belong to, and partly because even 
 those that do belong to the same object will differ much more in their 
