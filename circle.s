@@ -349,11 +349,6 @@ hit:
 	val &epsilon
 	sub
 
-	pack 14
-	a setval 2 0
-	a pushf
-	a drop
-
 	n 0 setval 2 1
 	n 0 pushf
 	n 0 drop
