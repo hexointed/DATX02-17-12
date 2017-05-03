@@ -1,5 +1,7 @@
 \chapter{State of the Art}
 
+\section{ Real Time Graphics Rendering on Current Hardware } 
+
 Sphere tracing is currently being used to visualize complex data such as 
 fractals, but there is no hardware designed to run it efficiently. Today's top 
 of the line consumer 3d graphics cards are made for real time rendering of 
@@ -15,15 +17,35 @@ grouped for computation. The drawback of the cooperating cores only being able
 to work on the same instruction at any one given time is thus greatly reduced.
 
 Using this hardware for Sphere Tracing, as is currently being done, will make 
-this drawback significantly more burdening. Partly because pixels are not 
-grouped by what object in the scene they belong to, and partly because even 
-those that do belong to the same object will differ much more in their 
-instruction execution path.
+this drawback significantly more burdening. Pixels are can not be grouped by
+what object in the scene they belong to as easily in a Sphere Tracer, because
+the order of pixel rendering in a polygon renderer is done by object and then
+by its constituent polygons. Sphere Tracers don not have polygons and pixel 
+order is usually based on the output image pixel order. Even if more grouping 
+was introduced to a Sphere Tracer, the pixels in these groups differ much more 
+in their instruction execution path, since the algorithm is more iterative and 
+branching.
 
+\section{ Hardware Design Methods  } 
 
+The design of Integrated Circuitry in the industry has since the early '90s 
+primarily been done in hardware description languages (HDL) \cite{ChenG}, 
+where one describes the operation of a chip in a style similar to regular 
+imperative programming languages. This descriptive code can then be compiled 
+into a list of components and connections that constitutes the blueprint for 
+building a circuit. The most prevalent of these languages are VHDL and 
+Verilog. While being a great help to designers, compared to more manual 
+design, these languages are quite cumbersome to work with. They are verbose, 
+restrictively strict and require a fair amount of boilerplate code. Also, 
+they are aimed at describing hardware at a low level, rather than the 
+functions/calculations/tasks the resulting silicon is meant to perform. This 
+makes it more difficult to understand, follow, and also write code that 
+performs complex tasks and advanced signal processing.
 
-The development of Integrated Circuitry is generally done by describing the 
-operation of the chip in a hardware description language. This can then be 
-compiled into a list of components and connections that constitutes the 
-necessary parts for building the chip. The most prevalent ones are VHDL and 
-Verilog. 
+Enter Functional HDLs (FHDL): 
+"Functional hardware description languages are a class of hardware description languages that emphasize on the ability to express higher level structural properties, such a parameterization and regularity.  Due to such features as higher-order functions and polymorphism, parameterization in functional hardware description languages is more natural than the parameterization support found in the more traditional hardware description languages, like VHDL and Verilog" \cite{Baaij}
+
+Functional HDLs have been around since the late '70s \cite{ChenG}, but in 
+recent times they have become more mature. In particular the Clash language 
+caught our eye, by taking the elegance of FHDLs to the next level by lifting 
+circuit state to the type level.
