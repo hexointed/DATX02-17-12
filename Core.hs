@@ -7,6 +7,7 @@ import Base
 import Indexed
 import Pack
 import DFU
+import Data.Maybe
 
 type DIMem = Vec 256 Instr
 type DDMem = Vec 256 Float
@@ -68,9 +69,11 @@ step' core input = case ready (dfu core) of
 			True  -> (output core')
 		where
 			(core', dfuS) = step'' core (dfuInstr input) d 
-			d = case dfuData input of
+{-			d = case dfuData input of
 				Nothing -> 0
 				Just d  -> d
+-}
+			d = fromMaybe 0 (dfuData input)
 			setPtr ptr x = x { dfuDPtr = ptr }
 
 step'' core instr global = case instr of
