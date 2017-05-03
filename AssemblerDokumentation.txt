@@ -121,7 +121,7 @@ register 3         y-värde för pixel
 
 How Registers are used in code
 register 4-6       ray-direction 
-register 7         raylängd 
+register 7         raylängd (scaler) 
 register 8-10      temp vec
 register 11-13     temp vec 2
 

@@ -54,7 +54,7 @@ upz:
 	0.0
 
 ballr:
-	10.0
+	2
 ballx:
 	10.0
 bally:
@@ -102,223 +102,10 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 draw: 
 
-	;test;
-	val &camSetup
-	a setval 0 0
-	a pushq
-	a drop
-
-
-
-
-
-testcont:
-
-	; if reg 14 is equal to reg 15 draw white, otherwise draw black
-	;FUNKAR
-	val &zero
-	a setval 2 0
-	pack 14
-	pack 15
-	sub
-	val &one
-	z 1 setval 2 0
-	a pushf
-	a drop
-
-		; ritar ut cirkel
-	next 3
-	pack 2
-	val &pos
-	sub
-	pack 2
-	val &pos
-	sub
-	mul
-	pack 3
-	val &pos
-	sub
-	pack 3
-	val &pos
-	sub
-	mul
-	add
-	val &radius
-	div
-	floor
-	val &greenshift
-	mul
-	a setval 2 0
-	a pushf
-	a drop
-
-
-
-rayPos:
-		; calculates the current march pos and stores in tempVec
-		; args:    reg. 4-6
-		; results: reg. 8-10
-
-	pack 4
-	pack 5
-	pack 6
-	pack 7
-
-	scale
-
-	a setval 8 2
-	a setval 9 1
-	a setval 10 0
-
-
-
-
-
-
-distBall:
-		; calculates the length between tempVec and Ball, ball should
-		; probably be easy to substitute ball with another object
-		; args: reg. 8-10 
-		; result: reg. 14
-		; note: alters reg. 11-13
-
-	; squares the difference in the x-axis, saves result in 11
-	val &ballx	
-	pack 8
-	sub
-	a setval 14 0
-	pack 14
-	pack 14
-	mul
-	a setval 11 0
-
-	; squares the difference in the y-axis, saves result in 12
-	val &bally
-	pack 9
-	sub
-	a setval 14 0
-	pack 14
-	pack 14
-	mul
-	a setval 12 0
-
-	; squares the difference in the z-axis, saves result in 13
-	val &ballz 
-	pack 10
-	sub
-	a setval 14 0
-	pack 14
-	pack 14
-	mul
-	a setval 13 0
-
-	; adds the results and takes the square 
-	pack 11
-	pack 12
-	pack 13
-	add
-	add
-	sqrt
-
-	val &ballr
-	sub
-	a setval 14 0
-
-
-length:
-		; calculates distance between tempVec and TempVec2. current march position 
-		; should suitably be placed in tempVec and object position in tempVec2
-		; args:   reg. 8-10, 11-13
-		; result: reg. 14
-		; note: alters reg. 11-13
-
-	; squares the difference in the x-axis, saves result in 11
-	pack 11
-	pack 8
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 11 0
-
-	; squares the difference in the y-axis, saves result in 12
-	pack 12
-	pack 9
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 12 0
-
-	; squares the difference in the z-axis, saves result in 13
-	pack 13 
-	pack 10
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 13 0
-
-	; adds the results and takes the square 
-	pack 11
-	pack 12
-	pack 13
-	add
-	add
-	sqrt
-
-	a setval 14 0
-
-
-normalize:
-		; creates vector that has the same length as the previous but with
-		; a length of 1
-		; args:   reg. 8-10
-		; result: reg. 8-10
-		; note: alters reg. 14
-
-
-	; calculates length of vector
-	pack 8
-	pack 8
-	mul
-	pack 9
-	pack 9
-	mul
-	pack 10
-	pack 10 
-	mul
-	add
-	add
-	sqrt
-	a setval 14 0
-
-	pack 8
-	pack 14
-	div
-	a setval 8 0
-
-	pack 9
-	pack 14
-	div
-	a setval 9 0
-
-	pack 10
-	pack 14
-	div
-	a setval 10 0
-
-	pack 2
-	a setval 0 0
-	a pushq
-	a drop
-
-
-
-
+;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
 camSetup: 
-		; sätter uppray-direction registren
+		; sätter upp ray-direction registren
 		; args:   reg. 1-2
 		; result: reg. 4-6
 		; alters: reg. 8-10
@@ -405,6 +192,8 @@ camSetup:
 
 camCont:
 
+
+
 	pack 8
 	a setval 4 0
 	pack 9
@@ -413,6 +202,257 @@ camCont:
 	a setval 6 0
 	val &one
 	a setval 7 0
+
+	val &afterSetup
+	a setval 0 0
+	a pushq
+	a drop
+
+
+	;-------
+
+
+
+	normalize:
+		; creates vector that has the same length as the previous but with
+		; a length of 1
+		; args:   reg. 8-10
+		; result: reg. 8-10
+		; note: alters reg. 14
+
+
+	; calculates length of vector
+	pack 8
+	pack 8
+	mul
+	pack 9
+	pack 9
+	mul
+	pack 10
+	pack 10 
+	mul
+	add
+	add
+	sqrt
+	a setval 14 0
+
+	pack 8
+	pack 14
+	div
+	a setval 8 0
+
+	pack 9
+	pack 14
+	div
+	a setval 9 0
+
+	pack 10
+	pack 14
+	div
+	a setval 10 0
+
+	pack 2
+	a setval 0 0
+	a pushq
+	a drop
+
+	;-------
+
+
+
+
+
+
+afterSetup:
+
+rayPos:
+		; calculates the current march pos and stores in tempVec
+		; args:    reg. 4-6
+		; results: reg. 8-10
+
+	pack 4
+	pack 5
+	pack 6
+	pack 7
+
+	scale
+
+	a setval 8 2
+	a setval 9 1
+	a setval 10 0
+
+;-----
+	;distBall
+
+	distBall:
+		; calculates the length between tempVec and Ball, ball should
+		; probably be easy to substitute ball with another object
+		; args: reg. 8-10 
+		; result: reg. 14
+		; note: alters reg. 11-13
+
+	; squares the difference in the x-axis, saves result in 11
+	val &ballx	
+	pack 8
+	sub
+	a setval 14 0
+	pack 14
+	pack 14
+	mul
+	a setval 11 0
+
+	; squares the difference in the y-axis, saves result in 12
+	val &bally
+	pack 9
+	sub
+	a setval 14 0
+	pack 14
+	pack 14
+	mul
+	a setval 12 0
+
+	; squares the difference in the z-axis, saves result in 13
+	val &ballz 
+	pack 10
+	sub
+	a setval 14 0
+	pack 14
+	pack 14
+	mul
+	a setval 13 0
+
+	; adds the results and takes the square 
+	pack 11
+	pack 12
+	pack 13
+	add
+	add
+	sqrt
+
+	val &ballr
+	sub
+	a setval 14 0
+
+;----
+
+
+
+
+
+
+
+
+	;hit?
+hit:
+	val &one
+	pack 14
+	val &epsilon
+	sub
+
+	pack 14
+	a setval 2 0
+	a pushf
+	a drop
+
+	n 0 setval 2 1
+	n 0 pushf
+	n 0 drop
+
+	;increase scaler
+	pack 14
+	pack 7
+	add
+	a setval 7 0
+
+	;scaler over 100?
+	;continue
+tooFar:
+	val &hundred
+	val &hundred
+	pack 7
+	sub
+	n 0 setval 0 1
+	n 0 pushf
+	n 0 drop
+	val &afterSetup
+	a setval 0 0
+	a pushq
+	a drop
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+length:
+		; calculates distance between tempVec and TempVec2. current march position 
+		; should suitably be placed in tempVec and object position in tempVec2
+		; args:   reg. 8-10, 11-13
+		; result: reg. 14
+		; note: alters reg. 11-13
+
+	; squares the difference in the x-axis, saves result in 11
+	pack 11
+	pack 8
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 11 0
+
+	; squares the difference in the y-axis, saves result in 12
+	pack 12
+	pack 9
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 12 0
+
+	; squares the difference in the z-axis, saves result in 13
+	pack 13 
+	pack 10
+	sub
+	a setval 14 0
+	pack 14
+	mul
+	a setval 13 0
+
+	; adds the results and takes the square 
+	pack 11
+	pack 12
+	pack 13
+	add
+	add
+	sqrt
+
+	a setval 14 0
+
+
+
+
+
+
+
+
+
 
 
 
