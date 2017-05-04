@@ -9,16 +9,12 @@
 	incrementally is called Ray Marching and is a particular subset of ray
 	tracing.\cite{Whitted1980} Ray Tracing, then, is a way of wholly or
 	partially rendering the world through rays, cast from the eye of the
-	observer into the scene.  Sphere Tracing has been around since at least as
+	observer into the scene. Sphere Tracing has been around since at least as
 	early as the late eighties and Ray Tracing as early as the
 	sixties\cite{Hart1989,Appel1968}. Ray Tracing has traditionally been a 
 	more computationally intensive method compared to polygon
 	rendering\cite{Wylie1967} and thus it has generally seen more use in movie  
 	production rather than in real-time applications.\cite{ref_needed?} 
-
-	%TODO(bjorn): Nån som är bätre än mig på detta får gärna skriva om denna
-	%delen nedanför. låter inte proffsigt alls.
-	%bättre? /Jon
 	
 	The advent of per pixel programmable hardware in graphics cards made it 
 	possible to implement real time graphics rendering based on ray	marching, 
@@ -28,39 +24,41 @@
 	
 		
 	\section{Sphere Tracing} 
-	
-		\begin{minipage}{0.6\textwidth} 
+
+		\begin{wrapfigure}{r}{0.48\textwidth}
+			\begin{flushright}
+				\includegraphics[width=0.9\linewidth]{figure/SDF} 
+			\end{flushright}
+			\caption{ Signed Distance Function of a sphere, sampled at three points}
+			\vspace{40pt}
+		\end{wrapfigure}
 		
-			The sphere tracing algorithm is based on the concept of Signed Distance Functions (SDF).
-			$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ 
-			The "distance" is
-			the distance between a point and the closest point on the implicit
-			surface $\text{SDF}^{-1}(0)$. The "signed" part refers to the
-			distance being negated when measured on the other side of the
-			surface. If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
-			where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin,	then $$\text{SDF}\circ r(s) = 0$$ means that the ray
-			intersects a surface at exactly the distance $s$ from its origin.
-		
-		\end{minipage} 
-		
-		\hfill
-		\begin{minipage}{0.3\textwidth}
-			\includegraphics[width=\linewidth]{figure/SDF} 
-		\end{minipage}
-		
+		The sphere tracing algorithm is based on the concept of Signed Distance Functions (SDF).
+		$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ 
+		The "distance" is the distance between a point and the closest point on the implicit surface $\text{SDF}^{-1}(0)$. 
+		%vad betyder detta och vad är det för funktion? borde vi inte ge ett exempel på en sådan funktion?
+		The "signed" part refers to the
+		distance being negated when measured on the other side of the
+		surface. If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
+		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the 
+		origin, then $$\text{SDF}\circ r(s) = 0$$ means that the ray
+		intersects a surface at exactly the distance $s$ from its origin.
+		\emph{ Sampling every SDF in a given scene and returning the smallest 
+			value yields a function known as a distance field.
+		}
+
 		\bigskip
-		
-		Finding the surface can be done by iterating point by point from the
+		\noindent Finding the surface can be done by iterating point by point from the
 		origin along the ray like below: $$p_{i+1} = p_i + \vec{d}\cdot
 		\text{SDF}(p_i)$$ This is repeated until $\text{SDF}(p_i) \leq
 		\varepsilon$ for a given precision limit $\varepsilon$.
-		$\text{SDF}(p_i)$ is the furthest possible march distance the ray can march
-		 while still being sure not too overshoot any potential surfaces.  The direction of the
-		closest surface point is never known thus $\text{SDF}(p_i)$ can be
-		interpreted as a sphere bound, giving the algorithm its namesake. This
-		ray marching is then performed for each pixel of the screen reversely
-		simulating the light rays from a scene entering the lens of the
-		onlooker.
+		$\text{SDF}(p_i)$ is the furthest possible march distance the ray can 
+		march while still being sure not too overshoot any potential surfaces.  
+		The direction of the closest surface point is never known, thus 
+		$\text{SDF}(p_i)$ can be interpreted as a spherical bound, giving the 
+		algorithm it's name. This Ray Marching is then performed for each pixel 
+		of the screen, reversely simulating the light rays entering the lens of 
+		an eye or camera.
 			
 			\subsection{Reflections and refractions}
 		

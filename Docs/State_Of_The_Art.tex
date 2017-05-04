@@ -13,8 +13,8 @@ cooperating cores to use only a single instruction memory and bus. This saves
 silicon real estate, enabling more cores per chip and thus greater performance. 
 Pixels rendered by a polygon based method can usually be queued for calculation 
 in such a way that pixels belonging to the same object in the scene can be 
-grouped for computation. The drawback of the cooperating cores only being able 
-to work on the same instruction at any one given time is thus greatly reduced.
+grouped for computation. The drawback of cooperating cores only being able 
+to work on the same instruction at any one given time, is thus greatly reduced.
 
 Using this hardware for Sphere Tracing, as is currently being done, will make 
 this drawback significantly more burdening. Pixels are can not be grouped by
@@ -46,6 +46,8 @@ Enter Functional HDLs (FHDL):
 "Functional hardware description languages are a class of hardware description languages that emphasize on the ability to express higher level structural properties, such a parameterization and regularity.  Due to such features as higher-order functions and polymorphism, parameterization in functional hardware description languages is more natural than the parameterization support found in the more traditional hardware description languages, like VHDL and Verilog" \cite{Baaij}
 
 Functional HDLs have been around since the late '70s \cite{ChenG}, but in 
-recent times they have become more mature. In particular the Clash language 
-caught our eye, by taking the elegance of FHDLs to the next level by lifting 
-circuit state to the type level.
+recent times they have become more mature. In particular, the Clash language
+caught our eye, which improves FHDLs further by lifting circuit state to the 
+type level.
+
+Include academia in state of the art

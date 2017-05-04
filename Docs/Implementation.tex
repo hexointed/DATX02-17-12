@@ -21,9 +21,9 @@
 	
 		\subsection{Instruction Set}
 
-			A representation for distance functions was also designed. The
-			representation that was chosen is a reverse polish notation
-			inspired stack based instruction set.
+			A representation for distance functions was also designed. It is
+			implemented as a reverse polish notation inspired stack based 
+			instruction set.
 	
 			There are a total of four instruction types with different
 			instruction encodings, their layout in memory is shown in figure
@@ -105,7 +105,7 @@
 		\subsection{Implementation considerations}
 	
 	\section{Reference Shader} \label{implshader}
-		
+		%move this part up?
 		A reference shader was written in order to be able to fulfill the
 		requirement of comparing the performance of our graphics processor with
 		that of a modern traditional graphics card. 
@@ -118,26 +118,27 @@
 			as input.
 
 			Beyond the actual sphere tracing loop there is also some work 
-			needed to set up the origin and direction of the ray, which is done using 
-			screen coordinates. This needs to be done for each pixel being 
+			needed to set up the origin and direction of the ray, which is done 
+			using screen coordinates. This needs to be done for each pixel being 
 			rendered.
 
-			The essentials of the sphere tracer is a simple while-loop. It 
-			calculates the closest distance to the scene using distance functions 
-			and comparing the results, saving only the smallest distance, then 
-			comparing that distance required to count as a hit. If the ray has hit 
-			an object the corresponding pixel's colour will be assigned, unless the 
-			object in question is reflective or transparent. 
+			The essentials of the Sphere Tracer is a simple while-loop. It 
+			calculates distance to the closest object in the scene by sampling 
+			the distance field and testing whether it's value is less than a 
+			predefined epsilon. If true, the ray has hit an object; the 
+			corresponding pixel's colour is calculated and the loop is 
+			terminated, unless the material of the object in question is defined
+			as being reflective.
 
-			Reflections are implemented by calculating the normal vector of the surface 
-			that was hit and then use it to calculate a new direction 
-			for the ray to travel along. The origin of this reflected ray will be 
-			the point where the object was hit by the ray.
+			Reflections are implemented by calculating the normal vector of the 
+			surface that was hit and then use it to calculate a new direction 
+			for the ray to travel along. The origin of this reflected ray will 
+			be the point where the object was hit by the ray.
 
-			To increase performance the number of objects that each ray has to 
-			measure the distance to for each loop iteration was reduced. This 
-			was achieved orthogonally projecting spheres of known size on the
-			current ray. When the position of the object and the closest point 
+			To increase performance, the number of objects that each ray has to 
+			measure the distance to in each loop, was reduced. This was achieved
+			by orthogonally projecting spheres of known size onto the current 
+			ray. When the position of the object and the closest point 
 			on the ray is known the distance between them can be calculated. If
 			the distance is bigger than the radius of the object it is impossible
 			for the ray to hit the object. If it is certain that some objects in 
