@@ -20,7 +20,7 @@ Using this hardware for Sphere Tracing, as is currently being done, will make
 this drawback significantly more burdening. Pixels are can not be grouped by
 what object in the scene they belong to as easily in a Sphere Tracer, because
 the order of pixel rendering in a polygon renderer is done by object and then
-by its constituent polygons. Sphere Tracers don not have polygons and pixel 
+by its constituent polygons. Sphere Tracers do not have polygons and pixel 
 order is usually based on the output image pixel order. Even if more grouping 
 was introduced to a Sphere Tracer, the pixels in these groups differ much more 
 in their instruction execution path, since the algorithm is more iterative and 
