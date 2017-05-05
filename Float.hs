@@ -26,8 +26,8 @@ instance Floating (GenFloat 16) where
 	acosh = undefined
 	atanh = undefined
 
-topEntity :: Signal (Unsigned 32) -> Signal (Unsigned 32)
-topEntity = mealy (\sum inp -> (\x -> (x,x)) $ ilog inp + sum) 0 . register 0
+topEntity :: Signal Float -> Signal Float
+topEntity = mealy (\sum inp -> (\x -> (x,x)) $ sqrtApprox inp + sum) 0 . register 0
 
 -- square root on 16 16 signed fixed numbers
 -- 24 iterations on 48 internal bits
@@ -106,34 +106,41 @@ highBits n = unpack . bTake n . pack
 lowBits :: (KnownNat n, KnownNat m) => SNat n -> Unsigned (n + m) -> Unsigned m
 lowBits n u = resize u
 
---froot v = rl' + (v' - l') * (rh' - rl') / (h' - l')
---	where
---		h = roundPow2 v
---		l = h `shiftR` 1
---		rl = fastroot l
---		rh = fastroot h
---
---		h' = uf d16 (resize h `shiftL` 16 :: Unsigned 48)
---		l' = uf d16 (resize l `shiftL` 16 :: Unsigned 48)
---		rl' = uf d16 (resize rl `shiftL` 16 :: Unsigned 48)
---		rh' = uf d16 (resize rh `shiftL` 16 :: Unsigned 48)
---		v' = uf d16 (resize v `shiftL` 16 :: Unsigned 48)
+sqrtApprox :: Float -> Float
+sqrtApprox f = bitCoerce . resize . froot . unpack $
+	(0 :: BitVector 16) ++# pack f ++# (0 :: BitVector 16)
 
-roundPow2 v = (+1) $ 
-	v - 1 .|.
-	v `shiftR` 1 .|.
-	v `shiftR` 2 .|.
-	v `shiftR` 4 .|.
-	v `shiftR` 8 .|.
-	v `shiftR` 16 
-
-fastroot :: KnownNat n => Unsigned (n * 2) -> Vec n Bit
-fastroot v = smap bit (unconcat d2 (v' v))
+froot :: Unsigned 64 -> Unsigned 64
+froot v = rl + ((xor v l) * (rh - rl)) `shiftR` shift
 	where
-		v' :: KnownNat n => Unsigned n -> Vec n Bit
-		v' v = bitCoerce v
+		h = l `shiftL` 1
+		l = roundPow2 v
+		rl = fastroot l
+		rh = fastroot h
+		shift = bitCoerce (resize (ilog l)) :: Int
 
-		bit n _ = at (mulSNat d2 n) (v' v)
+roundPow2 :: KnownNat n => Unsigned n -> Unsigned n
+roundPow2 v = v'' . snd $ mapAccumL (\a x -> (a .|. x, if a==high then 0 else x)) low (v' v)
+	where 
+		v' :: KnownNat n => Unsigned n -> Vec n Bit
+		v' = bitCoerce
+
+		v'' :: KnownNat n => Vec n Bit -> Unsigned n
+		v'' = bitCoerce
+
+fastroot :: KnownNat n => Unsigned (n + n) -> Unsigned (n + n)
+fastroot v = unpack (0 ++# pack root)
+	where
+		root = evens $
+			v .|.
+			v `shiftL` 1 .|.
+			v `shiftR` 2
+
+evens :: KnownNat n => Unsigned (2 * n) -> Unsigned n
+evens = bitCoerce . map head . unconcat d2 . v'
+	where 
+		v' :: KnownNat n => Unsigned n -> Vec n Bit
+		v' = bitCoerce
 
 ilog v =
 	snd .
@@ -141,7 +148,8 @@ ilog v =
 	logStepN d2 .
 	logStepN d4 .
 	logStepN d8 .
-	logStepN d16 $
+	logStepN d16 .
+	logStepN d32 $
 	(v, 0 `asTypeOf` v)
 
 logStepN n (v, r) =
