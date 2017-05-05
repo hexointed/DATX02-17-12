@@ -31,7 +31,7 @@
 		
 			One thing that could be done to improve performance is to let the
 			processor handle object related math, such as object and camera 
-			transformation. Currently if objects in the scenes are supposed to 
+			transformation. Currently if objects in the scene are supposed to 
 			move without doing it manually, they have to be moved using 
 			mathematical functions. These functions are then evaluated for 
 			each march step, for each pixel, this is essentially wasted 
@@ -62,13 +62,7 @@
 			to be resolved. In the end we implemented the core and enabled
 			multiple cores running in parallel utilizing a global queue, with
 			some caveats. While the implementation works and can be simulated
-			for up to 128 cores it cannot be compiled in a reasonable amount of
-			time and even when compiled for only four cores, the result
-			serializes to a layout bigger than the FPGA we had access to. We
-			identified this being due to idioms used rather than a general flaw
-			in the architecture meaning that we could probably reduce the
-			layout drastically utilizing BRAMs instead of FLUTs without having
-			to change our design to a large extent. 
+			for up to 128 cores we have only serialized 4 cores. 
 			
 			If we were to continue the work in a future project we would
 			rewrite the basic core in a number of ways, pushing it out to FPGA
