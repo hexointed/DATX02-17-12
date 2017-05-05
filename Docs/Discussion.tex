@@ -41,9 +41,12 @@
 			not be used the way it is currently used, although the current way
 			certainly improves performance. Currently each ray calculates the
 			distance to each object to decide whether it will collide or not. 
-			A better implementation would be to go through the objects of the 
-			and decide which pixels the object will cover, however we do not
-			have time or knowledge to implement this. 
+			This is a bad implementation because each ray calculates the 
+			distance to each object. Instead this should be calculated on a 
+			per-object basis, calculating which pixels each object will have
+			a chance of covering. However, we did not have the time nor
+			knowledge to implement this way, but the current implementation
+			certainly enhances performance.
 
 			Infinite planes requires a lot of computing power to render. One 
 			way to render infinite planes with a smaller performance-penalty 
