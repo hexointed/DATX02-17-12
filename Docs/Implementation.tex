@@ -1,14 +1,14 @@
 \chapter{Implementation}
 	
-	In order to achieve the goals set in this project, two separate pieces of software and one piece of
-	hardware were written. The hardware is comprised of a multi-core
-	programmable parallel processing unit designed for the ray-marching
-	algorithm, detailed in section \ref{implproc}, and the software programs
-	are two different implementations of a reference shader.  The first of
-	these was written in GLSL for traditional graphics hardware (in our case 
-	it was tested on a GeForce GTX 1060M ), and the second is written in an 
-	assembly language we designed for the ray-marching processor. Both of 
-	these shaders are described in section \ref{implshader}.
+	In order to achieve the goals set in this project, two separate pieces of
+	software and one piece of hardware were written. The hardware is comprised
+	of a multi-core programmable parallel processing unit designed for the
+	ray-marching algorithm, detailed in section \ref{implproc}, and the
+	software programs are two different implementations of a reference shader.
+	The first of these was written in GLSL for traditional graphics hardware
+	(in our case it was tested on a GeForce GTX 1060M ), and the second is
+	written in an assembly language we designed for the ray-marching processor.
+	Both of these shaders are described in section \ref{implshader}.
 	
 	\section{Processor Unit} \label{implproc}
 
@@ -102,15 +102,22 @@
 			this very common operation is automated, reducing the size of each
 			distance function slightly.
 		
-		\subsection{Implementation considerations}
-	
+		\subsection{Square Roots}
+			
+			Calculating distances is an integral part of the algorithm, so a
+			hardware square root implementation was considered important for 
+			achieving good performance. Several different approaches for this 
+			were considered.
+			
 	\section{Reference Shader} \label{implshader}
+		
 		%move this part up?
 		A reference shader was written in order to be able to fulfill the
 		requirement of comparing the performance of our graphics processor with
 		that of a modern traditional graphics card. 
 	
 		\subsection{GLSL Based}
+			
 			The shader which is made to run on conventional graphics hardware
 			was made in the high-level shading language GLSL (short for 
 			OpenGL Shading Language). It works by running the program for
@@ -135,18 +142,14 @@
 			for the ray to travel along. The origin of this reflected ray will 
 			be the point where the object was hit by the ray.
 
-			To increase performance, the number of objects that each ray has to 
-			measure the distance to in each loop, was reduced. This was achieved
-			by orthogonally projecting spheres of known size onto the current 
-			ray. When the position of the object and the closest point 
+			To increase performance, the number of objects that each ray has to
+			measure the distance to in each loop, was reduced. This was
+			achieved by orthogonally projecting spheres of known size onto the
+			current ray. When the position of the object and the closest point
 			on the ray is known the distance between them can be calculated. If
-			the distance is bigger than the radius of the object it is impossible
-			for the ray to hit the object. If it is certain that some objects in 
-			the scene will not be hit by the ray they are removed from the 
-			distance field.
+			the distance is bigger than the radius of the object it is
+			impossible for the ray to hit the object. If it is certain that
+			some objects in the scene will not be hit by the ray they are
+			removed from the distance field.
 
-
-			
-
-	
-		\subsection{}
+		\subsection{Assembly}
