@@ -26,8 +26,8 @@ instance Floating (GenFloat 16) where
 	acosh = undefined
 	atanh = undefined
 
-topEntity :: Signal Float -> Signal Float
-topEntity = mealy (\sum inp -> (\x -> (x,x)) $ sqrtFS inp + sum) 0 . register 0
+topEntity :: Signal (Unsigned 32) -> Signal (Unsigned 32)
+topEntity = mealy (\sum inp -> (\x -> (x,x)) $ ilog inp + sum) 0 . register 0
 
 -- square root on 16 16 signed fixed numbers
 -- 24 iterations on 48 internal bits
@@ -74,7 +74,7 @@ iSqrt48 x =
 	loopStepN d1 $
 	(x ,0) -- these are the starting values for num, res
 
-loopStepN n (num, res) = (temp `asTypeOf` num , res')
+loopStepN n (num, res) = (temp `asTypeOf` num , res' `asTypeOf` num)
 	where
 		(neg, temp) = subHighBits n num (nextRes n'' res True)
 		resShift = res `shiftR` 1
@@ -105,3 +105,62 @@ highBits n = unpack . bTake n . pack
 
 lowBits :: (KnownNat n, KnownNat m) => SNat n -> Unsigned (n + m) -> Unsigned m
 lowBits n u = resize u
+
+--froot v = rl' + (v' - l') * (rh' - rl') / (h' - l')
+--	where
+--		h = roundPow2 v
+--		l = h `shiftR` 1
+--		rl = fastroot l
+--		rh = fastroot h
+--
+--		h' = uf d16 (resize h `shiftL` 16 :: Unsigned 48)
+--		l' = uf d16 (resize l `shiftL` 16 :: Unsigned 48)
+--		rl' = uf d16 (resize rl `shiftL` 16 :: Unsigned 48)
+--		rh' = uf d16 (resize rh `shiftL` 16 :: Unsigned 48)
+--		v' = uf d16 (resize v `shiftL` 16 :: Unsigned 48)
+
+roundPow2 v = (+1) $ 
+	v - 1 .|.
+	v `shiftR` 1 .|.
+	v `shiftR` 2 .|.
+	v `shiftR` 4 .|.
+	v `shiftR` 8 .|.
+	v `shiftR` 16 
+
+fastroot :: KnownNat n => Unsigned (n * 2) -> Vec n Bit
+fastroot v = smap bit (unconcat d2 (v' v))
+	where
+		v' :: KnownNat n => Unsigned n -> Vec n Bit
+		v' v = bitCoerce v
+
+		bit n _ = at (mulSNat d2 n) (v' v)
+
+ilog v =
+	snd .
+	logStepN d1 .
+	logStepN d2 .
+	logStepN d4 .
+	logStepN d8 .
+	logStepN d16 $
+	(v, 0 `asTypeOf` v)
+
+logStepN n (v, r) =
+	if v .&. b n == 0
+	then (v, r)
+	else (v `shiftR` s' n, r .|. s n)
+
+b :: (KnownNat n, KnownNat k) => SNat n -> Unsigned (k + n + n)
+b n = unpack (
+		0 ++# 
+		pack (ones n) ++# 
+		pack (0 `asTypeOf` ones n)
+	)
+	where
+		ones :: KnownNat n => SNat n -> Unsigned n
+		ones n = (-1) 
+
+s :: (KnownNat n, KnownNat m) => SNat n -> Unsigned m
+s = fromInteger . natVal
+
+s' :: KnownNat n => SNat n -> Int
+s' = fromInteger . natVal
