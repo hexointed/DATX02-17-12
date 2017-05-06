@@ -17,7 +17,7 @@ grouped for computation. The drawback of cooperating cores only being able
 to work on the same instruction at any one given time, is thus greatly reduced.
 
 Using this hardware for Sphere Tracing, as is currently being done, will make 
-this drawback significantly more burdening. Pixels are can not be grouped by
+this drawback significantly more burdening. Pixels can not be grouped by
 what object in the scene they belong to as easily in a Sphere Tracer, because
 the order of pixel rendering in a polygon renderer is done by object and then
 by its constituent polygons. Sphere Tracers do not have polygons and pixel 

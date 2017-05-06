@@ -13,7 +13,8 @@
 	\section{Reference Shader} \label{implshader}
 	A reference shader was written in order to be able to fulfill the
 	requirement of comparing the performance of our graphics processor with
-	that of a modern traditional graphics card. 
+	that of a modern traditional graphics card.
+	%%dehär gör vi ju inte dock så...  skriva om?
 	
 	\subsection{GLSL Based}
 	The shader which is made to run on conventional graphics hardware
@@ -46,7 +47,8 @@
 	on the ray is known the distance between them can be calculated. If
 	the distance is bigger than the radius of the object it is impossible for the ray to hit the object. If it is certain that some objects in the scene will not be hit by the ray they are removed from the distance field.
 
-	
+	\subsection{GPU Assembler Based}
+
 	\section{Processor Unit} \label{implproc}
 
 		The properties of the ray marching algorithm as described above led to
@@ -143,3 +145,12 @@
 
 	
 		\subsection{}
+		\subsection{Square Roots}
+			
+			Calculating distances is an integral part of the algorithm, so a
+			hardware square root implementation was considered important for 
+			achieving good performance. Several different approaches for this 
+			were considered.
+			
+	
+
