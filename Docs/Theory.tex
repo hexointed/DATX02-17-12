@@ -1,6 +1,10 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Theory}
 
+	% TODO(bjorn):
+	% fixa bild r krockar
+	% exempel  p@ SDF
+
 	% vi måste bestämma oss för vad vi kallar algoritmen. nu har vi 2
 	% konkurrerande termer
 	The algorithm in question that we designed a custom GPU for is called
@@ -33,19 +37,28 @@
 			\vspace{40pt}
 		\end{wrapfigure}
 		
-		The sphere tracing algorithm is based on the concept of Signed Distance Functions (SDF).
-		$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ 
-		The "distance" is the distance between a point and the closest point on the implicit surface $\text{SDF}^{-1}(0)$. 
-		%vad betyder detta och vad är det för funktion? borde vi inte ge ett exempel på en sådan funktion?
-		The "signed" part refers to the
-		distance being negated when measured on the other side of the
-		surface. If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
-		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the 
-		origin, then $$\text{SDF}\circ r(s) = 0$$ means that the ray
-		intersects a surface at exactly the distance $s$ from its origin.
-		\emph{ Sampling every SDF in a given scene and returning the smallest 
-			value yields a function known as a distance field.
-		}
+		The sphere tracing algorithm is based on the concept of Signed Distance
+		Functions (SDF).  $$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The
+		"distance" is the distance between a point and the closest point on the
+		implicit surface $\text{SDF}^{-1}(0)$. 
+		%vad betyder detta och vad är det för funktion? borde vi inte ge ett
+		%exempel på en sådan funktion?
+		The "signed" part refers to the distance being negated when measured on the
+		other side of the surface. A common example would be the SDF of a sphere
+		centered at the origin with a radius of one. $\text{SDF}(\vec{v}) =
+		|\vec{v}| - 1$ We can here see that a point $\vec{v}$ exactly on the
+		surface would evaluate to $1 - 1 = 0$  where any point outside of the
+		sphere being positive and any point inside the sphere being negative. In
+		this case the absolute of the result would also describe the smallest
+		distance to the surface but this is not a hard constriction for the
+		algorithm to work.
+		
+		If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
+		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin, then
+		$$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a surface at
+		exactly the distance $s$ from its origin.  \emph{ Sampling every SDF in a
+		given scene and returning the smallest value yields a function known as a
+		distance field.  }
 
 		\bigskip
 		\noindent Finding the surface can be done by iterating point by point from the
@@ -94,5 +107,3 @@
 				based on parameters from the material ID, to form the final 
 				output pixel color.
 						
-				%%\footnotetext{Or along the normal of the point.}
-		
