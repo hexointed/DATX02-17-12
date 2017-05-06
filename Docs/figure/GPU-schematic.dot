@@ -1,0 +1,94 @@
+digraph GPU
+{
+//graph [fontsize=3]
+fontsize=20;
+labelloc=top;
+//label="Sphere Tracing GPU Layout";
+edge [color=darkblue]
+//newrank=true
+//rankdir=LR
+splines=Ortho
+//compound=true
+//clusterrank=local
+{ 	rank=source; 
+	queue [label="Queue",shape=box3d];
+}
+
+subgraph cluster_core1
+{	fontsize=16;
+	style=filled;
+	color=lightgrey;
+ 	//node [width=0.8,fixedsize=true];
+	subgraph cluster_core1_ROM
+	{	label = "ROM"
+		style=solid;
+		color=darkgreen;
+		//fillcolor=green;
+		node [shape=record];
+		data  [label="{Data Memory (32b)| {0|...|511}}"];
+		instr [label="{Instruction Memory (16b)| {0|...|511}}"];
+	}
+
+ 	node [shape=record];
+	stack [group=g1,label="Stack (32b)| {15|...|0}"];
+{ //rank=same;
+	reg [group=g1,label="{Registers (32b)| {0|...|15}}"];
+}
+
+{ //rank=min;
+	DFU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+}
+
+	reg->stack [style=invis]
+	stack->instr [style=invis]
+	instr->data [style=invis]
+
+	edge [dir=both,constraint=false]
+	reg -> DFU [arrowsize=0.55]
+	stack -> DFU //[constraint=false]
+	edge [dir=single]
+	instr -> DFU
+	data -> DFU
+	//edge [constraint=true]
+	label = "Core #1";
+}
+subgraph cluster_core2
+{	fontsize=16;
+	style=filled;
+	color=darkgrey;
+	label = "Core #2";
+	DFU2 [label="DFU",shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+}
+subgraph cluster_core3
+{	fontsize=16;
+	style=filled;
+	color=darkgrey;
+	label = "Core..";
+	DFU3 [label="DFU",shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+}
+
+{	//rank=max;
+	FrameBuf [label="\n\nFrame Buffer",shape=noverhang,height=0.1,labelfloat=true];
+}
+
+queue->reg
+queue->DFU2
+queue->DFU3
+
+DFU->queue
+DFU2->queue
+DFU3->queue
+
+DFU->FrameBuf
+DFU2->FrameBuf
+DFU3->FrameBuf
+}
+
+
+
+
+
+
+
+
+

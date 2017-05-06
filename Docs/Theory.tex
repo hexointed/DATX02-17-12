@@ -3,11 +3,11 @@
 
 	% vi måste bestämma oss för vad vi kallar algoritmen. nu har vi 2
 	% konkurrerande termer
-	The algorithm in question that we designed a custom GPU for is called
-	Sphere Tracing\cite{Hart1996}. The name comes from the technique where it uses spheres to
-	incrementally advance a ray in 3D space. The method of advancing rays
-	incrementally is called Ray Marching and is a particular subset of ray
-	tracing.\cite{Whitted1980} Ray Tracing, then, is a way of wholly or
+	The graphics rendering algorithm that we designed a custom GPU for is called
+	Sphere Tracing\cite{Hart1996}. The name comes from the technique where it 
+	uses spheres to incrementally advance a ray in 3D space. Advancing rays 
+	incrementally is called Ray Marching and is a particular subset of Ray
+	Tracing.\cite{Whitted1980} Ray Tracing, then, is a way of wholly or
 	partially rendering the world through rays, cast from the eye of the
 	observer into the scene. Sphere Tracing has been around since at least as
 	early as the late eighties and Ray Tracing as early as the
@@ -53,7 +53,7 @@
 		\text{SDF}(p_i)$$ This is repeated until $\text{SDF}(p_i) \leq
 		\varepsilon$ for a given precision limit $\varepsilon$.
 		$\text{SDF}(p_i)$ is the furthest possible march distance the ray can 
-		march while still being sure not too overshoot any potential surfaces.  
+		march while still being sure not to overshoot any potential surfaces.  
 		The direction of the closest surface point is never known, thus 
 		$\text{SDF}(p_i)$ can be interpreted as a spherical bound, giving the 
 		algorithm it's name. This Ray Marching is then performed for each pixel 
