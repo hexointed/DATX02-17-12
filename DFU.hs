@@ -53,7 +53,13 @@ data DFU = DFU
 	}
 	deriving (Eq, Show, Generic, NFData)
 
-initial = DFU maxBound 0 (push maxBound (filled 0)) 0 (repeat 0) True
+initial = DFU 
+	maxBound
+	undefined
+	(filled undefined)
+	undefined
+	(repeat undefined)
+	True
 
 step dfu (inst, global) = case inst of
 		Comp r    -> (stepOp dfu global r, Left $ dataAddr r)
@@ -85,7 +91,7 @@ execInst c a dfu = case checkCond c (stack dfu) of
 	True  -> case a of
 		PushF      -> (dfu, Right Frame)
 		PushQ      -> (dfu, Right Queue)
-		Drop       -> (initial, noAddr)
+		Drop       -> (dfu {ready = True, minValue = maxBound}, noAddr)
 		SetVal p s -> 
 			(dfu { pack = replace p (topN s (stack dfu)) (pack dfu) }, noAddr)
 
@@ -98,7 +104,7 @@ checkCond (Cond ch ptr) stack = f (topN ptr stack)
 
 opCheck :: Op -> Bool
 opCheck op 
-	| op == Cross || op == Addv || op == Subv || op == Scale || op == Norm = True
+	| op == Cross || op == Addv || op == Subv || op == Scale = True
 	| otherwise = False
 
 pushOp :: Op -> Stack Float -> Stack Float
