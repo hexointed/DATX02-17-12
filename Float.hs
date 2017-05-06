@@ -117,7 +117,7 @@ froot v = rl + ((xor v l) * (rh - rl)) `shiftR` shift
 		l = roundPow2 v
 		rl = fastroot l
 		rh = fastroot h
-		shift = bitCoerce (resize (ilog l)) :: Int
+		shift = bitCoerce (resize (ilog v)) :: Int
 
 roundPow2 :: KnownNat n => Unsigned n -> Unsigned n
 roundPow2 v = v'' . snd $ mapAccumL (\a x -> (a .|. x, if a==high then 0 else x)) low (v' v)
@@ -133,8 +133,11 @@ fastroot v = unpack (0 ++# pack root)
 	where
 		root = evens $
 			v .|.
-			v `shiftL` 1 .|.
-			v `shiftR` 2
+			v `shiftL` 1  .|.
+			v `shiftR` 4  .|.
+			v `shiftR` 6  .|.
+			v `shiftR` 10 .|.
+			v `shiftR` 14
 
 evens :: KnownNat n => Unsigned (2 * n) -> Unsigned n
 evens = bitCoerce . map head . unconcat d2 . v'
