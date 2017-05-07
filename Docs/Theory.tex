@@ -18,7 +18,7 @@
 	computationally intensive method compared to polygon
 	rendering\cite{Wylie1967} and thus it has generally seen more use in movie
 	production rather than in real-time applications.\cite{ref_needed?} 
-	
+
 	The advent of per pixel programmable hardware in graphics cards made it 
 	possible to implement real time graphics rendering based on ray	marching, 
 	albeit only using relatively simple geometry. This raises the question of 
@@ -29,10 +29,10 @@
 	both definitions and examples. The explanation is based on the the very
 	succint explanation in \cite{Korndorfer2014} where they also expand upon the
 	original algorithm. For a more in-depth description we refer to Harts
-	“\textit{Sphere tracing: a geometric method for the antialiased ray tracing
+	“\emph{Sphere tracing: a geometric method for the antialiased ray tracing
 	of implicit surfaces}”\cite{Hart1996} as the de-facto explanation.
-	
-		
+
+
 	\section{Sphere Tracing} 
 
 		\begin{wrapfigure}{r}{0.48\textwidth}
@@ -42,13 +42,13 @@
 			\caption{ Signed Distance Function of a sphere, sampled at three points}
 			\vspace{40pt}
 		\end{wrapfigure}
-		
+
 		The sphere tracing algorithm is based on the concept of Signed Distance
 		Functions (SDF).  $$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The
 		"distance" is the distance between a point and the closest point on the
 		implicit surface $\text{SDF}^{-1}(0)$. The "signed" part refers to the
 		distance being negated when measured on the other side of the surface. 
-		
+
 		A common example would be the SDF of a sphere centered at the origin with a
 		radius of one. $$\text{SDF}(\vec{v}) = |\vec{v}| - 1$$ We can here see that
 		a point $\vec{v}$ exactly on the surface would evaluate to $1 - 1 = 0$
@@ -56,7 +56,7 @@
 		the sphere being negative. In this case the absolute of the result would
 		also describe the smallest distance to the surface but this is not a hard
 		constriction for the algorithm to work.
-		
+
 		\vspace{40pt}
 		\begin{wrapfigure}{r}{0.48\textwidth}
 			\begin{flushright}
@@ -69,9 +69,9 @@
 		If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
 		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin, then
 		$$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a surface at
-		exactly the distance $s$ from its origin.  \emph{ Sampling every SDF in a
+		exactly the distance $s$ from its origin. \emph{Sampling every SDF in a
 		given scene and returning the smallest value yields a function known as a
-		distance field.  }
+		distance field.}
 
 		\bigskip \noindent Finding the surface can be done by iterating point by
 		point from the origin along the ray like below: $$p_{i+1} = p_i +
@@ -83,9 +83,9 @@
 		a spherical bound, giving the algorithm it's name. This Ray Marching is
 		then performed for each pixel of the screen, reversely simulating the light
 		rays entering the lens of an eye or camera.
-			
+
 			\subsection{Reflections and refractions}
-		
+
 				Once a point on a surface for a given pixel has been located
 				new multiple rays can then march further to determine
 				reflections, towards the scene's sources of light determining
@@ -93,7 +93,7 @@
 				simulating refractions. A lot of these depend on the surface
 				normal which can be calculated by normalizing the approximate
 				gradient of $\text{SDF}(p)$. 
-		
+
 			\subsection{Materials}
 				Coloring a certain ray in a scene is based on the material ID
 				assigned to the first object that the ray intersects. The color
@@ -106,15 +106,14 @@
 				enveloping the object in question. This is called texture-mapping 
 				and commonly uses simple shapes like planes, cubes, spheres and 
 				cylinders. 
-				
+
 				Light can be calculated by taking the angle of incidence between
 				the previously mentioned surface normal and the direction of one 
 				or more predefined light sources. Shadows can be calculated by 
 				ray marching from the intersection point to the lights and 
 				applying shadowing if the path traversed was intersected by any
 				object in the scene. 
-				
+
 				Light and shadow values are then blended with the material color,
 				based on parameters from the material ID, to form the final 
 				output pixel color.
-						
