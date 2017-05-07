@@ -1,56 +1,59 @@
+{-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
+
 module TopQueue where
 
 import Base
+import Data.Maybe
 import Core hiding (pack)
 import Pack
-import Queue
 import CLaSH.Sized.Fixed
 import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
-
-type TopQueue = Queue 64 Pack
-type Address = Signed 32
-type RGBValue = BitVector 24
+import BramStack
 
 type VecIn n = Vec n (Bool, Maybe Pack)
 type VecOut n = Vec n (Maybe Pack, Bool)
-type IndexSize = Unsigned 8
 
-serve :: KnownNat n => TopQueue -> VecIn (n+1) -> (TopQueue, VecOut (n+1))
-serve q ps = (q'', injectL rdyindex mpout $ injectR mpindex acc $ repeat (Nothing, False)) 
+topQueue :: KnownNat n => Signal (VecIn (n + 1)) -> Signal (VecOut (n + 1))
+topQueue inputs = fmap coresInterface inputs <*> bram
 	where
-		(mpindex, mpin) = firstmp ps
-		(rdyindex, rdy) = firstrdy ps
-		(q', acc) = case mpin of
-			Just p -> (push p q, True)
-			otherwise -> (q, False)
-		(q'', mpout) = case rdy of
-			True -> case (topOfq q') of
-				Just p -> (pop q', Just p)
-				otherwise -> (q', Nothing)
-			otherwise -> (q', Nothing)
+		(has, wants) = unbundle $ fmap calcDecision inputs
+		bram = bramStack (fmap packFromMaybe has) wants
 
-topOfq :: TopQueue -> Maybe Pack
-topOfq q = if isEmpty q then Nothing else Just (top q)
-
-firstmp :: KnownNat n => VecIn (n+1) -> (IndexSize, Maybe Pack)
-firstmp ps = fold sel (imap(\i (_,mp) -> (fromIntegral i,mp)) ps)
+coresInterface :: VecIn n -> Maybe Pack -> VecOut n
+coresInterface v p = zipWith (,) outs acc
 	where
-                sel (i, Just p) _           = (i, Just p) 
-                sel _           (i, Just p) = (i, Just p)
-                sel _           _           = (0, Nothing)
+		acc = accCorrect (map snd v)
+		outs = giveBackCorrect (map fst v) p
 
-firstrdy :: KnownNat n => VecIn (n+1) -> (IndexSize, Bool)
-firstrdy ps = fold sel (imap(\i (rdy,_) -> (fromIntegral i,rdy)) ps)
+accCorrect :: Vec n (Maybe Pack) -> Vec n Bool
+accCorrect v = snd $ mapAccumL onlyFirst True v
 	where
-                sel (i, True) _         = (i, True) 
-                sel _         (i, True) = (i, True)
-                sel _         _         = (0, False)
+		onlyFirst isFirst pack = case isFirst && pack /= Nothing of
+			True ->  (False, True)
+			False -> (isFirst, False)
 
-injectL :: KnownNat n => IndexSize -> Maybe Pack -> VecOut (n+1) -> VecOut (n+1)
-injectL i mp ps = replace i (mp, r) ps
-	where (_,r) = ps !! i
+giveBackCorrect :: Vec n Bool -> Maybe Pack -> Vec n (Maybe Pack)
+giveBackCorrect v p = snd $ mapAccumL onlyFirst True v
+	where
+		onlyFirst isFirst wants = case isFirst && wants of
+			True  -> (False, p)
+			False -> (isFirst, Nothing)
 
-injectR :: KnownNat n => IndexSize -> Bool -> VecOut (n+1) -> VecOut (n+1)
-injectR i rdy ps = replace i (l, rdy) ps
-	where (l,_) = ps !! i
+packFromMaybe :: Maybe Pack -> Push
+packFromMaybe Nothing  = None
+packFromMaybe (Just p) = Bottom p
+
+calcDecision :: VecIn (n + 1) -> (Maybe Pack, Bool)
+calcDecision inputs = (has, wants)
+	where
+		has = snd $ fold hasPack inputs
+		wants = fst $ fold wantsPack inputs
+
+hasPack (w, p) (w', p') = case p of
+	Just _  -> (w, p)
+	Nothing -> (w', p')
+
+wantsPack (w, p) (w', p')
+	| w         = (w, p)
+	| otherwise = (w', p')

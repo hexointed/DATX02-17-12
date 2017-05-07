@@ -32,19 +32,19 @@ data Op
 	| Subv
 	| Scale
 	| Copy
-        | Norm
+	| Nop
 	deriving (Eq, Show, Generic, NFData)
 
 arity Sqrt = 1
 arity Abs = 1
 arity Floor = 1
+arity Nop = 1
 arity Dot = 6
 arity Cross = 6
 arity Addv = 6
 arity Subv = 6
 arity Scale = 4
 arity Copy = 1
-arity Norm = 3
 arity _ = 2
 
 apply :: Op -> Float -> Float -> Float -> Float -> Float -> Float -> Either Float (Float,Float,Float)
@@ -63,10 +63,3 @@ apply Addv a1 a2 a3 b1 b2 b3 = Right ((a1+b1),(a2+b2),(a3+b3))
 apply Subv a1 a2 a3 b1 b2 b3 = Right ((b1-a1),(b2-a2),(b3-a3))
 apply Scale s a1 a2 a3 _  _ = Right ((s*a1), (s*a2),(s*a3))
 apply Copy c _ _ _ _ _ = Left c
-apply Norm a b c _ _ _ = Right (a/q, b/q, c/q)
-        where q = vectorLength (a,b,c)
-
-vectorLength :: (Float, Float, Float) -> Float
-vectorLength (a, b, c) = sqrt(a*a+b*b+c*c)
-
-

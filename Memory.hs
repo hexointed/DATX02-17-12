@@ -8,10 +8,10 @@ import DistFunc
 import Float
 
 dfuIMemory :: Ptr DIMem -> Maybe Instr
-dfuIMemory = encodeDfuI . asyncRomFile d512 "dfuIMemory.bin"
+dfuIMemory = encodeDfuI . asyncRomFile d512 "dfuIMemory.dat"
 
 dfuDMemory :: Ptr DDMem -> Maybe Float
-dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.bin"
+dfuDMemory = encodeDfuD . asyncRomFile d512 "dfuDMemory.dat"
 
 fetch :: () -> (Ptr DIMem, Ptr DDMem) -> ((), (Maybe Instr, Maybe Float)) 
 fetch () (di, dd) = (,) () (dfuIMemory di, dfuDMemory dd)
@@ -40,11 +40,10 @@ encodeDfuI b = Just instr
 			0x09 -> Acc
 			0x0a -> Oper Dot
 			0x0b -> Oper Cross
-                        0x0c -> Oper Addv
-                        0x0d -> Oper Subv
-                        0x0e -> Oper Scale
-                        0x0f -> Oper Copy
-                        0x10 -> Oper Norm
+			0x0c -> Oper Addv
+			0x0d -> Oper Subv
+			0x0e -> Oper Scale
+			0x0f -> Oper Copy
 		condition = case opcc of
 			0x0 -> A
 			0x1 -> Z

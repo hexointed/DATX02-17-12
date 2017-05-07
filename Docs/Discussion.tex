@@ -48,10 +48,21 @@
 			knowledge to implement this way, but the current implementation
 			certainly enhances performance.
 
-			Infinite planes requires a lot of computing power to render. One 
-			way to render infinite planes with a smaller performance-penalty 
-			might be to calculate where the ray will hit the plane without 
-			using the loop, however this has not been investigated. 
+			Infinite planes require a lot of computing power to render. When
+			the camera is oriented so that the field of view is along an infinite
+			plane some rays will travel parallell to the plane, they then march 
+			equally long steps until their max number of steps has been taken or
+			the max range has been reached, without hitting anything. Another
+			drawback of infinite planes is that the sphere tracing algorithm causes
+			the horizon of planes to disappear because of the max range and max 
+			steps of a ray. Another way to render infinite planes might be to 
+			calculate if the ray will intersect the plane, and if so where it 
+			will intersect. This would eliminate the issue of not being able 
+			to render the horizon and might also increase performance, with the
+			drawback that deformations to a plane would be harder to describe 
+			mathematically. This way to render planes has not been tested and
+			the potential results are merely speculation.
+
 
 
 		
@@ -116,7 +127,7 @@
 		\subsection{Orthogonal culling}
 
 			Traditionally culling is done to avoid the GPU rendering polygons 
-			that are "behind" the camera, this is called frustum culling. Instead 
+			that are outside the field of view, this is called frustum culling. Instead 
 			of this we implemented an alternative version that we call orthogonal
 			culling.
 
@@ -133,6 +144,11 @@
 			by the ray. If the distance is larger than zero the ray can't possibly hit 
 			that sphere. This way the number of objects that the distance has to be 
 			calculated to is decreased. 
+
+			This method could be combined with the Bounding Sphere optimization.
+			By othogonally culling away bounding spheres instead of objects, 
+			several objects could be discarded at once, reducing the computing
+			time to calculate which objects the ray might hit.
 
 
 
