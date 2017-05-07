@@ -1,3 +1,10 @@
+Allt relevant i denna fil är överfört till Docs/Rapportplan.txt
+
+
+
+
+
+
 How well does our hardware accommodate the sphere tracing algorithm?
 What possible optimizations are there?
 
