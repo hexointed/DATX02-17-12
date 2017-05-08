@@ -27,8 +27,6 @@ State of the art
 
 Teori:
 	addera lite fin matte på reflektionsdelen.
-	matte för distansfältets gradient.
-	flytta material-delen till implementation av sw-shader
 
 Implementation
 

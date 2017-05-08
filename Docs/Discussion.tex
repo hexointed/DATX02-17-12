@@ -67,7 +67,7 @@
 			
 			It works like the name implicates by grouping adjacent rays
 			together. If a specific pixel N is to be rendered we group the
-			adjacent pixels into a "combined pixel". Then we march along the
+			adjacent pixels into a ``combined pixel``. Then we march along the
 			ray of N. If any of the other pixels are not inside the minimum
 			distance spheres (MDS) the combined pixel is split up into two
 			smaller groups. Each of the groups then repeat the first step again
@@ -78,8 +78,8 @@
 			
 			This optimization was implemented and we achieved an increase in
 			performance as excepted. The optimization decreases the number of
-			computations made by the formula ? below.  Sum o$f_1^s(1/N_s)$
-			where N = number of pixels in the group and s = number of groups.
+			computations made by the formula ? below.  Sum of $\sum_1^s(1/N_s)$
+			where N = number of pixels in the group and s = number of groups
 
 			%#picture of ray grouping
 
