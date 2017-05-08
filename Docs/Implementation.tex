@@ -16,7 +16,7 @@
 		calculates distance to the closest object in the scene by sampling
 		the distance field and testing whether it's value is less than a
 		predefined epsilon. If true, the ray has hit an object; the
-		corresponding pixel's colour is calculated and the loop is
+		corresponding pixel's color is calculated and the loop is
 		terminated, unless the material of the object in question is
 		defined as being reflective.
 
@@ -28,15 +28,10 @@
 			Shading Language). It works by running the program for each pixel
 			the shader is rendered on, using the screen-coordinates as input.
 
-			Beyond the actual sphere tracing loop there is also some calculations
+			Beyond the actual sphere tracing loop there are also some initial calculations
 			done to set up the origin and direction of the ray, which is done
 			using screen coordinates. This needs to be done for each pixel
 			being rendered.
-
-			Reflections are implemented by calculating the normal vector of the
-			surface that was hit and then use it to calculate a new direction
-			for the ray to travel along. The origin of this reflected ray will
-			be the point where the object was hit by the ray.
 
 			Coloring a pixel in a scene is based on the material ID
 			assigned to the first object that the ray intersects. The color
@@ -50,18 +45,13 @@
 			and commonly uses simple shapes like planes, cubes, spheres and 
 			cylinders. 
 
-			Light can be calculated by taking the angle of incidence between
-			the previously mentioned surface normal and the direction of one 
-			or more predefined light sources. Shadows can be calculated by 
-			ray marching from the intersection point to the lights and 
-			applying shadowing if the path traversed was intersected by any
-			object in the scene. 
-
-			Light and shadow values are then blended with the material color,
-			based on parameters from the material ID, to form the final 
-			output pixel color.
-
 		\subsection{GPU Assembler Based}
+
+			In the assembler version that runs on our own hardware there is
+			initially a single thread. This thread will create one new thread
+			for each pixel on the screen, and this thread will calculate what 
+			color the pixel should have and then terminate. 
+
 
 
 
