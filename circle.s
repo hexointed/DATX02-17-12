@@ -84,7 +84,6 @@ generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden fö
 	sub
 	a setval 1 0
 	nz 0 pushq ; pushar till kön
-	nz 0 pushq
 	val &calcpos
 	a setval 0 0
 	a pushq
@@ -113,11 +112,6 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 
 draw: 
-
-	val &one
-	a setval 2 0
-	a pushf
-	a drop
 
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
