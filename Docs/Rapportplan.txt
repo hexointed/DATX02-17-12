@@ -36,7 +36,7 @@ Implementation
 
 
 Resultatsdel:
-	Addera övergripande introtext som beskriver att nedan följer dels resultat av designval i GPU:n, och dels mjukvaru/algoritmiska optimeringar vi testat.
+	Lägg till övergripande introtext som beskriver att nedan följer dels resultat av designval i GPU:n, och dels mjukvaru/algoritmiska optimeringar vi testat.
 
 	hw:
 	queue based threads, able to spawn one or many new threads, (som i sin tur gör att vi inte har traditionella hopp å den typen av branchkontroll) - ett resultat av detta blir ett tråd-flexibelt assembler-språk som här kan beskrivas lite övergripande.
