@@ -4,19 +4,17 @@
 	% TODO(bjorn):
 	% fixa bild r krockar
 
-	% vi måste bestämma oss för vad vi kallar algoritmen. nu har vi 2
-% konkurrerande termer
 	The graphics rendering algorithm in question that we designed a custom GPU
 	for is called Sphere Tracing\cite{Hart1996}. The name comes from the
 	technique where it uses spheres to incrementally advance a ray in 3D space.
 	The method of advancing rays incrementally is called Ray Marching and is a
 	particular subset of ray tracing\cite{Whitted1980}. Ray Tracing, then, is a
 	way of wholly or partially render the world through rays, cast from the eye
-	of the observer into the scene. Sphere Tracing has been around since at least
-	as early as the late eighties\cite{Hart1989} and Ray Tracing as early as the
+	of the observer into the scene. Sphere Tracing has been around since at least as early as the late eighties\cite{Hart1989} and Ray Tracing as early as the
 	sixties\cite{Appel1968}. Ray Tracing has traditionally been a more
 	computationally intensive method compared to polygon
 	rendering\cite{Wylie1967} and thus it has generally seen more use in movie
+
 	production rather than in real-time applications.\cite{ref_needed?} 
 
 	The advent of per pixel programmable hardware in graphics cards made it 

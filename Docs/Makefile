@@ -18,6 +18,9 @@ figure/%.pdf: figure/%.svg
 	convert $^ $@
 #	inkscape -D -z --file=$(shell pwd)/$^ --export-pdf=$(shell pwd)/$@ >> ./log.log
 
+figure/%.svg: figure/%.dot
+	dot -Tsvg -O $^
+
 %.pdf: %.tex
 	- pdflatex $^
 	- bibtex $*  

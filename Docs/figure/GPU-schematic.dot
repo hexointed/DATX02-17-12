@@ -35,36 +35,48 @@ subgraph cluster_core1
 	reg [group=g1,label="{Registers (32b)| {0|...|15}}"];
 }
 
-{ //rank=min;
-	DFU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
-}
+//ICU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
 
-	reg->stack [style=invis]
-	stack->instr [style=invis]
+	subgraph cluster_DFU
+	{ //rank=min;
+		label = "DFU"
+		style=solid;
+		color=darkgreen;
+			
+		ALU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+		reg->stack [style=invis]
+		stack->instr [style=invis]
+	}
+
+
 	instr->data [style=invis]
+	reg->stack [style=invis]
 
 	edge [dir=both,constraint=false]
-	reg -> DFU [arrowsize=0.55]
-	stack -> DFU //[constraint=false]
+	reg -> ALU [arrowsize=0.55]
+	stack -> ALU //[constraint=false]
 	edge [dir=single]
-	instr -> DFU
-	data -> DFU
+	instr -> ALU
+	data -> ALU
 	//edge [constraint=true]
 	label = "Core #1";
 }
+
+queue->pl
+
 subgraph cluster_core2
 {	fontsize=16;
 	style=filled;
-	color=darkgrey;
+	color=lightgrey;
 	label = "Core #2";
-	DFU2 [label="DFU",shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+	DFU2 [label="DFU",shape=box,style=solid,color=black];
 }
 subgraph cluster_core3
 {	fontsize=16;
 	style=filled;
-	color=darkgrey;
+	color=lightgrey;
 	label = "Core..";
-	DFU3 [label="DFU",shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+	DFU3 [label="DFU",shape=box,style=solid,color=black];
 }
 
 {	//rank=max;
@@ -75,11 +87,11 @@ queue->reg
 queue->DFU2
 queue->DFU3
 
-DFU->queue
+ALU->queue
 DFU2->queue
 DFU3->queue
 
-DFU->FrameBuf
+ALU->FrameBuf
 DFU2->FrameBuf
 DFU3->FrameBuf
 }
