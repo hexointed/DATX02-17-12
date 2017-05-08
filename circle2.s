@@ -1,52 +1,57 @@
 .data:
-zero:
-	0
 one:
 	1.0
-two:
-	2.0
-three:
-	3.0
-four:
-	4.0
-five:
-	5.0
-six:
-	6.0
-displaysize:
+displaysizex:
+	16.0
+displaysizey:
 	16.0
 pos:
 	7.5
 radius:
-	4.0
+	45.0
 greenshift:
 	256
+numPixels:
+	256.0
 
 .text:
+initialize:
+	val &generate
+	a setval 0 0
+	val &numPixels
+	a setval 1 0
+	a pushq
+	a drop
+
 generate:
 	next 1 ; comment
-	val &calcpos
+
 	pack 1
 	val &one
 	sub
 	a setval 1 0
+
 	nz 0 pushq
-	a setval 0 1
+
+	val &calcpos
+	a setval 0 0
+
 	a pushq
+
 	a drop
 
 calcpos:
 	next 2
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
 	pack 1
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
-	val &displaysize
+	val &displaysizex
 	mul
 	sub
 	val &draw
@@ -58,46 +63,22 @@ calcpos:
 
 draw:
 	next 3
-
-	val &zero ; z
-	pack 2    ; y 
-	val &pos  ; y
+	pack 2
+	val &pos
 	sub
-	pack 3    ; x
-	val &pos  ; x
+	pack 2
+	val &pos
 	sub
-
-	val &zero ; z
-	pack 2    ; y 
-	val &pos  ; y
+	mul
+	pack 3
+	val &pos
 	sub
-	pack 3    ; x
-	val &pos  ; x
+	pack 3
+	val &pos
 	sub
-
-	dot
-	sqrt
-
-
-
-	
-
-        val &three
-        copy
-        copy
-        
-
-	val &two
-	val &one
-	val &five
-	
-	val &four
-	val &three
-	val &five
-
-	cross
-	dot
-
+	mul
+	add
+	val &radius
 	div
 	floor
 	val &greenshift
@@ -105,3 +86,4 @@ draw:
 	a setval 2 0
 	a pushf
 	a drop
+

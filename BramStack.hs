@@ -7,7 +7,7 @@ import Pack
 import Debug.Trace
 import Float
 
-type QSize = 64
+type QSize = 1024
 type QIndex = Unsigned 6
 
 data Push
