@@ -11,6 +11,8 @@ hundred:
 	100.0
 displaysize:
 	16.0
+numPixels:
+	256.0
 pos:
 	7.5
 radius:
@@ -66,15 +68,24 @@ greenshift:
 	256
 
 .text:
+
+initialize:
+	val &generate
+	a setval 0 0
+	val &numPixels
+	a setval 1 0
+	a pushq
+	a drop
+
 generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden för nästa pixel
 	next 1 ; comment
-	val &calcpos
 	pack 1
 	val &one
 	sub
 	a setval 1 0
 	nz 0 pushq ; pushar till kön
-	a setval 0 1 
+	val &calcpos
+	a setval 0 0
 	a pushq
 	a drop ; discardar tråden
 
