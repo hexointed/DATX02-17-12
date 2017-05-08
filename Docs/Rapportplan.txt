@@ -29,9 +29,6 @@ Implementation
 	Square root - jämförelse-bilder, code listings.
 
 Resultat:
-	Lägg till övergripande introtext som beskriver att nedan följer
-	dels resultat av designval i GPU:n, och dels mjukvaru/algoritmiska 
-	optimeringar vi testat.
 
 	hw:
 	queue based threads, able to spawn one or many new threads, (som i sin tur
@@ -44,7 +41,6 @@ Resultat:
 	diagram och tabeller över square roots, prestanda/fel
 
 	sw: , algo, 
-	Orthocull/bounding spheres - performance
 	ray grouping - om tid finnes
 
 
