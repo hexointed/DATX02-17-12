@@ -31,21 +31,19 @@ Teori:
 	flytta material-delen till implementation av sw-shader
 
 Implementation
-
-	Lyfta delar av glsl till rerefens-huvudavsnittet. glsl och assembler-delarna 
-	beskriver mer vad som är unikt med respektive implementation. Bilder på 
-	kärn-arkitektur. 
+	Bilder på kärn-arkitektur. 
 
 	Square root - beskrivning, jämförelse-bilder, code listings, lite om
 	gissning&lerp-metod
+
+
+Resultat:
 
 	Lägg till övergripande introtext som beskriver att nedan följer dels
 	resultat av designval i GPU:n, och dels mjukvaru/algoritmiska optimeringar
 	vi testat.
 
-
 	hw:
-
 	queue based threads, able to spawn one or many new threads, (som i sin tur
 	gör att vi inte har traditionella hopp å den typen av branchkontroll) - ett
 	resultat av detta blir ett tråd-flexibelt assembler-språk som här kan
