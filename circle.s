@@ -114,6 +114,11 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 
 draw: 
 
+	val &one
+	a setval 2 0
+	a pushf
+	a drop
+
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
 camSetup: 
