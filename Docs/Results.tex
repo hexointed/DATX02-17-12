@@ -24,43 +24,47 @@
 
 	\section{Optimizations}
 		
-		During this project, a number of optimizations were discussed and 
+		During this project, a number of optimizations were discussed and
 		developed, the developed are explained here and the theoretical ones
-		are brought up in the discussion section. Some of these are based on earlier
-		work, with some others we believe are quite different from optimizations
-		that have been discussed for sphere tracing previously.
+		are brought up in the discussion section. Some of these are based on
+		earlier work, with some others we believe are quite different from
+		optimizations that have been discussed for sphere tracing previously.
 
 		\subsection{Orthogonal culling}
-			Orthogonal culling was implemented in the software shader and increased 
-			the performance.
 
-			The tests was done in 3840x2160 on a GTX 1060M, which is a mid-high range 
-			GPU.
+			Orthogonal culling was implemented in the software shader and
+			increased the performance.
 
-			The test was set up such that we put an increasing number of solid-colored spheres in a 
-			plane in front of the camera. Because of this, the spheres are not obstructed
-			by other spheres, making this the best possible scenario for the optimization.
+			The test was performed such that we put an increasing number of
+			solid-colored spheres in a plane in front of the camera. Because of
+			this, the spheres are not obstructed by other spheres, making this
+			the best possible scenario for the optimization.
 
-			with optimization:
+			The test was set up such that we put an increasing number of
+			solid-colored spheres in a plane in front of the camera. Because of
+			this, the spheres are not obstructed by other spheres, making this
+			the best possible scenario for the optimization.
 
+			\begin{table}
+			\centering
 			\begin{tabular}{lll}
-				objects: & fps:	\\ \hline 
-				1	& 600 & 350	\\ 
-				5	& 430 & 180	\\			
-				10	& 290 & 98	\\
-				15	& 85 & 13	\\
-				20	& 58 & 9	\\
-				25	& 40 & 6	\\
-				30	& 29 & 4	\\
-				35	& 7 & 3		\\
-				40	& 6 & 2		\\
-				45	& 4	& 1.5	\\
+				\hline
+				Objects & Optimized & Unoptimized \\ 
+				\hline
+				1       & 600       & 350         \\ 
+				5       & 430       & 180         \\			
+				10      & 290       & 98          \\
+				15      & 85        & 13          \\
+				20      & 58        & 9           \\
+				25      & 40        & 6           \\
+				30      & 29        & 4           \\
+				35      & 7         & 3           \\
+				40      & 6         & 2           \\
+				45      & 4         & 1.5         \\
+				\hline
 			\end{tabular}
+			\caption{Frames generated per second using the GLSL shader with and
+				without the orthogonal culling optimization.}
+			\end{table}
 
 			%grafer och lite text
-
-
-		
-		
-		
-
