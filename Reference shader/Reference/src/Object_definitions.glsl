@@ -1,13 +1,21 @@
-#define NumObjects	12
+#define NumObjects	45
 
 
 bool RenderList[NumObjects+1]; //is not initialised here since we will do it later at start of each ray
 vec3 objectCoords[NumObjects+1];
 float objectRadii[NumObjects+1];
 
-uint  matIdList[NumObjects+1] = {0,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,
-		Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,
-		Mat_SolidColor,Mat_SolidColor};
+uint  matIdList[NumObjects+1] = {0
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		};
 //		Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,
 //		Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,
 //		Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_Reflection,
@@ -31,7 +39,6 @@ void InitObjDefs()
 
 	objectCoords[1] = vec3(-5,4,0); //(s1Coord+s2Coord)/2;
 	objectRadii[1] = 0.5; //(length(s1Coord-s2Coord)/2)+max(s1Radius,s2Radius);
-
 
 	objectCoords[2] = vec3(-4,4,0);
 	objectRadii[2] = 0.5;
@@ -66,29 +73,109 @@ void InitObjDefs()
 	objectCoords[12] = vec3(-4,5,0);
 	objectRadii[12] = 0.5;
 
-//	objectCoords[13] = vec3(-3,5,0);
-//	objectRadii[13] = 0.5;
-//
-//	objectCoords[14] = vec3(-2,5,0);
-//	objectRadii[14] = 0.5;
-//
-//	objectCoords[15] = vec3(-1,5,0);
-//	objectRadii[15] = 0.5;
-//
-//	objectCoords[16] = vec3(0,5,0);
-//	objectRadii[16] = 0.5;
-//
-//	objectCoords[17] = vec3(1,5,0);
-//	objectRadii[17] = 0.5;
-//
-//	objectCoords[18] = vec3(2,5,0);
-//	objectRadii[18] = 0.5;
-//
-//	objectCoords[19] = vec3(3,5,0);
-//	objectRadii[19] = 0.5;
-//
-//	objectCoords[20] = vec3(4,5,0);
-//	objectRadii[20] = 0.5;
+	objectCoords[13] = vec3(-3,5,0);
+	objectRadii[13] = 0.5;
+
+	objectCoords[14] = vec3(-2,5,0);
+	objectRadii[14] = 0.5;
+
+	objectCoords[15] = vec3(-1,5,0);
+	objectRadii[15] = 0.5;
+
+	objectCoords[16] = vec3(0,5,0);
+	objectRadii[16] = 0.5;
+
+	objectCoords[17] = vec3(1,5,0);
+	objectRadii[17] = 0.5;
+
+	objectCoords[18] = vec3(2,5,0);
+	objectRadii[18] = 0.5;
+
+	objectCoords[19] = vec3(3,5,0);
+	objectRadii[19] = 0.5;
+
+	objectCoords[20] = vec3(4,5,0);
+	objectRadii[20] = 0.5;
+
+	objectCoords[21] = vec3(-5,6,0);
+	objectRadii[21] = 0.5;
+
+	objectCoords[22] = vec3(-4,6,0);
+	objectRadii[22] = 0.5;
+
+	objectCoords[23] = vec3(-3,6,0);
+	objectRadii[23] = 0.5;
+
+	objectCoords[24] = vec3(-2,6,0);
+	objectRadii[24] = 0.5;
+
+	objectCoords[25] = vec3(-1,6,0);
+	objectRadii[25] = 0.5;
+
+	objectCoords[26] = vec3(0,6,0);
+	objectRadii[26] = 0.5;
+
+	objectCoords[27] = vec3(1,6,0);
+	objectRadii[27] = 0.5;
+
+	objectCoords[28] = vec3(2,6,0);
+	objectRadii[28] = 0.5;
+
+	objectCoords[29] = vec3(3,6,0);
+	objectRadii[29] = 0.5;
+
+	objectCoords[30] = vec3(4,6,0);
+	objectRadii[30] = 0.5;
+
+	objectCoords[31] = vec3(-5,3,0);
+	objectRadii[31] = 0.5;
+
+	objectCoords[32] = vec3(-4,3,0);
+	objectRadii[32] = 0.5;
+
+	objectCoords[33] = vec3(-3,3,0);
+	objectRadii[33] = 0.5;
+
+	objectCoords[34] = vec3(-2,3,0);
+	objectRadii[34] = 0.5;
+
+	objectCoords[35] = vec3(-1,3,0);
+	objectRadii[35] = 0.5;
+
+	objectCoords[36] = vec3(0,3,0);
+	objectRadii[36] = 0.5;
+
+	objectCoords[37] = vec3(1,3,0);
+	objectRadii[37] = 0.5;
+
+	objectCoords[38] = vec3(2,3,0);
+	objectRadii[38] = 0.5;
+
+	objectCoords[39] = vec3(3,3,0);
+	objectRadii[39] = 0.5;
+
+	objectCoords[40] = vec3(4,3,0);
+	objectRadii[40] = 0.5;
+
+	objectCoords[41] = vec3(-5,7,0);
+	objectRadii[41] = 0.5;
+
+	objectCoords[42] = vec3(-4,7,0);
+	objectRadii[42] = 0.5;
+
+	objectCoords[43] = vec3(-3,7,0);
+	objectRadii[43] = 0.5;
+
+	objectCoords[44] = vec3(-2,7,0);
+	objectRadii[44] = 0.5;
+
+	objectCoords[45] = vec3(-1,7,0);
+	objectRadii[45] = 0.5;
+
+
+
+
+
 
 
 
@@ -182,22 +269,75 @@ float DistToObjectId(vec3 p, uint objId)
 			return sdSphere( p, objectCoords[11], objectRadii[11]);
 		case 12:
 			return sdSphere( p, objectCoords[12], objectRadii[12]);
-//		case 13:
-//			return sdSphere( p, objectCoords[13], objectRadii[13]);
-//		case 14:
-//			return sdSphere( p, objectCoords[14], objectRadii[14]);
-//		case 15:
-//			return sdSphere( p, objectCoords[15], objectRadii[15]);
-//		case 16:
-//			return sdSphere( p, objectCoords[16], objectRadii[16]);
-//		case 17:
-//			return sdSphere( p, objectCoords[17], objectRadii[17]);
-//		case 18:
-//			return sdSphere( p, objectCoords[18], objectRadii[18]);
-//		case 19:
-//			return sdSphere( p, objectCoords[19], objectRadii[19]);
-//		case 20:
-//			return sdSphere( p, objectCoords[20], objectRadii[20]);
+		case 13:
+			return sdSphere( p, objectCoords[13], objectRadii[13]);
+		case 14:
+			return sdSphere( p, objectCoords[14], objectRadii[14]);
+		case 15:
+			return sdSphere( p, objectCoords[15], objectRadii[15]);
+		case 16:
+			return sdSphere( p, objectCoords[16], objectRadii[16]);
+		case 17:
+			return sdSphere( p, objectCoords[17], objectRadii[17]);
+		case 18:
+			return sdSphere( p, objectCoords[18], objectRadii[18]);
+		case 19:
+			return sdSphere( p, objectCoords[19], objectRadii[19]);
+		case 20:
+			return sdSphere( p, objectCoords[20], objectRadii[20]);
+		case 21:
+			return sdSphere( p, objectCoords[21], objectRadii[21]);
+		case 22:
+			return sdSphere( p, objectCoords[22], objectRadii[22]);
+		case 23:
+			return sdSphere( p, objectCoords[23], objectRadii[23]);
+		case 24:
+			return sdSphere( p, objectCoords[24], objectRadii[24]);
+		case 25:
+			return sdSphere( p, objectCoords[25], objectRadii[25]);
+		case 26:
+			return sdSphere( p, objectCoords[26], objectRadii[26]);
+		case 27:
+			return sdSphere( p, objectCoords[27], objectRadii[27]);
+		case 28:
+			return sdSphere( p, objectCoords[28], objectRadii[28]);
+		case 29:
+			return sdSphere( p, objectCoords[29], objectRadii[29]);
+		case 30:
+			return sdSphere( p, objectCoords[30], objectRadii[30]);
+		case 31:
+			return sdSphere( p, objectCoords[31], objectRadii[31]);
+		case 32:
+			return sdSphere( p, objectCoords[32], objectRadii[32]);
+		case 33:
+			return sdSphere( p, objectCoords[33], objectRadii[33]);
+		case 34:
+			return sdSphere( p, objectCoords[34], objectRadii[34]);
+		case 35:
+			return sdSphere( p, objectCoords[35], objectRadii[35]);
+		case 36:
+			return sdSphere( p, objectCoords[36], objectRadii[36]);
+		case 37:
+			return sdSphere( p, objectCoords[37], objectRadii[37]);
+		case 38:
+			return sdSphere( p, objectCoords[38], objectRadii[38]);
+		case 39:
+			return sdSphere( p, objectCoords[39], objectRadii[39]);
+		case 40:
+			return sdSphere( p, objectCoords[40], objectRadii[40]);
+		case 41:
+			return sdSphere( p, objectCoords[41], objectRadii[41]);
+		case 42:
+			return sdSphere( p, objectCoords[42], objectRadii[42]);
+		case 43:
+			return sdSphere( p, objectCoords[43], objectRadii[43]);
+		case 44:
+			return sdSphere( p, objectCoords[44], objectRadii[44]);
+		case 45:
+			return sdSphere( p, objectCoords[45], objectRadii[45]);
+
+
+
 
 
 
