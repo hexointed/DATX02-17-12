@@ -51,7 +51,6 @@ Resultat:
 
 
 Diskussion 
-	ta bort Metoddelen och inkorporera i introparagraf för implementation.
 	Diskutera resultat, i synnerhet de som inte är tydliga utifrån resultat.
 
 
