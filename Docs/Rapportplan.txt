@@ -7,8 +7,8 @@ Intro 				70%  ~600 ord
 problem statement   20%  ~100 ord
 State of the art    60%  ~500+100 ord
 Teori               100% 
-Implementation      50%  ~arkitektur: 600 ord, 300-700 ord assembler-
-                         shader , 300 ord assemblerspråk, kod
+Implementation      60%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
+                         kod, bilder
 Resultat                 squareroot-del, grafer och förklarande text
                          Ortho culling: jämförelse med basfall
                          intro: ~100 ord
@@ -36,7 +36,8 @@ Resultat:
 	resultat av detta blir ett tråd-flexibelt assembler-språk som här kan
 	beskrivas lite övergripande.
 
-	square root-approximationer, vilken valde vi, vilka metrics jämförde vi?  yta&cykelmängd,precision? 
+	square root-approximationer, vilken valde vi, vilka metrics jämförde vi?  
+	yta&cykelmängd,precision? 
 	dividerare?
 	diagram och tabeller över square roots, prestanda/fel
 
