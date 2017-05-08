@@ -28,7 +28,6 @@ State of the art
 Teori:
 	addera lite fin matte på reflektionsdelen.
 	matte för distansfältets gradient.
-	flytta material-delen till implementation av sw-shader
 
 Implementation
 	Lyfta delar av glsl till rerefens-huvudavsnittet. glsl och assembler-delarna beskriver mer vad som är unikt med respektive implementation. Bilder på kärn-arkitektur. 
