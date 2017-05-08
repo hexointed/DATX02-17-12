@@ -35,8 +35,10 @@
 			Orthogonal culling was implemented in the software shader and
 			increased the performance.
 
-			The tests was done in 3840x2160 on a GTX 1060M, which is a mid-high
-			range GPU.
+			The test was performed such that we put an increasing number of
+			solid-colored spheres in a plane in front of the camera. Because of
+			this, the spheres are not obstructed by other spheres, making this
+			the best possible scenario for the optimization.
 
 			The test was set up such that we put an increasing number of
 			solid-colored spheres in a plane in front of the camera. Because of
@@ -66,9 +68,3 @@
 			\end{table}
 
 			%grafer och lite text
-
-
-		
-		
-		
-
