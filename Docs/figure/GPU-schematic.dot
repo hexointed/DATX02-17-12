@@ -3,15 +3,17 @@ digraph GPU
 //graph [fontsize=3]
 fontsize=20;
 labelloc=top;
+nodesep="0.55";
+pad="0";
 //label="Sphere Tracing GPU Layout";
 edge [color=darkblue]
 //newrank=true
 //rankdir=LR
-splines=Ortho
+//splines=Ortho
 //compound=true
 //clusterrank=local
 { 	rank=source; 
-	queue [label="Queue",shape=box3d];
+	queue [label="Queue",shape=box3d]; //, margin="0.2"
 }
 
 subgraph cluster_core1
@@ -53,7 +55,7 @@ subgraph cluster_core1
 	reg->stack [style=invis]
 
 	edge [dir=both,constraint=false]
-	reg -> ALU [arrowsize=0.55]
+	reg -> ALU [arrowsize=0.85]
 	stack -> ALU //[constraint=false]
 	edge [dir=single]
 	instr -> ALU
@@ -62,13 +64,14 @@ subgraph cluster_core1
 	label = "Core #1";
 }
 
-queue->pl
+//queue->pl [style=invis]
 
 subgraph cluster_core2
 {	fontsize=16;
 	style=filled;
 	color=lightgrey;
 	label = "Core #2";
+	//margin="0.0";
 	DFU2 [label="DFU",shape=box,style=solid,color=black];
 }
 subgraph cluster_core3

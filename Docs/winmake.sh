@@ -1,3 +1,5 @@
+dot -Tsvg -O figure/GPU-schematic.dot
+
 for f in figure/*.svg; 
 do 
 	"c:\Program\Doc\Inkscape\inkscape.com" -D -z --file=$f  --export-pdf=${f%%.*}.pdf

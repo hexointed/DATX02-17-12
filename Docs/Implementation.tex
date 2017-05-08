@@ -20,7 +20,6 @@
 		terminated, unless the material of the object in question is
 		defined as being reflective.
 
-
 		\subsection{GLSL Based}
 
 			The shader which is made to run on conventional graphics hardware
@@ -28,10 +27,11 @@
 			Shading Language). It works by running the program for each pixel
 			the shader is rendered on, using the screen-coordinates as input.
 
-			Beyond the actual sphere tracing loop there are also some initial calculations
-			done to set up the origin and direction of the ray, which is done
-			using screen coordinates. This needs to be done for each pixel
-			being rendered.
+			Beyond the actual sphere tracing loop the direction of the ray is
+			calculated camera direction vector and offsetting it by the current 
+			pixel's screen coordinates, placed orthogonally along the vector.
+			The distance of this placement defines the field of view of the 
+			camera. This needs to be done for each pixel being rendered.
 
 			Coloring a pixel in a scene is based on the material ID
 			assigned to the first object that the ray intersects. The color
@@ -51,8 +51,6 @@
 			initially a single thread. This thread will create one new thread
 			for each pixel on the screen, and this thread will calculate what 
 			color the pixel should have and then terminate. 
-
-
 
 
 	\section{Processor Unit} \label{implproc}
@@ -105,6 +103,13 @@
 			cores, onto which all threads that are ready for execution wait
 			until a core is ready to start executing them.
 
+			\begin{figure}[H]
+				\centering
+				\caption{ XQGPPPU Data flow diagram }
+					\includegraphics[width=0.75\linewidth]{figure/GPU-schematic} 
+				\vspace{-4pt}
+			\end{figure}
+	
 			Each shader thread has 16 mutable registers that are automatically
 			loaded into the core when execution starts. These registers are
 			also saved when execution pauses and they are also copied whenever
