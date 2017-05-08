@@ -20,7 +20,6 @@
 		terminated, unless the material of the object in question is
 		defined as being reflective.
 
-
 		\subsection{GLSL Based}
 
 			The shader which is made to run on conventional graphics hardware
@@ -28,10 +27,10 @@
 			Shading Language). It works by running the program for each pixel
 			the shader is rendered on, using the screen-coordinates as input.
 
-			Beyond the actual sphere tracing loop there are also some initial calculations
-			done to set up the origin and direction of the ray, which is done
-			using screen coordinates. This needs to be done for each pixel
-			being rendered.
+			Beyond the actual sphere tracing loop there are also some initial
+			calculations done to set up the origin and direction of the ray,
+			which is done using screen coordinates. This needs to be done for
+			each pixel being rendered.
 
 			Coloring a pixel in a scene is based on the material ID
 			assigned to the first object that the ray intersects. The color
@@ -64,6 +63,42 @@
 		independent cores was decided upon. This is similar to reasoning
 		employed by \cite{Woop2005} for a ray-tracing hardware design.
 
+		\subsection{Architecture}
+
+			The GPU is designed to be able to handle a form of threading
+			natively, where all computations are performed by a thread running
+			on some hardware core. A thread in this context is very
+			light-weight: only an instruction pointer along with some mutable
+			registers are stored.
+
+			All threads that are not running are placed in a storage structure
+			that is globally accessable to all cores, and threads are then 
+			dispatched to cores as they become available for execution. The 
+			cores are also able to spawn new threads by sending their data to
+			the global storage, or terminate threads either by simply dropping 
+			them or by sending them to the frame buffer, where some of the 
+			registers will be used to determine the color of some pixel on the
+			screen.
+
+			Each core consists of instruction and data memories, some control 
+			logic for execution order and a DFU. The data and instruction 
+			memories are immutable and mirrored across all cores in their 
+			entirety. The control logic is responsible for feeding the DFU with
+			instructions and data, as well as updating the thread registers 
+			when a new thread is attached, sending thread registers to the 
+			global thread storage when new threads are spawned and and 
+			requesting a new thread whenever the previously executing one 
+			terminates.
+			
+			The DFU contains a stack on which all arithmetic instructions 
+			operate on, as well as alu for carrying out instructions. It also 
+			keeps track of all the thread registers and updates them when such
+			instructions are issued. The DFU contains very little extra control
+			logic and is only able to receive and execute instructions, it does
+			not keep track of any instruction pointers or when threads are 
+			attached or dropped, this is instead handled by the core control
+			logic.
+
 		\subsection{Instruction Set}
 
 			A representation for distance functions was also designed. It is
@@ -83,13 +118,14 @@
 					be \texttt{11}, as this is reserved for the other 
 					instruction types.
 
-				\item[D-type] instructions, which encode arithmetic- and vector  %???
-					stack instructions. These operate only on the internal stack
-					in the core. They can take up to six arguments and return up
-					to three return values. D-type instructions can be split up 
-					in chunks using the \texttt{next} instruction, where the 
+				\item[D-type] instructions, which encode arithmetic- and vector
+					instructions on the stack. These operate only on the
+					internal stack in the core and not on any of the other
+					registers. They can take up to six arguments and return up
+					to three return values. D-type instructions can be split up
+					in chunks using the \texttt{next} instruction, where the
 					last computed result will be accumulated using the minimum
-					automatically by the core. This is useful for encoding 
+					automatically by the core.  This is useful for encoding
 					distance functions.
 
 				\item[V-type] instructions deal with memory accesses. The
