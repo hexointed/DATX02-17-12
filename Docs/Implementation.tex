@@ -60,7 +60,17 @@
 		multi-ALU SIMD with lockstepping to the same extent as traditional
 		graphics processors. Instead, a solution with slightly simpler
 		independent cores was decided upon. This is similar to reasoning
-		employed by \cite{Woop2005} for a ray-tracing hardware design.
+		employed by \cite{Woop2005} for a Ray Tracing hardware design.
+
+		\subsection{\clash}
+
+			The hardware described in this section was written in \clash. \clash is
+			based on the functional programming language Haskell and is therefore a
+			functional hardware description language, or FHDL. It is relatively new
+			and not yet fully stable. One thing that \clash offered was the
+			command-line repl that allowed us to quickly write and test new modules
+			on a higher conceptual level rather than simulating the Verilog code
+			precisely on a bit level.
 
 		\subsection{Instruction Set}
 
