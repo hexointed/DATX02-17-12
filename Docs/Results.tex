@@ -34,23 +34,47 @@
 			Orthogonal culling was implemented in the software shader and increased 
 			the performance.
 
+			The tests was done in 3840x2160 on a GTX 1060M, which is a mid-high range 
+			GPU.
+
+			The test was set up such that we put an increasing number of solid-colored spheres in a 
+			plane in front of the camera. Because of this, the spheres are not obstructed
+			by other spheres, making this the best possible scenario for the optimization.
+
 			with optimization:
+
+			\begin{tabular}{|l|l|l|}
+				\hline
+				objects: & fps:	\\ \hline 
+				1	& 600 & 350	\\ \hline 
+				5	& 430 & 180	\\ \hline			
+				10	& 290 & 98	\\ \hline
+				15	& 85 & 13	\\ \hline
+				20	& 58 & 9	\\ \hline
+				25	& 40 & 6	\\ \hline
+				30	& 29 & 4	\\ \hline
+				35	& 7 & 3		\\ \hline
+				40	& 6 & 2		\\ \hline
+				45	& 4	& 1.5	\\ \hline
+
+
+			without optimization:
 
 			\begin{tabular}{|l|l|}
 				\hline
-				objects: & fps:					\\ \hline
-				1				 & 580	// redo \\ \hline
-				2				 & 571	//			\\ \hline
-				3				 & 525	// 			\\ \hline
-				4				 & 480 // 			\\ \hline
-				5				 & 429					\\ \hline
-				6				 & 390					\\ \hline
-				7				 & 370 					\\ \hline
-				8				 & 345 					\\ \hline
-				9				 & 310 					\\ \hline
-				10			 & 291 					\\ \hline
-				11			 & 270 					\\ \hline
-				12			 & 255 					\\ \hline
+				objects: & fps:	\\ \hline 
+				1	& 350
+				5	& 180	\\ \hline			
+				10	& 98	\\ \hline
+				15	& 13	\\ \hline
+				20	& 9		\\ \hline
+				25	& 6		\\ \hline
+				30	& 4		\\ \hline
+				35	& 3		\\ \hline
+				40	& 2		\\ \hline
+				45	& 1.5	\\ \hline
+
+	
 			\end{tabular}
 
 			%grafer och lite text

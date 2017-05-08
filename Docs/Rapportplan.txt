@@ -4,19 +4,19 @@ Abstract:     		 0%  (göras i slutfas)
 sammanfattning		 0%
 
 Intro 				70%  ~600 ord
-problem statement    1%  ~100 ord
+problem statement   20%  ~100 ord
 State of the art    60%  ~500+100 ord
-Teori				80%  ~400 ord
-Implementation 		50%	 ~arkitektur: 600 ord, 300-700 ord assembler-
- 						 shader , 300 ord assemblerspråk
- 						 square root: 100-200 ord, kod
-Resultat 				 squareroot-del, grafer och förklarande text
-						 Ortho culling: jämförelse med basfall
-						 intro: ~100 ord
-						 nytt stycke: GPU, queue based operation: 300-400 ord
-Discussion 				 ? ord
+Teori               80%  ~400 ord
+Implementation      50%  ~arkitektur: 600 ord, 300-700 ord assembler-
+                         shader , 300 ord assemblerspråk
+                         square root: 100-200 ord, kod
+Resultat                 squareroot-del, grafer och förklarande text
+                         Ortho culling: jämförelse med basfall
+                         intro: ~100 ord
+                         nytt stycke: GPU, queue based operation: 300-400 ord
+Discussion               ? ord
 
-Conclusion				gruppdiskussion på torsdag, 600-800 ord
+Conclusion               gruppdiskussion på torsdag, 600-800 ord
 
 
 _Rapportskrivning_
@@ -31,18 +31,28 @@ Teori:
 	flytta material-delen till implementation av sw-shader
 
 Implementation
-	Lyfta delar av glsl till rerefens-huvudavsnittet. glsl och assembler-delarna beskriver mer vad som är unikt med respektive implementation. Bilder på kärn-arkitektur. 
-	Square root - beskrivning, jämförelse-bilder, code listings, lite om gissning&lerp-metod
 
+	Lyfta delar av glsl till rerefens-huvudavsnittet. glsl och assembler-delarna 
+	beskriver mer vad som är unikt med respektive implementation. Bilder på 
+	kärn-arkitektur. 
 
-Resultatsdel:
-	Addera övergripande introtext som beskriver att nedan följer dels resultat av designval i GPU:n, och dels mjukvaru/algoritmiska optimeringar vi testat.
+	Square root - beskrivning, jämförelse-bilder, code listings, lite om
+	gissning&lerp-metod
+
+	Lägg till övergripande introtext som beskriver att nedan följer dels
+	resultat av designval i GPU:n, och dels mjukvaru/algoritmiska optimeringar
+	vi testat.
+
 
 	hw:
-	queue based threads, able to spawn one or many new threads, (som i sin tur gör att vi inte har traditionella hopp å den typen av branchkontroll) - ett resultat av detta blir ett tråd-flexibelt assembler-språk som här kan beskrivas lite övergripande.
+
+	queue based threads, able to spawn one or many new threads, (som i sin tur
+	gör att vi inte har traditionella hopp å den typen av branchkontroll) - ett
+	resultat av detta blir ett tråd-flexibelt assembler-språk som här kan
+	beskrivas lite övergripande.
 
 	square root-approximationer, vilka har testats, och vilken valde
-	vi,	vilka metrics jämförde vi?  yta&cykelmängd,precision? 
+	vi, vilka metrics jämförde vi?  yta&cykelmängd,precision? 
 	dividerare?
 	diagram och tabeller över square roots, prestanda/fel
 
@@ -57,7 +67,8 @@ Diskussion
 	ta bort Metoddelen och inkorporera i introparagraf för implementation.
 	Diskutera resultat, i synnerhet de som inte är tydliga utifrån resultat.
 
-	efter resultat kan vi ha en ny rubrik där vi kan diskutera saker vi inte implementerat/testat såsom oändliga plan.  (ideas for future improvements)
+	efter resultat kan vi ha en ny rubrik där vi kan diskutera saker vi inte
+	implementerat/testat såsom oändliga plan.  (ideas for future improvements)
 
 
 Mindre ändrings-TODO:
