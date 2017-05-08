@@ -1,8 +1,7 @@
 \chapter{Results}
 
-	Here are different improvements of the GPU that's been implemented and tested.
-	Also hypothetical improvements that has only been discussed and not
-	implemented.
+	In this chapter the results of GPU design choices and algorithmic optimizations
+	and their effects are reviewed.
 
 	\section{Software Shader Performance}
 
@@ -67,4 +66,18 @@
 				without the orthogonal culling optimization.}
 			\end{table}
 
-			%grafer och lite text
+		\subsection{Bounding spheres}
+
+			Bounding spheres was implemented and tested, there was a clear
+			gain in performance but the results are depending on to many 
+			factors to be able to review (number of objects, how dispersed the objects are, 
+			size and place of the bounding sphere, etc.) . The larger the bounding sphere, the 
+			less performance gain will be seen and the more objects that can 
+			fit into a bounding sphere the more performance gain will be seen.
+			This optimization could be used to decrease the performance too, by
+			setting up a too large boundnig sphere or my setting it up with few
+			objects that are far apart.
+
+			To use this optimiztion efficiently the objects inside a bounding 
+			sphere should never come far apart and the sphere should be defined
+			to never be exactly the right size. 
