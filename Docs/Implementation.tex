@@ -169,6 +169,17 @@
 			the placement of the extra wires is based on the bit pattern of
 			$\sqrt{2}$.
 
+			In order to improve the accuracy of this method another design was
+			considered in which the input was both rounded up and down to 
+			values where the simple method was very accurate and the result was
+			then linearly interpolated between these roots. This linear 
+			interpolation requires only a multiplication and a couple of 
+			additions, but choosing upper and lower seed values is a more 
+			complex problem. Choosing the two geometrically closest powers of 
+			two was tested because the or-gate square root circuit is very
+			accurate for powers of two, but this is not the only possible 
+			choice.
+
 			Another algorithm for calculating square roots is the
 			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
 			square root algorithm}, which calculates the square root one digit
