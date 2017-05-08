@@ -48,21 +48,6 @@
 			knowledge to implement this way, but the current implementation
 			certainly enhances performance.
 
-			Infinite planes require a lot of computing power to render. When
-			the camera is oriented so that the field of view is along an infinite
-			plane some rays will travel parallell to the plane, they then march 
-			equally long steps until their max number of steps has been taken or
-			the max range has been reached, without hitting anything. Another
-			drawback of infinite planes is that the sphere tracing algorithm causes
-			the horizon of planes to disappear because of the max range and max 
-			steps of a ray. Another way to render infinite planes might be to 
-			calculate if the ray will intersect the plane, and if so where it 
-			will intersect. This would eliminate the issue of not being able 
-			to render the horizon and might also increase performance, with the
-			drawback that deformations to a plane would be harder to describe 
-			mathematically. This way to render planes has not been tested and
-			the potential results are merely speculation.
-
 
 
 		
@@ -120,7 +105,7 @@
 			This optimization was implemented and we achieved an increase in
 			performance as excepted. The optimization decreases the number of
 			computations made by the formula ? below.  Sum o$f_1^s(1/N_s)$
-			where N = number of pixels in the group and s = number of groups
+			where N = number of pixels in the group and s = number of groups.
 
 			%#picture of ray grouping
 
@@ -150,6 +135,27 @@
 			several objects could be discarded at once, reducing the computing
 			time to calculate which objects the ray might hit.
 
+	\section{Future work}
+
+		\subsection{Software shader}
+
+			\subsection{Plane-ray intersection}
+
+				Infinite planes currently require a lot of computing power to render. When
+				the camera is oriented so that the field of view is along an infinite
+				plane some rays will travel parallell to the plane, these rays will march 
+				equally long steps until their max number of steps has been taken or
+				the max range has been reached, without hitting anything. Another
+				drawback of infinite planes is that the sphere tracing algorithm causes
+				the horizon of planes to disappear because of the max range and max 
+				steps of a ray. Another way to render infinite planes might be to 
+				calculate if the ray will intersect the plane, and if so where it 
+				will intersect. This would eliminate the issue of not being able 
+				to render the horizon and might also increase performance.
+
+				One potential problem is that because no distance field evaluations 
+				are performed, it might be hard to perform operations such as CSG or
+				mathematical deformations on planes rendered this way.
 
 
 		

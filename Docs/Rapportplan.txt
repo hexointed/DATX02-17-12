@@ -1,10 +1,10 @@
 _Rapportläge_
 
-Abstract:           0% (göras i slutfas)
-sammanfattning      0%
+Abstract:     		 0%  (göras i slutfas)
+sammanfattning		 0%
 
-Intro               70%  ~600 ord
-problem description 69%  ~100 ord
+Intro 				70%  ~600 ord
+problem statement   20%  ~100 ord
 State of the art    60%  ~500+100 ord
 Teori               80%  ~400 ord
 Implementation      50%  ~arkitektur: 600 ord, 300-700 ord assembler-
