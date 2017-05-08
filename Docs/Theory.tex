@@ -10,7 +10,8 @@
 	The method of advancing rays incrementally is called Ray Marching and is a
 	particular subset of ray tracing\cite{Whitted1980}. Ray Tracing, then, is a
 	way of wholly or partially render the world through rays, cast from the eye
-	of the observer into the scene. Sphere Tracing has been around since at least as early as the late eighties\cite{Hart1989} and Ray Tracing as early as the
+	of the observer into the scene. Sphere Tracing has been around since at least
+	as early as the late eighties\cite{Hart1989} and Ray Tracing as early as the
 	sixties\cite{Appel1968}. Ray Tracing has traditionally been a more
 	computationally intensive method compared to polygon
 	rendering\cite{Wylie1967} and thus it has generally seen more use in movie
@@ -27,8 +28,8 @@
 	both definitions and examples. The explanation is based on the the very
 	succint explanation in \cite{Korndorfer2014} where they also expand upon the
 	original algorithm. For a more in-depth description we refer to Harts
-	“\emph{Sphere tracing: a geometric method for the antialiased ray tracing
-	of implicit surfaces}”\cite{Hart1996} as the de-facto explanation.
+	``\emph{Sphere tracing: a geometric method for the antialiased ray tracing
+	of implicit surfaces}``\cite{Hart1996} as the de-facto explanation.
 
 
 	\section{Sphere Tracing} 
@@ -43,8 +44,8 @@
 
 		The sphere tracing algorithm is based on the concept of Signed Distance
 		Functions (SDF).  $$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The
-		"distance" is the distance between a point and the closest point on the
-		implicit surface $\text{SDF}^{-1}(0)$. The "signed" part refers to the
+		``distance`` is the distance between a point and the closest point on the
+		implicit surface $\text{SDF}^{-1}(0)$. The ``signed`` part refers to the
 		distance being negated when measured on the other side of the surface. 
 
 		A common example would be the SDF of a sphere centered at the origin with a
@@ -82,36 +83,24 @@
 		then performed for each pixel of the screen, reversely simulating the light
 		rays entering the lens of an eye or camera.
 
-			\subsection{Reflections and refractions}
+			\subsection{Reflections, refractions and shading}
 
 				Once a point on a surface for a given pixel has been located
-				new multiple rays can then march further to determine
-				reflections, towards the scene's sources of light determining
-				light and shadows, or through the object with an angle,
-				simulating refractions. A lot of these depend on the surface
-				normal which can be calculated by normalizing the approximate
-				gradient of $\text{SDF}(p)$. 
+				reflections, light, shadows and refractions needs to be calculated. A
+				lot of these depend on the surface normal which can be approximated by
+				the partial derivatives around the surface point for some small delta
+				$\delta$, i.e taking the gradient and then normalizing it.
 
-			\subsection{Materials}
-				Coloring a certain ray in a scene is based on the material ID
-				assigned to the first object that the ray intersects. The color
-				can then be either calculated by a material formula or be 
-				derived from a texture lookup. True 3D materials can be done by
-				texturing but this generally needs a large data set and thus a 
-				formula is mostly preferred where three dimensional materials 
-				are employed. 2D texturing can be done by projecting points from
-				a flat image onto a simple geometric shape  which is more or less 
-				enveloping the object in question. This is called texture-mapping 
-				and commonly uses simple shapes like planes, cubes, spheres and 
-				cylinders. 
+				$$\vec{g} = \vec{x}\cdot\frac{\text{SDF}(x+\delta, y, z)}{\delta} +
+				\vec{y}\cdot\frac{\text{SDF}(x, y+\delta, z)}{\delta} +
+				\vec{z}\cdot\frac{\text{SDF}(x, y, z+\delta)}{\delta} $$
 
-				Light can be calculated by taking the angle of incidence between
-				the previously mentioned surface normal and the direction of one 
-				or more predefined light sources. Shadows can be calculated by 
-				ray marching from the intersection point to the lights and 
-				applying shadowing if the path traversed was intersected by any
-				object in the scene. 
+				$$\vec{n} = \frac{\vec{g}}{|\vec{g}|} $$
 
-				Light and shadow values are then blended with the material color,
-				based on parameters from the material ID, to form the final 
-				output pixel color.
+				A simple way to lightset the scene could for an example be to use Phong
+				Lightning\cite{Phong}. But from here on out any number of algorithms
+				can be used in combination to determine the final color. Shadows can be
+				determined by further Sphere Tracing out towards the sources of light
+				to check for obstructions. Same for reflections and refractions where
+				further marching in proportionate angles to the angle of incidence can
+				determine what objects add to surface.

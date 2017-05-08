@@ -12,10 +12,14 @@
 
 	\section{Reference Shader} \label{implshader}
 
-		A reference shader was written in order to be able to fulfill the
-		requirement of comparing the performance of our graphics processor with
-		that of a modern traditional graphics card.
-		%%dehär gör vi ju inte dock så...  skriva om?
+		The essentials of the Sphere Tracer is a simple while-loop. It
+		calculates distance to the closest object in the scene by sampling
+		the distance field and testing whether it's value is less than a
+		predefined epsilon. If true, the ray has hit an object; the
+		corresponding pixel's colour is calculated and the loop is
+		terminated, unless the material of the object in question is
+		defined as being reflective.
+
 
 		\subsection{GLSL Based}
 
@@ -24,35 +28,42 @@
 			Shading Language). It works by running the program for each pixel
 			the shader is rendered on, using the screen-coordinates as input.
 
-			Beyond the actual sphere tracing loop there is also some work
-			needed to set up the origin and direction of the ray, which is done
+			Beyond the actual sphere tracing loop there is also some calculations
+			done to set up the origin and direction of the ray, which is done
 			using screen coordinates. This needs to be done for each pixel
 			being rendered.
-
-			The essentials of the Sphere Tracer is a simple while-loop. It
-			calculates distance to the closest object in the scene by sampling
-			the distance field and testing whether it's value is less than a
-			predefined epsilon. If true, the ray has hit an object; the
-			corresponding pixel's colour is calculated and the loop is
-			terminated, unless the material of the object in question is
-			defined as being reflective.
 
 			Reflections are implemented by calculating the normal vector of the
 			surface that was hit and then use it to calculate a new direction
 			for the ray to travel along. The origin of this reflected ray will
 			be the point where the object was hit by the ray.
 
-			To increase performance, the number of objects that each ray has to
-			measure the distance to in each loop, was reduced. This was
-			achieved by orthogonally projecting spheres of known size onto the
-			current ray.  When the position of the object and the closest point
-			on the ray is known the distance between them can be calculated. If
-			the distance is bigger than the radius of the object it is
-			impossible for the ray to hit the object. If it is certain that
-			some objects in the scene will not be hit by the ray they are
-			removed from the distance field.
+			Coloring a pixel in a scene is based on the material ID
+			assigned to the first object that the ray intersects. The color
+			can then be either calculated by a material formula or be 
+			derived from a texture lookup. True 3D materials can be done by
+			texturing but this generally needs a large data set and thus a 
+			formula is mostly preferred where three dimensional materials 
+			are employed. 2D texturing can be done by projecting points from
+			a flat image onto a simple geometric shape  which is more or less 
+			enveloping the object in question. This is called texture-mapping 
+			and commonly uses simple shapes like planes, cubes, spheres and 
+			cylinders. 
+
+			Light can be calculated by taking the angle of incidence between
+			the previously mentioned surface normal and the direction of one 
+			or more predefined light sources. Shadows can be calculated by 
+			ray marching from the intersection point to the lights and 
+			applying shadowing if the path traversed was intersected by any
+			object in the scene. 
+
+			Light and shadow values are then blended with the material color,
+			based on parameters from the material ID, to form the final 
+			output pixel color.
 
 		\subsection{GPU Assembler Based}
+
+
 
 	\section{Processor Unit} \label{implproc}
 
@@ -168,6 +179,17 @@
 			the original number. In the version with slightly improved accuracy
 			the placement of the extra wires is based on the bit pattern of
 			$\sqrt{2}$.
+
+			In order to improve the accuracy of this method another design was
+			considered in which the input was both rounded up and down to 
+			values where the simple method was very accurate and the result was
+			then linearly interpolated between these roots. This linear 
+			interpolation requires only a multiplication and a couple of 
+			additions, but choosing upper and lower seed values is a more 
+			complex problem. Choosing the two geometrically closest powers of 
+			two was tested because the or-gate square root circuit is very
+			accurate for powers of two, but this is not the only possible 
+			choice.
 
 			Another algorithm for calculating square roots is the
 			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
