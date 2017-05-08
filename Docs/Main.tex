@@ -28,6 +28,67 @@
 \newcommand{\varNames}{André Perzon, Björn Strömberg, Chi Thong Luong,  \\
 Elias Forsberg, Jesper Åberg, Jon Johnsson}
 
+%zipwith
+\makeatletter
+% \zipwith{<coupler>}{<list1>}{<list2>}{<return macro>}
+% \zipwith*{<coupler>}{<listcmd1>}{<listcmd2>}{<return macro>}
+\protected\def\zipwith{%
+  \begingroup
+  \@ifstar{\def\cnta{1}\@zipwith}
+    {\def\cnta{0}\@zipwith}%
+}
+\def\@zipwith#1#2#3#4{%
+  \def\tempa##1##2{%
+    \edef##2{%
+      \ifnum\cnta=\@ne\else\expandafter\@firstoftwo\fi
+      \unexpanded\expandafter{##1}%
+    }%
+  }%
+  \tempa{#2}\tempb\tempa{#3}\tempa
+  \def\cnta{0}\def#4{}%
+  \foreach \x in \tempb{%
+    \xdef\cnta{\the\numexpr\cnta+1}%
+    \gdef\cntb{0}%
+    \foreach \y in \tempa{%
+      \xdef\cntb{\the\numexpr\cntb+1}%
+      \ifnum\cntb=\cnta\relax
+        \xdef#4{#4\ifx#4\empty\else,\fi\x#1\y}%
+        \breakforeach
+      \fi
+    }%
+  }%
+  \endgroup
+}
+\makeatother
+
+%scatter plot command
+%usage: 
+%  \scatterplot{x1,x2,x3...}{y1,y2,y3}{xscale}{yscale}{xlabel}{ylabel}{datafile}
+%    where datafile is a file with a list of x y coordinates (one space 
+%    separated pair on each line)
+\newcommand{\scatterplot}[7]{
+	\begin{tikzpicture}[only marks, y=.5cm]
+		\draw[->,xshift=-5.0cm] (5.0,0) -- coordinate (x axis mid) (14,0);
+		\draw[->,xshift=-5.0cm] (5.0,0) -- coordinate (y axis mid) (5.0,14);
+		\zipwith{/}{0,1.6,3.2,4.8,6.4,8}{#1}\xlist
+		\foreach \x/\xtext [evaluate=\x as \xeval using 2*\x] in \xlist
+			\draw (\x cm,1pt) -- (\x cm,-6pt)
+			node[anchor=north] {$\xtext$};
+		\zipwith{/}{0,1.3,2.6,3.9,5.2,6.5}{#2}\ylist
+		\foreach \y/\ytext in \ylist
+			\draw (1pt,\y cm) -- (-3pt,\y cm) 
+			node[anchor=east] {$\ytext$};
+		\node[below=1cm] at (x axis mid) {#5};
+		\node[anchor=south,left=1.5cm,rotate=90] at (y axis mid) {#6};
+		
+		\foreach \ys [evaluate=\ys as \ysc using 0.01*\ys] in {#4} {
+			\foreach \xs [evaluate=\xs as \xsc using 0.1*\xs] in {#3} {	
+				\draw plot[y=\ysc cm,x=\xsc cm,mark=*] file {#7};
+			}
+		}
+	\end{tikzpicture}
+}
+
 \input{Titlepage}
 
 % ABSTRACT

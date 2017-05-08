@@ -43,8 +43,8 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
     	if(marchedDist == 0.0){
     		for(int z=1; z!=NumObjects+1; z++)
     		{
-    		    RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
-    		    //RenderList[z] = true; //unoptimized
+    		    //RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
+    		    RenderList[z] = true; //unoptimized
     		}
     	}
 
