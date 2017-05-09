@@ -7,9 +7,8 @@ Intro 				70%  ~600 ord
 problem statement   20%  ~100 ord
 State of the art    60%  ~500+100 ord
 Teori               100% 
-Implementation      60%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
-                         kod, bilder
-Resultat                 squareroot-del, grafer och förklarande text
+Implementation      70%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
+Resultat                 squareroot-del,
                          Ortho culling: jämförelse med basfall
                          intro: ~100 ord
                          nytt stycke: GPU, queue based operation: 300-400 ord
