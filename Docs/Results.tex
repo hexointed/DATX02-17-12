@@ -14,7 +14,6 @@
 		the shader was tested on (Geforce GTX 1060M) 20 reflective spheres could
 		be rendered in real time in fullHD using our performance enhancing 
 		algorithm.
-		
 
 
 	\section{GPU Performance}
@@ -32,18 +31,7 @@
 
 		\subsection{Orthogonal culling}
 
-			Orthogonal culling was implemented in the software shader and
-			increased the performance.
-
-			The test was performed such that we put an increasing number of
-			solid-colored spheres in a plane in front of the camera. Because of
-			this, the spheres are not obstructed by other spheres, making this
-			the best possible scenario for the optimization.
-
-			The test was set up such that we put an increasing number of
-			solid-colored spheres in a plane in front of the camera. Because of
-			this, the spheres are not obstructed by other spheres, making this
-			the best possible scenario for the optimization.
+			Here are test results from Orthogonal culling.
 
 			\begin{table}
 			\centering
@@ -67,6 +55,13 @@
 				without the orthogonal culling optimization.}
 			\end{table}
 
+			%CHARTS
+
+			The test was performed such that we put an increasing number of
+			solid-colored spheres in a plane in front of the camera. Because of
+			this, the spheres are not obstructed by other spheres, making this
+			the best possible scenario for the optimization.
+
 		\subsection{Bounding spheres}
 
 			Bounding spheres was implemented and tested, there was a clear
@@ -74,11 +69,4 @@
 			factors to be able to review (number of objects, how dispersed the objects are, 
 			size and place of the bounding sphere, etc.) . The larger the bounding sphere, the 
 			less performance gain will be seen and the more objects that can 
-			fit into a bounding sphere the more performance gain will be seen.
-			This optimization could be used to decrease the performance too, by
-			setting up a too large boundnig sphere or my setting it up with few
-			objects that are far apart.
-
-			To use this optimiztion efficiently the objects inside a bounding 
-			sphere should never come far apart and the sphere should be defined
-			to never be exactly the right size. 
+			fit into a bounding sphere the more performance gain will be seen. 

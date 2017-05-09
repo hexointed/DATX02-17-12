@@ -45,12 +45,69 @@
 			and commonly uses simple shapes like planes, cubes, spheres and 
 			cylinders. 
 
+			%FLOWCHART
+
+		\subsection{Orthogonal culling}
+
+			The most demanding parts of sphere tracing are that the distance to
+			a lot of objects has to be calculated once for every march step. The
+			number of steps taken depends on the scene but they can reach 
+			over a hundred. One way to increase the performance is to reduce the 
+			number of objects that the distance has to be calculated to, without
+			reducing the actual number of objects in the scene. To do this the
+			GPU needs to know which object a ray can't possibly hit, traditionally
+			the CPU will tell the GPU which objects are in the field of view (Frustum culling) but
+			we can't do that because of GLSL limitations. Even if we could use frustum 
+			culling it would probably not be enough, each ray should only care for
+			the objects that it might hit, not all objects in the field of view.
+			An implementation of a method we call Orthogonal Culling was 
+			implemented.
+
+			Orthogonal projection works by going through all the objects in the 
+			scene for ray and calculating wheather the ray can hit the object
+			or not. 
+
+			To calculate whether the ray will hit a sphere or not orthogonal 
+			projection can be used. By projecting the center of the sphere onto
+			the directional line of the ray, its closest point to the line is known.
+			Then the distance between the line and the sphere can be calculated using
+			the radius, if the distance is less than zero the sphere will be hit
+			by the ray. If the distance is larger than zero the ray can't possibly hit 
+			that sphere. This way the number of objects that the distance has to be 
+			calculated to is decreased.
+
+		\subsection{Bounding spheres}
+			
+			Another way decrease the number of distance calculations that has to be 
+			performed in each march step is to enclose several objects in
+			a march sphere. When the distance field is evaluated only the 
+			bounding sphere will be considered and none of the objects enclsed
+			by it. If the bounding sphere is hit
+			by the ray, it will be removed and all the contained objects will 
+			be introduced to the distance field. 
+
+			In practice this was made by calculating the centrum of the objects,
+			by adding together their position vectors and scale by the
+			inverse of the number of objects, this point is the position of 
+			the bounding sphere. The radius of the sphere is simply the distance 
+			to the object that is the farthest from the center of the sphere 
+			plus it's "max radius", that is, for a cube with a side of length 2, the square 
+			root of 3. The way our bounding spheres was set up had some flaws, such as
+			if huge objects are placed near origin of the bounding sphere it will
+			only be partially rendered.
+
+			%picture of example bounding sphere
+
+
+
 		\subsection{GPU Assembler Based}
 
 			In the assembler version that runs on our own hardware there is
 			initially a single thread. This thread will create one new thread
 			for each pixel on the screen, and this thread will calculate what 
-			color the pixel should have and then terminate. 
+			color the pixel should have and then terminate. This differs from 
+			the shader version that simply runs the GLSL-code for each pixel
+			in parallell at the graphics cards many cores.
 
 	\section{Processor Unit} \label{implproc}
 

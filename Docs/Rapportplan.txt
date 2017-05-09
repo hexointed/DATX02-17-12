@@ -45,7 +45,7 @@ Resultat:
 
 
 Diskussion 
-	Diskutera resultat, i synnerhet de som inte är tydliga utifrån resultat.
+	hw-Diskutera resultat, i synnerhet de som inte är tydliga utifrån resultat.
 
 
 Mindre ändrings-TODO:
