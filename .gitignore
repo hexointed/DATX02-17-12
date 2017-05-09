@@ -75,6 +75,7 @@ Thumbs.db
 hs_err_pid*
 
 !Docs/figure/*.png
+Docs/figure/dots/*.svg
 
 # Generated VHDL
 vhdl/*
