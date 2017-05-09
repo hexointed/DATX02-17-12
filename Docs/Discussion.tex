@@ -4,16 +4,26 @@
 		
 		\subsection{Software Shader}
 		
-			The method used to remove objects from the distance field should
-			not be used the way it is currently used, although the current way
-			certainly improves performance. Currently each ray calculates the
-			distance to each object to decide whether it will collide or not. 
-			This is a bad implementation because each ray calculates the 
-			distance to each object. Instead this should be calculated on a 
-			per-object basis, calculating which pixels each object will have
-			a chance of covering. However, we did not have the time nor
-			knowledge to implement this way, but the current implementation
-			certainly enhances performance.
+			The implemented optimizations improved performance more than anticipated.
+			This shows that there is more performance to be found in a conventional
+			GPU than a straight-forward implementation of the algorithm. 
+
+			There are great limitations in what could be done with the shader because
+			of the language that we chose to implement it in, GLSL. It offers nothing 
+			more than a way to write a program which will be run on a per-pixel basis
+			and put it on the screen. Because of this, CPU-GPU cooperation is completely
+			impossible and that comes with consequences.
+
+			Modern graphics engines not only do a lot of work on the CPU but it has
+			granular control over the GPU, whereas we have no control at all. Things
+			such as object positioning, frustum culling, etc. should be calculated by
+			the CPU, not executed in the GPU. This kind of implementation can not be
+			done in GLSL and therefore a commercial high-performance sphere tracer
+			should be done in a lower-level language not in GLSL.
+
+			Although for our purposes, to build a sphere tracer where we quickly
+			could implement optimizations, develop new features, study the algorithm,
+			GLSL was a perfect fit. 
 		
 		\subsection{GPU} 
 		
@@ -25,7 +35,7 @@
 			to be resolved. In the end we implemented the core and enabled
 			multiple cores running in parallel utilizing a global queue, with
 			some caveats. While the implementation works and can be simulated
-			for up to 128 cores we have only serialized 4 cores. 
+			for up to 128 cores we have only successfully serialized 4 cores. 
 			
 			If we were to continue the work in a future project we would
 			rewrite the basic core in a number of ways, pushing it out to FPGA
@@ -37,12 +47,12 @@
 		\subsection{Ray grouping}
 		
 			Ray grouping is an optimization that lowers the number of
-			computations the GPU have to perform. And by lowering the number of
+			computations the GPU have to perform. Also by lowering the number of
 			computations it increases the speed of the GPU.
 			
 			It works like the name implicates by grouping adjacent rays
 			together. If a specific pixel N is to be rendered we group the
-			adjacent pixels into a ``combined pixel``. Then we march along the
+			adjacent pixels into a "combined pixel". Then we march along the
 			ray of N. If any of the other pixels are not inside the minimum
 			distance spheres (MDS) the combined pixel is split up into two
 			smaller groups. Each of the groups then repeat the first step again
