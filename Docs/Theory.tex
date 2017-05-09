@@ -1,36 +1,23 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Sphere Tracing}
 
-	% TODO(bjorn):
-	% fixa bild r krockar
-
-	The graphics rendering algorithm in question that we designed a custom GPU
-	for is called Sphere Tracing\cite{Hart1996}. The name comes from the
-	technique where it uses spheres to incrementally advance a ray in 3D space.
-	The method of advancing rays incrementally is called Ray Marching and is a
-	particular subset of ray tracing\cite{Whitted1980}. Ray Tracing, then, is a
-	way of wholly or partially render the world through rays, cast from the eye
-	of the observer into the scene. Sphere Tracing has been around since at least
-	as early as the late eighties\cite{Hart1989} and Ray Tracing as early as the
-	sixties\cite{Appel1968}. Ray Tracing has traditionally been a more
-	computationally intensive method compared to polygon
-	rendering\cite{Wylie1967} and thus it has generally seen more use in movie
-
-	production rather than in real-time applications.\cite{ref_needed?} 
-
-	The advent of per pixel programmable hardware in graphics cards made it 
-	possible to implement real time graphics rendering based on ray	marching, 
-	albeit only using relatively simple geometry. This raises the question of 
-	whether this rendering method could be competitive for real time graphics 
-	if hardware that was specifically designed for it was available.
+	The graphics rendering algorithm that the GPU was designed for is called
+	Sphere Tracing\cite{Hart1996}. The name comes from the technique where it
+	uses spheres to incrementally advance a ray in 3D space. The method of
+	advancing rays in general is called Ray Marching which in turn is a subset of
+	Ray Tracing\cite{Whitted1980a}. Ray Tracing, then, is a way of wholly or
+	partially render the world through rays, cast from the eye of the observer
+	into the scene. Sphere Tracing has been around since at least as early as the
+	late eighties\cite{Hart1989} and Ray Tracing as early as the
+	sixties\cite{Appel1968}.
 
 	In this chapter we walk through the Sphere Tracing algorithm in detail with
 	both definitions and examples. The explanation is based on the the very
-	succint explanation in \cite{Korndorfer2014} where they also expand upon the
-	original algorithm. For a more in-depth description we refer to Harts
-	``\emph{Sphere tracing: a geometric method for the antialiased ray tracing
-	of implicit surfaces}``\cite{Hart1996} as the de-facto explanation.
-
+	succint explanation in \cite{Korndorfer2014}. This paper also expands upon
+	the original algorithm in some innovative ways. For a more in-depth
+	description of the original algorithm see Harts ``\emph{Sphere tracing: a
+	geometric method for the antialiased ray tracing of implicit
+	surfaces}``\cite{Hart1996}.
 
 	\section{Sphere Tracing} 
 
@@ -42,20 +29,32 @@
 			\vspace{40pt}
 		\end{wrapfigure}
 
-		The sphere tracing algorithm is based on the concept of Signed Distance
-		Functions (SDF).  $$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The
-		``distance`` is the distance between a point and the closest point on the
-		implicit surface $\text{SDF}^{-1}(0)$. The ``signed`` part refers to the
-		distance being negated when measured on the other side of the surface. 
+		The sphere tracing algorithm uses Signed Distance Functions (SDF).
+		$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The ``distance`` is the
+		distance between a point and the closest point on the implicit surface
+		$\text{SDF}^{-1}(0)$. ``signed`` refers to the distance being
+		negative when measured on the other side of the surface. 
 
 		A common example would be the SDF of a sphere centered at the origin with a
 		radius of one. $$\text{SDF}(\vec{v}) = |\vec{v}| - 1$$ We can here see that
 		a point $\vec{v}$ exactly on the surface would evaluate to $1 - 1 = 0$
-		where any point outside of the sphere being positive and any point inside
-		the sphere being negative. In this case the absolute of the result would
-		also describe the smallest distance to the surface but this is not a hard
-		constriction for the algorithm to work.
+		where any point outside of the sphere is positive and any point inside the
+		sphere is negative. In this case the absolute of the result would also
+		describe the smallest distance to the surface but as long as the result is
+		the smallest distance \emph{or greater}, the algorithm will work.
 
+		If we define a ray $r$ $$r(s) = \vec{d} \cdot s + \vec{o}$$
+		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin, then
+		$$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a surface at
+		exactly distance $s$ from the view point origin. Sampling every SDF in a
+		given scene and returning the smallest value yields a function known as a
+		distance field.
+
+		\bigskip \noindent Finding the surface can be done by iterating point by
+		point from the origin along the ray like below: 
+		
+		$$p_{i+1} = p_i + \vec{d}\cdot \text{SDF}(p_i)$$ 
+		
 		\vspace{40pt}
 		\begin{wrapfigure}{r}{0.48\textwidth}
 			\begin{flushright}
@@ -65,31 +64,22 @@
 			\vspace{40pt}
 		\end{wrapfigure}
 
-		If we define a ray $$r(s) = \vec{d} \cdot s + \vec{o}$$
-		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin, then
-		$$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a surface at
-		exactly the distance $s$ from its origin. \emph{Sampling every SDF in a
-		given scene and returning the smallest value yields a function known as a
-		distance field.}
-
-		\bigskip \noindent Finding the surface can be done by iterating point by
-		point from the origin along the ray like below: $$p_{i+1} = p_i +
-		\vec{d}\cdot \text{SDF}(p_i)$$ This is repeated until $\text{SDF}(p_i) \leq
-		\varepsilon$ for a given precision limit $\varepsilon$. $\text{SDF}(p_i)$
-		is the furthest possible march distance the ray can march while still being
-		sure not too overshoot any potential surfaces. The direction of the closest
-		surface point is never known, thus $\text{SDF}(p_i)$ can be interpreted as
-		a spherical bound, giving the algorithm it's name. This Ray Marching is
-		then performed for each pixel of the screen, reversely simulating the light
-		rays entering the lens of an eye or camera.
+		This is repeated until $\text{SDF}(p_i) \leq \varepsilon$ for a given
+		precision limit $\varepsilon$. $\text{SDF}(p_i)$ is the furthest possible
+		march distance the ray can march while still not overshooting any potential
+		surfaces. The direction to the closest surface point is never known, thus
+		$\text{SDF}(p_i)$ can be interpreted as a spherical bound, giving the
+		algorithm it's name. The Sphere Trace is performed for each pixel of the
+		screen, reversely simulating the light rays entering the lens of an eye or
+		camera.
 
 			\subsection{Reflections, refractions and shading}
 
 				Once a point on a surface for a given pixel has been located
 				reflections, light, shadows and refractions needs to be calculated. A
-				lot of these depend on the surface normal which can be approximated by
-				the partial derivatives around the surface point for some small delta
-				$\delta$, i.e taking the gradient and then normalizing it.
+				lot of these depend on the surface normal which can be approximated with
+				the partial derivatives around the surface point given some small delta
+				$\delta$. This is the normalized gradient $\vec{g}$ of the point.
 
 				$$\vec{g} = \vec{x}\cdot\frac{\text{SDF}(x+\delta, y, z)}{\delta} +
 				\vec{y}\cdot\frac{\text{SDF}(x, y+\delta, z)}{\delta} +
@@ -97,10 +87,10 @@
 
 				$$\vec{n} = \frac{\vec{g}}{|\vec{g}|} $$
 
-				A simple way to lightset the scene could for an example be to use Phong
-				Lightning\cite{Phong}. But from here on out any number of algorithms
-				can be used in combination to determine the final color. Shadows can be
-				determined by further Sphere Tracing out towards the sources of light
-				to check for obstructions. Same for reflections and refractions where
-				further marching in proportionate angles to the angle of incidence can
-				determine what objects add to surface.
+				A simple way to illuminate the scene could for an example be to use
+				Phong Lightning\cite{Phong1975}. But any number of alternative
+				algorithms could be used instead to determine the final color. Shadows
+				can be determined by further Sphere Tracing out towards the sources of
+				light to check for obstructions. Same for reflections and refractions
+				where further marching in proportionate angles to the angle of
+				incidence can determine what objects reflects on the surface.
