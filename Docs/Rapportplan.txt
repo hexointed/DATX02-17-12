@@ -5,7 +5,7 @@ sammanfattning		 0%
 
 Intro 				70%  ~600 ord
 problem statement   20%  ~100 ord
-State of the art    60%  ~500+100 ord
+State of the art    70%  ~500 ord
 Teori               100% 
 Implementation      60%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
                          kod, bilder
@@ -21,9 +21,6 @@ Conclusion               gruppdiskussion på torsdag, 600-800 ord
 _Rapportskrivning_
 
 State of the art
-	lägg till mittdel för översikt av hur sphere tracing i realtid 
-	används idag till förklara vad som skiljer clash från andra äldre 
-	FHDL
 
 Implementation
 	Square root - jämförelse-bilder, code listings.

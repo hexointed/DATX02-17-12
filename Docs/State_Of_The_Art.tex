@@ -43,7 +43,7 @@ movies.\cite{TODO}
 \section{ Hardware Design Methods } 
 
 The design of Integrated Circuitry in the industry has since the early '90s 
-primarily been done in hardware description languages (HDL) \cite{ChenG}, 
+primarily been done in hardware description languages (HDL) \cite{Chen2012}, 
 where one describes the operation of a chip in a style similar to regular 
 imperative programming languages. This descriptive code can then be compiled 
 into a list of components and connections that constitutes the blueprint for 
@@ -56,9 +56,19 @@ functions/calculations/tasks the resulting silicon is meant to perform. This
 makes it more difficult to understand, follow, and also write code that 
 performs complex tasks and advanced signal processing.
 
-Enter Functional HDLs (FHDL): ``Functional hardware description languages are a class of hardware description languages that emphasize on the ability to express higher level structural properties, such a parameterization and regularity.  Due to such features as higher-order functions and polymorphism, parameterization in functional hardware description languages is more natural than the parameterization support found in the more traditional hardware description languages, like VHDL and Verilog`` \cite{Baaij2009}
+Enter Functional HDLs (FHDL): ``Functional hardware description languages are a
+class of hardware description languages that emphasize on the ability to
+express higher level structural properties, such a parameterization and
+regularity. Due to such features as higher-order functions and polymorphism,
+parameterization in functional hardware description languages is more natural
+than the parameterization support found in the more traditional hardware
+description languages, like VHDL and Verilog`` \cite{Baaij2009}
 
-Functional HDLs have been around since the late '70s \cite{Chen2012}, but in 
-recent times they have become more mature. In particular, the Clash language
-caught our eye, which improves FHDLs further by lifting circuit state to the 
-type level.
+Functional HDLs have been around since the late '70s \cite{Chen2012}, but in
+recent times they have become more mature. There are in particlular two FHDLs,
+\emph{Lava} and \clash \cite{Baaij2009,Bjesse1998}, that are implemented
+on top of Haskell. This allows the same interactive type checking and
+high-level simulation of the program that normal Haskell programs enjoy. So
+instead of simulating the underlying circuit directly which is more time
+consuming, the design can itself directly be tested and iterated over at a
+faster pace.
