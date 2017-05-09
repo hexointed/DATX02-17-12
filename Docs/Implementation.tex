@@ -52,7 +52,6 @@
 			for each pixel on the screen, and this thread will calculate what 
 			color the pixel should have and then terminate. 
 
-
 	\section{Processor Unit} \label{implproc}
 
 		The properties of the ray marching algorithm as described above led to
@@ -222,6 +221,20 @@
 			the placement of the extra wires is based on the bit pattern of
 			$\sqrt{2}$.
 
+			\begin{figure}
+				\centering
+				\caption{A simple square root approximator}
+				\label{orsqrt}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/simpleOr.pdf} 
+			\end{figure}
+
+			\begin{figure}
+				\centering
+				\caption{Simple square root approximator with minor improvement}
+				\label{orsqrt2}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
+			\end{figure}
+
 			In order to improve the accuracy of this method another design was
 			considered in which the input was both rounded up and down to 
 			values where the simple method was very accurate and the result was
@@ -232,6 +245,56 @@
 			two was tested because the or-gate square root circuit is very
 			accurate for powers of two, but this is not the only possible 
 			choice.
+
+			\begin{table}
+				\centering
+				\caption{A \texttt{C} implementation of the shifting nth root 
+					algorithm}
+				\label{sqrtc}
+				\begin{tabular}{c}
+				\begin{lstlisting}
+int isqrt(int num) {
+    int res = 0;
+    int bit = 1 << 30;
+
+    while(bit != 0) {
+        if(num >= res + bit) {
+            num -= res + bit;
+            res = (res >> 1) + bit;
+        } else res >>= 1;
+        bit >>= 2;
+    }
+    return res;
+}
+				\end{lstlisting}
+				\end{tabular}
+			\end{table}
+
+			\begin{table}
+				\centering
+				\caption{A \texttt{C} implementation of the shifting nth root 
+					algorithm}
+				\label{sqrtcopt}
+				\begin{tabular}{c}
+				\begin{lstlisting}
+int isqrt(int num) {
+    int res = 0;
+    int bit = 1 << 30;
+
+    while(bit != 0) {
+    	int tmp = num - (res | bit);
+    	res >>= 1;
+        if(tmp >= 0) {
+            num = tmp;
+            res |= bit;
+        }
+        bit >>= 2;
+    }
+    return res;
+}
+				\end{lstlisting}
+				\end{tabular}
+			\end{table}
 
 			Another algorithm for calculating square roots is the
 			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
