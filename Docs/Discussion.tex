@@ -14,16 +14,17 @@
 			and put it on the screen. Because of this, CPU-GPU cooperation is completely
 			impossible and that comes with consequences.
 
-			Modern graphics engines not only do a lot of work on the CPU but it has
-			granular control over the GPU, whereas we have no control at all. Things
-			such as object positioning, frustum culling, etc. should be calculated by
-			the CPU, not executed in the GPU. This kind of implementation can not be
-			done in GLSL and therefore a commercial high-performance sphere tracer
-			should be done in a lower-level language not in GLSL.
+			Modern graphics engines not only do a lot of work on the
+			CPU but it has granular control over the GPU, whereas we have no control
+			at all. Things such as object positioning, frustum culling, etc. should be 
+			done by the CPU, not the GPU. This kind of implementation can 
+			not be done in GLSL and therefore a high-performance sphere tracer should be done not in 
+			GLSL but in a lower-level language.
 
-			Although for our purposes, to build a sphere tracer where we quickly
-			could implement optimizations, develop new features, study the algorithm,
-			GLSL was a perfect fit. 
+			Although for our purposes, to build a sphere tracer where we quickly could implement
+			optimizations, develop new features, study the algorithm, GLSL was a
+			perfect fit. 
+
 		
 		\subsection{GPU} 
 		
@@ -68,35 +69,40 @@
 
 			%#picture of ray grouping
 
+		\subsection{Bounding spheres}
+			
+			Although an increase in performance could be seen using this method,
+			it can also be used in ways that decreases the performance. By
+			setting up a too large boundnig sphere or my setting it up with few
+			objects or simply objects that are far apart.
+
+			To use this optimiztion efficiently the objects inside a bounding 
+			sphere should never come far apart and the sphere should be exactly 
+			the right size.
+
 		\subsection{Orthogonal culling}
 
-			Traditionally culling is done to avoid the GPU rendering polygons 
-			that are outside the field of view, this is called frustum culling. Instead 
-			of this we implemented an alternative version that we call orthogonal
-			culling.
+			The performance gain from this optimization exeeded our 
+			expectations. This could probably be further improved by using
+			another way to create the sphere tracer than GLSL. 
 
-			Normally the closest distance to all objects in the scene is calculated
-			in each march-step, for each pixel. One way to make this go faster is 
-			reducing the number of objects that the distance has to be calculated 
-			to, without reducing scene complexity. 
+			However great the performance gain the way this is implemented
+			is still far from optional, currently it performs orthogonal 
+			projection on all the objects in the scene per pixel. Instead,
+			calculations should be done on a per-object basis and calculate
+			which rays a object intersects, this way fewer calculations would
+			have to be performed and optionally they would be performed on the
+			CPU.
 
-			To calculate whether the ray will hit a sphere or not orthogonal 
-			projection can be used. By projecting the center of the sphere onto
-			the directional line of the ray, its closest point to the line is known.
-			Then the distance between the line and the sphere can be calculated using
-			the radius, if the distance is less than zero the sphere will be hit
-			by the ray. If the distance is larger than zero the ray can't possibly hit 
-			that sphere. This way the number of objects that the distance has to be 
-			calculated to is decreased. 
-
-			This method could be combined with the Bounding Sphere optimization.
-			By othogonally culling away bounding spheres instead of objects, 
-			several objects could be discarded at once, reducing the computing
-			time to calculate which objects the ray might hit.
+			This method could work together with the Bounding Sphere 
+			optimization. Instead of projecting single objects onto the ray,
+			bounding spheres could be projected, decreasing the number of 
+			orthogonal projections that has to be made. This too was tested 
+			and an increase in performance was observed.
 
 	\section{Future work}
 
-		\subsection{GPU-processor cooperation}
+		\subsection{GPU-CPU cooperation}
 		
 			One thing that could be done to improve performance is to let the
 			processor handle object related math, such as object and camera 
@@ -130,24 +136,10 @@
 			Bounding spheres technique is somewhat similar to the normal sphere
 			tracing. The difference is that when you march you march to the
 			edge of the MDS and then you march to the next MDS edge. With
-			bounding sphere technique you march a small distance further
+			overstepping technique you march a small distance further
 			outside the MDS edge. You then compare the original MDS with the
 			new MDS if these two spheres overlap in any way we can march that
 			little bit further. By marching that little bit further, decrease
 			in the number of times marched is achieved. Giving an increase in
 			performance. 
-
-		\subsection{Bounding spheres}
-			
-			To decrease the number of distance calculations that has to be 
-			performed in each march step several objects can be enclosed in a 
-			bounding sphere. When the distance field is evaluated only the 
-			bounding sphere will be considered, so instead of calculating the 
-			distance to all the objects contained, only the distance to the 
-			bounding sphere will be calculated. If the bounding sphere is hit
-			by the ray, it will be removed and all the contained objects will 
-			be introduced to the distance field, now it is probable that they
-			will be hit.
-		
-			%picture of example bounding sphere
 			
