@@ -15,6 +15,29 @@
 		be rendered in real time in fullHD using our performance enhancing 
 		algorithm.
 
+		The implemented optimizations improved performance more than anticipated,
+		and shows that there is more performance to be found in a conventional
+		GPU than a straight-forward implementation of the algorith. 
+
+		There are great limitations in what could be done with the shader because
+		of the language that we chose to implement it in, GLSL. It offers nothing 
+		more than a way to write a program which will be run on a per-pixel basis
+		and put it on the screen. Modern graphics engines not only do a lot of work on the
+		CPU but it has granular control over the GPU, whereas we have no control
+		at all. Things such as object positioning, frustum culling, etc. should be 
+		calculated by the CPU, not executed in the GPU. This kind of implementation can 
+		not be done in GLSL and therefore sphere tracing should be done not in 
+		GLSL but in a lower-level language.
+
+		Although for our purposes, to build a sphere tracer where we quickly could implement
+		optimizations, develop new features and study the algorithm, GLSL was a
+		perfect fit. 
+
+
+
+
+		
+
 
 	\section{GPU Performance}
 
