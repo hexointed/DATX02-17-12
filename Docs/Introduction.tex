@@ -1,47 +1,48 @@
 \chapter{Introduction} 
 	
-	\section{Background}
-		During the early 90’s many types of real time rendering algorithms were 
-		developed and used. This was possible because they all ran in software 
-		on the main computer processor, and could thus be easily altered and 
-		enhanced. Photorealistic rendering could be done using a method called 
-		Ray Tracing, but this was very slow. Improvements were made to this 
-		method and one such sub-algorithm was called Sphere Tracing. It proved
-		useful for Ray Tracing 3D fractals, but it was still too slow to render
-		any type of geometry in real time. Better graphics rendering (fast 
-		real time graphics) was a key selling point among competing computer 
-		systems, so to improve rendering speed, the computer industry moved 
-		towards dedicated hardware based graphics rendering. These systems were
-		almost exclusively using polygon-based rendering, and most Ray Tracing 
-		algorithms can not be rendered this way. Today, 3D graphics cards have 
-		become more programmable and the last 5 years have seen a small 
-		resurgence in the use of Sphere Tracing	rendering. Simple scenes can 
-		now be rendered, using sphere tracing, in real time using a state of 
-		the art consumer 3D graphics card. This has a whole new set of pros 
-		and cons when compared to polygon rendering. However, while 
-		the algorithm seems to have a lot of potential for future 3D graphics, 
-		that potential might be unreachable on current GPUs (Graphics 
-		Processing Unit) due to the underlying architecture being designed for 
-		polygon rendering. This project will examine ideas for what could be 
-		achieved if graphics cards were optimized and built specifically for 
-		Sphere Tracing Graphics	instead of today’s polygon based hardware.		 
+%	\section{Background} 
+
+	During the early 90’s many types of real time rendering algorithms were
+	developed and used\cite{TODO}. This was possible because they ran in software
+	on the CPU, and could thus be easily altered and enhanced. Photorealistic
+	rendering could be done using a method called Ray Tracing, but this was very
+	slow\cite{TODO}. Improvements were made to this method and one such
+	sub-algorithm was called Sphere Tracing. It proved useful for Ray Tracing 3D
+	fractals\cite{TODO}, but it was still too slow to render any type of geometry
+	in real time\cite{TODO}. Better graphics rendering (fast real time graphics)
+	was a key selling point among competing computer systems, so to improve
+	rendering speed, the computer industry moved towards dedicated hardware based
+	graphics rendering\cite{TODO}. These systems were almost exclusively using
+	polygon-based rendering, unsuitable for most Ray Tracing algorithms. Today,
+	3D graphics cards have become more programmable and the last 5 years have
+	seen a small resurgence in the use of Sphere Tracing rendering\cite{TODO}.
+	Simple scenes can now be rendered using Sphere Tracing in real time using
+	state-of-the-art consumer 3D graphics cards. However the full potential of
+	the algorithm might still be unreachable on current GPUs due to the
+	underlying architecture being designed for polygon rendering to a large
+	extent\cite{TODO}. This project examines what could be achieved if graphics
+	cards were optimized and built specifically for Sphere Tracing Graphics
+	instead of today’s Polygon Graphics.		 
 	
 	\section{Project goals}
 
-		The main goal for this project was to design and implement a basic GPU 
+		The main goal for this project is to design and implement a basic GPU 
 		architecture that is designed to be able to accommodate the Sphere 
-		Tracing algorithm. In addition, another aim was to look at possible 
+		Tracing algorithm. In addition, another aim is to look at possible 
 		optimizations, both algorithmic	and hardware based, for this algorithm.
 		
 	\section{Scope}
 		
-		The scope of the project was threefold. First to research the algorithm
-		and the improvements that already exist, secondly design a rudimentary 
-		GPU and	finally to improve upon the design based upon what we assessed 
-		and	figured out from the research.
+		Writing a GPU for the first time, even a smaller one, and doing it well is
+		a large undertaking for a single bachelor project. The project is therefore
+		instead done on a best-effort basis as a compromise where we try to get at
+		the novel parts of the design first, leaving cache and memory management as
+		a late priority.
 
-		Each of these parts could span an entire bachelors thesis on their own, 
-		so in this project we instead did them on a best-effort basis as a 
-		compromise.	When designing the GPU, decisions were made to only 
-		implement the parts unique to the task and thus skipping some more 
-		general parts such as an advanced memory and cache architecture.
+	\section{Problem Statement}
+
+	%TODO not changed, dunno what to write
+
+		The main problem is to identify the parts of the algorithm that
+		prevents it from being a feasible alternative today, and to figure out a
+		hardware design that improves the performance of those parts.
