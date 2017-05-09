@@ -18,12 +18,13 @@
 			CPU but it has granular control over the GPU, whereas we have no control
 			at all. Things such as object positioning, frustum culling, etc. should be 
 			done by the CPU, not the GPU. This kind of implementation can 
-			not be done in GLSL and therefore a commercial high-performance sphere tracer should be done not in 
+			not be done in GLSL and therefore a high-performance sphere tracer should be done not in 
 			GLSL but in a lower-level language.
 
 			Although for our purposes, to build a sphere tracer where we quickly could implement
 			optimizations, develop new features, study the algorithm, GLSL was a
 			perfect fit. 
+
 		
 		\subsection{GPU} 
 		
@@ -35,7 +36,7 @@
 			to be resolved. In the end we implemented the core and enabled
 			multiple cores running in parallel utilizing a global queue, with
 			some caveats. While the implementation works and can be simulated
-			for up to 128 cores we have only serialized 4 cores. 
+			for up to 128 cores we have only successfully serialized 4 cores. 
 			
 			If we were to continue the work in a future project we would
 			rewrite the basic core in a number of ways, pushing it out to FPGA
