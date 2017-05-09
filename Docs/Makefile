@@ -2,30 +2,30 @@
 
 #All targets
 DOCS = Main.pdf
-IMGS = $(patsubst %.svg,%.pdf,$(wildcard figure/*.svg))
+SRCS = $(wildcard *.tex)
+DOTS = $(patsubst %.dot,%.svg,$(wildcard figure/dots/*.dot))
+IMGS = $(patsubst %.svg,%.pdf,$(wildcard figure/*.svg) $(DOTS))
 
 #Fail silently
 MAKEFLAGS = --silent
 
-docs: $(IMGS) $(DOCS) force
+docs: $(DOTS) $(IMGS) $(DOCS) force
 
-docs-dbg: $(IMGS) $(DOCS)
+docs-dbg: $(DOTS) $(IMGS) $(DOCS)
 
 no-imgs: $(DOCS) 
 
-#NOTE(bjorn) "convert" is from lib ImageMagick. Couldn't get inkscape to work properly on OSX.
 figure/%.pdf: figure/%.svg
 	convert $^ $@
-#	inkscape -D -z --file=$(shell pwd)/$^ --export-pdf=$(shell pwd)/$@ >> ./log.log
 
-figure/%.svg: figure/%.dot
-	dot -Tsvg -O $^
+figure/dots/%.svg: figure/dots/%.dot
+	dot -Tsvg $^ > figure/dots/$*.svg
 
-%.pdf: %.tex
-	- pdflatex $^
+%.pdf: $(SRCS)
+	- pdflatex $*.tex
 	- bibtex $*  
-	- pdflatex $^
-	- pdflatex $^
+	- pdflatex $*.tex
+	- pdflatex $*.tex
 
 #Remove all temporary files created by pdfLaTeX
 clean: 
