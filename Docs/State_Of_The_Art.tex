@@ -1,74 +1,83 @@
 \chapter{State of the Art}
 
-\section{ Real Time Graphics Rendering on Current Hardware } 
+	\section{ Real Time Graphics Rendering on Current Hardware } 
 
-Sphere tracing is currently being used to visualize complex data such as 
-fractals, but there is no hardware designed to run it efficiently. Today's top 
-of the line consumer 3D graphics cards are made for real time rendering of 
-polygons. They achieve high speeds by executing the pixel color calculation in 
-parallel. To make this efficient they use what is known as lockstepping, which 
-means a group of calculation units that is always operating on the same 
-instruction, but with differing input data. Doing this enables all of the 
-cooperating cores to use only a single instruction memory and bus. This saves 
-silicon real estate, enabling more cores per chip and thus greater performance. 
-Pixels rendered by a polygon based method can usually be queued for calculation 
-in such a way that pixels belonging to the same object in the scene can be 
-grouped for computation. The drawback of cooperating cores only being able 
-to work on the same instruction at any one given time, is thus greatly reduced.
-
-Using this hardware for Sphere Tracing, as is currently being done, will make 
-this drawback significantly more burdening. Pixels can not be grouped by
-what object in the scene they belong to as easily in a Sphere Tracer, because
-the order of pixel rendering in a polygon renderer is done by object and then
-by its constituent polygons. Sphere Tracers do not have polygons and pixel 
-order is usually based on the output image pixel order. Even if more grouping 
-was introduced to a Sphere Tracer, the pixels in these groups differ much more 
-in their instruction execution path, since the algorithm is more iterative and 
-branching.
-
-This still being the case, there exists a demoscene where Sphere Tracing is used
-to render fractals and visually interesting scenes in real-time on current
-hardware. The reason is that Sphere Tracing allows for less bytes per visuals,
-	more so than in traditional rendering, which becomes a sort of bragging
-	point. Following are some examples of this\cite{InigoQuilez}
-
-% Kanske helt orelevant ?
-There are as of today no big commercial applications using Sphere Tracing but
-Ray Tracing algorithms have been applied to film making for a long time, where
-there is a comparatively unbounded amount of time to calculate the scenes but
-the demand for realism is higher. An example of this would be the Ray Tracing
-engine RenderMan developed by Disney Pixar which they use for their
-movies.\cite{TODO}
-
-\section{ Hardware Design Methods } 
-
-The design of Integrated Circuitry in the industry has since the early '90s 
-primarily been done in hardware description languages (HDL) \cite{Chen2012}, 
-where one describes the operation of a chip in a style similar to regular 
-imperative programming languages. This descriptive code can then be compiled 
-into a list of components and connections that constitutes the blueprint for 
-building a circuit. The most prevalent of these languages are VHDL and 
-Verilog. While being a great help to designers, compared to more manual 
-design, these languages are quite cumbersome to work with. They are verbose, 
-restrictively strict and require a fair amount of boilerplate code. Also, 
-they are aimed at describing hardware at a low level, rather than the 
-functions/calculations/tasks the resulting silicon is meant to perform. This 
-makes it more difficult to understand, follow, and also write code that 
-performs complex tasks and advanced signal processing.
-
-Enter Functional HDLs (FHDL): ``Functional hardware description languages are a
-class of hardware description languages that emphasize on the ability to
-express higher level structural properties, such a parameterization and
-regularity. Due to such features as higher-order functions and polymorphism,
-parameterization in functional hardware description languages is more natural
-than the parameterization support found in the more traditional hardware
-description languages, like VHDL and Verilog`` \cite{Baaij2009}
-
-Functional HDLs have been around since the late '70s \cite{Chen2012}, but in
-recent times they have become more mature. There are in particlular two FHDLs,
-\emph{Lava} and \clash \cite{Baaij2009,Bjesse1998}, that are implemented
-on top of Haskell. This allows the same interactive type checking and
-high-level simulation of the program that normal Haskell programs enjoy. So
-instead of simulating the underlying circuit directly which is more time
-consuming, the design can itself directly be tested and iterated over at a
-faster pace.
+		Sphere tracing is currently being used to visualize complex data such
+		as fractals \cite{TODO}, but there is no hardware designed to run it
+		efficiently.  Today's top of the line consumer 3D graphics cards are
+		made for real time rendering of polygons. They achieve good performance
+		by executing rasterization and pixel color calculation in parallel
+		between pixels. To make this efficient they use what is known as
+		lockstepping, which means a group of calculation units that are always
+		operating on the same instruction, but with differing input data. This
+		enables all of the cooperating cores to use only a single instruction
+		memory and bus. This reduces the area usage of the design, making it
+		possible to add more cores per chip and thus achieve greater
+		performance. Pixels rendered by polygon based methods can usually be
+		queued for calculation in such a way that pixels belonging to the same
+		object in the scene can be grouped for computation. The drawback of
+		lock-stepped cores only being able to work on the same instruction at a
+		time is thus greatly reduced.
+		
+		Using this hardware for Sphere Tracing, as is currently being done,
+		increases the overhead caused by this lock-stepped design
+		significantly. Pixels can not be grouped by what object in the scene
+		they belong to as easily in a Sphere Tracer, because the order of pixel
+		rendering in a polygon renderer is done by object and then by its
+		constituent polygons. Sphere Tracers do not have polygons and pixel
+		order is usually based on the output image pixel order. Even if more
+		grouping was introduced to a Sphere Tracer, the pixels in these groups
+		differ much more in their instruction execution path, since the
+		algorithm is more iterative and often varies greatly in number of steps
+		until completion.
+		
+		This still being the case, there exists a demoscene where Sphere
+		Tracing is used to render fractals and visually interesting scenes in
+		real-time on current hardware. The reason is that Sphere Tracing allows
+		for less bytes per visuals, more so than in traditional rendering,
+		which becomes a sort of bragging point. For some examples of
+		this, \cite{InigoQuilez} has many good resources.
+		
+		% Kanske helt orelevant ?
+		There are as of today no big commercial applications using Sphere
+		Tracing but Ray Tracing algorithms have been applied to film making for
+		a long time\cite{TODO}, where a comparatively large amount of time to
+		render a scene can be acceptable but the demand for realism is higher.
+		An example of this would be the Ray Tracing engine RenderMan developed
+		by Disney Pixar which they use for their movies.\cite{TODO}
+	
+	\section{ Hardware Design Methods } 
+	
+		The design of Integrated Circuitry in the industry has since the early
+		'90s primarily been done in hardware description languages (HDL)
+		\cite{Chen2012}, where one describes the operation of a chip in a style
+		similar to regular imperative programming languages. This descriptive
+		code can then be compiled into a list of components and connections
+		that constitutes the blueprint for building a circuit. The most
+		prevalent of these languages are VHDL and Verilog\cite{TODO}. While
+		being a great help to designers, compared to more manual design, these
+		languages can be quite cumbersome to work with. They are verbose,
+		restrictively strict and require a fair amount of boilerplate code.
+		Also, they are aimed at describing hardware at a low level, rather than
+		the functions/calculations/tasks the resulting silicon is meant to
+		perform.  This makes it more difficult to understand, follow, and also
+		write code that performs complex tasks and advanced signal processing.
+		
+		This has resulted in Functional HDLs (FHDL): ``Functional hardware
+		description languages are a class of hardware description languages
+		that emphasize on the ability to express higher level structural
+		properties, such a parameterization and regularity. Due to such
+		features as higher-order functions and polymorphism, parameterization
+		in functional hardware description languages is more natural than the
+		parameterization support found in the more traditional hardware
+		description languages, like VHDL and Verilog`` \cite{Baaij2009}
+		
+		Functional HDLs have been around since the late '70s \cite{Chen2012},
+		but in recent times they have become more mature. There are in
+		particlular two FHDLs, \emph{Lava} and \clash \cite{Baaij2009,
+		Bjesse1998}, that are implemented in Haskell.  This allows the same
+		interactive type checking and high-level simulation of the program that
+		normal Haskell programs enjoy. This means that instead of simulating
+		the underlying circuit directly which is more time consuming, the
+		design can be tested and iterated over at a faster pace, hopefully
+		allowing for faster development.
