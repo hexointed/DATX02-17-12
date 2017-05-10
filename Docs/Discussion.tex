@@ -79,7 +79,7 @@
 			
 			Although an increase in performance could be seen using this
 			method, it can also be used in ways that decreases the performance.
-			By setting up a too large boundnig sphere or my setting it up with
+			By setting up a too large bounding sphere or my setting it up with
 			few objects or simply objects that are far apart.
 
 			To use this optimization efficiently the objects inside a bounding 
@@ -106,6 +106,10 @@
 			orthogonal projections that has to be made. This too was tested 
 			and an increase in performance was observed.
 
+	\section{Square roots}
+
+		
+
 	\section{Future work}
 
 		\subsection{GPU-CPU cooperation}
@@ -122,7 +126,7 @@
 
 			Infinite planes currently require a lot of computing power to
 			render. When the camera is oriented so that the field of view is
-			along an infinite plane some rays will travel parallell to the
+			along an infinite plane some rays will travel parallel to the
 			plane, these rays will march equally long steps until their max
 			number of steps has been taken or the max range has been reached,
 			without hitting anything. Another drawback of infinite planes is
