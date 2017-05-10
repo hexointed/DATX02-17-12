@@ -21,17 +21,18 @@
 		
 		Using this hardware for Sphere Tracing, as is currently being done,
 		increases the overhead caused by this lock-stepped design
-		significantly. Pixels can not be grouped by what object in the scene
-		they belong to as easily in a Sphere Tracer, because the order of pixel
-		rendering in a polygon renderer is done by object and then by its
-		constituent polygons. Sphere Tracers do not have polygons and pixel
+		significantly. Order of pixel rendering in a polygon renderer
+		 is done by object and then by constituent polygons.
+		Pixels can not be grouped by what object in the scene
+		they belong to as easily in a Sphere Tracer, because 
+		Sphere Tracers do not have polygons and pixel
 		order is usually based on the output image pixel order. Even if more
 		grouping was introduced to a Sphere Tracer, the pixels in these groups
 		differ much more in their instruction execution path, since the
 		algorithm is more iterative and often varies greatly in number of steps
 		until completion.
 		
-		This still being the case, there exists a demoscene where Sphere
+		This still being the case, there exists a platform where Sphere
 		Tracing is used to render fractals and visually interesting scenes in
 		real-time on current hardware. The reason is that Sphere Tracing allows
 		for less bytes per visuals, more so than in traditional rendering,
@@ -42,7 +43,7 @@
 		There are as of today no big commercial applications using Sphere
 		Tracing but Ray Tracing algorithms have been applied to film making for
 		a long time\cite{TODO}, where a comparatively large amount of time to
-		render a scene can be acceptable but the demand for realism is higher.
+		render a scene can be acceptable but the demand for quality is higher.
 		An example of this would be the Ray Tracing engine RenderMan developed
 		by Disney Pixar which they use for their movies.\cite{TODO}
 	
@@ -55,13 +56,13 @@
 		code can then be compiled into a list of components and connections
 		that constitutes the blueprint for building a circuit. The most
 		prevalent of these languages are VHDL and Verilog\cite{TODO}. While
-		being a great help to designers, compared to more manual design, these
-		languages can be quite cumbersome to work with. They are verbose,
+		being a great help to designers\cite{TODO}, compared to designing by hand, 
+		even though these languages can be quite cumbersome to work with. They are verbose,
 		restrictively strict and require a fair amount of boilerplate code.
 		Also, they are aimed at describing hardware at a low level, rather than
 		the functions/calculations/tasks the resulting silicon is meant to
-		perform.  This makes it more difficult to understand, follow, and also
-		write code that performs complex tasks and advanced signal processing.
+		perform\cite{TODO}.  This makes it more difficult to understand, follow, and also
+		write code that performs complex tasks and advanced signal processing\cite{TODO}.
 		
 		This has resulted in Functional HDLs (FHDL): ``Functional hardware
 		description languages are a class of hardware description languages
@@ -79,5 +80,5 @@
 		interactive type checking and high-level simulation of the program that
 		normal Haskell programs enjoy. This means that instead of simulating
 		the underlying circuit directly which is more time consuming, the
-		design can be tested and iterated over at a faster pace, hopefully
+		design can be tested repeatedly at a faster pace, hopefully
 		allowing for faster development.
