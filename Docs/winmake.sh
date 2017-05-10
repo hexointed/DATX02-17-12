@@ -1,4 +1,4 @@
-dot -Tsvg -O figure/GPU-schematic.dot
+dot -Tsvg -ofigure/GPU-schematic.svg figure/dots/GPU-schematic.dot
 
 for f in figure/*.svg; 
 do 

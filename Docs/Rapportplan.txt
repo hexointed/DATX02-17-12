@@ -4,8 +4,9 @@ Abstract:     		 0%  (göras i slutfas)
 sammanfattning		 0%
 
 Intro 				70%  ~600 ord
+
 problem statement   20%  ~100 ord
-State of the art    70%  ~500 ord
+State of the art    95%  ~50 ord
 Teori               100% 
 Implementation      70%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
 Resultat                 squareroot-del,

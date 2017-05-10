@@ -29,7 +29,7 @@
 			Shading Language). It runs the program for each pixel the shader is
 			rendered on, using the screen-coordinates as input.
 
-			Beyond the actual sphere tracing loop the direction of the ray is
+			Beyond the actual Sphere Tracing loop the direction of the ray is
 			calculated using a camera direction vector and offsetting it by the
 			current pixel's screen coordinates, placed orthogonally along the
 			vector.  The distance of this placement defines the field of view
@@ -50,7 +50,7 @@
 
 		\subsection{Orthogonal culling}
 
-			The most demanding parts of sphere tracing are that the distance to
+			The most demanding parts of Sphere Tracing are that the distance to
 			a lot of objects has to be calculated once for every march step.
 			The number of steps taken depends on the scene but they can reach
 			over a hundred. One way to increase the performance is to reduce
@@ -207,7 +207,7 @@
 			\begin{figure}[H]
 				\centering
 				\caption{ XQBGPPPU Data flow diagram }
-				\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic.pdf} 
+				\includegraphics[width=0.75\linewidth]{figure/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
 	

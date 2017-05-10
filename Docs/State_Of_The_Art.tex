@@ -31,20 +31,30 @@
 		algorithm is more iterative and often varies greatly in number of steps
 		until completion.
 		
-		This still being the case, there exists a demoscene where Sphere
-		Tracing is used to render fractals and visually interesting scenes in
-		real-time on current hardware. The reason is that Sphere Tracing allows
-		for less bytes per visuals, more so than in traditional rendering,
-		which becomes a sort of bragging point. For some examples of
-		this, \cite{InigoQuilez} has many good resources.
+		\section{ Hobbyists and Academia }
 		
+		Despite this, computer art hobbyists are using Sphere Tracing to produce
+		some quite stunning real time visuals on consumer PC's. They showcase 
+		the possibilities of the algorithm by reducing scene complexity and 
+		instead rendering using techniques that are commonly only found in non 
+		real time Ray Tracers. Examples of such are true reflections and 
+		refractions, spacial repetition, object morphing and 3D fractals. 
+		For some examples of this check out ???  \cite{InigoQuilez}.
+		Early on, they were inspired by research papers such as John C. Hart's 
+		1996 paper\cite{Hart1996}. Their success encouraged some of them to do 
+		academic research of their own, which led to new papers being written. A 
+		good example of this is the 2014 paper "Enhanced Sphere 
+		Tracing"\cite{Korndorfer2014}.
+
+		\section{ Industry }		
 		% Kanske helt orelevant ?
 		There are as of today no big commercial applications using Sphere
-		Tracing but Ray Tracing algorithms have been applied to film making for
-		a long time\cite{TODO}, where a comparatively large amount of time to
-		render a scene can be acceptable but the demand for realism is higher.
-		An example of this would be the Ray Tracing engine RenderMan developed
-		by Disney Pixar which they use for their movies.\cite{TODO}
+		Tracing that we know of, but Ray Tracing algorithms have long been in 
+		use in multiple computer graphics domains. For instance in film making 
+		\cite{TODO}, where a comparatively large amount of time to render a 
+		scene can be acceptable but the demand for realism is higher than in 
+		real time graphics. An example of this would be the Ray Tracing engine 
+		RenderMan developed by Disney Pixar which is used in their movies \cite{TODO}.
 	
 	\section{ Hardware Design Methods } 
 	
@@ -56,12 +66,11 @@
 		that constitutes the blueprint for building a circuit. The most
 		prevalent of these languages are VHDL and Verilog\cite{TODO}. While
 		being a great help to designers, compared to more manual design, these
-		languages can be quite cumbersome to work with. They are verbose,
-		restrictively strict and require a fair amount of boilerplate code.
-		Also, they are aimed at describing hardware at a low level, rather than
-		the functions/calculations/tasks the resulting silicon is meant to
-		perform.  This makes it more difficult to understand, follow, and also
-		write code that performs complex tasks and advanced signal processing.
+		languages can be quite cumbersome to work with. They are verbose and 
+		require a fair amount of boilerplate code. This makes it more difficult
+		to understand, follow, and also write code that performs complex tasks, 
+		since it can be more difficult to see the greater patterns in 
+		interconnecting code.
 		
 		This has resulted in Functional HDLs (FHDL): ``Functional hardware
 		description languages are a class of hardware description languages
@@ -70,14 +79,14 @@
 		features as higher-order functions and polymorphism, parameterization
 		in functional hardware description languages is more natural than the
 		parameterization support found in the more traditional hardware
-		description languages, like VHDL and Verilog`` \cite{Baaij2009}
+		description languages, like VHDL and Verilog'' \cite{Baaij2009}
 		
 		Functional HDLs have been around since the late '70s \cite{Chen2012},
 		but in recent times they have become more mature. There are in
-		particlular two FHDLs, \emph{Lava} and \clash \cite{Baaij2009,
+		particular two FHDLs, \emph{Lava} and \clash \cite{Baaij2009,
 		Bjesse1998}, that are implemented in Haskell.  This allows the same
 		interactive type checking and high-level simulation of the program that
 		normal Haskell programs enjoy. This means that instead of simulating
 		the underlying circuit directly which is more time consuming, the
-		design can be tested and iterated over at a faster pace, hopefully
+		design can be tested and iterated over at a faster pace,
 		allowing for faster development.
