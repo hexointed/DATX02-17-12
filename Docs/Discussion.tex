@@ -1,31 +1,35 @@
 \chapter{Discussion} 
-This chapter will lift our thoughts on our result, our theoretical not yet implemented optimizations and
-what future work is possible from this point in time.
+
+	This chapter will lift our thoughts on our result, our theoretical not yet
+	implemented optimizations and what future work is possible from this point
+	in time.
 	
 	\section{Results}  \label{discussion}
 		
 		\subsection{Software Shader}
 		
-			The implemented optimizations improved performance more than anticipated.
-			This shows that there is more performance to be found in a conventional
-			GPU than a straight-forward implementation of the algorithm. 
+			The implemented optimizations improved performance more than
+			anticipated.  This shows that there is more performance to be found
+			in a conventional GPU than a straight-forward implementation of the
+			algorithm. 
 
-			There are great limitations in what could be done with the shader because
-			of the language that we chose to implement it in, GLSL. It offers nothing 
-			more than a way to write a program which will be run on a per-pixel basis
-			and put it on the screen. Because of this, CPU-GPU cooperation is completely
-			impossible and that comes with consequences.
+			There are great limitations in what could be done with the shader
+			because of the language that we chose to implement it in, GLSL. It
+			offers nothing more than a way to write a program which will be run
+			on a per-pixel basis and put it on the screen. Because of this,
+			CPU-GPU cooperation is completely impossible and that comes with
+			consequences.
 
-			Modern graphics engines not only do a lot of work on the
-			CPU but it has granular control over the GPU, whereas we have no control
-			at all. Things such as object positioning, frustum culling, etc. should be 
-			done by the CPU, not the GPU. This kind of implementation can 
-			not be done in GLSL and therefore a high-performance sphere tracer should be done not in 
-			GLSL but in a lower-level language.
+			Modern graphics engines not only do a lot of work on the CPU but it
+			has granular control over the GPU, whereas we have no control at
+			all. Things such as object positioning, frustum culling, etc.
+			should be done by the CPU, not the GPU. This kind of implementation
+			can not be done in GLSL and therefore a high-performance sphere
+			tracer should be done not in GLSL but in a lower-level language.
 
-			Although for our purposes, to build a sphere tracer where we quickly could implement
-			optimizations, develop new features, study the algorithm, GLSL was a
-			perfect fit. 
+			Although for our purposes, to build a sphere tracer where we
+			quickly could implement optimizations, develop new features, study
+			the algorithm, GLSL was a perfect fit. 
 
 		
 		\subsection{GPU} 
@@ -50,8 +54,8 @@ what future work is possible from this point in time.
 		\subsection{Ray grouping}
 		
 			Ray grouping is an optimization that lowers the number of
-			computations the GPU have to perform. Also by lowering the number of
-			computations it increases the speed of the GPU.
+			computations the GPU have to perform. Also by lowering the number
+			of computations it increases the speed of the GPU.
 			
 			It works like the name implicates by grouping adjacent rays
 			together. If a specific pixel N is to be rendered we group the
@@ -73,10 +77,10 @@ what future work is possible from this point in time.
 
 		\subsection{Bounding spheres}
 			
-			Although an increase in performance could be seen using this method,
-			it can also be used in ways that decreases the performance. By
-			setting up a too large boundnig sphere or my setting it up with few
-			objects or simply objects that are far apart.
+			Although an increase in performance could be seen using this
+			method, it can also be used in ways that decreases the performance.
+			By setting up a too large boundnig sphere or my setting it up with
+			few objects or simply objects that are far apart.
 
 			To use this optimiztion efficiently the objects inside a bounding 
 			sphere should never come far apart and the sphere should be exactly 
@@ -117,21 +121,22 @@ what future work is possible from this point in time.
 
 		\subsection{Plane-ray intersection}
 
-			Infinite planes currently require a lot of computing power to render. When
-			the camera is oriented so that the field of view is along an infinite
-			plane some rays will travel parallell to the plane, these rays will march 
-			equally long steps until their max number of steps has been taken or
-			the max range has been reached, without hitting anything. Another
-			drawback of infinite planes is that the sphere tracing algorithm causes
-			the horizon of planes to disappear because of the max range and max 
-			steps of a ray. Another way to render infinite planes might be to 
-			calculate if the ray will intersect the plane, and if so where it 
-			will intersect. This would eliminate the issue of not being able 
-			to render the horizon and might also increase performance.
+			Infinite planes currently require a lot of computing power to
+			render. When the camera is oriented so that the field of view is
+			along an infinite plane some rays will travel parallell to the
+			plane, these rays will march equally long steps until their max
+			number of steps has been taken or the max range has been reached,
+			without hitting anything. Another drawback of infinite planes is
+			that the sphere tracing algorithm causes the horizon of planes to
+			disappear because of the max range and max steps of a ray. Another
+			way to render infinite planes might be to calculate if the ray will
+			intersect the plane, and if so where it will intersect. This would
+			eliminate the issue of not being able to render the horizon and
+			might also increase performance.
 
-			One potential problem is that because no distance field evaluations 
-			are performed, it might be hard to perform operations such as CSG or
-			mathematical deformations on planes rendered this way.
+			One potential problem is that because no distance field evaluations
+			are performed, it might be hard to perform operations such as CSG
+			or mathematical deformations on planes rendered this way.
 
 		\subsection{Overstepping}
 
