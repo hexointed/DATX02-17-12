@@ -267,7 +267,7 @@
 			look-up table. A 16-bit version of this circuit is shown in figure
 			\ref{orsqrt}, and an improved but slightly more expensive version
 			is showed in figure \ref{orsqrt2}.  The basic working principle is
-			based on the fact that the square root of a number har roughly half
+			based on the fact that the square root of a number has roughly half
 			as many digits as the original number. In the version with slightly
 			improved accuracy the placement of the extra wires is based on the
 			bit pattern of $\sqrt{2}$.
@@ -282,24 +282,29 @@
 			\begin{figure}
 				\centering
 				\caption{Simple square root approximator with minor improvement.
-					This version includes an extra layer of or-gates with a 
-					shift of 4. Adding more layers with shifts of 6, 10, 14, 26
-					etc increases accuracy further, although returns are 
-					diminishing quickly.}
+					This version includes an extra layer of or-gates with a
+					shift of 4. Note that the gates in this diagram seem
+					to be ordered in two extra layers. This is, however, only a
+					visual artifact in this image. Adding more layers with
+					shifts of 6, 10, 14, 26 etc increases accuracy further,
+					although returns are diminishing quickly.}
 				\label{orsqrt2}
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
 			\end{figure}
 
-			In order to improve the accuracy of this method another design was
-			considered in which the input was both rounded up and down to
-			values where the simple square root approximator was very accurate
-			and the result was then linearly interpolated between these roots.
-			This linear interpolation requires only a multiplication and a
-			couple of additions, but choosing upper and lower seed values is a
-			more complex problem. Choosing the two geometrically closest powers
-			of two was tested because the or-gate square root circuit is very
-			accurate for powers of two, but this is not the only possible
-			choice.
+			In order to improve upon this method, both in terms of accuracy and
+			stability, another design was considered in which the input was
+			both rounded up and down to values where the simple square root
+			approximator was very accurate and the result was then linearly
+			interpolated between these roots. This linear interpolation
+			requires only a multiplication and a couple of additions, but
+			choosing upper and lower seed values is a more complex problem.
+			Choosing the two geometrically closest powers of two was tested
+			because the or-gate square root circuit is very accurate for powers
+			of two, but this is not the only possible choice, as there are many 
+			points for which the simple square root approximator is very 
+			accurate. We did not look further into choosing different upper and
+			lower bounds for the lerp-approximator.
 
 			\begin{table}
 				\centering
@@ -327,8 +332,10 @@ int isqrt(int num) {
 
 			\begin{table}
 				\centering
-				\caption{A \texttt{C} implementation of the shifting nth root 
-					algorithm}
+				\caption{A \texttt{C} implementation of the shifting nth root
+					algorithm. This code example is slightly longer, but
+					relatively expensive additions have been replaced by
+					bitwise ors.}
 				\label{sqrtcopt}
 				\begin{tabular}{c}
 				\begin{lstlisting}

@@ -20,19 +20,18 @@
 		time is thus greatly reduced.
 		
 		Using this hardware for Sphere Tracing, as is currently being done,
-		increases the overhead caused by this lock-stepped design
-		significantly. Pixels can not be grouped by what object in the scene
-		they belong to as easily in a Sphere Tracer, because the order of pixel
-		rendering in a polygon renderer is done by object and then by its
-		constituent polygons. Sphere Tracers do not have polygons and pixel
-		order is usually based on the output image pixel order. Even if more
-		grouping was introduced to a Sphere Tracer, the pixels in these groups
-		differ much more in their instruction execution path, since the
-		algorithm is more iterative and often varies greatly in number of steps
-		until completion.
+		increases the overhead caused by this lock-stepped design significantly. 
+		Order of pixel rendering in a polygon renderer is done by object and 
+		then by constituent polygons. Pixels can not be grouped by what object 
+		in the scene they belong to as easily in a Sphere Tracer, because 
+		Sphere Tracers do not have polygons and pixel order is usually based on 
+		the output image pixel order. Even if more grouping was introduced to a 
+		Sphere Tracer, the pixels in these groups differ much more in their 
+		instruction execution path, since the algorithm is more iterative and 
+		often varies greatly in number of steps until completion.
 		
 		\section{ Hobbyists and Academia }
-		
+
 		Despite this, computer art hobbyists are using Sphere Tracing to produce
 		some quite stunning real time visuals on consumer PC's. They showcase 
 		the possibilities of the algorithm by reducing scene complexity and 
@@ -61,6 +60,7 @@
 		The design of Integrated Circuitry in the industry has since the early
 		'90s primarily been done in hardware description languages (HDL)
 		\cite{Chen2012}, where one describes the operation of a chip in a style
+		
 		similar to regular imperative programming languages. This descriptive
 		code can then be compiled into a list of components and connections
 		that constitutes the blueprint for building a circuit. The most
@@ -88,5 +88,4 @@
 		interactive type checking and high-level simulation of the program that
 		normal Haskell programs enjoy. This means that instead of simulating
 		the underlying circuit directly which is more time consuming, the
-		design can be tested and iterated over at a faster pace,
-		allowing for faster development.
+		design can be tested repeatedly at a faster pace, allowing faster development.

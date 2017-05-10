@@ -10,9 +10,11 @@
 		using Sphere Tracing.
 
 		However scenes can easily be made to look a lot more complex than they 
-		are, for example, by using mod fields or fractals. The hardware that 
-		the shader was tested on (Geforce GTX 1060M) 20 reflective spheres could
-		be rendered in real time in fullHD using our performance enhancing 
+		are, for example, by using mod fields,or modulo fields, when the modulo 
+		operation is used on an object it creates a field with multiple copies 
+		of the original object next to each other, or fractals. The hardware 
+		(Geforce GTX 1060M) that the shader was tested on was able to render 
+		20 reflective spheres in real time in fullHD using our performance enhancing 
 		algorithm.
 
 
@@ -23,7 +25,7 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/value12x.png} 
-			\caption{Result from the simple square root approximator (green),
+			\caption{Value from the simple square root approximator (green),
 				the improved version (blue), and the shifting nth root 
 				algorithm (red).}
 			\label{orsqrt2}
@@ -32,7 +34,7 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/rel_error_480x.png} 
-			\caption{Relative error for the simpe square root approximator
+			\caption{Relative error for the simple square root approximator
 				(green), the improved version (blue), and the shifting nth root
 				algorithm (red).}
 			\label{orsqrt2}
@@ -41,23 +43,59 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/abs_error_24x.png} 
-			\caption{Absolute error for the simpe square root approximator
+			\caption{Absolute error for the simple square root approximator
 				(green), the improved version (blue), and the shifting nth root
 				algorithm (red).}
+			\label{orsqrt2}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.75\linewidth]{figure/value_lin12x.png} 
+			\caption{Value from lerp-approximator (purple), simple square root
+				approximator with one step of the babylonian method (green),
+				and the shifting nth root algorithm (red).}
+			\label{orsqrt2}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.75\linewidth]{figure/rel_lin960x.png} 
+			\caption{Relative error for the lerp-approximator (purple), simple 
+				square root approximator with one step of the babylonian method 
+				(green), and the shifting nth root algorithm (red).}
+			\label{orsqrt2}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=0.75\linewidth]{figure/abs_lin24x.png} 
+			\caption{Absolute error for the lerp-approximator (purple), simple 
+				square root approximator with one step of the babylonian method 
+				(green), and the shifting nth root algorithm (red).}
 			\label{orsqrt2}
 		\end{figure}
 
 	\section{Optimizations}
 		
 		During this project, a number of optimizations were discussed and
-		developed, the developed are explained here and the theoretical ones
-		are brought up in the discussion section. Some of these are based on
-		earlier work, with some others we believe are quite different from
-		optimizations that have been discussed for Sphere Tracing previously.
+		developed. Implemented optimizations are explained below and the 
+		theoretical ones are brought up in chapter \ref{discussion} and 
+		\ref{optimization}. Some of these are based on earlier work, with some 
+		others believed to be quite unique optimizations that have not been 
+		discussed for Sphere Tracing previously. All implemented optimizations 
+		that affects the algorithm were implemented in the software shader, not 
+		on our own GPU.
 
 		\subsection{Orthogonal culling}
+		
+		Tests to see the performance of the orthogonal culling optimization
+		were performed by putting an increasing number of
+		solid-colored spheres in a plane in front of the camera. Because of
+		this, the spheres are not obstructed by other spheres, making this
+		the best possible scenario for the optimization.
 
-			Here are test results from Orthogonal culling.
+		Below are test results from Orthogonal culling.
 
 			\begin{table}
 			\centering
@@ -83,16 +121,17 @@
 
 			%CHARTS
 
-			The test was performed such that we put an increasing number of
+			The tests were performed by putting an increasing number of
 			solid-colored spheres in a plane in front of the camera. Because of
 			this, the spheres are not obstructed by other spheres, making this
 			the best possible scenario for the optimization.
 
 		\subsection{Bounding spheres}
 
-			Bounding spheres was implemented and tested, there was a clear
-			gain in performance but the results are depending on to many 
-			factors to be able to review (number of objects, how dispersed the objects are, 
-			size and place of the bounding sphere, etc.) . The larger the bounding sphere, the 
-			less performance gain will be seen and the more objects that can 
-			fit into a bounding sphere the more performance gain will be seen. 
+			Bounding spheres were implemented and tested. There was a clear
+			gain in performance in some cases, but the results are very situational, 
+			depending on too many factors to be able to review (number of objects, 
+			the dispersion of objects, size and place of the bounding sphere, etc.). 
+			The larger the bounding sphere, the less performance gain will be seen 
+			and the more objects that can fit into a bounding sphere the more performance 
+			gain will be seen. 
