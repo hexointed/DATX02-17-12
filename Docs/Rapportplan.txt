@@ -3,13 +3,13 @@ _Rapportläge_
 Abstract:     		 0%  (göras i slutfas)
 sammanfattning		 0%
 
-Intro 				70%  ~600 ord
+Intro 				80%  ~400 ord  ?? fråga
 
-problem statement   20%  ~100 ord
 State of the art    95%  ~50 ord
 Teori               100% 
 Implementation      70%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
-Resultat                 squareroot-del,
+
+Resultat                 
                          Ortho culling: jämförelse med basfall
                          intro: ~100 ord
                          nytt stycke: GPU, queue based operation: 300-400 ord
@@ -23,7 +23,6 @@ _Rapportskrivning_
 State of the art
 
 Implementation
-	Square root - jämförelse-bilder, code listings.
 
 Resultat:
 
@@ -36,13 +35,8 @@ Resultat:
 	square root-approximationer, vilken valde vi, vilka metrics jämförde vi?  
 	yta&cykelmängd,precision? 
 	dividerare?
-	diagram och tabeller över square roots, prestanda/fel
 
-	sw: , algo, 
-	ray grouping - om tid finnes
-
-
-
+	sw: , algo,
 
 Diskussion 
 	hw-Diskutera resultat, i synnerhet de som inte är tydliga utifrån resultat.

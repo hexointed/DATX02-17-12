@@ -22,32 +22,6 @@
 		is terminated, unless the material of the object in question is defined
 		as being reflective.
 
-		\subsection{GLSL Based}
-
-			The shader which is made to run on conventional graphics hardware
-			was made in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input.
-
-			Beyond the actual Sphere Tracing loop the direction of the ray is
-			calculated using a camera direction vector and offsetting it by the
-			current pixel's screen coordinates, placed orthogonally along the
-			vector.  The distance of this placement defines the field of view
-			of the camera. This needs to be done for each pixel being rendered.
-
-			The final color of a pixel is based on the material ID assigned to
-			the first object that the ray intersects. The color can then be
-			either calculated by a material formula or be derived from a
-			texture lookup. True 3D materials can be done by texturing but this
-			generally needs a large data set and thus a formula is mostly
-			preferred where three dimensional materials are employed. 2D
-			texturing can be done by projecting points from a flat image onto a
-			simple geometric shape  which is more or less enveloping the object
-			in question. This is called texture-mapping and commonly uses
-			simple shapes like planes, cubes, spheres and cylinders. 
-
-			%FLOWCHART
-
 		\subsection{Orthogonal culling}
 
 			The most demanding parts of Sphere Tracing are that the distance to
@@ -100,14 +74,40 @@
 
 			%picture of example bounding sphere
 
-		\subsection{GPU Assembler Based}
+		\subsection{GLSL Based}
+		
+			The shader which is made to run on conventional graphics hardware
+			was made in the high-level shading language GLSL (short for OpenGL
+			Shading Language). It runs the program for each pixel the shader is
+			rendered on, using the screen-coordinates as input.
+			
+			Beyond the actual Sphere Tracing loop the direction of the ray is
+			calculated using a camera direction vector and offsetting it by the
+			current pixel's screen coordinates, placed orthogonally along the
+			vector.  The distance of this placement defines the field of view
+			of the camera. This needs to be done for each pixel being rendered.
+			
+			The final color of a pixel is based on the material ID assigned to
+			the first object that the ray intersects. The color can then be
+			either calculated by a material formula or be derived from a
+			texture lookup. True 3D materials can be done by texturing but this
+			generally needs a large data set and thus a formula is mostly
+			preferred where three dimensional materials are employed. 2D
+			texturing can be done by projecting points from a flat image onto a
+			simple geometric shape  which is more or less enveloping the object
+			in question. This is called texture-mapping and commonly uses
+			simple shapes like planes, cubes, spheres and cylinders. 
+			
+			%FLOWCHART
+
+		\subsection{Assembler Based}
 
 			In the assembler version that runs on our own hardware there is
 			initially a single thread. This thread will create one new thread
 			for each pixel on the screen, and this thread will calculate what 
 			color the pixel should have and then terminate. This differs from 
 			the shader version that simply runs the GLSL-code for each pixel
-			in parallell at the graphics cards many cores.
+			in parallel at the graphics cards many cores.
 
 	\section{Processor Unit} \label{implproc}
 
@@ -207,7 +207,7 @@
 			\begin{figure}[H]
 				\centering
 				\caption{ XQBGPPPU Data flow diagram }
-				\includegraphics[width=0.75\linewidth]{figure/GPU-schematic} 
+				\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
 	
