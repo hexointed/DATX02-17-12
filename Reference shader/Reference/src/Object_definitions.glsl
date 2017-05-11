@@ -1,5 +1,5 @@
 #define NumObjects	1
-#define NumSpheres	4
+#define NumSpheres	10
 
 bool RenderList[NumObjects+1]; //is not initialised here since we will do it later at start of each ray
 vec3 objectCoords[NumObjects+1];
@@ -17,17 +17,36 @@ uint  matIdList[NumObjects+1] = {0
 //		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
 		};
 
-vec3  s1Coord	= vec3(-0.5,-0.5,0);
+vec3  s1Coord	= vec3(-0.5,-0.5,0.5);
 float s1Radius	= 0.5;
-vec3  s2Coord	= vec3(0.5,0-0.5,0);
+vec3  s2Coord	= vec3(0.5,0-0.5,0.5);
 float s2Radius	= 0.5;
-vec3  s3Coord	= vec3(-0.5,0.5,0);
+vec3  s3Coord	= vec3(-0.5,0.5,0.5);
 float s3Radius	= 0.5;
-vec3  s4Coord	= vec3(0.5,0.5,0);
+vec3  s4Coord	= vec3(0.5,0.5,0.5);
 float s4Radius	= 0.5;
+vec3  s5Coord	= vec3(-0.5,-0.5,-0.5);
+float s5Radius	= 0.5;
+vec3  s6Coord	= vec3(0.5,0-0.5,-0.5);
+float s6Radius	= 0.5;
+vec3  s7Coord	= vec3(-0.5,0.5,-0.5);
+float s7Radius	= 0.5;
+vec3  s8Coord	= vec3(0.5,0.5,-0.5);
+float s8Radius	= 0.5;
+vec3  s9Coord	= vec3(-0.8,0,0);
+float s9Radius	= 0.5;
+vec3  s10Coord	= vec3(0.8,0,0);
+float s10Radius	= 0.5;
 
-float sphereRadii[NumSpheres] = {s1Radius,s2Radius,s3Radius,s4Radius};
-vec3 spherePos[NumSpheres] = {s1Coord,s2Coord,s3Coord,s4Coord};
+
+
+
+
+
+float sphereRadii[NumSpheres] = {s1Radius,s2Radius,s3Radius,
+		s4Radius,s5Radius,s6Radius,s7Radius,s8Radius,s9Radius,s10Radius};
+vec3 spherePos[NumSpheres] = {s1Coord,s2Coord,s3Coord,s4Coord,
+		s5Coord,s6Coord,s7Coord,s8Coord,s9Coord,s10Coord};
 
 void InitObjDefs()
 {
@@ -40,11 +59,11 @@ void InitObjDefs()
 //	s2Coord.x += sin(iGlobalTime/3)*0.6;
 //	s2Coord.z += cos(iGlobalTime/3)*0.6;
 
-//	objectCoords[1] = vec3(-0.5,0.5,0);
-//	objectRadii[1] = 0.5;
-//
-//	objectCoords[2] = vec3(-0.5,-0.5,0);
-//	objectRadii[2] = 0.5;
+	objectCoords[1] = vec3(0,0,0);
+	objectRadii[1] = 1.4;
+
+//	objectCoords[2] = vec3(0,3,0);
+//	objectRadii[2] = 1.4;
 //
 //	objectCoords[3] = vec3(0.5,0.5,0); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
 //	objectRadii[3]=0.5;
@@ -181,7 +200,7 @@ void InitObjDefs()
 //float skysphereRadius	= 20;
 
 vec3 boundingSpherePos = vec3(0,0,0);
-float boundingSphereRad = 0.7;
+float boundingSphereRad = 4.4;
 
 float DistToModfield(vec3 p)
 {
@@ -227,11 +246,21 @@ float DistToMetaballs(vec3 p)
     return dist;
 }
 
-
 float BoundingSphere(vec3 p){
 
+//
+//	float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
+//	int i = 1;
+//	while(i < NumSpheres)
+//	{
+//		dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
+//		i++;
+//	}
+//	return dist2;
+
+
 	float dist = sdSphere(p,boundingSpherePos,boundingSphereRad);
-	if (dist > 0.5)
+	if (dist > 0.1)
 	{
 		return dist;
 	}
@@ -247,7 +276,6 @@ float BoundingSphere(vec3 p){
 		return dist2;
 	}
 }
-
 
 float DistToObjectId(vec3 p, uint objId)
 {
