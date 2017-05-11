@@ -134,14 +134,13 @@
 			light-weight: only an instruction pointer along with some mutable
 			registers are stored.
 
-			All threads that are not running are placed in a storage structure
-			that is globally accessable to all cores, and threads are then
+			All threads that are not running are given to a storage manager that all cores can communicate with, and threads are then
 			dispatched to cores as the cores become available for execution.
 			The cores are also able to spawn new threads by sending their data
-			to the global storage, or terminate their current threads either by 
-			simply dropping them or by sending them to the frame buffer, where 
-			some of the registers will be used to determine the color of some 
-			pixel on the screen.
+			to the storage manager, or terminate their current threads either 
+			by simply dropping them or by sending them to the frame buffer, 
+			where some of the registers will be used to determine the color of 
+			some pixel on the screen.
 
 			Each core consists of instruction and data memories, some control 
 			logic for execution order and a DFU. The data and instruction 
@@ -201,8 +200,9 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores, onto which all threads that are ready for
-			execution wait until a core is ready to start executing them.
+			among all cores by way of a storage manager. All threads that are 
+			ready for execution are held in this storage until a core is ready 
+			to start executing them.
 
 			\begin{figure}[H]
 				\centering

@@ -1,8 +1,8 @@
 \chapter{Discussion} 
 
-	This chapter will lift our thoughts on our result, our theoretical not yet
-	implemented optimizations and what future work is possible from this point
-	in time.
+	This chapter will discuss our thoughts on our result, our theoretical not 
+	yet	implemented optimizations, and what future work is possible from this 
+	point in time.
 	
 	\section{Results}  \label{discussion}
 		
@@ -40,13 +40,10 @@
 			every design decision one makes clarifies what further needs to be
 			done and reveals previously unseen flaws in the design that needs
 			to be resolved. In the end we implemented the core and enabled
-			multiple cores running in parallel utilizing a global queue, with
-			some caveats. While the implementation works and can be simulated
-			for up to 128 cores we have only successfully serialized 4 cores. 
+			multiple cores running in parallel utilizing a storage manager. 
 			
 			If we were to continue the work in a future project we would
-			rewrite the basic core in a number of ways, pushing it out to FPGA
-			to verify our design choices and try to be more empiric before
+			rewrite the basic core in a number of ways, pushing it out to an FPGA to verify our design choices and try to be more empiric before
 			extending further with more modules and ideas. 
 
 	\section{Optimizations} \label{optimization}
