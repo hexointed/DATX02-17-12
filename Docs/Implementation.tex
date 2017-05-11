@@ -114,10 +114,10 @@
 		The properties of the ray marching algorithm as described in chapter
 		\ref{spheretracing} led to the decision of designing a GPU architecture
 		that does not utilize multi-ALU SIMD with lockstepping to the same
-		extent as traditional graphics processors. Instead, a solution with
-		slightly simpler independent cores was decided upon. This is similar to
-		reasoning employed by \cite{Woop2005} for a Ray Tracing hardware
-		design.
+		extent as that of traditional graphics processors. Instead, a solution 
+		with slightly simpler independent cores was decided upon. This is 
+		similar to reasoning employed by \cite{Woop2005} for a Ray Tracing 
+		hardware design.
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
@@ -138,10 +138,10 @@
 			that is globally accessable to all cores, and threads are then
 			dispatched to cores as the cores become available for execution.
 			The cores are also able to spawn new threads by sending their data
-			to the global storage, or terminate threads either by simply
-			dropping them or by sending them to the frame buffer, where some of
-			the registers will be used to determine the color of some pixel on
-			the screen.
+			to the global storage, or terminate their current threads either by 
+			simply dropping them or by sending them to the frame buffer, where 
+			some of the registers will be used to determine the color of some 
+			pixel on the screen.
 
 			Each core consists of instruction and data memories, some control 
 			logic for execution order and a DFU. The data and instruction 

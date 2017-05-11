@@ -18,7 +18,17 @@
 		algorithm.
 
 
-	\section{GPU Performance}
+	\section{GPU}
+	
+	The GPU has been tested by simulating it and running a program on it that 
+	renders a sphere using Sphere Tracing. It spawns threads progressively to 
+	fill the screen data buffer with pixels. The execution of our test programs 
+	ran exactly as intended, with any number of simulated cores. The design has 
+	also been put through a synthesizing tool for FPGAs, which creates a net 
+	list of the components and connections that constitute the GPU. This also 
+	works as intended without any unexpected problems, but the actual operation 
+	of the GPU on an FPGA has not yet been verified.
+	
 	
 	\section{Square roots}
 
