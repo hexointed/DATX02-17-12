@@ -30,25 +30,43 @@
 		\end{wrapfigure}
 
 		The Sphere Tracing algorithm uses Signed Distance Functions (SDF).
-		$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ The ``distance`` is the
-		distance between a point and the closest point on the implicit surface
-		$\text{SDF}^{-1}(0)$. ``signed`` refers to the distance being
-		negative when measured on the other side of the surface. 
+		
+		$$\text{SDF}:\mathbb{R}^{3}\mapsto\mathbb{R}$$ 
+		
+		The ``distance`` is the distance between a point and the closest point on
+		the implicit surface $\text{SDF}^{-1}(0)$. ``signed`` refers to the
+		distance being negative when measured on the other side of the surface. 
 
 		A common example would be the SDF of a sphere centered at the origin with a
-		radius of one. $$\text{SDF}(\vec{v}) = |\vec{v}| - 1$$ We can here see that
-		a point $\vec{v}$ exactly on the surface would evaluate to $1 - 1 = 0$
-		where any point outside of the sphere is positive and any point inside the
-		sphere is negative. In this case the absolute of the result would also
-		describe the smallest distance to the surface but as long as the result is
-		the smallest distance \emph{or greater}, the algorithm will work.
+		radius of one. 
+		
+		$$\text{SDF}(\vec{v}) = |\vec{v}| - 1$$
+		
+		We can here see that a point $\vec{v}$ exactly on the surface would
+		evaluate to $1 - 1 = 0$ where any point outside of the sphere is positive
+		and any point inside the sphere is negative. In this case the absolute of
+		the result would also describe the smallest distance to the surface but as
+		long as the result is the smallest distance \emph{or greater}, the
+		algorithm will never accidentally step too far and miss the objects
+		surface. 
 
-		If we define a ray $r$ $$r(s) = \vec{d} \cdot s + \vec{o}$$
+		If we define a ray $r$ 
+		
+		$$r(s) = \vec{d} \cdot s + \vec{o}$$
+
 		where $\vec{d}$ is the direction of the ray and $\vec{o}$ the origin, then
-		$$\text{SDF}\circ r(s) = 0$$ means that the ray intersects a surface at
-		exactly distance $s$ from the view point origin. Sampling every SDF in a
-		given scene and returning the smallest value yields a function known as a
-		distance field.
+		
+		$$\text{SDF}\circ r(s) = 0$$
+		
+		means that the ray intersects a surface at exactly distance $s$ from the
+		view point origin. 
+		
+		% CSG
+
+		Sampling every SDF in a given scene and returning the
+		smallest value yields a function known as a distance field.
+
+		%section about CSG
 
 		\bigskip \noindent Finding the surface can be done by iterating point by
 		point from the origin along the ray like below: 
