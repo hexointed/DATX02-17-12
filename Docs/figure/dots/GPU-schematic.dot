@@ -13,7 +13,7 @@ edge [color=darkblue]
 //compound=true
 //clusterrank=local
 { 	rank=source; 
-	queue [label="Queue",shape=box3d]; //, margin="0.2"
+	queue [label="Storage Manager",shape=box3d]; //, margin="0.2"
 }
 
 subgraph cluster_core1
