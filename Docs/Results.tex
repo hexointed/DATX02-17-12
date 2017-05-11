@@ -9,8 +9,8 @@
 		capable of rendering scenes with low scene complexity in real-time
 		using sphere tracing.
 
-		However scenes can easily be made to look a lot more complex than they
-		are, for example, by using mod fields,or modulo fields, when the modulo
+		Scenes can easily be made to look a lot more complex than they
+		are, for example, by using mod fields, when the modulo
 		operation is used on an object it creates a field with multiple copies
 		of the original object next to each other, or fractals. The hardware
 		(Geforce GTX 1060M) that the shader was tested on was able to render 20
@@ -20,7 +20,7 @@
 
 	\section{GPU}
 	
-		The GPU has been tested by simulating it and running a program on it
+		The GPU has been tested by simulating it and running a program on the simulation 
 		that renders a sphere using Sphere Tracing. It spawns threads
 		progressively to fill the screen data buffer with pixels. The execution
 		of our test programs ran exactly as intended, with any number of
@@ -96,9 +96,9 @@
 		
 		During this project, a number of optimizations were discussed and
 		developed. Implemented optimizations are explained below and the
-		theoretical ones are brought up in chapter \ref{discussion} and
-		\ref{optimization}. Some of these are based on earlier work, with some
-		others believed to be quite unique optimizations that have not been
+		theoretical ones are presented in chapter \ref{discussion} and
+		\ref{optimization}.  Some of these are based on earlier work, while
+		others are believed to be quite unique optimizations which have not been
 		discussed for sphere tracing previously. All implemented optimizations
 		that affects the algorithm were implemented in the software shader, not
 		on our own GPU.
@@ -143,7 +143,7 @@
 				{frames}{number of objects}{/figure/OptimizedGraf.txt}
 			\end{table}
 
-			The tests were performed by putting an increasing number of
+			The tests were performed by using an increasing number of
 			solid-colored spheres in a plane in front of the camera. Because of
 			this, the spheres are not obstructed by other spheres, making this
 			the best possible scenario for the optimization.
@@ -152,8 +152,8 @@
 
 			Bounding spheres were implemented and tested. There was a clear
 			gain in performance in some cases, but the results are very
-			situational, depending on too many factors to be able to review
+			situational, depending on too many factors
 			(number of objects, the dispersion of objects, size and place of
-			the bounding sphere, etc.).  The larger the bounding sphere, the
+			the bounding sphere, etc.) to be able to review properly at this time, will be a subject of future work.  The larger the bounding sphere, the
 			less performance gain will be seen and the more objects that can
 			fit into a bounding sphere the more performance gain will be seen. 

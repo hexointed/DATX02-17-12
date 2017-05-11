@@ -1,7 +1,7 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Sphere Tracing} \label{spheretracing}
 
-	The graphics rendering algorithm that the GPU was designed for is called
+	The graphics rendering algorithm the GPU was designed for is called
 	Sphere Tracing\cite{Hart1996}. The name comes from the technique where it
 	uses spheres to incrementally advance a ray in 3D space. The method of
 	advancing rays in general is called Ray Marching which in turn is a subset
@@ -11,9 +11,9 @@
 	the late eighties\cite{Hart1989} and Ray Tracing as early as the
 	sixties\cite{Appel1968}.
 
-	In this chapter we walk through the Sphere Tracing algorithm in detail with
+	In this chapter the Sphere Tracing algorithm is lifted in detail with
 	both definitions and examples. The explanation is based on the the very
-	succinct explanation in \cite{Korndorfer2014}. This paper also expands upon
+	succinct explanation in \cite{Korndorfer2014}. The paper also expands upon
 	the original algorithm in some innovative ways. For a more in-depth
 	description of the original algorithm see Harts ``\emph{Sphere Tracing: a
 	geometric method for the anti-aliased ray tracing of implicit
@@ -49,7 +49,7 @@
 		a given scene and returning the smallest value yields a function known
 		as a distance field.
 
-		\bigskip \noindent Finding the surface can be done by iterating point by
+		\bigskip \noindent Finding the surface can be done by marching point by
 		point from the origin along the ray like below: 
 		
 		$$p_{i+1} = p_i + \vec{d}\cdot \text{SDF}(p_i)$$ 
