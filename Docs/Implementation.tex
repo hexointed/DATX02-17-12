@@ -130,11 +130,12 @@
 
 			The GPU is designed to be able to handle a form of threading
 			natively, where all computations are performed by a thread running
-			on some hardware core. A thread in this context is very
+			on a hardware core. A thread in this context is very
 			light-weight: only an instruction pointer along with some mutable
 			registers are stored.
 
-			All threads that are not running are given to a storage manager that all cores can communicate with, and threads are then
+			All threads that are not running are sent to a storage manager 
+			that communicates with all cores, and threads are then
 			dispatched to cores as the cores become available for execution.
 %			The cores are also able to spawn new threads by sending their data
 			to the storage manager, or terminate their current threads either 
@@ -200,7 +201,7 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores by way of a storage manager. All threads that are 
+			among all cores by a storage manager. All threads that are 
 			ready for execution are held in this storage until a core is ready 
 			to start executing them.
 
@@ -213,10 +214,10 @@
 	
 			Each shader thread has 16 mutable registers that are automatically
 			loaded into the core when execution starts. These registers are
-			also saved when execution pauses and they are also copied whenever
-			a thread spawns a new child. The instruction \texttt{setval} can be
-			used to change the value of a register, and the instruction
-			\texttt{pack} reads the value of a register.
+			saved when execution pauses and copied whenever a thread spawns a 
+			new child. The instruction \texttt{setval} can be used to change 
+			the value of a register, and the instruction \texttt{pack} reads 
+			the value of a register.
 
 			All calculations are performed with intermediate values stored on a
 			stack, with the ability to move any values between the stack and
@@ -374,7 +375,7 @@ int isqrt(int num) {
 			conditional assignments of \texttt{num} and \texttt{res} on lines 9
 			and 10. The cost of the subtraction can be significantly reduced
 			because \texttt{res} approximates the result one bit every step,
-			meaning most bits are zeroed at any given iteration. On average,
-			only 25\% of this subtraction is needed. This turned out to result
-			in a design very similar to the PARSQRT implementation by
-			\cite{japaneseSQRT}.
+			meaning most bits of \texttt{num} and \texttt{res} are zeroed at any
+			given iteration. On average, only 25\% of the subtraction logic is 
+			needed. This turned out to result in a design very similar to the 
+			PARSQRT implementation by \cite{japaneseSQRT}.
