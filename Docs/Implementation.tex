@@ -1,50 +1,80 @@
 \chapter{Implementation}
 
-	In order to achieve the goals set in this project, two separate pieces of 
-	software and one piece of hardware were written. The software programs are 
-	two different implementations of a reference shader. The first of these was 
-	written in GLSL for traditional graphics hardware (in our case it was 
-	tested on a GeForce GTX 1060M), and the second is written in an assembly 
-	language we designed for the Sphere Tracing processor. Both of these 
-	shaders are described in section \ref{implshader}. The hardware is 
-	comprised of a multi-core programmable parallel processing unit designed 
-	for the Sphere Tracing algorithm, detailed in section \ref{implproc}. In 
-	addition to these, a simple assembler was written for the assembly language
-	used for the GPU.
-
+	In order to achieve the goals set in this project, two separate pieces of
+	software and one piece of hardware were written. The software programs are
+	two different implementations of a reference shader. The first of these was
+	written in GLSL for traditional graphics hardware (in our case it was tested
+	on a GeForce GTX 1060M), and the second is written in an assembly language
+	we designed for the Sphere Tracing processor.
+	
+	It is here worth noting that a shader is an historical term that today in
+	modern industry terms refer to the code running on the GPU as opposed to on
+	the CPU. It is called a \emph{shader} because initially only the color and
+	illumination where programmable where as today the GPUs become more
+	generally programmable by the generation. Both of these shaders are
+	described in section \ref{implshader}.
+	
+	The hardware is comprised of a multi-core programmable parallel processing
+	unit designed for the Sphere Tracing algorithm, detailed in section
+	\ref{implproc}. In addition to these, a simple software assembler was
+	written for the assembly language used for the GPU.
+	
 	\section{Reference Shader} \label{implshader}
 
-		The core of the Sphere Tracer is a simple while-loop. It calculates
-		distance to the closest object in the scene by sampling the distance
-		field and comparing its value at the current location to a predefined
-		epsilon. If the value of the distance field is smaller, the ray has hit
-		an object; the corresponding pixel's color is calculated and the loop
-		is terminated, unless the material of the object in question is defined
-		as being reflective.
+		Before any actual sphere tracing is done some essential values are
+		calculated from predefined parameters. To have a functional sphere
+		tracer a camera point and direction to look needs to be defined, in
+		practice this is done by having an eye-vector and a vector that
+		describes the point that the camera should be oriented against. From
+		these vectors a new direction vector is calculated that defines the
+		direction that the camera is oriented. The camera-vector is used as a
+		origin for rays and the direction-vector is used to calculate the
+		direction of each ray.
+		
+		The core of the Sphere Tracer is a simple while-loop. It begins by
+		calculating the distance to the closest object in the scene by sampling
+		the distance field and comparing its value at the current location to a
+		predefined epsilon. If the value of the distance field is smaller than
+		epsilon, the ray has hit an object. If no object has been hit, the
+		sampled distance will be added to the length of the ray.
+
+
+		\subsection{GLSL Based}
+	
+			The shader is made to run on conventional graphics hardware, it was
+			created in the high-level shading language GLSL (short for OpenGL
+			Shading Language). It runs the program for each pixel the shader is
+			rendered on, using the screen-coordinates as input.
+			
+			Before the loop is run Orthogonal Culling is executed, reducing the
+			number of objects in the distance field. Beyond this, objects can
+			also be enclosed in Bounding Spheres.
+			
+			After a hit is detected several different things will be done,
+			depending on the material assigned to the object. If the object is
+			reflective the normal of the surface hit is calculated and used to
+			reflect the ray. If the object is colored the pixel will simply be
+			set according to the object. Color can also be calculated from
+			object or ray coordinates, coloring the pixel depending on where the
+			object is or where it was hit.
 
 		\subsection{Orthogonal culling}
 
-			The most demanding parts of Sphere Tracing are that the distance to
+			A bottleneck of Sphere Tracing is that the distance to
 			a lot of objects has to be calculated once for every march step.
-			The number of steps taken depends on the scene but they can reach
-			over a hundred. One way to increase the performance is to reduce
+			One way to increase the performance is to reduce
 			the number of objects that the distance has to be calculated to,
 			without reducing the actual number of objects in the scene. To do
-			this the GPU needs to know which object a ray can't possibly hit,
+			this the GPU needs to calculate which object a ray might hit,
 			traditionally the CPU will tell the GPU which objects are in the
 			field of view (Frustum culling) but we can't do that because of
-			GLSL limitations. Even if we could use frustum culling it would
-			probably not be enough, each ray should only care for the objects
-			that it might hit, not all objects in the field of view.  An
-			implementation of a method we call Orthogonal Culling was
-			implemented.
+			GLSL does not allow us to run code on the CPU. Even if we could use frustum culling it would probably not be enough, each ray should only care for the objects that it might hit, not all objects in the field of view.
 
 			Orthogonal projection works by going through all the objects in the 
-			scene for ray and calculating wheather the ray can hit the object
-			or not. 
+			scene for ray and calculating if the ray can hit the object. 
 
-			To calculate whether the ray will hit a sphere or not orthogonal
-			projection can be used. By projecting the center of the sphere onto
+			Orthogonal projection is used to tell whether a object is in front
+			of the ray or not. By projecting the center of the sphere onto
 			the directional line of the ray, its closest point to the line is
 			known.  Then the distance between the line and the sphere can be
 			calculated using the radius, if the distance is less than zero the
@@ -52,53 +82,24 @@
 			the ray can't possibly hit that sphere. This way the number of
 			objects that the distance has to be calculated to is decreased.
 
-		\subsection{Bounding spheres}
+		\subsection{Bounding Spheres}
 			
-			Another way decrease the number of distance calculations that has
-			to be performed in each march step is to enclose several objects in
-			a march sphere. When the distance field is evaluated only the
-			bounding sphere will be considered and none of the objects enclsed
+			To decrease the number of distance calculations that has to be
+			performed in each march step is to enclose several objects in a
+			Bounding Sphere. When the distance field is evaluated only the
+			bounding sphere will be considered and none of the objects enclosed
 			by it. If the bounding sphere is hit by the ray, it will be removed
 			and all the contained objects will be introduced to the distance
-			field. 
-
-			In practice this was made by calculating the centrum of the
-			objects, by adding together their position vectors and scale by the
-			inverse of the number of objects, this point is the position of the
-			bounding sphere. The radius of the sphere is simply the distance to
-			the object that is the farthest from the center of the sphere plus
-			it's "max radius", that is, for a cube with a side of length 2, the
-			square root of 3. The way our bounding spheres was set up had some
-			flaws, such as if huge objects are placed near origin of the
-			bounding sphere it will only be partially rendered.
-
-			%picture of example bounding sphere
-
-		\subsection{GLSL Based}
-		
-			The shader which is made to run on conventional graphics hardware
-			was made in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input.
+			field.
 			
-			Beyond the actual Sphere Tracing loop the direction of the ray is
-			calculated using a camera direction vector and offsetting it by the
-			current pixel's screen coordinates, placed orthogonally along the
-			vector.  The distance of this placement defines the field of view
-			of the camera. This needs to be done for each pixel being rendered.
-			
-			The final color of a pixel is based on the material ID assigned to
-			the first object that the ray intersects. The color can then be
-			either calculated by a material formula or be derived from a
-			texture lookup. True 3D materials can be done by texturing but this
-			generally needs a large data set and thus a formula is mostly
-			preferred where three dimensional materials are employed. 2D
-			texturing can be done by projecting points from a flat image onto a
-			simple geometric shape  which is more or less enveloping the object
-			in question. This is called texture-mapping and commonly uses
-			simple shapes like planes, cubes, spheres and cylinders. 
-			
-			%FLOWCHART
+			A Bounding Sphere is defined by it's location, radius and enclosed
+			objects. The location is calculated by adding the position-vectors
+			of objects and scaling the result with the inverse of the number of
+			objects. The radius is the distance to the object that is the
+			furthest from the Bounding Sphere's position added to that objects
+			sphere of influence (how far it reaches from it's location). This
+			way there is no risk of objects being partially rendered.
+
 
 		\subsection{Assembler Based}
 
@@ -130,17 +131,18 @@
 
 			The GPU is designed to be able to handle a form of threading
 			natively, where all computations are performed by a thread running
-			on some hardware core. A thread in this context is very
+			on a hardware core. A thread in this context is very
 			light-weight: only an instruction pointer along with some mutable
 			registers are stored.
 
-			All threads that are not running are given to a storage manager that all cores can communicate with, and threads are then
-			dispatched to cores as the cores become available for execution.
-%			The cores are also able to spawn new threads by sending their data
-			to the storage manager, or terminate their current threads either 
-			by simply dropping them or by sending them to the frame buffer, 
-			where some of the registers will be used to determine the color of 
-			some pixel on the screen.
+			All threads that are not running are sent to a storage manager that
+			communicates with all cores, and threads are then dispatched to
+			cores as the cores become available for execution.  The cores are
+			also able to spawn new threads by sending their data to the storage
+			manager, or terminate their current threads either by simply
+			dropping them or by sending them to the frame buffer, where some of
+			the registers will be used to determine the color of some pixel on
+			the screen.
 
 			Each core consists of instruction and data memories, some control 
 			logic for execution order and a DFU. The data and instruction 
@@ -200,7 +202,7 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores by way of a storage manager. All threads that are 
+			among all cores by a storage manager. All threads that are 
 			ready for execution are held in this storage until a core is ready 
 			to start executing them.
 
@@ -213,10 +215,10 @@
 	
 			Each shader thread has 16 mutable registers that are automatically
 			loaded into the core when execution starts. These registers are
-			also saved when execution pauses and they are also copied whenever
-			a thread spawns a new child. The instruction \texttt{setval} can be
-			used to change the value of a register, and the instruction
-			\texttt{pack} reads the value of a register.
+			saved when execution pauses and copied whenever a thread spawns a 
+			new child. The instruction \texttt{setval} can be used to change 
+			the value of a register, and the instruction \texttt{pack} reads 
+			the value of a register.
 
 			All calculations are performed with intermediate values stored on a
 			stack, with the ability to move any values between the stack and
@@ -282,14 +284,10 @@
 			\begin{figure}
 				\centering
 				\caption{Simple square root approximator with minor improvement.
-					This version includes an extra layer of or-gates with a
-					shift of 4. Note that the gates in this diagram seem
-					to be ordered in two extra layers. This is, however, only a
-					visual artifact in this image. Adding more layers with
-					shifts of 6, 10, 14, 26 etc increases accuracy further,
-					although returns are diminishing quickly.}
+					More layers of or-gates can be added with increased shifts 
+					for slight increases in accuracy. }
 				\label{orsqrt2}
-				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
+				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt3Or.pdf} 
 			\end{figure}
 
 			In order to improve upon this method, both in terms of accuracy and
@@ -305,6 +303,41 @@
 			points for which the simple square root approximator is very 
 			accurate. We did not look further into choosing different upper and
 			lower bounds for the lerp-approximator.
+
+			\begin{figure}
+				\centering
+				\caption{ Simple square root approximator used together with
+					linear interpolation. This version includes an extra layer
+					of or-gates with a shift of 4 and is more accurate for
+					powers of 2. Note that the gates in this diagram seem to be
+					ordered in two extra layers. This is, however, only a
+					visual artifact in this image. Adding more layers with
+					shifts of 6, 10, 14, 26 etc increases accuracy further,
+					although returns are diminishing quickly.}
+				\label{orsqrt3}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
+			\end{figure}
+
+			Another algorithm for calculating square roots is the
+			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
+			square root algorithm}, which calculates the square root one digit
+			at a time. A \texttt{c} implementation of this algorithm is shown
+			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
+			a good canditate for a high performance hardware implementation,
+			but several important optimizations are possible when unrolling it
+			combinatorially. Most of the additions can be reduced to bitwise
+			logic operations already when computing it in software, as shown in
+			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
+			these bitwise operations can be removed entirely by simply moving
+			wires around, yeilding a logic cost of 0. The only remaining
+			operations is therefore the subtraction on line 6, and the
+			conditional assignments of \texttt{num} and \texttt{res} on lines 9
+			and 10. The cost of the subtraction can be significantly reduced
+			because \texttt{res} approximates the result one bit every step,
+			meaning most bits of \texttt{num} and \texttt{res} are zeroed at
+			any given iteration. This means that on average, only 25\% of the
+			subtraction logic is needed. This turned out to result in a design
+			very similar to the PARSQRT implementation by \cite{Li}.
 
 			\begin{table}
 				\centering
@@ -358,23 +391,3 @@ int isqrt(int num) {
 				\end{tabular}
 			\end{table}
 
-			Another algorithm for calculating square roots is the
-			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
-			square root algorithm}, which calculates the square root one digit
-			at a time. A \texttt{c} implementation of this algorithm is shown
-			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
-			a good canditate for a high performance hardware implementation,
-			but several important optimizations are possible when unrolling it
-			combinatorially. Most of the additions can be reduced to bitwise
-			logic operations already when computing it in software, as shown in
-			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
-			these bitwise operations can be removed entirely by simply moving
-			wires around, yeilding a logic cost of 0. The only remaining
-			operations is therefore the subtraction on line 6, and the
-			conditional assignments of \texttt{num} and \texttt{res} on lines 9
-			and 10. The cost of the subtraction can be significantly reduced
-			because \texttt{res} approximates the result one bit every step,
-			meaning most bits are zeroed at any given iteration. On average,
-			only 25\% of this subtraction is needed. This turned out to result
-			in a design very similar to the PARSQRT implementation by
-			\cite{japaneseSQRT}.
