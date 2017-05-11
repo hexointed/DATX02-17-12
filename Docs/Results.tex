@@ -1,7 +1,7 @@
 \chapter{Results}
 
-	In this chapter the results of GPU design choices and algorithmic optimizations
-	and their effects are reviewed.
+	In this chapter the results of GPU design choices and algorithmic
+	optimizations and their effects are reviewed.
 
 	\section{Software Shader Performance}
 
@@ -9,18 +9,24 @@
 		capable of rendering scenes with low scene complexity in real-time
 		using Sphere Tracing.
 
-		However scenes can easily be made to look a lot more complex than they 
-		are, for example, by using mod fields,or modulo fields, when the modulo 
-		operation is used on an object it creates a field with multiple copies 
-		of the original object next to each other, or fractals. The hardware 
-		(Geforce GTX 1060M) that the shader was tested on was able to render 
-		20 reflective spheres in real time in fullHD using our performance enhancing 
-		algorithm.
+		However scenes can easily be made to look a lot more complex than they
+		are, for example, by using mod fields,or modulo fields, when the modulo
+		operation is used on an object it creates a field with multiple copies
+		of the original object next to each other, or fractals. The hardware
+		(Geforce GTX 1060M) that the shader was tested on was able to render 20
+		reflective spheres in real time in fullHD using our performance
+		enhancing algorithm.
 
 
 	\section{GPU Performance}
 	
 	\section{Square roots}
+		
+		The accuracy of the different square root approximation and calculation
+		methods are shown in figures \ref{sres1}, \ref{sres2}, \ref{sres3},
+		\ref{sres4}, \ref{sres5}, and \ref{sres6}. The shifting nth root
+		algorithm is used as a reference in all figures because it is always
+		bit-accurate for integer square roots.
 
 		\begin{figure}[H]
 			\centering
@@ -28,7 +34,7 @@
 			\caption{Value from the simple square root approximator (green),
 				the improved version (blue), and the shifting nth root 
 				algorithm (red).}
-			\label{orsqrt2}
+			\label{sres1}
 		\end{figure}
 
 		\begin{figure}[H]
@@ -37,7 +43,7 @@
 			\caption{Relative error for the simple square root approximator
 				(green), the improved version (blue), and the shifting nth root
 				algorithm (red).}
-			\label{orsqrt2}
+			\label{sres2}
 		\end{figure}
 
 		\begin{figure}[H]
@@ -46,7 +52,7 @@
 			\caption{Absolute error for the simple square root approximator
 				(green), the improved version (blue), and the shifting nth root
 				algorithm (red).}
-			\label{orsqrt2}
+			\label{sres3}
 		\end{figure}
 
 		\begin{figure}[H]
@@ -55,7 +61,7 @@
 			\caption{Value from lerp-approximator (purple), simple square root
 				approximator with one step of the Babylonian method (green),
 				and the shifting nth root algorithm (red).}
-			\label{orsqrt2}
+			\label{sres4}
 		\end{figure}
 
 		\begin{figure}[H]
@@ -64,7 +70,7 @@
 			\caption{Relative error for the lerp-approximator (purple), simple 
 				square root approximator with one step of the Babylonian method 
 				(green), and the shifting nth root algorithm (red).}
-			\label{orsqrt2}
+			\label{sres5}
 		\end{figure}
 
 		\begin{figure}[H]
@@ -73,7 +79,7 @@
 			\caption{Absolute error for the lerp-approximator (purple), simple 
 				square root approximator with one step of the Babylonian method 
 				(green), and the shifting nth root algorithm (red).}
-			\label{orsqrt2}
+			\label{sres6}
 		\end{figure}
 
 	\section{Optimizations}
