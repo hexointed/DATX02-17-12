@@ -1,41 +1,42 @@
 \chapter{Discussion} 
 
-	This chapter will discuss our thoughts on our result, our theoretical not 
-	yet	implemented optimizations, and what future work is possible from this 
+	This chapter will discuss our thoughts on our result, our theoretical not
+	yet	implemented optimizations, and what future work is possible from this
 	point in time.
 	
 	\section{Results}  \label{discussion}
 		
 		\subsection{Software Shader}
 		
-            The optimizations that were implemented improved performance more than 
-            anticipated. There are many optimizations that are yet to be implemented and 
-            tested and it's hard to estimate the potential achievable performance, the
-            only thing that is certain is that there are massive performance 
-            potentials.
 
-            There are great limitations in what could be done with the shader because of 
-            the language that we chose to implement it in, GLSL. It offers nothing more 
-            than a way to write a program which will run on a per-pixel basis and put the 
-            result on the screen. Because of this, CPU-GPU cooperation is not possible and 
-            that comes with consequences.
+            The optimizations that were implemented improved performance more
+            than anticipated. There are many optimizations that are yet to be
+            implemented and tested and it's hard to estimate the potential
+            achievable performance, the only thing that is certain is that
+            there are massive performance potentials.
 
-			Modern graphics engines not only does a lot of work on the CPU but it
-			has granular control over the GPU, whereas we have no control at
+            There are great limitations in what could be done with the shader
+            because of the language that we chose to implement it in, GLSL. It
+            offers nothing more than a way to write a program which will run on
+            a per-pixel basis and put the result on the screen. Because of
+            this, CPU-GPU cooperation is not possible and that comes with
+            consequences.
+
+			Modern graphics engines not only does a lot of work on the CPU but
+			it has granular control over the GPU, whereas we have no control at
+
 			all. Things such as object positioning, frustum culling, etc.
 			should be done by the CPU, not the GPU. This kind of implementation
 			can not be done in GLSL and therefore a high-performance sphere
 			tracer should be done not in GLSL but in a lower-level language.
 
-            Although GLSL has it's limits it still has some very attractive 
-            features, it was easy to learn because the syntax has much in common
-            with java, which we've studied. The time it takes to develop new 
-            features and test them is short. The purpose of the software shader 
-            was to study the algorithm, implement and test optimizations and
-            develop new features. For the purposes of this sphere tracer GLSL
-            was a perfect fit.
-
-
+            Although GLSL has it's limits it still has some very attractive
+            features, it was easy to learn because the syntax has much in
+            common with java, which we've studied. The time it takes to develop
+            new features and test them is short. The purpose of the software
+            shader was to study the algorithm, implement and test optimizations
+            and develop new features. For the purposes of this sphere tracer
+            GLSL was a perfect fit.
 		
 		\subsection{GPU} 
 		
@@ -56,20 +57,28 @@
 	\section{Optimizations} \label{optimization}
 
 		\subsection{Bounding spheres}
-			
+
 			Although an increase in performance could be seen using this
 			method, it can also be used in ways that decreases the performance.
 			By setting up a too large bounding sphere or by setting it up with
 			few objects or simply objects that are far apart.
 
-			To use this optimization efficiently the objects inside a bounding 
-			sphere should never come far apart and the sphere should be exactly 
+			In testing we saw an increase in performance, but in some cases 
+			a decrease could also be observed. The performance increase depends 
+			on a lot of factors such as number of objects in a sphere, how well 
+			the sphere is fits around them and how far apart they are. If misused
+			the performance will be decreased.
+
+			To use this optimization efficiently the objects inside a bounding
+			sphere should never come far apart and the sphere should be exactly
 			the right size.
 
 		\subsection{Orthogonal culling}
 
 			The performance gain from this optimization exceeded our 
-			expectations. This could probably be further improved by implementing the Sphere tracer in a language that has more granular GPU control than GLSL, which is what we used in this paper.
+			expectations. This could probably be further improved by 
+			implementing the Sphere tracer in a language that has more granular 
+			GPU control than GLSL, which is what we used in this paper.
 
 			However great the performance gain the way this is implemented
 			is still far from the optimal solution, currently it performs 
@@ -79,11 +88,11 @@
             have to be performed and optimally they would be performed on the
 			CPU.
 
-			This method could work together with the Bounding Sphere 
+			This method could work together with the Bounding Sphere
 			optimization. Instead of projecting single objects onto the ray,
-			bounding spheres could be culled, decreasing the number of 
-			orthogonal projections that has to be made. This too was tested 
-			and an increase in performance was observed.
+			bounding spheres could be culled, decreasing the number of
+			orthogonal projections that has to be made. This too was tested and
+			an increase in performance was observed.
 
 	\section{Square roots}
 
@@ -94,7 +103,7 @@
 		is possible to acheive a bounded relative error from the true square
 		root for any number of input bits with these small circuits. When
 		combined with linear interpolation or iterative methods like the
-		Babylonian method the accuracy of these approximations increases 
+		Babylonian method the accuracy of these approximations increases
 		signifcantly.
 		
 		The shifting nth root algorithm is the only bit-accurate method tested,
@@ -103,11 +112,11 @@
 		when doing sphere tracing, the number of steps in the shifting nth root
 		algorithm could be reduced, which would both increase speed and
 		decrease area usage. The lerp-based and iterative methods might still
-		be able to reuse common components such as adders and multipliers 
+		be able to reuse common components such as adders and multipliers
 		however, and might therefore be preferable.
 		
 		For the XQBGPPPU, we have used the shifting nth root algorithm in order
-		to not have to consider possible accuracy problems when debugging 
+		to not have to consider possible accuracy problems when debugging
 		shaders, but all methods are implemented and ready to be switched out
 		at any time.
 
@@ -123,8 +132,6 @@
             power and could be performed on the CPU as is standard in modern 
             graphics engines.
 
-
-
 		\subsection{Plane-ray intersection}
 
 			Infinite planes currently require a lot of computing power to
@@ -137,7 +144,6 @@
 			Some rays that should hit the plane will fail to do so because of 
 			to many steps taken, making it look like the plane has an edge 
 			because after a certain range it is no longer being rendered.
-
 
 			One potential problem is that because no distance field evaluations 
 			are performed, it might be hard to perform Boolean operations or 
@@ -152,36 +158,37 @@
 			Bounding spheres technique is somewhat similar to the normal sphere
 			tracing. The difference is that when you march you march to the
 			edge of the MDS and then you march to the next MDS edge. With
-			overstepping technique you march a small distance further
-			outside the MDS edge. You then compare the original MDS with the
-			new MDS if these two spheres overlap in any way we can march that
-			little bit further. By marching that little bit further, decrease
-			in the number of times marched is achieved. Giving an increase in
+			overstepping technique you march a small distance further outside
+			the MDS edge. You then compare the original MDS with the new MDS if
+			these two spheres overlap in any way we can march that little bit
+			further. By marching that little bit further, decrease in the
+			number of times marched is achieved. Giving an increase in
 			performance. 
 
 			%add link to mendeley paper
 			
 		\subsection{Ray grouping}
 		
-			Ray grouping works by grouping adjacent rays together.  If a specific
-			pixel N is to be rendered we group the adjacent pixels into a set,  then
-			march along the ray of N. If any of the pixels are not inside the minimum
-			distance spheres (MDS) the combined pixel is split up into smaller sets,
-			which each have a centered pixel. Each set then repeats the these steps
-			over and over again individually along their new center pixel's ray.
-			This is repeated a number of times depending on the march distance in the
-			scene for every set. The closer the sets are to a target, the more likely
-			it is for a higher amount of subsets to be created due to the decrease of
-			the MDS's volumes making less pixels fit inside.
+			Ray grouping works by grouping adjacent rays together. If a specific 
+			pixel N is to be rendered we group the adjacent pixels into a set, 
+			then march along the ray of N. If any of the pixels are not inside 
+			the minimum distance spheres (MDS) the combined pixel is split up 
+			into smaller sets, which each have a centered pixel. Each set then 
+			repeats the these steps over and over again individually along their 
+			new center pixel's ray.  This is repeated a number of times 
+			depending on the march distance in the scene for every set. The 
+			closer the sets are to a target, the more likely it is for a higher 
+			amount of subsets to be created due to the decrease of the MDS's 
+			volumes making less pixels fit inside.
 			
-			We believe ray grouping gives a performance increase by lowering the
-			number of steps needed to march. Depending on the scene it could lower
-			the steps significantly. One example would be a scene with only one
-			object in it let's say a sphere, this implies that the MDS's volume will
-			be substantial. This will in turn make the number of subgroups very low
-			and give us a a performance gain. 
+			We believe ray grouping gives a performance increase by lowering
+			the number of steps needed to march. Depending on the scene it
+			could lower the steps significantly. One example would be a scene
+			with only one object in it let's say a sphere, this implies that
+			the MDS's volume will be substantial. This will in turn make the
+			number of subgroups very low and give us a a performance gain. 
 			
-			A very complex scene with many objects creates very varying MDS volumes
-			which would not give as good of a result as the earlier mentioned example
-			due to the increase in subsets early in the marching.
-			
+			A very complex scene with many objects creates very varying MDS
+			volumes which would not give as good of a result as the earlier
+			mentioned example due to the increase in subsets early in the
+			marching.
