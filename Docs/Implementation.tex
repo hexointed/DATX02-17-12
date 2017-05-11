@@ -128,12 +128,13 @@
 			light-weight: only an instruction pointer along with some mutable
 			registers are stored.
 
-			All threads that are not running are given to a storage manager that all cores can communicate with, and threads are then
+			All threads that are not running are given to a storage manager
+			that all cores can communicate with, and threads are then
 			dispatched to cores as the cores become available for execution.
-%			The cores are also able to spawn new threads by sending their data
-			to the storage manager, or terminate their current threads either 
-			by simply dropping them or by sending them to the frame buffer, 
-			where some of the registers will be used to determine the color of 
+			The cores are also able to spawn new threads by sending their data
+			to the storage manager, or terminate their current threads either
+			by simply dropping them or by sending them to the frame buffer,
+			where some of the registers will be used to determine the color of
 			some pixel on the screen.
 
 			Each core consists of instruction and data memories, some control 
@@ -368,7 +369,7 @@ int isqrt(int num) {
 			conditional assignments of \texttt{num} and \texttt{res} on lines 9
 			and 10. The cost of the subtraction can be significantly reduced
 			because \texttt{res} approximates the result one bit every step,
-			meaning most bits are zeroed at any given iteration. On average,
-			only 25\% of this subtraction is needed. This turned out to result
-			in a design very similar to the PARSQRT implementation by
-			\cite{japaneseSQRT}.
+			meaning most bits of \texttt{num} and \texttt{res} are zeroed at
+			any given iteration. This means that on average, only 25\% of the
+			subtraction logic is needed. This turned out to result in a design
+			very similar to the PARSQRT implementation by \cite{Li}.
