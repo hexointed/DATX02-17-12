@@ -66,8 +66,16 @@
 			without reducing the actual number of objects in the scene. To do
 			this the GPU needs to calculate which object a ray might hit,
 			traditionally the CPU will tell the GPU which objects are in the
-			field of view (Frustum culling) but we can't do that because of
-			GLSL does not allow us to run code on the CPU. Even if we could use frustum culling it would probably not be enough, each ray should only care for the objects that it might hit, not all objects in the field of view.
+			field of view (Frustum culling) 
+			
+			// but we can't do that because of
+			//GLSL does not allow us to run code on the CPU. 
+			// öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
+			
+			Even if we could 
+			use frustum culling it would probably not be enough, each ray 
+			should only care for the objects that it might hit, not all 
+			objects in the field of view.
 
 			Orthogonal projection works by going through all the objects in the 
 			scene for ray and calculating if the ray can hit the object. 
@@ -103,11 +111,14 @@
 		\subsection{Assembler Based}
 
 			In the assembler version that runs on our own hardware there is
-			initially a single thread. This thread will create one new thread
-			for each pixel on the screen, and this thread will calculate what 
-			color the pixel should have and then terminate. This differs from 
-			the shader version that simply runs the GLSL-code for each pixel
-			in parallel at the graphics cards many cores.
+			initially a single thread. This thread will create a render thread,
+			which will calculate the color of the next pixel, and one new version of
+			itself. Lastly it simply terminates it's execution, freeing up the core
+			to request a new thread. The new version of the thread keeps track of
+			the next pixel to be rendered. This will render all pixels as
+			concurrently as the GPU has cores, minimizing core stalls and therefore
+			maximizing GPU usage. //Beskriv minimum implementation av sphere
+			tracing.
 
 	\section{Processor Unit} \label{implproc}
 
@@ -121,10 +132,7 @@
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
-		functional hardware description language, or FHDL. One thing that
-		\clash offered was the command-line repl that allowed us to quickly
-		write and test new modules on a higher conceptual level rather than
-		simulating the Verilog code on a bit level.
+		functional hardware description language, or FHDL.
 
 		\subsection{Architecture}
 
