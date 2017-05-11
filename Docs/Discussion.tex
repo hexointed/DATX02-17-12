@@ -1,31 +1,35 @@
 \chapter{Discussion} 
-This chapter will lift our thoughts on our result, our theoretical not yet implemented optimizations and
-what future work is possible from this point in time.
+
+	This chapter will lift our thoughts on our result, our theoretical not yet
+	implemented optimizations and what future work is possible from this point
+	in time.
 	
 	\section{Results}  \label{discussion}
 		
 		\subsection{Software Shader}
 		
-			The implemented optimizations improved performance more than anticipated.
-			This shows that there is more performance to be found in a conventional
-			GPU than a straight-forward implementation of the algorithm. 
+			The implemented optimizations improved performance more than
+			anticipated.  This shows that there is more performance to be found
+			in a conventional GPU than a straight-forward implementation of the
+			algorithm. 
 
-			There are great limitations in what could be done with the shader because
-			of the language that we chose to implement it in, GLSL. It offers nothing 
-			more than a way to write a program which will be run on a per-pixel basis
-			and put it on the screen. Because of this, CPU-GPU cooperation is completely
-			impossible and that comes with consequences.
+			There are great limitations in what could be done with the shader
+			because of the language that we chose to implement it in, GLSL. It
+			offers nothing more than a way to write a program which will be run
+			on a per-pixel basis and put it on the screen. Because of this,
+			CPU-GPU cooperation is completely impossible and that comes with
+			consequences.
 
-			Modern graphics engines not only do a lot of work on the
-			CPU but it has granular control over the GPU, whereas we have no control
-			at all. Things such as object positioning, frustum culling, etc. should be 
-			done by the CPU, not the GPU. This kind of implementation can 
-			not be done in GLSL and therefore a high-performance sphere tracer should be done not in 
-			GLSL but in a lower-level language.
+			Modern graphics engines not only do a lot of work on the CPU but it
+			has granular control over the GPU, whereas we have no control at
+			all. Things such as object positioning, frustum culling, etc.
+			should be done by the CPU, not the GPU. This kind of implementation
+			can not be done in GLSL and therefore a high-performance sphere
+			tracer should be done not in GLSL but in a lower-level language.
 
-			Although for our purposes, to build a sphere tracer where we quickly could implement
-			optimizations, develop new features, study the algorithm, GLSL was a
-			perfect fit. 
+			Although for our purposes, to build a sphere tracer where we
+			quickly could implement optimizations, develop new features, study
+			the algorithm, GLSL was a perfect fit. 
 
 		
 		\subsection{GPU} 
@@ -47,53 +51,29 @@ what future work is possible from this point in time.
 
 	\section{Optimizations} \label{optimization}
 
-		\subsection{Ray grouping}
-		
-			Ray grouping is an optimization that lowers the number of
-			computations the GPU have to perform. Also by lowering the number of
-			computations it increases the speed of the GPU.
-			
-			It works like the name implicates by grouping adjacent rays
-			together. If a specific pixel N is to be rendered we group the
-			adjacent pixels into a "combined pixel". Then we march along the
-			ray of N. If any of the other pixels are not inside the minimum
-			distance spheres (MDS) the combined pixel is split up into two
-			smaller groups. Each of the groups then repeat the first step again
-			individually along their new center pixel's ray. This is repeated a
-			number of times depending on the scene.  The closer to a target it
-			gets, more subgroups will be created due to the MDS's volumes will
-			decrease.
-			
-			This optimization was implemented and we achieved an increase in
-			performance as excepted. The optimization decreases the number of
-			computations made by the formula ? below.  Sum of $\sum_1^s(1/N_s)$
-			where N = number of pixels in the group and s = number of groups
-
-			%#picture of ray grouping
-
 		\subsection{Bounding spheres}
 			
-			Although an increase in performance could be seen using this method,
-			it can also be used in ways that decreases the performance. By
-			setting up a too large boundnig sphere or my setting it up with few
-			objects or simply objects that are far apart.
+			Although an increase in performance could be seen using this
+			method, it can also be used in ways that decreases the performance.
+			By setting up a too large bounding sphere or my setting it up with
+			few objects or simply objects that are far apart.
 
-			To use this optimiztion efficiently the objects inside a bounding 
+			To use this optimization efficiently the objects inside a bounding 
 			sphere should never come far apart and the sphere should be exactly 
 			the right size.
 
 		\subsection{Orthogonal culling}
 
-			The performance gain from this optimization exeeded our 
+			The performance gain from this optimization exceeded our 
 			expectations. This could probably be further improved by using
 			another way to create the sphere tracer than GLSL. 
 
 			However great the performance gain the way this is implemented
-			is still far from optional, currently it performs orthogonal 
-			projection on all the objects in the scene per pixel. Instead,
-			calculations should be done on a per-object basis and calculate
-			which rays a object intersects, this way fewer calculations would
-			have to be performed and optionally they would be performed on the
+			is still far from the optimal solution, currently it performs 
+			orthogonal culling on all the objects in the scene per pixel. 
+			Instead, culling should be done on a per-object basis and calculate
+			which rays an object intersects, this way fewer calculations would
+			have to be performed and optimally they would be performed on the
 			CPU.
 
 			This method could work together with the Bounding Sphere 
@@ -102,10 +82,14 @@ what future work is possible from this point in time.
 			orthogonal projections that has to be made. This too was tested 
 			and an increase in performance was observed.
 
+		\subsection{Square roots}
+
+			as it is a common operation for Sphere Tracers that also
+		
+
 	\section{Future work}
 
 		\subsection{GPU-CPU cooperation}
-		
 			One thing that could be done to improve performance is to let the
 			processor handle object related math, such as object and camera 
 			transformation. Currently if objects in the scene are supposed to 
@@ -117,21 +101,26 @@ what future work is possible from this point in time.
 
 		\subsection{Plane-ray intersection}
 
-			Infinite planes currently require a lot of computing power to render. When
-			the camera is oriented so that the field of view is along an infinite
-			plane some rays will travel parallell to the plane, these rays will march 
-			equally long steps until their max number of steps has been taken or
-			the max range has been reached, without hitting anything. Another
-			drawback of infinite planes is that the sphere tracing algorithm causes
-			the horizon of planes to disappear because of the max range and max 
-			steps of a ray. Another way to render infinite planes might be to 
-			calculate if the ray will intersect the plane, and if so where it 
-			will intersect. This would eliminate the issue of not being able 
-			to render the horizon and might also increase performance.
+			Infinite planes currently require a lot of computing power to
+			render. When the camera is oriented so that the field of view is
+			along an infinite plane some rays will travel parallel to the
+			plane, these rays will march equally long steps until their max
+			number of steps has been taken or the max range has been reached,
+			without hitting anything. Another drawback of infinite planes is
+			that the sphere tracing algorithm causes the horizon of planes to
+			disappear because of the max range and max steps of a ray. Another
+			way to render infinite planes might be to calculate if the ray will
+			intersect the plane, and if so where it will intersect. This would
+			eliminate the issue of not being able to render the horizon and
+			might also increase performance.
 
 			One potential problem is that because no distance field evaluations 
-			are performed, it might be hard to perform operations such as CSG or
-			mathematical deformations on planes rendered this way.
+			are performed, it might be hard to perform Boolean operations or 
+			mathematical deformations on planes rendered this way. Another is 
+			that every time we add more features that aren't part of the regular 
+			Sphere Tracing, the complexity of the program increases. Thus, the 
+			advantages of the individual optimizations must be weighed against 
+			the overall performance loss they incur. 
 
 		\subsection{Overstepping}
 
@@ -145,3 +134,19 @@ what future work is possible from this point in time.
 			in the number of times marched is achieved. Giving an increase in
 			performance. 
 			
+		\subsection{Ray grouping}
+		
+			Ray grouping is an optimization that lowers the number of
+			computations the GPU have to perform. Also by lowering the number
+			of computations it increases the speed of the GPU.
+			
+			It works like the name implicates by grouping adjacent rays
+			together. If a specific pixel N is to be rendered we group the
+			adjacent pixels into a "combined pixel". Then we march along the
+			ray of N. If any of the other pixels are not inside the minimum
+			distance spheres (MDS) the combined pixel is split up into two
+			smaller groups. Each of the groups then repeat the first step again
+			individually along their new center pixel's ray. This is repeated a
+			number of times depending on the scene.  The closer to a target it
+			gets, more subgroups will be created due to the MDS's volumes will
+			decrease.
