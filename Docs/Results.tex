@@ -7,7 +7,7 @@
 
 		The shader performed as expected, a conventional graphics card is 
 		capable of rendering scenes with low scene complexity in real-time
-		using Sphere Tracing.
+		using sphere tracing.
 
 		However scenes can easily be made to look a lot more complex than they
 		are, for example, by using mod fields,or modulo fields, when the modulo
@@ -18,7 +18,17 @@
 		enhancing algorithm.
 
 
-	\section{GPU Performance}
+	\section{GPU}
+	
+	The GPU has been tested by simulating it and running a program on it that 
+	renders a sphere using Sphere Tracing. It spawns threads progressively to 
+	fill the screen data buffer with pixels. The execution of our test programs 
+	ran exactly as intended, with any number of simulated cores. The design has 
+	also been put through a synthesizing tool for FPGAs, which creates a net 
+	list of the components and connections that constitute the GPU. This also 
+	works as intended without any unexpected problems, but the actual operation 
+	of the GPU on an FPGA has not yet been verified.
+	
 	
 	\section{Square roots}
 		
@@ -59,7 +69,7 @@
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/value_lin12x.png} 
 			\caption{Value from lerp-approximator (purple), simple square root
-				approximator with one step of the Babylonian method (green),
+				approximator with one step of the babylonian method (green),
 				and the shifting nth root algorithm (red).}
 			\label{sres4}
 		\end{figure}
@@ -68,7 +78,7 @@
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/rel_lin960x.png} 
 			\caption{Relative error for the lerp-approximator (purple), simple 
-				square root approximator with one step of the Babylonian method 
+				square root approximator with one step of the babylonian method 
 				(green), and the shifting nth root algorithm (red).}
 			\label{sres5}
 		\end{figure}
@@ -77,7 +87,7 @@
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/abs_lin24x.png} 
 			\caption{Absolute error for the lerp-approximator (purple), simple 
-				square root approximator with one step of the Babylonian method 
+				square root approximator with one step of the babylonian method 
 				(green), and the shifting nth root algorithm (red).}
 			\label{sres6}
 		\end{figure}
@@ -86,20 +96,20 @@
 		
 		During this project, a number of optimizations were discussed and
 		developed. Implemented optimizations are explained below and the 
-		theoretical ones are brought up in chapter \ref{discussion} and 
-		\ref{optimization}. Some of these are based on earlier work, with some 
-		others believed to be quite unique optimizations that have not been 
-		discussed for Sphere Tracing previously. All implemented optimizations 
-		that affects the algorithm were implemented in the software shader, not 
-		on our own GPU.
+		theoretical ones are brought up in chapter \ref{discussion} and \ref{optimization}. 
+		Some of these are based on earlier work, with some others believed 
+		to be quite unique optimizations that have not been discussed for 
+		sphere tracing previously. All implemented optimizations that affects
+		the algorithm were implemented in the software shader, not on our own
+		GPU.
 
 		\subsection{Orthogonal culling}
 		
-		Tests to see the performance of the orthogonal culling optimization were
-		performed by putting an increasing number of solid-colored spheres in a
-		plane in front of the camera. Because of this, the spheres are not
-		obstructed by other spheres, making this the best possible scenario for the
-		optimization. The test was performed on a GTX-1060M in 4k resolution.
+		Tests to see the performance of the orthogonal culling optimization
+		were performed by putting an increasing number of
+		solid-colored spheres in a plane in front of the camera. Because of
+		this, the spheres are not obstructed by other spheres, making this
+		the best possible scenario for the optimization.
 
 		Below are test results from Orthogonal culling.
 
@@ -127,7 +137,9 @@
 
 			%CHARTS
 
+			\begin{figure}[H]
 			\scatterplot{1,2,10,15,20,25,30,35,40,45}{50,100,150,200,250,300,350,400,450,500,550,600}{1}{5}{\figure\OptimizedGraf.txt}
+			\end{figure}
 
 
 
@@ -148,7 +160,7 @@
 		\subsection{Bounding spheres}
 
 			Bounding spheres were implemented and tested. There was a clear
-			gain in performance in some cases, but the results are very situation dependent, 
+			gain in performance in some cases, but the results are very situational, 
 			depending on too many factors to be able to review (number of objects, 
 			the dispersion of objects, size and place of the bounding sphere, etc.). 
 			The larger the bounding sphere, the less performance gain will be seen 

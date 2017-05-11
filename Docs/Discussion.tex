@@ -1,53 +1,48 @@
 \chapter{Discussion} 
 
-	This chapter will lift our thoughts on our result, our theoretical not yet
-	implemented optimizations and what future work is possible from this point
-	in time.
+	This chapter will discuss our thoughts on our result, our theoretical not 
+	yet	implemented optimizations, and what future work is possible from this 
+	point in time.
 	
 	\section{Results}  \label{discussion}
 		
 		\subsection{Software Shader}
 		
-			The implemented optimizations improved performance more than
-			anticipated.  This shows that there is more performance to be found
-			in a conventional GPU than a straight-forward implementation of the
-			algorithm. 
+            The optimizations that were implemented improved performance more than anticipated. There are many optimizations that are yet to be implemented and tested
+            and it's hard to estimate the potential achievable performance, the
+            only thing that is certain is that there are massive performance 
+            potentials.
 
-			There are great limitations in what could be done with the shader
-			because of the language that we chose to implement it in, GLSL. It
-			offers nothing more than a way to write a program which will be run
-			on a per-pixel basis and put it on the screen. Because of this,
-			CPU-GPU cooperation is completely impossible and that comes with
-			consequences.
+            There are great limitations in what could be done with the shader because of the language that we chose to implement it in, GLSL. It offers nothing more than a way to write a program which will run on a per-pixel basis and put the result on the screen. Because of this, CPU-GPU cooperation is not possible and that comes with consequences.
 
-			Modern graphics engines not only do a lot of work on the CPU but it
+			Modern graphics engines not only does a lot of work on the CPU but it
 			has granular control over the GPU, whereas we have no control at
 			all. Things such as object positioning, frustum culling, etc.
 			should be done by the CPU, not the GPU. This kind of implementation
 			can not be done in GLSL and therefore a high-performance sphere
 			tracer should be done not in GLSL but in a lower-level language.
 
-			Although for our purposes, to build a sphere tracer where we
-			quickly could implement optimizations, develop new features, study
-			the algorithm, GLSL was a perfect fit. 
+            Although GLSL has it's limits it still has some very attractive 
+            features, it was easy to learn because the syntax has much in common
+            with java, which we've studied. The time it takes to develop new 
+            features and test them is short. The purpose of the software shader 
+            was to study the algorithm, implement and test optimizations and
+            develop new features. For the purposes of this sphere tracer GLSL
+            was a perfect fit.
+
 
 		
 		\subsection{GPU} 
 		
 			The project originally intended to create a simple single-core GPU
 			that could fully render a scene given enough time, and then add on
-			components as time allowed. As happens with projects like these,
-			every design decision one makes clarifies what further needs to be
-			done and reveals previously unseen flaws in the design that needs
-			to be resolved. In the end we implemented the core and enabled
-			multiple cores running in parallel utilizing a global queue, with
-			some caveats. While the implementation works and can be simulated
-			for up to 128 cores we have only successfully serialized 4 cores. 
+			components as time allowed. Every design decision one makes clarifies what further needs to be done and reveals previously unseen flaws in the design that needs to be resolved. In the end we implemented the core and enabled multiple cores running in parallel utilizing a storage manager.  
 			
-			If we were to continue the work in a future project we would
-			rewrite the basic core in a number of ways, pushing it out to FPGA
-			to verify our design choices and try to be more empiric before
-			extending further with more modules and ideas. 
+            If we were to continue working ong on this project another workflow
+            would be adopted when developing the GPU. More detailed planning is 
+            required in the early stages and empiric testing of different 
+            implementations is required along the entire development to reach
+            the best possible solution.
 
 	\section{Optimizations} \label{optimization}
 
@@ -69,16 +64,16 @@
 			another way to create the sphere tracer than GLSL. 
 
 			However great the performance gain the way this is implemented
-			is still far from the optimal solution, currently it performs 
-			orthogonal culling on all the objects in the scene per pixel. 
-			Instead, culling should be done on a per-object basis and calculate
-			which rays an object intersects, this way fewer calculations would
-			have to be performed and optimally they would be performed on the
+			is still far from the optimal solution, currently it performs orthogonal culling on all the objects in the scene per pixel. Instead,
+            culling should be done on a per-object basis and calculate
+            which rays an object intersects, this way fewer calculations would
+            have to be performed and optimally they would be performed on the
+
 			CPU.
 
 			This method could work together with the Bounding Sphere 
 			optimization. Instead of projecting single objects onto the ray,
-			bounding spheres could be projected, decreasing the number of 
+			bounding spheres could be culled, decreasing the number of 
 			orthogonal projections that has to be made. This too was tested 
 			and an increase in performance was observed.
 
@@ -111,13 +106,12 @@
 	\section{Future work}
 
 		\subsection{GPU-CPU cooperation}
-			One thing that could be done to improve performance is to let the
-			processor handle object related math, such as object and camera 
-			transformation. Currently if objects in the scene are supposed to 
-			move without doing it manually, they have to be moved using 
-			mathematical functions. These functions are then evaluated for 
-			each march step, for each pixel, this is essentially wasted 
-			computing power.
+
+            In the current implementation everything is performed on the GPU,
+            including object transformations and culling. Currently if objects 
+            in the scene are supposed to move they have to be moved using 
+            mathematical functions, such as sinus. These functions are then evaluated for each march step. This is essentially wasted computing power and could be performed on the CPU as is standard in modern graphics engines.
+
 
 
 		\subsection{Plane-ray intersection}
@@ -125,15 +119,9 @@
 			Infinite planes currently require a lot of computing power to
 			render. When the camera is oriented so that the field of view is
 			along an infinite plane some rays will travel parallel to the
-			plane, these rays will march equally long steps until their max
-			number of steps has been taken or the max range has been reached,
-			without hitting anything. Another drawback of infinite planes is
-			that the sphere tracing algorithm causes the horizon of planes to
-			disappear because of the max range and max steps of a ray. Another
-			way to render infinite planes might be to calculate if the ray will
-			intersect the plane, and if so where it will intersect. This would
-			eliminate the issue of not being able to render the horizon and
-			might also increase performance.
+			plane. These rays will march equally long steps until their max
+			number of steps has been taken or the max range has been reached, without hitting anything. This will cause some rays to draw computing power without ever being able to hit the plane anyway. Some rays that should hit the plane will fail to do so because of to many steps taken, making it look like the plane has an edge because after a certain range it is no longer being rendered.
+
 
 			One potential problem is that because no distance field evaluations 
 			are performed, it might be hard to perform Boolean operations or 
@@ -154,6 +142,8 @@
 			little bit further. By marching that little bit further, decrease
 			in the number of times marched is achieved. Giving an increase in
 			performance. 
+
+			%add link to mendeley paper
 			
 		\subsection{Ray grouping}
 		

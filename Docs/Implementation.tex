@@ -114,10 +114,10 @@
 		The properties of the ray marching algorithm as described in chapter
 		\ref{spheretracing} led to the decision of designing a GPU architecture
 		that does not utilize multi-ALU SIMD with lockstepping to the same
-		extent as traditional graphics processors. Instead, a solution with
-		slightly simpler independent cores was decided upon. This is similar to
-		reasoning employed by \cite{Woop2005} for a Ray Tracing hardware
-		design.
+		extent as that of traditional graphics processors. Instead, a solution 
+		with slightly simpler independent cores was decided upon. This is 
+		similar to reasoning employed by \cite{Woop2005} for a Ray Tracing 
+		hardware design.
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
@@ -134,14 +134,13 @@
 			light-weight: only an instruction pointer along with some mutable
 			registers are stored.
 
-			All threads that are not running are placed in a storage structure
-			that is globally accessable to all cores, and threads are then
+			All threads that are not running are given to a storage manager that all cores can communicate with, and threads are then
 			dispatched to cores as the cores become available for execution.
 			The cores are also able to spawn new threads by sending their data
-			to the global storage, or terminate threads either by simply
-			dropping them or by sending them to the frame buffer, where some of
-			the registers will be used to determine the color of some pixel on
-			the screen.
+			to the storage manager, or terminate their current threads either 
+			by simply dropping them or by sending them to the frame buffer, 
+			where some of the registers will be used to determine the color of 
+			some pixel on the screen.
 
 			Each core consists of instruction and data memories, some control 
 			logic for execution order and a DFU. The data and instruction 
@@ -149,7 +148,7 @@
 			entirety. The control logic is responsible for feeding the DFU with
 			instructions and data, as well as updating the thread registers 
 			when a new thread is attached, sending thread registers to the 
-			global thread storage when new threads are spawned and and 
+			storage manager when new threads are spawned and and 
 			requesting a new thread whenever the previously executing one 
 			terminates.
 			
@@ -201,8 +200,9 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores, onto which all threads that are ready for
-			execution wait until a core is ready to start executing them.
+			among all cores by way of a storage manager. All threads that are 
+			ready for execution are held in this storage until a core is ready 
+			to start executing them.
 
 			\begin{figure}[H]
 				\centering
