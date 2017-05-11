@@ -1,8 +1,8 @@
 \chapter{Discussion} 
 
-	This chapter will lift our thoughts on our result, our theoretical not yet
-	implemented optimizations and what future work is possible from this point
-	in time.
+	This chapter will discuss our thoughts on our result, our theoretical not 
+	yet	implemented optimizations, and what future work is possible from this 
+	point in time.
 	
 	\section{Results}  \label{discussion}
 		
@@ -36,18 +36,13 @@
 		
 			The project originally intended to create a simple single-core GPU
 			that could fully render a scene given enough time, and then add on
-			components as time allowed. Every design decision one makes clarifies what further needs to be done and reveals previously unseen flaws in the design that needs
-			to be resolved. In the end we implemented the core and enabled
-			multiple cores running in parallel utilizing a global queue, with
-			some caveats. While the implementation works and can be simulated
-			for up to 1024 cores we have only successfully serialized 16 cores. 
+			components as time allowed. Every design decision one makes clarifies what further needs to be done and reveals previously unseen flaws in the design that needs to be resolved. In the end we implemented the core and enabled multiple cores running in parallel utilizing a storage manager.  
 			
             If we were to continue working ong on this project another workflow
             would be adopted when developing the GPU. More detailed planning is 
             required in the early stages and empiric testing of different 
             implementations is required along the entire development to reach
             the best possible solution.
-
 
 	\section{Optimizations} \label{optimization}
 
