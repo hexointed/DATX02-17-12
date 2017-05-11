@@ -55,11 +55,12 @@
 	\section{Optimizations} \label{optimization}
 
 		\subsection{Bounding spheres}
-			
-			Although an increase in performance could be seen using this
-			method, it can also be used in ways that decreases the performance.
-			By setting up a too large bounding sphere or my setting it up with
-			few objects or simply objects that are far apart.
+
+			In testing we saw an increase in performance, but in some cases 
+			a decrease could also be observed. The performance increase depends 
+			on a lot of factors such as number of objects in a sphere, how well 
+			the sphere is fits around them and how far apart they are. If misused
+			the performance will be decreased.
 
 			To use this optimization efficiently the objects inside a bounding
 			sphere should never come far apart and the sphere should be exactly
