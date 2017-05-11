@@ -82,10 +82,31 @@
 			orthogonal projections that has to be made. This too was tested 
 			and an increase in performance was observed.
 
-		\subsection{Square roots}
+	\section{Square roots}
 
-			as it is a common operation for Sphere Tracers that also
+		The simple square root approximator and its improved version are
+		extremely simple circuits, indeed they are signifcantly smaller than
+		most other common operations performed on numbers in hardware. Of
+		course, they are far from accurate, but we find it interesting that it
+		is possible to acheive a bounded relative error from the true square
+		root for any number of input bits with these small circuits. When
+		combined with linear interpolation or iterative methods like the
+		Babylonian method the accuracy of these approximations increases 
+		signifcantly.
 		
+		The shifting nth root algorithm is the only bit-accurate method tested,
+		and it performs well, albeit slower than the approximations. If
+		non-exact results are acceptable, which they often are to some extent
+		when doing sphere tracing, the number of steps in the shifting nth root
+		algorithm could be reduced, which would both increase speed and
+		decrease area usage. The lerp-based and iterative methods might still
+		be able to reuse common components such as adders and multipliers 
+		however, and might therefore be preferable.
+		
+		For the XQBGPPPU, we have used the shifting nth root algorithm in order
+		to not have to consider possible accuracy problems when debugging 
+		shaders, but all methods are implemented and ready to be switched out
+		at any time.
 
 	\section{Future work}
 
