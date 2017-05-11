@@ -1,19 +1,19 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{Sphere Tracing} \label{spheretracing}
 
-	The graphics rendering algorithm that the GPU was designed for is called
+	The graphics rendering algorithm the GPU was designed for is called
 	Sphere Tracing\cite{Hart1996}. The name comes from the technique where it
 	uses spheres to incrementally advance a ray in 3D space. The method of
 	advancing rays in general is called Ray Marching which in turn is a subset of
 	Ray Tracing\cite{Whitted1980a}. Ray Tracing, then, is a way of wholly or
-	partially render the world through rays, cast from the eye of the observer
+	partially render the world off of rays, cast from the eye of the observer
 	into the scene. Sphere Tracing has been around since at least as early as the
 	late eighties\cite{Hart1989} and Ray Tracing as early as the
 	sixties\cite{Appel1968}.
 
-	In this chapter we walk through the Sphere Tracing algorithm in detail with
+	In this chapter the Sphere Tracing algorithm is lifted in detail with
 	both definitions and examples. The explanation is based on the the very
-	succinct explanation in \cite{Korndorfer2014}. This paper also expands upon
+	succinct explanation in \cite{Korndorfer2014}. The paper also expands upon
 	the original algorithm in some innovative ways. For a more in-depth
 	description of the original algorithm see Harts ``\emph{Sphere Tracing: a
 	geometric method for the anti-aliased ray tracing of implicit
@@ -68,7 +68,7 @@
 
 		%section about CSG
 
-		\bigskip \noindent Finding the surface can be done by iterating point by
+		\bigskip \noindent Finding the surface can be done by marching point by
 		point from the origin along the ray like below: 
 		
 		$$p_{i+1} = p_i + \vec{d}\cdot \text{SDF}(p_i)$$ 
@@ -84,7 +84,7 @@
 
 		This is repeated until $\text{SDF}(p_i) \leq \varepsilon$ for a given
 		precision limit $\varepsilon$. $\text{SDF}(p_i)$ is the furthest possible
-		march distance the ray can march while still not overshooting any potential
+	 distance the ray can march while still not overshooting any potential
 		surfaces. The direction to the closest surface point is never known, thus
 		$\text{SDF}(p_i)$ can be interpreted as a spherical bound, giving the
 		algorithm it's name. The Sphere Trace is performed for each pixel of the
@@ -94,10 +94,9 @@
 			\subsection{Reflections, refractions and shading}
 
 				Once a point on a surface for a given pixel has been located
-				reflections, light, shadows and refractions needs to be calculated. A
-				lot of these depend on the surface normal which can be approximated with
+				reflections, light, shadows and refractions can be calculated. These sometimes depend on the surface normal which can be approximated with
 				the partial derivatives around the surface point given some small delta
-				$\delta$. This is the normalized gradient $\vec{g}$ of the point.
+				$\delta$. This is the normalized gradient $\vec{g}$ in this point.
 
 				$$\vec{g} = \vec{x}\cdot\frac{\text{SDF}(x+\delta, y, z)}{\delta} +
 				\vec{y}\cdot\frac{\text{SDF}(x, y+\delta, z)}{\delta} +
@@ -108,7 +107,7 @@
 				A simple way to illuminate the scene could for an example be to use
 				Phong Lightning\cite{Phong1975}. But any number of alternative
 				algorithms could be used instead to determine the final color. Shadows
-				can be determined by further Sphere Tracing out towards the sources of
+				can be determined by doing a new Sphere Trace, towards the sources of
 				light to check for obstructions. Same for reflections and refractions
 				where further marching in proportionate angles to the angle of
 				incidence can determine what objects reflects on the surface.
