@@ -3,4 +3,11 @@
 The intent of the project was to design and create a GPU aswell as experiment
 with some optimizations around the subject. Though taking three times as long
 to write as intended, a working GPU was written together with a Sphere Tracing
-shader programmed for it. A similar reference shader was also written in GLSL.
+shader separately programmed, running on the GPU. A similar reference shader
+was also written in GLSL. On the GLSL shader we tried two optimizations named
+Bounding Spheres and Orthogonal Culling. Both improved the performance but only
+one order of magnitude on an already low scale. They can still be further
+improved by expanding the shader to an engine where parts of the computation
+would be offloaded on the CPU. For the hardware we looked at different ways of
+speeding up the square root which is one of the operations that bottelnecks the
+clockspeed of the GPU. 

@@ -51,30 +51,6 @@
 
 	\section{Optimizations} \label{optimization}
 
-		\subsection{Ray grouping}
-		
-			Ray grouping is an optimization that lowers the number of
-			computations the GPU have to perform. Also by lowering the number
-			of computations it increases the speed of the GPU.
-			
-			It works like the name implicates by grouping adjacent rays
-			together. If a specific pixel N is to be rendered we group the
-			adjacent pixels into a "combined pixel". Then we march along the
-			ray of N. If any of the other pixels are not inside the minimum
-			distance spheres (MDS) the combined pixel is split up into two
-			smaller groups. Each of the groups then repeat the first step again
-			individually along their new center pixel's ray. This is repeated a
-			number of times depending on the scene.  The closer to a target it
-			gets, more subgroups will be created due to the MDS's volumes will
-			decrease.
-			
-			This optimization was implemented and we achieved an increase in
-			performance as excepted. The optimization decreases the number of
-			computations made by the formula ? below.  Sum of $\sum_1^s(1/N_s)$
-			where N = number of pixels in the group and s = number of groups
-
-			%#picture of ray grouping
-
 		\subsection{Bounding spheres}
 			
 			Although an increase in performance could be seen using this
@@ -106,8 +82,9 @@
 			orthogonal projections that has to be made. This too was tested 
 			and an increase in performance was observed.
 
-	\section{Square roots}
+		\subsection{Square roots}
 
+			as it is a common operation for Sphere Tracers that also
 		
 
 	\section{Future work}
@@ -157,3 +134,19 @@
 			in the number of times marched is achieved. Giving an increase in
 			performance. 
 			
+		\subsection{Ray grouping}
+		
+			Ray grouping is an optimization that lowers the number of
+			computations the GPU have to perform. Also by lowering the number
+			of computations it increases the speed of the GPU.
+			
+			It works like the name implicates by grouping adjacent rays
+			together. If a specific pixel N is to be rendered we group the
+			adjacent pixels into a "combined pixel". Then we march along the
+			ray of N. If any of the other pixels are not inside the minimum
+			distance spheres (MDS) the combined pixel is split up into two
+			smaller groups. Each of the groups then repeat the first step again
+			individually along their new center pixel's ray. This is repeated a
+			number of times depending on the scene.  The closer to a target it
+			gets, more subgroups will be created due to the MDS's volumes will
+			decrease.
