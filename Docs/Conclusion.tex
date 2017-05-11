@@ -1,22 +1,22 @@
 \chapter{Conclusions}
 
-The goal of the project was to design and create a GPU and then to optimize it
-and the Sphere Tracing algoritm it was built for. A working GPU was written
-together with a Sphere Tracing shader programmed separately, running on the
-GPU. A similar reference shader was also written in GLSL. On the GLSL shader we
-tried two optimizations, Bounding Sphere and Orthogonal Culling. Both improved
-the performance but only by one order of magnitude. They can still be further
-improved by expanding the shader to an engine where parts of the computation
-would be offloaded on the CPU. 
-
-For the hardware optimization we explored ways of speeding up the square root.
-We found a number of fast solutions that are all bounded in the relative error.
-The GPU executes as intended and, if programmed correctly, can Sphere Trace
-complete scenes. 
-
-It has been an involving project for all of the group members and we have had
-to read up on a lot of different subjects in tandem. Not only learning about
-bulding hardware and optimizing algortihms, we have also learnt the importance
-of earlier-than-you-think prototyping and keeping all members of a project
-buzy. Much like you want to keep all components of your hardware as busy as
-possible.
+	The goal of the project was to design and create a GPU and then to optimize
+	it and the Sphere Tracing algoritm it was built for. A working GPU was
+	written together with a Sphere Tracing shader programmed separately,
+	running on the GPU. A similar reference shader was also written in GLSL. On
+	the GLSL shader we tried two optimizations, Bounding Sphere and Orthogonal
+	Culling. Both improved the performance but only by one order of magnitude.
+	They can still be further improved by expanding the shader to an engine
+	where parts of the computation would be offloaded on the CPU. 
+	
+	For the hardware optimization we explored ways of speeding up the square
+	root.  We found a number of fast solutions that are all bounded in the
+	relative error.  The GPU executes as intended and, if programmed correctly,
+	can Sphere Trace complete scenes. 
+	
+	It has been an involving project for all of the group members and we have
+	had to read up on a lot of different subjects in tandem. Not only learning
+	about bulding hardware and optimizing algortihms, we have also learnt the
+	importance of earlier-than-you-think prototyping and keeping all members of
+	a project buzy. Much like you want to keep all components of your hardware
+	as busy as possible.

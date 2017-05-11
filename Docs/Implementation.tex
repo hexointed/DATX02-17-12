@@ -19,23 +19,24 @@
 	\ref{implproc}. In addition to these, a simple software assembler was
 	written for the assembly language used for the GPU.
 	
-	Before any actual sphere tracing is done some essential values are
-	calculated from predefined parameters. To have a functional sphere tracer a
-	camera point and direction to look needs to be defined, in practice this is
-	done by having an eye-vector and a vector that describes the point that the
-	camera should be oriented against. From these vectors a new direction vector
-	is calculated that defines the direction that the camera is oriented. The
-	camera-vector is used as a origin for rays and the direction-vector is used
-	to calculate the direction of each ray.
-	
-	The core of the Sphere Tracer is a simple while-loop. It begins by
-	calculating the distance to the closest object in the scene by sampling the
-	distance field and comparing its value at the current location to a
-	predefined epsilon. If the value of the distance field is smaller than
-	epsilon, the ray has hit an object. If no object has been hit, the sampled
-	distance will be added to the length of the ray.
-
 	\section{Reference Shader} \label{implshader}
+
+		Before any actual sphere tracing is done some essential values are
+		calculated from predefined parameters. To have a functional sphere
+		tracer a camera point and direction to look needs to be defined, in
+		practice this is done by having an eye-vector and a vector that
+		describes the point that the camera should be oriented against. From
+		these vectors a new direction vector is calculated that defines the
+		direction that the camera is oriented. The camera-vector is used as a
+		origin for rays and the direction-vector is used to calculate the
+		direction of each ray.
+		
+		The core of the Sphere Tracer is a simple while-loop. It begins by
+		calculating the distance to the closest object in the scene by sampling
+		the distance field and comparing its value at the current location to a
+		predefined epsilon. If the value of the distance field is smaller than
+		epsilon, the ray has hit an object. If no object has been hit, the
+		sampled distance will be added to the length of the ray.
 
 
 		\subsection{GLSL Based}
@@ -283,14 +284,10 @@
 			\begin{figure}
 				\centering
 				\caption{Simple square root approximator with minor improvement.
-					This version includes an extra layer of or-gates with a
-					shift of 4. Note that the gates in this diagram seem
-					to be ordered in two extra layers. This is, however, only a
-					visual artifact in this image. Adding more layers with
-					shifts of 6, 10, 14, 26 etc increases accuracy further,
-					although returns are diminishing quickly.}
+					More layers of or-gates can be added with increased shifts 
+					for slight increases in accuracy. }
 				\label{orsqrt2}
-				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
+				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt3Or.pdf} 
 			\end{figure}
 
 			In order to improve upon this method, both in terms of accuracy and
@@ -306,6 +303,41 @@
 			points for which the simple square root approximator is very 
 			accurate. We did not look further into choosing different upper and
 			lower bounds for the lerp-approximator.
+
+			\begin{figure}
+				\centering
+				\caption{ Simple square root approximator used together with
+					linear interpolation. This version includes an extra layer
+					of or-gates with a shift of 4 and is more accurate for
+					powers of 2. Note that the gates in this diagram seem to be
+					ordered in two extra layers. This is, however, only a
+					visual artifact in this image. Adding more layers with
+					shifts of 6, 10, 14, 26 etc increases accuracy further,
+					although returns are diminishing quickly.}
+				\label{orsqrt3}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
+			\end{figure}
+
+			Another algorithm for calculating square roots is the
+			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
+			square root algorithm}, which calculates the square root one digit
+			at a time. A \texttt{c} implementation of this algorithm is shown
+			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
+			a good canditate for a high performance hardware implementation,
+			but several important optimizations are possible when unrolling it
+			combinatorially. Most of the additions can be reduced to bitwise
+			logic operations already when computing it in software, as shown in
+			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
+			these bitwise operations can be removed entirely by simply moving
+			wires around, yeilding a logic cost of 0. The only remaining
+			operations is therefore the subtraction on line 6, and the
+			conditional assignments of \texttt{num} and \texttt{res} on lines 9
+			and 10. The cost of the subtraction can be significantly reduced
+			because \texttt{res} approximates the result one bit every step,
+			meaning most bits of \texttt{num} and \texttt{res} are zeroed at
+			any given iteration. This means that on average, only 25\% of the
+			subtraction logic is needed. This turned out to result in a design
+			very similar to the PARSQRT implementation by \cite{Li}.
 
 			\begin{table}
 				\centering
@@ -359,23 +391,3 @@ int isqrt(int num) {
 				\end{tabular}
 			\end{table}
 
-			Another algorithm for calculating square roots is the
-			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
-			square root algorithm}, which calculates the square root one digit
-			at a time. A \texttt{c} implementation of this algorithm is shown
-			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
-			a good canditate for a high performance hardware implementation,
-			but several important optimizations are possible when unrolling it
-			combinatorially. Most of the additions can be reduced to bitwise
-			logic operations already when computing it in software, as shown in
-			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
-			these bitwise operations can be removed entirely by simply moving
-			wires around, yeilding a logic cost of 0. The only remaining
-			operations is therefore the subtraction on line 6, and the
-			conditional assignments of \texttt{num} and \texttt{res} on lines 9
-			and 10. The cost of the subtraction can be significantly reduced
-			because \texttt{res} approximates the result one bit every step,
-			meaning most bits of \texttt{num} and \texttt{res} are zeroed at
-			any given iteration. This means that on average, only 25\% of the
-			subtraction logic is needed. This turned out to result in a design
-			very similar to the PARSQRT implementation by \cite{Li}.
