@@ -8,12 +8,17 @@
 		
 		\subsection{Software Shader}
 		
-            The optimizations that were implemented improved performance more than anticipated. There are many optimizations that are yet to be implemented and tested
-            and it's hard to estimate the potential achievable performance, the
+            The optimizations that were implemented improved performance more than 
+            anticipated. There are many optimizations that are yet to be implemented and 
+            tested and it's hard to estimate the potential achievable performance, the
             only thing that is certain is that there are massive performance 
             potentials.
 
-            There are great limitations in what could be done with the shader because of the language that we chose to implement it in, GLSL. It offers nothing more than a way to write a program which will run on a per-pixel basis and put the result on the screen. Because of this, CPU-GPU cooperation is not possible and that comes with consequences.
+            There are great limitations in what could be done with the shader because of 
+            the language that we chose to implement it in, GLSL. It offers nothing more 
+            than a way to write a program which will run on a per-pixel basis and put the 
+            result on the screen. Because of this, CPU-GPU cooperation is not possible and 
+            that comes with consequences.
 
 			Modern graphics engines not only does a lot of work on the CPU but it
 			has granular control over the GPU, whereas we have no control at
@@ -35,10 +40,14 @@
 		\subsection{GPU} 
 		
 			The project originally intended to create a simple single-core GPU
-			that could fully render a scene given enough time, and then add on
-			components as time allowed. Every design decision one makes clarifies what further needs to be done and reveals previously unseen flaws in the design that needs to be resolved. In the end we implemented the core and enabled multiple cores running in parallel utilizing a storage manager.  
-			
-            If we were to continue working ong on this project another workflow
+			that could fully render a scene given enough time, and then add	
+			components as time allowed. As happens with projects like these,
+			every design decision one makes clarifies what further needs to be
+			done, and reveals previously unseen flaws in the design that must
+			be resolved. In the end we implemented the core and a storage 
+			manager which enabled multiple cores running in parallel.
+
+            If we were to continue working on this project another workflow
             would be adopted when developing the GPU. More detailed planning is 
             required in the early stages and empiric testing of different 
             implementations is required along the entire development to reach
@@ -50,7 +59,7 @@
 			
 			Although an increase in performance could be seen using this
 			method, it can also be used in ways that decreases the performance.
-			By setting up a too large bounding sphere or my setting it up with
+			By setting up a too large bounding sphere or by setting it up with
 			few objects or simply objects that are far apart.
 
 			To use this optimization efficiently the objects inside a bounding 
@@ -60,15 +69,14 @@
 		\subsection{Orthogonal culling}
 
 			The performance gain from this optimization exceeded our 
-			expectations. This could probably be further improved by using
-			another way to create the sphere tracer than GLSL. 
+			expectations. This could probably be further improved by implementing the Sphere tracer in a language that has more granular GPU control than GLSL, which is what we used in this paper.
 
 			However great the performance gain the way this is implemented
-			is still far from the optimal solution, currently it performs orthogonal culling on all the objects in the scene per pixel. Instead,
-            culling should be done on a per-object basis and calculate
+			is still far from the optimal solution, currently it performs 
+			orthogonal culling on all the objects in the scene per pixel. 
+			Instead, culling should be done on a per-object basis and calculate
             which rays an object intersects, this way fewer calculations would
             have to be performed and optimally they would be performed on the
-
 			CPU.
 
 			This method could work together with the Bounding Sphere 
@@ -110,7 +118,10 @@
             In the current implementation everything is performed on the GPU,
             including object transformations and culling. Currently if objects 
             in the scene are supposed to move they have to be moved using 
-            mathematical functions, such as sinus. These functions are then evaluated for each march step. This is essentially wasted computing power and could be performed on the CPU as is standard in modern graphics engines.
+            mathematical functions, such as sinus. These functions are then 
+            evaluated for each march step. This is essentially wasted computing 
+            power and could be performed on the CPU as is standard in modern 
+            graphics engines.
 
 
 
@@ -120,16 +131,21 @@
 			render. When the camera is oriented so that the field of view is
 			along an infinite plane some rays will travel parallel to the
 			plane. These rays will march equally long steps until their max
-			number of steps has been taken or the max range has been reached, without hitting anything. This will cause some rays to draw computing power without ever being able to hit the plane anyway. Some rays that should hit the plane will fail to do so because of to many steps taken, making it look like the plane has an edge because after a certain range it is no longer being rendered.
+			number of steps has been taken or the max range has been reached, 
+			without hitting anything. This will cause some rays to draw 
+			computing power without ever being able to hit the plane anyway. 
+			Some rays that should hit the plane will fail to do so because of 
+			to many steps taken, making it look like the plane has an edge 
+			because after a certain range it is no longer being rendered.
 
 
 			One potential problem is that because no distance field evaluations 
 			are performed, it might be hard to perform Boolean operations or 
 			mathematical deformations on planes rendered this way. Another is 
-			that every time we add more features that aren't part of the regular 
-			Sphere Tracing, the complexity of the program increases. Thus, the 
-			advantages of the individual optimizations must be weighed against 
-			the overall performance loss they incur. 
+			that every time we add more features that aren't part of the 
+			regular Sphere Tracing, the complexity of the program increases. 
+			Thus, the advantages of the individual optimizations must be 
+			weighed against the overall performance loss they incur. 
 
 		\subsection{Overstepping}
 
@@ -148,7 +164,7 @@
 		\subsection{Ray grouping}
 		
 			Ray grouping works by grouping adjacent rays together.  If a specific
-			pixel N is to be rendered we group the adjacent pixels into a set, then
+			pixel N is to be rendered we group the adjacent pixels into a set,  then
 			march along the ray of N. If any of the pixels are not inside the minimum
 			distance spheres (MDS) the combined pixel is split up into smaller sets,
 			which each have a centered pixel. Each set then repeats the these steps
