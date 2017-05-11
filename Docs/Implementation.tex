@@ -60,15 +60,17 @@
 
 		\subsection{Orthogonal culling}
 
-			A bottleneck of Sphere Tracing is that the distance to
-			a lot of objects has to be calculated once for every march step.
-			One way to increase the performance is to reduce
-			the number of objects that the distance has to be calculated to,
-			without reducing the actual number of objects in the scene. To do
-			this the GPU needs to calculate which object a ray might hit,
-			traditionally the CPU will tell the GPU which objects are in the
-			field of view (Frustum culling) but we can't do that because of
-			GLSL does not allow us to run code on the CPU. Even if we could use frustum culling it would probably not be enough, each ray should only care for the objects that it might hit, not all objects in the field of view.
+			A bottleneck of Sphere Tracing is that the distance to a lot of
+			objects has to be calculated once for every march step.  One way to
+			increase the performance is to reduce the number of objects that
+			the distance has to be calculated to, without reducing the actual
+			number of objects in the scene. To do this the GPU needs to
+			calculate which object a ray might hit, traditionally the CPU will
+			tell the GPU which objects are in the field of view (Frustum
+			culling) but we can't do that because of GLSL does not allow us to
+			run code on the CPU. Even if we could use frustum culling it would
+			probably not be enough, each ray should only care for the objects
+			that it might hit, not all objects in the field of view.
 
 			Orthogonal projection works by going through all the objects in the 
 			scene for ray and calculating if the ray can hit the object. 
@@ -131,9 +133,9 @@
 
 			The GPU is designed to be able to handle a form of threading
 			natively, where all computations are performed by a thread running
-			on a hardware core. A thread in this context is very
-			light-weight: only an instruction pointer along with some mutable
-			registers are stored.
+			on a hardware core. A thread in this context is very light-weight:
+			only an instruction pointer along with some mutable registers are
+			stored.
 
 			All threads that are not running are sent to a storage manager that
 			communicates with all cores, and threads are then dispatched to
@@ -143,6 +145,17 @@
 			dropping them or by sending them to the frame buffer, where some of
 			the registers will be used to determine the color of some pixel on
 			the screen.
+
+			The storage in the storage manager on the XQBGPPPU is implemented
+			as a double-ended queue. This makes it possible for threads to have
+			some coarse-grained control over execution priority, which is
+			needed in order for many types of programs to be able to run with a
+			bunded number of threads at any given time. During execution, the
+			storage manager selects one core that is ready to send a thread, if
+			any core is ready to do so, and adds its thread to the storage. If
+			any core is ready to receive a thread, one is taken from the 
+			storage and sent to that core. If more than one core is ready, one
+			is chosen arbitrarily.
 
 			Each core consists of instruction and data memories, some control 
 			logic for execution order and a DFU. The data and instruction 
