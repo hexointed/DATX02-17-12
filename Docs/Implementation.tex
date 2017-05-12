@@ -192,13 +192,13 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores by a storage manager. All threads that are 
+			among all cores by a single storage manager. All threads that are 
 			ready for execution are held in this storage until a core is ready 
 			to start executing them.
 
 			\begin{figure}[H]
 				\centering
-				\caption{ XQBGPPPU Data flow diagram }
+				\caption{ BiQRiU Data flow diagram }
 					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
@@ -230,19 +230,17 @@
 			register (\texttt{r2}), which will be sent to the frame buffer in
 			order to be displayed on the screen.
 
-			This set of instructions for control flow might initially seem to
-			be neither useful nor easy to implement but they are powerful
-			enough to implement for all branching that is needed in our ray
-			marchers efficiently while being restrictive enough to make
-			instruction memory accesses very predictable.
+			This set of instructions for control flow might initially seem to be
+			neither useful nor easy to implement but it is powerful enough for all
+			branching that is needed in our Sphere Tracer while being restrictive
+			enough to make instruction memory accesses very predictable.
 
-			In addition to this, each core can accelerate finding the minimum 
-			distance for a set of distance functions using a built-in 
-			accumulator, together with the instructions \texttt{next} and 
-			\texttt{accum}. Because of this, distance functions can be written
-			without any regard for how the shader that called them works, and
-			this very common operation is automated, reducing the size of each
-			distance function slightly.
+			The instructions \texttt{next} and \texttt{accum} are used to accelerate
+			finding the minimum distance for a set of distance functions using a
+			built-in accumulator. Because of this, distance functions can be written
+			without any regard for how the shader that called them works. This very
+			common operation being automated thus reduces the size of each distance
+			function slightly.
 
 		\subsection{Square Roots}
 
@@ -251,18 +249,17 @@
 			achieving good performance. Several different approaches for this
 			were considered.
 
-			Firstly, using an iterative method like Goldschmidt's or the
-			babylonian method was considered. These require an initial starting
-			value, which is usually generated using a look-up table. We tested
-			a different and very fast method for generating an initial rough
-			guess of the square root of any number without the need for a
-			look-up table. A 16-bit version of this circuit is shown in figure
-			\ref{orsqrt}, and an improved but slightly more expensive version
-			is showed in figure \ref{orsqrt2}. The basic working principle is
-			based on the fact that the square root of a number has roughly half
-			as many digits as the original number. In the version with slightly
-			improved accuracy the placement of the extra wires is based on the
-			bit pattern of $\sqrt{2}$.
+			Firstly, using an iterative method like Goldschmidt's or the babylonian
+			method require an initial starting value which is usually generated
+			using a look-up table. We tested a different and very fast method for
+			generating an initial rough guess of the square root of any number
+			without the need for a look-up table. A 16-bit version of this circuit is
+			shown in figure \ref{orsqrt}, and an improved but slightly more expensive
+			version is showed in figure \ref{orsqrt2}. The basic working principle is
+			based on the fact that the square root of a number has roughly half as
+			many digits as the original number. In the version with slightly improved
+			accuracy the placement of the extra wires is based on the bit pattern of
+			$\sqrt{2}$.
 
 			\begin{figure}
 				\centering
@@ -280,19 +277,18 @@
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt3Or.pdf} 
 			\end{figure}
 
-			In order to improve upon this method, both in terms of accuracy and
-			stability, another design was considered in which the input was
-			both rounded up and down to values where the simple square root
-			approximator was very accurate and the result was then linearly
-			interpolated between these roots. This linear interpolation
-			requires only a multiplication and a couple of additions, but
-			choosing upper and lower seed values is a more complex problem.
-			Choosing the two geometrically closest powers of two was tested
-			because the or-gate square root circuit is very accurate for powers
-			of two, but this is not the only possible choice, as there are many 
-			points for which the simple square root approximator is very 
-			accurate. We did not look further into choosing different upper and
-			lower bounds for the lerp-approximator.
+			In order to improve upon this method both in terms of accuracy and
+			stability another design was considered. The input was both rounded up
+			and down to values where the simple square root approximator was very
+			accurate and the result was then linearly interpolated between these
+			roots. Especially with circuit \ref{orsqrt3}. This linear interpolation
+			requires only a multiplication and a couple of additions, but choosing
+			upper and lower seed values is a more complex problem. Choosing the two
+			geometrically closest powers of two was tested because the or-gate square
+			root circuit is very accurate for powers of two, but this is not the only
+			possible choice, as there are many points for which the simple square
+			root approximator is very accurate. We did not look further into choosing
+			different upper and lower bounds for the lerp-approximator.
 
 			\begin{figure}
 				\centering
@@ -302,8 +298,8 @@
 					powers of 2. Note that the gates in this diagram seem to be
 					ordered in two extra layers. This is, however, only a
 					visual artifact in this image. Adding more layers with
-					shifts of 6, 10, 14, 26 etc increases accuracy further,
-					although returns are diminishing quickly.}
+					shifts of 6, 10, 14, 26 etc increases accuracy further but 
+					with rapidly diminishing returns.}
 				\label{orsqrt3}
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
 			\end{figure}
@@ -315,11 +311,11 @@
 			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
 			a good canditate for a high performance hardware implementation,
 			but several important optimizations are possible when unrolling it
-			combinatorially. Most of the additions can be reduced to bitwise
-			logic operations already when computing it in software, as shown in
+			combinatorially. Most of the additions can be already reduced to bitwise
+			logic operations when computing it in software, as shown in
 			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
 			these bitwise operations can be removed entirely by simply moving
-			wires around, yeilding a logic cost of 0. The only remaining
+			wires around yeilding a logic cost of 0. The only remaining
 			operations is therefore the subtraction on line 6, and the
 			conditional assignments of \texttt{num} and \texttt{res} on lines 9
 			and 10. The cost of the subtraction can be significantly reduced
