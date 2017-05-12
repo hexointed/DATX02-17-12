@@ -24,24 +24,33 @@
 	performance	potentials of graphics cards based on the Sphere Tracing 
 	algorithm.
 
+	\section{Note on shaders} 
+		
+		Throughout the report we will use the word \emph{shader} a lot. A
+		shader is an historical term that today in modern industry terms refer to
+		the code running on the GPU as opposed to on the CPU. It is called a
+		\emph{shader} because initially only the color and illumination where
+		programmable where as today the GPUs become more generally programmable by
+		the generation. 
 
 	\section{Project goals}
 	
-		The main goal for this project is to design and implement a basic GPU 
-		architecture that is designed to efficiently execute the Sphere Tracing 
-		algorithm. In striving towards efficiency, we examine Sphere Tracing in 
-		order to find possible optimizations, both algorithmic and hardware 
-		based. For testing some of the optimizations performance, a software shader is 
-                to be designed.
+		The main goal for this project is to design and implement a basic GPU
+		architecture that is designed to efficiently execute the Sphere Tracing
+		algorithm. In striving towards efficiency, we examine Sphere Tracing in
+		order to find possible optimizations, both algorithmic and hardware based.
+		For testing some of the optimizations performance, a software shader is to
+		be designed.
 		
 	\section{Scope}
 
-		Writing a GPU for the first time, even a smaller one, and doing it well
-		is a large undertaking for a single bachelors project. The project is
-		therefore instead done on a best-effort basis where we try to implement
-		the novel parts of the design, while leaving out generally well
-		researched systems such as cache and memory management. When creating 
-software shaders, very simple, smooth running, graphic scenes has been prioritized 
-over very complex scenes. This to have more resources for optimizations and testing.
+		Writing a GPU for the first time, even a smaller one, and doing it well is
+		a large undertaking for a single bachelors project. The project is
+		therefore instead done on a best-effort basis where we try to implement the
+		novel parts of the design, while leaving out generally well researched
+		systems such as cache and memory management. When creating software
+		shaders, very simple, smooth running, graphic scenes has been prioritized
+		over very complex scenes. This to have more resources for optimizations and
+		testing.
 
 
