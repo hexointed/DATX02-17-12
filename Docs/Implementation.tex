@@ -132,7 +132,7 @@
 			sending them to the frame buffer. Where the register content will be used
 			to determine the color of a pixel on the screen.
 
-			The storage in the storage manager on the BiQRiU is implemented
+			The storage in the storage manager on the GPU is implemented
 			as a double-ended queue. This makes it possible for threads to have
 			some coarse-grained control over execution priority, which is
 			needed in order for many types of programs to be able to run with a
@@ -212,7 +212,7 @@
 
 			\begin{figure}[H]
 				\centering
-				\caption{ BiQRiU Data flow diagram }
+				\caption{ GPU Data flow diagram }
 					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
