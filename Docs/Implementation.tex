@@ -18,24 +18,6 @@
 		iterating over a ray in a main loop. The GLSL shader has more advanced
 		optimizations added to it.
 
-		\subsection{GLSL Based}
-	
-			The shader is made to run on conventional graphics hardware, it was
-			created in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input.
-			
-			Before the loop is run Orthogonal Culling is executed, reducing the
-			number of objects in the distance field. Beyond this, objects can
-			also be enclosed in Bounding Spheres.
-			
-			After a hit is detected different things happen depending on the material
-			assigned to the object. If the object is reflective, then the normal of the
-			surface hit is calculated and used to reflect the ray. If the object is
-			colored the pixel will simply be set according to the object. Color can
-			also be calculated from object or ray coordinates. Coloring the pixel
-			depending on where the object is or where it was hit.
-
 		\subsection{Orthogonal Culling}
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of objects
@@ -76,6 +58,25 @@
 			sphere of influence (how far it reaches from it's origin). This
 			way there is no risk of objects being partially rendered.
 
+		\subsection{GLSL Based}
+	
+			The shader is made to run on conventional graphics hardware, it was
+			created in the high-level shading language GLSL (short for OpenGL
+			Shading Language). It runs the program for each pixel the shader is
+			rendered on, using the screen-coordinates as input. Both the 
+			previously discussed optimizations were implemented and used in this
+			shader.
+			
+			Before the loop is run Orthogonal Culling is executed, reducing the
+			number of objects in the distance field. Orthogonal Culling can cull
+			individual objects or Bounding Spheres. 
+			
+			After a hit is detected different things happen depending on the material
+			assigned to the object. If the object is reflective, then the normal of the
+			surface hit is calculated and used to reflect the ray. If the object is
+			colored the pixel will simply be set according to the object. Color can
+			also be calculated from object or ray coordinates. Coloring the pixel
+			depending on where the object is or where it was hit.
 
 		\subsection{Assembler Based}
 

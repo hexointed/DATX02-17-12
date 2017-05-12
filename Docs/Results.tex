@@ -139,7 +139,12 @@
 				without the orthogonal culling optimization.}
 			\end{table}
 
-			%CHART
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.75\linewidth]{figure/TestResults/PercentageImprovement.png} 
+				\caption{Results from Orthogonal Culling tests}
+				\label{orthcull}
+			\end{figure}
 
 			The reason for this graph's irregular behavior is probably some 
 			instruction memory cache running out or something of that 
@@ -157,7 +162,12 @@
 			reference an identical scene was rendered but without the 
 			optimization running.
 
-			%CHART
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.75\linewidth]{figure/TestResults/BSObjects.png} 
+				\caption{Results from Bounding Sphere test}
+				\label{boundsphere}
+			\end{figure}
 
 			This chart shows that in this scene a performance gain is observed 
 			when more than three objects are placed in a Bounding Sphere. If
