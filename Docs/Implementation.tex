@@ -102,11 +102,10 @@
 
 		The properties of the ray marching algorithm as described in chapter
 		\ref{spheretracing} led to the decision of designing a GPU architecture
-		that does not utilize multi-ALU SIMD with lockstepping to the same
-		extent as that of traditional graphics processors. Instead, a solution 
-		with slightly simpler independent cores was decided upon. This is 
-		similar to reasoning employed by \cite{Woop2005} for a Ray Tracing 
-		hardware design.
+		that does not utilize multi-ALU SIMD with lockstepping to the same extent
+		as that of traditional graphics processors. We instead went for a solution
+		with slightly simpler independent cores. This is similar to the reasoning
+		employed by \cite{Woop2005} for a Ray Tracing hardware design.
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
@@ -121,34 +120,32 @@
 			stored.
 
 			All threads that are not running are sent to a storage manager that
-			communicates with all cores, and threads are then dispatched to
-			cores as the cores become available for execution. The cores are
-			also able to spawn new threads by sending their data to the storage
-			manager, or terminate their current threads either by simply
-			dropping them or by sending them to the frame buffer, where some of
-			the registers will be used to determine the color of some pixel on
-			the screen.
+			communicates with all cores, and threads are then dispatched to the cores
+			as they become available for execution. The cores are also able to spawn
+			new threads by sending their data to the storage manager or by
+			terminating their current thread either by simply dropping them or by
+			sending them to the frame buffer. Where the register content will be used
+			to determine the color of a pixel on the screen.
 
-			The storage in the storage manager on the XQBGPPPU is implemented
+			The storage in the storage manager on the BiQRiU is implemented
 			as a double-ended queue. This makes it possible for threads to have
 			some coarse-grained control over execution priority, which is
 			needed in order for many types of programs to be able to run with a
-			bunded number of threads at any given time. During execution, the
+			bounded number of threads at any given time. During execution the
 			storage manager selects one core that is ready to send a thread, if
 			any core is ready to do so, and adds its thread to the storage. If
 			any core is ready to receive a thread, one is taken from the 
 			storage and sent to that core. If more than one core is ready, one
 			is chosen arbitrarily.
 
-			Each core consists of instruction and data memories, some control 
-			logic for execution order and a DFU. The data and instruction 
-			memories are immutable and mirrored across all cores in their 
+			Each core has an instruction memory and a data memory. The instruction
+			memory controls logic for execution order and the DFU. The data and
+			instruction memories are immutable and mirrored across all cores in their
 			entirety. The control logic is responsible for feeding the DFU with
-			instructions and data, as well as updating the thread registers 
-			when a new thread is attached, sending thread registers to the 
-			storage manager when new threads are spawned and and 
-			requesting a new thread whenever the previously executing one 
-			terminates.
+			instructions and data. It also updates the thread registers when a new
+			thread is attached, sending thread registers to the storage manager when
+			new threads are spawned and and requesting a new thread whenever the
+			previously executing one terminates.
 			
 			The DFU contains a stack which all arithmetic instructions operate
 			on, as well as an ALU for carrying out calculations. It also keeps
@@ -162,33 +159,30 @@
 		\subsection{Instruction Set}
 
 			A representation for distance functions was also designed. It is
-			implemented as a reverse polish notation inspired stack based 
-			instruction set.
+			implemented as a reverse polish notation inspired stack based instruction
+			set. There are a total of four instruction types with different
+			instruction encodings. Their layout in memory is shown in figure
+			\ref{encodingfig} and the type of instructions are:
 
-			There are a total of four instruction types with different
-			instruction encodings, their layout in memory is shown in figure
-			\ref{encodingfig}, and the type of instructions are:
+			\begin{description} 
+				\item[C-type] instructions are for control flow, that
+						is, instructions that affect the global queue or frame buffer or
+						terminate the current thread. C-type instructions can be
+						conditionally executed based on the condition encoded in the two
+						highest bits in the opcode, equal to zero or not equal to zero. 
 
-			\begin{description}
-				\item[C-type] instructions are for control flow, that is, 
-					instructions that affect the global queue or frame buffer or
-					terminate the current thread. C-type instructions can be 
-					conditionally executed, based on the condition encoded in
-					the two highest bits in the opcode. 
-
-				\item[D-type] instructions, which encode arithmetic- and vector
-					instructions on the stack. These operate only on the
+				\item[D-type] instructions encode arithmetic- and vector
+					operations that work on the stack. These operate only on the
 					internal stack in the core and not on any of the other
 					registers. They can take up to six arguments and return up
 					to three return values. D-type instructions can be split up
 					in chunks using the \texttt{next} instruction, where the
-					last computed result will be accumulated using the minimum
-					automatically by the core. This is useful for encoding
-					distance functions.
+					last computed result will be accumulated using the min-function
+					automatically. This is useful for encoding distance functions.
 
 				\item[V-type] instructions deal with memory accesses. The
 					\texttt{p} bit encodes whether this access is for pack
-					(mutable) or read-only memory.
+					(mutable register) or read-only memory.
 
 				\item[R-type] instructions load wide immediate values into the
 					DFU. They are currently only used for assigning distance
