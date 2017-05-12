@@ -16,8 +16,7 @@
 		(Geforce GTX 1060M) that the shader was tested on was able to render 20
 		reflective spheres in real time in fullHD using our performance
 		enhancing algorithm.
-
-
+ 
 	\section{GPU}
 	
 		The GPU has been tested by simulating it and running a program on the simulation 
@@ -103,6 +102,11 @@
 		that affects the algorithm were implemented in the software shader, not
 		on our own GPU.
 
+		For all tests performed, FPS (Frames Per Second) is used to measure
+		performance. FPS is simply how many times the GPU is able to render 
+		the scene per second. The time it takes to render the scene once is 
+		equal to one divided by the FPS.
+
 		\subsection{Orthogonal culling}
 		
 		Tests to see the performance of the orthogonal culling optimization
@@ -136,17 +140,6 @@
 			\end{table}
 
 			%CHARTS
-			
-			\begin{table}
-			\centering
-			\scatterplot{1,2,10,15,20,25}{50,100,150,200,250,300}{4}{0.33}
-				{frames}{number of objects}{/figure/OptimizedGraf.txt}
-			\end{table}
-
-			The tests were performed by using an increasing number of
-			solid-colored spheres in a plane in front of the camera. Because of
-			this, the spheres are not obstructed by other spheres, making this
-			the best possible scenario for the optimization.
 
 		\subsection{Bounding spheres}
 

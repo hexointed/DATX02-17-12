@@ -1,38 +1,56 @@
 \chapter{Introduction} 	
 %	\section{Background} 
-	During the early '90s many types of real time rendering algorithms were 
-	developed and tested \cite{TODO}. This was possible because they ran in 
-	software on the CPU (Central Processing Unit), and could thus be easily altered and enhanced. 
-	Photo realistic rendering could be done using a method called Ray Tracing, 
-	but this was slow\cite{TODO}. Improvements were made to this method and 
-	one similar algorithm was called Sphere Tracing. This could be used to render
-	3D fractals\cite{TODO}, but it was still too slow to render complex
-	geometry in real time\cite{TODO}. Better graphics rendering (fast real 
-	time graphics) was a key selling point among competing computer systems, so 
-	to improve rendering speed, the computer industry moved towards dedicated 
-	hardware based 	graphics rendering\cite{TODO}. These systems was almost 
-	exclusively using polygon-based rendering, unsuitable for most Sphere Tracing 
-	algorithms. Today, 3D graphics cards have become more programmable and the 
-	last 5 years have seen a small resurgence in the use of Sphere Tracing 
-	rendering\cite{TODO}. Simple scenes can now be rendered using Sphere Tracing 
-	in real time using state-of-the-art consumer 3D graphics cards. However the 
-	full potential of the algorithm is not achievable on current GPUs 
-	due to the underlying architecture being designed for polygon rendering to a 
-	large extent\cite{TODO}. This project examines the performance potentials of 
-	graphics cards based on the Sphere Tracing algorith. 
-	
+
+	During the late '80s and through the '90s many types of real time rendering
+	algorithms were developed and tested \cite{Hart1989}. This was possible
+	because they ran in software on the	CPU (Central Processing Unit), and
+	could thus be easily altered and enhanced. Photo realistic rendering could
+	be achieved using a method called Ray Tracing, but this is slow for real time
+	graphics\cite{Shirley2005}. Improvements has been made to this method and one
+	such algorithm was named Sphere Tracing. This could be used to render 3D
+	fractals\cite{Hart1989}, but it was	still too slow to render complex
+	geometry in real time\cite{Hart1989}. Better graphics rendering (fast real
+	time graphics) was a key selling point among competing computer systems, so
+	to improve rendering speed, the computer industry moved towards dedicated
+	hardware based graphics rendering\cite{Houston2010}. These systems was
+	almost exclusively using polygon-based	rendering, unsuitable for most
+	Sphere Tracing algorithms. Today, 3D graphics cards have become more
+	programmable and the last 10 years have seen a small resurgence in the use
+	of Sphere Tracing rendering\cite{Quilez2008}. Simple scenes can now be
+	rendered using Sphere Tracing in real time using state-of-the-art consumer
+	3D graphics cards. However the full potential of the algorithm is not
+	achievable on current GPUs due to the underlying architecture being
+	designed for polygon rendering\cite{Houston2010}. This project examines the
+	performance	potentials of graphics cards based on the Sphere Tracing 
+	algorithm.
+
+	\section{Note on shaders} 
+		
+		Throughout the report we will use the word \emph{shader} a lot. A
+		shader is an historical term that today in modern industry terms refer to
+		the code running on the GPU as opposed to on the CPU. It is called a
+		\emph{shader} because initially only the color and illumination where
+		programmable where as today the GPUs become more generally programmable by
+		the generation. 
+
 	\section{Project goals}
 	
-		The main goal for this project is to design and implement a basic GPU 
-		architecture that is designed to efficiently execute the Sphere Tracing 
-		algorithm. In striving towards efficiency, we examine Sphere Tracing in 
-		order to find possible optimizations, both algorithmic and hardware 
-		based.
+		The main goal for this project is to design and implement a basic GPU
+		architecture that is designed to efficiently execute the Sphere Tracing
+		algorithm. In striving towards efficiency, we examine Sphere Tracing in
+		order to find possible optimizations, both algorithmic and hardware based.
+		For testing some of the optimizations performance, a software shader is to
+		be designed.
 		
 	\section{Scope}
 
 		Writing a GPU for the first time, even a smaller one, and doing it well is
-		a large undertaking for a single bachelors project. The project is therefore
-		instead done on a best-effort basis where we try to implement the novel parts
-		of the design, while leaving out generally well researched systems such as
-		cache and memory management. 
+		a large undertaking for a single bachelors project. The project is
+		therefore instead done on a best-effort basis where we try to implement the
+		novel parts of the design, while leaving out generally well researched
+		systems such as cache and memory management. When creating software
+		shaders, very simple, smooth running, graphic scenes has been prioritized
+		over very complex scenes. This to have more resources for optimizations and
+		testing.
+
+
