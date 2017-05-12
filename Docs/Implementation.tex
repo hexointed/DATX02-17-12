@@ -18,24 +18,6 @@
 		iterating over a ray in a main loop. The GLSL shader has more advanced
 		optimizations added to it.
 
-		\subsection{GLSL Based}
-	
-			The shader is made to run on conventional graphics hardware, it was
-			created in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input.
-			
-			Before the loop is run Orthogonal Culling is executed, reducing the
-			number of objects in the distance field. Beyond this, objects can
-			also be enclosed in Bounding Spheres.
-			
-			After a hit is detected different things happen depending on the material
-			assigned to the object. If the object is reflective, then the normal of the
-			surface hit is calculated and used to reflect the ray. If the object is
-			colored the pixel will simply be set according to the object. Color can
-			also be calculated from object or ray coordinates. Coloring the pixel
-			depending on where the object is or where it was hit.
-
 		\subsection{Orthogonal Culling}
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of objects
@@ -76,6 +58,25 @@
 			sphere of influence (how far it reaches from it's origin). This
 			way there is no risk of objects being partially rendered.
 
+		\subsection{GLSL Based}
+	
+			The shader is made to run on conventional graphics hardware, it was
+			created in the high-level shading language GLSL (short for OpenGL
+			Shading Language). It runs the program for each pixel the shader is
+			rendered on, using the screen-coordinates as input. Both the 
+			previously discussed optimizations were implemented and used in this
+			shader.
+			
+			Before the loop is run Orthogonal Culling is executed, reducing the
+			number of objects in the distance field. Orthogonal Culling can cull
+			individual objects or Bounding Spheres. 
+			
+			After a hit is detected different things happen depending on the material
+			assigned to the object. If the object is reflective, then the normal of the
+			surface hit is calculated and used to reflect the ray. If the object is
+			colored the pixel will simply be set according to the object. Color can
+			also be calculated from object or ray coordinates. Coloring the pixel
+			depending on where the object is or where it was hit.
 
 		\subsection{Assembler Based}
 
@@ -163,6 +164,14 @@
 			set. There are a total of four instruction types with different
 			instruction encodings. Their layout in memory is shown in figure
 			\ref{encodingfig} and the type of instructions are:
+
+			\begin{figure}
+				\centering
+				\caption{Bit encoding for the different instruction types. All
+					instruction types have a fixed width 16-bit encoding.}
+				\label{encodingfig}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/instruction_layout} 
+			\end{figure}
 
 			\begin{description} 
 				\item[C-type] instructions are for control flow, that
@@ -328,7 +337,10 @@
 			\begin{table}
 				\centering
 				\caption{A \texttt{C} implementation of the shifting nth root 
-					algorithm}
+					algorithm. The shifting nth root algorithm approximates the
+					square root one bit at a time, and is as accurate as the 
+					precision allows. All calculated bits are stored in the 
+					variable \texttt{res}.}
 				\label{sqrtc}
 				\begin{tabular}{c}
 				\begin{lstlisting}
@@ -354,7 +366,10 @@ int isqrt(int num) {
 				\caption{A \texttt{C} implementation of the shifting nth root
 					algorithm. This code example is slightly longer, but
 					relatively expensive additions have been replaced by
-					bitwise ors.}
+					bitwise ors. The bit-shift of \texttt{res} has been moved, 
+					removing the else-statement, and the comparison has been 
+					rewritten to require less logic when implemented in 
+					hardware.}
 				\label{sqrtcopt}
 				\begin{tabular}{c}
 				\begin{lstlisting}
