@@ -165,6 +165,14 @@
 			instruction encodings. Their layout in memory is shown in figure
 			\ref{encodingfig} and the type of instructions are:
 
+			\begin{figure}
+				\centering
+				\caption{Bit encoding for the different instruction types. All
+					instruction types have a fixed width 16-bit encoding.}
+				\label{encodingfig}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/instruction_layout} 
+			\end{figure}
+
 			\begin{description} 
 				\item[C-type] instructions are for control flow, that
 						is, instructions that affect the global queue or frame buffer or
@@ -200,7 +208,7 @@
 			\begin{figure}[H]
 				\centering
 				\caption{ XQBGPPPU Data flow diagram }
-					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
+				\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
 	
@@ -304,7 +312,7 @@
 					ordered in two extra layers. This is, however, only a
 					visual artifact in this image. Adding more layers with
 					shifts of 6, 10, 14, 26 etc increases accuracy further,
-					although returns are diminishing quickly.}
+					although returns diminish quickly.}
 				\label{orsqrt3}
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
 			\end{figure}
@@ -333,7 +341,10 @@
 			\begin{table}
 				\centering
 				\caption{A \texttt{C} implementation of the shifting nth root 
-					algorithm}
+					algorithm. The shifting nth root algorithm approximates the
+					square root one bit at a time, and is as accurate as the 
+					precision allows. All calculated bits are stored in the 
+					variable \texttt{res}.}
 				\label{sqrtc}
 				\begin{tabular}{c}
 				\begin{lstlisting}
@@ -359,7 +370,10 @@ int isqrt(int num) {
 				\caption{A \texttt{C} implementation of the shifting nth root
 					algorithm. This code example is slightly longer, but
 					relatively expensive additions have been replaced by
-					bitwise ors.}
+					bitwise ors. The bit-shift of \texttt{res} has been moved, 
+					removing the else-statement, and the comparison has been 
+					rewritten to require less logic when implemented in 
+					hardware.}
 				\label{sqrtcopt}
 				\begin{tabular}{c}
 				\begin{lstlisting}
