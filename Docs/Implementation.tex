@@ -60,17 +60,22 @@
 
 		\subsection{Orthogonal Culling}
 
-			A bottleneck of Sphere Tracing is that the distance to a lot of
-			objects has to be calculated once for every march step. One way to
-			increase the performance is to reduce the number of objects that
-			the distance has to be calculated to, without reducing the actual
-			number of objects in the scene. To do this the GPU needs to
-			calculate which object a ray might hit, traditionally the CPU will
-			tell the GPU which objects are in the field of view (Frustum
-			culling) but we can't do that because GLSL does not allow us to run 
-			code on the CPU. Even if we could use frustum culling it would
-			probably not be enough since each ray should only care for the objects
-			that it might hit, not all objects in the field of view.
+			A bottleneck of Sphere Tracing is that the distance to
+			a lot of objects has to be calculated once for every march step.
+			One way to increase the performance is to reduce
+			the number of objects that the distance has to be calculated to,
+			without reducing the actual number of objects in the scene. To do
+			this the GPU needs to calculate which object a ray might hit,
+			traditionally the CPU will tell the GPU which objects are in the
+			field of view (Frustum culling) 
+			
+			// but we can't do that because of
+			//GLSL does not allow us to run code on the CPU. 
+			// öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
+			
+			Even if we could use frustum culling it would probably not be enough, each ray 
+			should only care for the objects that it might hit, not all 
+			objects in the field of view.
 
 			Orthogonal Culling works by going through all the objects in the 
 			scene for ray and calculating which it can hit. Orthogonal 
@@ -106,7 +111,7 @@
 
 			In this version no optimizations were implemented due to massively 
 			increased development times compared to GLSL and the assembler 
-			language wasn't completed until a later stage in the project. Therefore the 
+			language wasn't completed until a late stage in the project. Therefore the 
 			time avaible for development on the Assembler Based Sphere Tracer 
 			was shorter than the shader.
 
@@ -141,10 +146,7 @@
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
-		functional hardware description language, or FHDL. One thing that
-		\clash offered was the command-line repl that allowed us to quickly
-		write and test new modules on a higher conceptual level rather than
-		simulating the Verilog code on a bit level.
+		functional hardware description language, or FHDL.
 
 		\subsection{Architecture}
 
@@ -239,7 +241,7 @@
 			\begin{figure}[H]
 				\centering
 				\caption{ XQBGPPPU Data flow diagram }
-				\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
+					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
 	
