@@ -2,7 +2,11 @@
 ladda assembler
 asm "filnamn"
 ladda simulate
-simGPU
+simGPU eller simGPUclr
+
+simPixels "X" simulerar GPU:n i X klockcykler
+
+
 
 zero-flaggan kräver en siffra som perkar på stacken.
 

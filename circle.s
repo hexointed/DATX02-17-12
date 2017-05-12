@@ -9,6 +9,8 @@ two:
 	2.0
 hundred:
 	100.0
+ones:
+	255.0
 displaysize:
 	16.0
 numPixels:
@@ -21,6 +23,8 @@ red:
 	65280.0
 shift:
 	256.0
+white:
+	65535.0
 
 maxDist:
 	20.0
@@ -370,16 +374,21 @@ rayPos:
 
 	;hit?
 hit:
-	val &one
+	val &ones
+	val &shift
+	div
+	val &white 
+	add
 	pack 14
 	val &epsilon
 	sub
 
+	; if result is negative algorithm is finished
 	n 0 setval 2 1
 	n 0 pushf
 	n 0 drop
 
-	;increase scaler
+	;otherwie increase scaler
 	pack 14
 	pack 7
 	add
@@ -399,25 +408,6 @@ tooFar:
 	a setval 0 0
 	a pushq
 	a drop
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -485,6 +475,7 @@ length:
 
 
 	
+
 
 
 
@@ -567,7 +558,6 @@ length:
 	add
 	a setval 6 0
 	;---------------
-
 
 
 
