@@ -12,21 +12,22 @@
 			As described in \ref{FHDLs}, the ability to simulate the function of
 			the gpu directly in a REPL was completely essential in us being able
 			to complete a working GPU in the short timespan available. The way
-			\clash handles state is quite elegant and effective once one has
+			\clash{} handles state is quite elegant and effective once one has
 			learned the general pattern. Lists however, are too abstract for
-			synthesis so \clash uses its own vector type instead. Most regular
+			synthesis so \clash{}  uses its own vector type instead. Most 
+			regular
 			data functions are implemented, but all such vectors must have a
 			fixed size. This makes some operations such as combining two vectors
 			rather cumbersome and one has to work around this.
 	
 		\subsection{Synthclipse}
 			This is an IDE for developing shaders, using GLSL or JSX. It has
-			features for rapid recompilation and testing, easy resource loading and
-			Uniform Controls. The Uniform Controls are a collection of user
+			features for rapid recompilation and testing, easy resource loading 
+			and	Uniform Controls. The Uniform Controls are a collection of user
 			interface elements such as sliders and color pickers, which can be
-			saved into Presets. These allowed us to navigate our scene and modify
-			its parameters on the fly, enabling visual examination and debugging of
-			our algorithms.		
+			saved into Presets. These allowed us to navigate our scene and 
+			modify its parameters on the fly, enabling visual examination and 
+			debugging of our algorithms.		
 		
 	\section{Results} \label{discussion}
 		
