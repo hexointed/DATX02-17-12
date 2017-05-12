@@ -4,10 +4,10 @@
 	yet	implemented optimizations, and what future work is possible from this
 	point in time.
 	
-	\section{Results}  \label{discussion}
+	\section{Results} \label{discussion}
 		
 		\subsection{Software Shader}
-		
+
 			The optimizations that were implemented improved performance more
 			than anticipated. There are many optimizations that are yet to be
 			implemented and tested and it's hard to estimate the potential
@@ -29,11 +29,10 @@
 
 			Although GLSL has it's limits it still has some very attractive
 			features, it was easy to learn because the syntax has much in
-			common with java, which we've studied. The time it takes to develop
-			new features and test them is short. The purpose of the software
-			shader was to study the algorithm, implement and test optimizations
-			and develop new features. For the purposes of this project GLSL was 
-			a perfect fit.
+			common with java. The time it takes to develop new features and
+			test them is short. The purpose of the software shader was to study
+			the algorithm, implement and test optimizations and develop new
+			features. For the purposes of this project GLSL was a perfect fit.
 		
 		\subsection{GPU} 
 		
@@ -44,6 +43,26 @@
 			unseen flaws in the design that must
 			be resolved. In the end we implemented the core and a storage 
 			manager which enabled multiple cores running in parallel.
+
+			The storage manager turned out to need to be more complex than we 
+			originally anticipated. In its first implementation, the storage in
+			the storage manager was a simple FIFO queue. This worked well for 
+			very simple shader programs, but we found that it was not possible
+			to write a full Sphere Tracer using this storage type. This was not
+			due to any complexity inherent in the sphere tracing algorithm, but
+			rather a consequence of how the GPU requires the shader programs to
+			keep track of all pixels they need to render. This is solved by 
+			having the shader generate a new thread for every pixel it needs to
+			render, and then running the actual pixel shader code on that 
+			thread. This fails when threads need to execute many jumps or 
+			loops, which are also solved by spawning new threads. Whenever a 
+			thread executed a jump, the pixel spawning thread took priority 
+			because of the FIFO storage, and a new pixel thread would be 
+			spawned. After many jumps, the storage in the storage manager would 
+			fill upp entirely, and all cores would stall waiting for the 
+			storage manager allowing them to send it more threads. This was 
+			solved by changing the internal storage to a double-ended queue,
+			giving the threads some control over execution priority.
 
 			If we were to continue working on this project another workflow
 			would be adopted when developing the GPU. More detailed planning is
@@ -77,12 +96,12 @@
 			implementing the Sphere tracer in a language that has more granular 
 			GPU control than GLSL, which is what we used in this paper.
 
-			However great the performance gain the way this is implemented             
+			However great the performance gain the way this is implemented 
 			is still far from the optimal solution, currently it performs 
 			orthogonal culling on all the objects in the scene per pixel. 
 			Instead, culling should be done on a per-object basis and calculate 
-            which rays an object intersects, this way fewer calculations would
-            have to be performed and optimally they would be performed on the
+			which rays an object intersects, this way fewer calculations would
+			have to be performed and optimally they would be performed on the
 			CPU.
 
 			This method could work together with the Bounding Sphere
@@ -170,7 +189,7 @@
 			not inside the minimum distance spheres (MDS) the combined pixel is
 			split up into smaller sets, which each have a centered pixel. Each
 			set then repeats the these steps over and over again individually
-			along their new center pixel's ray.  This is repeated a number of
+			along their new center pixel's ray. This is repeated a number of
 			times depending on the march distance in the scene for every set.
 			The closer the sets are to a target, the more likely it is for a
 			higher amount of subsets to be created due to the decrease of the
@@ -194,7 +213,7 @@
 		this report as it stands right now. The GPU is still too underdeveloped
 		to definively show if the algorithm has potential one way or another.
 		Further prototypes needs to be built with greater rigor before that can
-		happen.  If we however assume that somewhere down the line it turns out
+		happen. If we however assume that somewhere down the line it turns out
 		to be a success, then there are generally three ways in which we could
 		forsee that happening.
 
