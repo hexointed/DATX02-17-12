@@ -17,18 +17,18 @@
 		\subsection{Software Shader}
 		
 
-            The optimizations that were implemented improved performance more
-            than anticipated. There are many optimizations that are yet to be
-            implemented and tested and it's hard to estimate the potential
-            achievable performance, the only thing that is certain is that
-            there are massive performance potentials.
+			The optimizations that were implemented improved performance more
+			than anticipated. There are many optimizations that are yet to be
+			implemented and tested and it's hard to estimate the potential
+			achievable performance, the only thing that is certain is that
+			there are massive performance potentials.
 
-            There are great limitations in what could be done with the shader
-            because of the language that we chose to implement it in, GLSL. It
-            offers nothing more than a way to write a program which will run on
-            a per-pixel basis and put the result on the screen. Because of
-            this, CPU-GPU cooperation is not possible and that comes with
-            consequences.
+			There are great limitations in what could be done with the shader
+			because of the language that we chose to implement it in, GLSL. It
+			offers nothing more than a way to write a program which will run on
+			a per-pixel basis and put the result on the screen. Because of
+			this, CPU-GPU cooperation is not possible and that comes with
+			consequences.
 
 			Modern graphics engines not only does a lot of work on the CPU but
 			it has granular control over the GPU, whereas we have no control at
@@ -38,13 +38,13 @@
 			can not be done in GLSL and therefore a high-performance sphere
 			tracer should be done not in GLSL but in a lower-level language.
 
-            Although GLSL has it's limits it still has some very attractive
-            features, it was easy to learn because the syntax has much in
-            common with java, which we've studied. The time it takes to develop
-            new features and test them is short. The purpose of the software
-            shader was to study the algorithm, implement and test optimizations
-            and develop new features. For the purposes of this sphere tracer
-            GLSL was a perfect fit.
+			Although GLSL has it's limits it still has some very attractive
+			features, it was easy to learn because the syntax has much in
+			common with java, which we've studied. The time it takes to develop
+			new features and test them is short. The purpose of the software
+			shader was to study the algorithm, implement and test optimizations
+			and develop new features. For the purposes of this sphere tracer
+			GLSL was a perfect fit.
 		
 		\subsection{GPU} 
 		
@@ -56,11 +56,11 @@
 			be resolved. In the end we implemented the core and a storage 
 			manager which enabled multiple cores running in parallel.
 
-            If we were to continue working on this project another workflow
-            would be adopted when developing the GPU. More detailed planning is 
-            required in the early stages and empiric testing of different 
-            implementations is required along the entire development to reach
-            the best possible solution.
+			If we were to continue working on this project another workflow
+			would be adopted when developing the GPU. More detailed planning is
+			required in the early stages and empiric testing of different
+			implementations is required along the entire development to reach
+			the best possible solution.
 
 	\section{Optimizations} \label{optimization}
 
@@ -71,11 +71,11 @@
 			By setting up a too large bounding sphere or by setting it up with
 			few objects or simply objects that are far apart.
 
-			In testing we saw an increase in performance, but in some cases 
-			a decrease could also be observed. The performance increase depends 
-			on a lot of factors such as number of objects in a sphere, how well 
-			the sphere is fits around them and how far apart they are. If misused
-			the performance will be decreased.
+			In testing we saw an increase in performance, but in some cases a
+			decrease could also be observed. The performance increase depends
+			on a lot of factors such as number of objects in a sphere, how well
+			the sphere is fits around them and how far apart they are. If
+			misused the performance will be decreased.
 
 			To use this optimization efficiently the objects inside a bounding
 			sphere should never come far apart and the sphere should be exactly
@@ -88,12 +88,12 @@
 			implementing the Sphere tracer in a language that has more granular 
 			GPU control than GLSL, which is what we used in this paper.
 
-			However great the performance gain the way this is implemented
-			is still far from the optimal solution, currently it performs 
-			orthogonal culling on all the objects in the scene per pixel. 
+			However great the performance gain the way this is implemented is
+			still far from the optimal solution, currently it performs
+			orthogonal culling on all the objects in the scene per pixel.
 			Instead, culling should be done on a per-object basis and calculate
-            which rays an object intersects, this way fewer calculations would
-            have to be performed and optimally they would be performed on the
+			which rays an object intersects, this way fewer calculations would
+			have to be performed and optimally they would be performed on the
 			CPU.
 
 			This method could work together with the Bounding Sphere
@@ -132,13 +132,13 @@
 
 		\subsection{GPU-CPU cooperation}
 
-            In the current implementation everything is performed on the GPU,
-            including object transformations and culling. Currently if objects 
-            in the scene are supposed to move they have to be moved using 
-            mathematical functions, such as sinus. These functions are then 
-            evaluated for each march step. This is essentially wasted computing 
-            power and could be performed on the CPU as is standard in modern 
-            graphics engines.
+			In the current implementation everything is performed on the GPU,
+			including object transformations and culling. Currently if objects
+			in the scene are supposed to move they have to be moved using
+			mathematical functions, such as sinus. These functions are then
+			evaluated for each march step. This is essentially wasted computing
+			power and could be performed on the CPU as is standard in modern
+			graphics engines.
 
 		\subsection{Plane-ray intersection}
 
@@ -173,21 +173,19 @@
 			number of times marched is achieved. Giving an increase in
 			performance. 
 
-			%add link to mendeley paper
-			
 		\subsection{Ray grouping}
 		
-			Ray grouping works by grouping adjacent rays together. If a specific 
-			pixel N is to be rendered we group the adjacent pixels into a set, 
-			then march along the ray of N. If any of the pixels are not inside 
-			the minimum distance spheres (MDS) the combined pixel is split up 
-			into smaller sets, which each have a centered pixel. Each set then 
-			repeats the these steps over and over again individually along their 
-			new center pixel's ray.  This is repeated a number of times 
-			depending on the march distance in the scene for every set. The 
-			closer the sets are to a target, the more likely it is for a higher 
-			amount of subsets to be created due to the decrease of the MDS's 
-			volumes making less pixels fit inside.
+			Ray grouping works by grouping adjacent rays together. If a
+			specific pixel N is to be rendered we group the adjacent pixels
+			into a set, then march along the ray of N. If any of the pixels are
+			not inside the minimum distance spheres (MDS) the combined pixel is
+			split up into smaller sets, which each have a centered pixel. Each
+			set then repeats the these steps over and over again individually
+			along their new center pixel's ray.  This is repeated a number of
+			times depending on the march distance in the scene for every set.
+			The closer the sets are to a target, the more likely it is for a
+			higher amount of subsets to be created due to the decrease of the
+			MDS's volumes making less pixels fit inside.
 			
 			We believe ray grouping gives a performance increase by lowering
 			the number of steps needed to march. Depending on the scene it
@@ -200,3 +198,42 @@
 			volumes which would not give as good of a result as the earlier
 			mentioned example due to the increase in subsets early in the
 			marching.
+
+	\section{Societal implications}
+
+		There will be no big inpact on society from the results described in
+		this report as it stands right now. The GPU is still too underdeveloped
+		to definively show if the algorithm has potential one way or another.
+		Further prototypes needs to be built with greater rigor before that can
+		happen.  If we however assume that somewhere down the line it turns out
+		to be a success, then there are generally three ways in which we could
+		forsee that happening.
+
+		First up is by breaking through in the games industry. Granted that it
+		probably will not be able to outperform modern graphic cards at their own
+		game even after improving the card as much as possible. But the
+		up-and-coming VR technology faces different challenges, usually rendering
+		smaller scenes with fewer objects and capturing actual ``3D’’ images to
+		display to the user. Both of these factors favors Sphere Tracing since it
+		inherently produces perfect 3D objects and works much faster in scenes with
+		shorter render distance.
+
+		Another possibility is that the GPU turns out to be too slow for
+		rendering games in real time, but runs other Ray Tracing algorithms
+		commonly used in movie production faster that modern graphic cards.
+		This is not too unlikely since the calculation of the rays in both
+		cases follow many similar patterns in bouncing and reflecting etc.
+		Since movies render in render farms where like server farms, lots of
+		copies of the same hardware works in tandem. Meaning that even a small
+		improvement over current graphic cards might be amplified to a
+		significant gain in computational power.
+
+		Finally, since we wrote the hardware similar to a CPU but with more
+		threading like a GPU except with no lockstepping, it might be a perfect
+		fit for some problem not yet discovered. Much like GPUs used to sit
+		unused while not being used for gaming or video editing essentialy
+		wasting potential computations. Novel projects like
+		Folding@Home\cite{Beberg2009} popped up to exploit this fact to a great
+		success. Although it is hard to guess at exactly how. Given the
+		uniqueness of the hardware it might find a similar novel use in the
+		future.
