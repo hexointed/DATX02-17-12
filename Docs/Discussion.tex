@@ -5,17 +5,29 @@
 	point in time.
 	
 	\section{Development Environment}
-	
-		Clash
-		One thing that \clash offered was the command-line repl that allowed us to quickly
-		write and test new modules on a higher conceptual level rather than
-		simulating the Verilog code on a bit level. 
-	
-		Synthclipse?
 		
+		In this section we describe some project specific tools and our experience using them.
 		
-		FPGA-synth-program?
+		\subsection{\clash}
+			As described in \ref{FHDLs}, the ability to simulate the function of
+			the gpu directly in a REPL was completely essential in us being able
+			to complete a working GPU in the short timespan available. The way
+			\clash handles state is quite elegant and effective once one has
+			learned the general pattern. Lists however, are too abstract for
+			synthesis so \clash uses its own vector type instead. Most regular
+			data functions are implemented, but all such vectors must have a
+			fixed size. This makes some operations such as combining two vectors
+			rather cumbersome and one has to work around this.
 	
+		\subsection{Synthclipse}
+			This is an IDE for developing shaders, using GLSL or JSX. It has
+			features for rapid recompilation and testing, easy resource loading and
+			Uniform Controls. The Uniform Controls are a collection of user
+			interface elements such as sliders and color pickers, which can be
+			saved into Presets. These allowed us to navigate our scene and modify
+			its parameters on the fly, enabling visual examination and debugging of
+			our algorithms.		
+		
 	\section{Results} \label{discussion}
 		
 		\subsection{Software Shader}
@@ -25,26 +37,13 @@
 			implemented and tested and it's hard to estimate the potential
 			achievable performance, the only thing that is certain is that
 			there are massive performance potentials.
-
-			There are great limitations in what could be done with the shader
-			because of the language that we chose to implement it in, GLSL. It
-			offers nothing more than a way to write a program which will run on
-			a per-pixel basis and put the result on the screen. Because of
-			this, CPU-GPU cooperation is not possible. Modern graphics engines 
-			not only does a lot of work on the CPU but it has granular control 
-			over the GPU. In GLSL nothing can be done on the CPU in order to 
-			increase performance. Things such as object positioning, frustum 
-			culling, etc. should be done by the CPU, not the GPU. This kind of 
-			implementation can not be done in GLSL and therefore a 
-			high-performance sphere tracer should be done not in GLSL but in a 
-			lower-level language.
-
-			Although GLSL has it's limits it still has some very attractive
-			features, it was easy to learn because the syntax has much in
-			common with java. The time it takes to develop new features and
-			test them is short. The purpose of the software shader was to study
-			the algorithm, implement and test optimizations and develop new
-			features. For the purposes of this project GLSL was a perfect fit.
+			
+			GLSL has some very attractive features, it was easy to learn 
+			because the syntax has much in common with C++. The time it takes 
+			to develop new features and	test them is short. The purpose of the 
+			software shader was to study the algorithm, implement and test 
+			optimizations and develop new features. For the purposes of this 
+			project GLSL was a perfect fit.
 		
 		\subsection{GPU} 
 		
@@ -100,14 +99,10 @@
 		\subsection{Orthogonal culling}
 
 			The performance gain from this optimization exceeded our 
-			expectations. This could probably be further improved by 
-			implementing the Sphere tracer in a language that has more granular 
-			GPU control than GLSL, which is what we used in this paper.
-
-			However great the performance gain the way this is implemented 
-			is still far from the optimal solution, currently it performs 
-			orthogonal culling on all the objects in the scene per pixel. 
-			Instead, culling should be done on a per-object basis and calculate 
+			expectations. However great the performance gain, this
+			is still far from the optimal implementation. It currently performs 
+			Orthogonal Culling on all the objects in the scene, per pixel. 
+			Instead, culling should be done once per object and calculate 
 			which rays an object intersects, this way fewer calculations would
 			have to be performed and optimally they would be performed on the
 			CPU.
@@ -217,43 +212,45 @@
 
 	\section{Future impact on industry} 
 
-		The GPU is still too underdeveloped to definitively show if the algorithm
-		has potential one way or another.  Further prototypes needs to be built
-		with greater rigor before that can happen. If we however assume that
-		somewhere down the line it turns out to be a success, then there are
-		generally three ways in which we could foresee that happening.
-
-		First up is by breaking through in the games industry. Granted that it
-		probably will not be able to outperform modern graphic cards at their own
-		game even after improving the card as much as possible. But the
-		up-and-coming VR technology faces different challenges, usually rendering
-		smaller scenes with fewer objects and capturing actual ``3D’’ images to
-		display to the user. Both of these factors favors Sphere Tracing since it
-		inherently produces perfect 3D objects and works much faster in scenes with
-		shorter render distance.
-
+		The GPU is still too underdeveloped to definitively show if the
+		algorithm has potential one way or another.  Further prototypes needs
+		to be built with greater rigor before that can happen. If we however
+		assume that somewhere down the line it turns out to be a success,
+		then there are generally three ways in which we could foresee that
+		happening.
+		
+		First up is by breaking through in the games industry. Granted that
+		it probably will not be able to outperform modern graphic cards at
+		their own game even after improving the card as much as possible. But
+		the up-and-coming VR technology faces different challenges, usually
+		rendering smaller scenes with fewer objects and capturing actual
+		``3D’’ images to display to the user. Both of these factors favors
+		Sphere Tracing since it inherently produces perfect 3D objects and
+		works much faster in scenes with shorter render distance.
+		
 		Another possibility is that the GPU turns out to be too slow for
 		rendering games in real time, but runs other Ray Tracing algorithms
 		commonly used in movie production faster that modern graphic cards.
 		This is not too unlikely since the calculation of the rays in both
 		cases follow many similar patterns in bouncing and reflecting etc.
 		Since movies render in render farms where like server farms, lots of
-		copies of the same hardware works in tandem. Meaning that even a small
-		improvement over current graphic cards might be amplified to a
+		copies of the same hardware works in tandem. Meaning that even a
+		small improvement over current graphic cards might be amplified to a
 		significant gain in computational power.
-
-		Finally, we designed our GPU similar to a CPU but with more	cores like a
-		GPU except with no lockstepping. If this proves to be feasible for a full
-		ASIC (Application-specific integrated circuit), then this type of
-		processing unit would be better at parallel processing than a regular CPU,
-		and it would perform better than a regular GPU at recursive and
-		conditionally branching algorithms. This lends itself well to computations
-		such as fractals, population simulation and artificial intelligence. It
-		might also fit classes of computation not yet thought of, such in the
-		example of Folding@Home\cite{Beberg2009}. They created software, deployed
-		all over the world, to run on Graphics cards in home computers, when the
-		computer was idle. So instead of wasting precious computing power, these
-		GPUs, adept at parallel computations, were repurposed to work on the
-		complicated problem of protein folding. In effect acting as a global
-		supercomputer to aid medical research. Given the uniqueness of our GPU it
-		might find a similar novel use in the future.
+		
+		Finally, we designed our GPU similar to a CPU but with more	cores
+		like a GPU except with no lockstepping. If this proves to be feasible
+		for a full ASIC (Application-specific integrated circuit), then this
+		type of processing unit would be better at parallel processing than a
+		regular CPU, and it would perform better than a regular GPU at
+		recursive and conditionally branching algorithms. This lends itself
+		well to computations such as fractals, population simulation and
+		artificial intelligence. It might also fit classes of computation not
+		yet thought of, such in the example of Folding@Home\cite{Beberg2009}.
+		They created software, deployed all over the world, to run on
+		Graphics cards in home computers, when the computer was idle. So
+		instead of wasting precious computing power, these GPUs, adept at
+		parallel computations, were repurposed to work on the complicated
+		problem of protein folding. In effect acting as a global
+		supercomputer to aid medical research. Given the uniqueness of our
+		GPU it might find a similar novel use in the future.
