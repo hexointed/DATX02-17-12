@@ -29,23 +29,23 @@
 		Sphere Tracer, the pixels in these groups differ much more in their
 		instruction execution path, since the algorithm is more iterative and
 		often varies greatly in number of steps until completion.
+		
+	\section{ Hobbyists and Academia }
 
-		\section{ Hobbyists and Academia }
-\cite{
-		Despite this, computer art hobbyists are using Sphere Tracing to produce
-		some quite stunning real time visuals on consumer PC's. They showcase 
-		the possibilities of the algorithm by reducing scene complexity and 
-		instead rendering using techniques that are commonly found in non 
-		real time Ray Tracers. Examples of such are true reflections and 
-		refractions, spacial repetition, object morphing and 3D fractals. 
-		For some examples of this check out ???  \cite{InigoQuilez}.
-		Inspired by research papers such as John C. Hart's 
-		1996 paper\cite{Hart1996}, their success encouraged hobbyist to do 
-		academic research of their own, which led to new papers being written. A 
-		good example of this is the 2014 paper "Enhanced Sphere 
+		Despite this, computer art hobbyists are using Sphere Tracing to
+		produce quite stunning real time visuals on consumer PC's. They
+		showcase the possibilities of the algorithm by reducing scene
+		complexity and instead rendering using techniques that are commonly
+		found in non real time Ray Tracers. Examples of such are true
+		reflections and refractions, spacial repetition, object morphing and 3D
+		fractals\cite{InigoQuilez}.  Inspired by research papers such as John
+		C. Hart's 1996 paper\cite{Hart1996}, their success encouraged hobbyist
+		to do academic research of their own, which led to new papers being
+		written. A good example of this is the 2014 paper "Enhanced Sphere
 		Tracing"\cite{Korndorfer2014}.
 
-		\section{ Industry }		
+	\section{ Industry }		
+
 		% Kanske helt orelevant ?
 		There are as of today no big commercial applications using Sphere Tracing
 		that we know of, but Ray Tracing algorithms have long been in use in
@@ -58,18 +58,19 @@
 	
 	\section{ Hardware Design Methods } 
 	
-		The design of Integrated Circuits in the hardware industry has since the early
-		'90s primarily been done in hardware description languages (HDL)
-		\cite{Chen2012}, where one describes the operation of a chip in a style similar to regular imperative programming languages. This descriptive
-		code can then be compiled into a list of components and connections
-		that constitutes the blueprint for that specific circuit. The most
-		prevalent of these languages are VHDL and Verilog\cite{TODO}. While
-		being great help to designers, compared to more manual design, these
-		languages can be quite cumbersome to work with. They are verbose and 
-		require a fair amount of boilerplate code. This makes it more difficult
-		to understand, follow, and also write code that performs complex tasks, 
-		since it can be more difficult to see the greater patterns in 
-		interconnecting code\cite{TODO}.
+		The design of Integrated Circuits in the hardware industry has since
+		the early '90s primarily been done in hardware description languages
+		(HDL) \cite{Chen2012}, where one describes the operation of a chip in a
+		style similar to regular imperative programming languages. This
+		descriptive code can then be compiled into a list of components and
+		connections that constitutes the blueprint for that specific circuit.
+		The most prevalent of these languages are VHDL and Verilog\cite{TODO}.
+		While being great help to designers, compared to more manual design,
+		these languages can be quite cumbersome to work with. They are verbose
+		and require a fair amount of boilerplate code. This makes it more
+		difficult to understand, follow, and also write code that performs
+		complex tasks, since it can be more difficult to see the greater
+		patterns in interconnecting code\cite{TODO}.
 		
 		This has resulted in Functional HDLs (FHDL): ``Functional hardware
 		description languages are a class of hardware description languages
@@ -87,9 +88,7 @@
 		interactive type checking and high-level simulation of the program that
 		normal Haskell programs enjoy. This means that instead of simulating
 		the underlying circuit directly which is more time consuming, the
-
 		design can be tested repeatedly at a faster pace, allowing faster
 		development. This high level simulation can also be done in an
 		interpreter enabling easy and rapid testing of code. These are called
 		read-eval-print-loop interpreters.
-
