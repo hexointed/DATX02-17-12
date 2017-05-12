@@ -45,6 +45,7 @@ float s10Radius	= 0.5;
 
 float sphereRadii[NumSpheres] = {s1Radius,s2Radius,s3Radius,
 		s4Radius,s5Radius,s6Radius,s7Radius,s8Radius,s9Radius,s10Radius};
+
 vec3 spherePos[NumSpheres] = {s1Coord,s2Coord,s3Coord,s4Coord,
 		s5Coord,s6Coord,s7Coord,s8Coord,s9Coord,s10Coord};
 
@@ -200,7 +201,7 @@ void InitObjDefs()
 //float skysphereRadius	= 20;
 
 vec3 boundingSpherePos = vec3(0,0,0);
-float boundingSphereRad = 4.4;
+float boundingSphereRad = 1.4;
 
 float DistToModfield(vec3 p)
 {
@@ -248,7 +249,6 @@ float DistToMetaballs(vec3 p)
 
 float BoundingSphere(vec3 p){
 
-//
 //	float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
 //	int i = 1;
 //	while(i < NumSpheres)
@@ -258,7 +258,6 @@ float BoundingSphere(vec3 p){
 //	}
 //	return dist2;
 
-
 	float dist = sdSphere(p,boundingSpherePos,boundingSphereRad);
 	if (dist > 0.1)
 	{
@@ -267,11 +266,9 @@ float BoundingSphere(vec3 p){
 	else
 	{
 		float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
-		int i = 1;
-		while(i < NumSpheres)
+		for(int i=1; i < 10; i++)
 		{
 			dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
-			i++;
 		}
 		return dist2;
 	}

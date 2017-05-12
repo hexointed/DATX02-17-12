@@ -3,21 +3,14 @@
 	In order to achieve the goals set in this project, two separate pieces of
 	software and one piece of hardware were written. The software programs are
 	two different implementations of a reference shader. The first of these was
-	written in GLSL for traditional graphics hardware (in our case it was tested
-	on a GeForce GTX 1060M), and the second is written in an assembly language
-	we designed for the Sphere Tracing processor.
-	
-	It is here worth noting that a shader is an historical term that today in
-	modern industry terms refer to the code running on the GPU as opposed to on
-	the CPU. It is called a \emph{shader} because initially only the color and
-	illumination where programmable where as today the GPUs become more
-	generally programmable by the generation. Both of these shaders are
-	described in section \ref{implshader}.
+	written in GLSL for traditional graphics hardware, and the second is written
+	in an assembly language we designed for the Sphere Tracing processor. Both of
+	these shaders are described in section \ref{implshader}.
 	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
-	\ref{implproc}. In addition to these, a simple software assembler was
-	written for the assembly language used for the GPU.
+	\ref{implproc}. In addition to these, a simple software assembler was written
+	for the assembly language used for the GPU.
 	
 	\section{Reference Shader} \label{implshader}
 
@@ -69,9 +62,9 @@
 			traditionally the CPU will tell the GPU which objects are in the
 			field of view (Frustum culling) 
 			
-			// but we can't do that because of
-			//GLSL does not allow us to run code on the CPU. 
-			// öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
+			% but we can't do that because of
+			% GLSL does not allow us to run code on the CPU. 
+			% öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
 			
 			Even if we could use frustum culling it would probably not be enough, each ray 
 			should only care for the objects that it might hit, not all 
