@@ -61,7 +61,7 @@
 		\subsection{Orthogonal Culling}
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of
-			objects has to be calculated once for every march step.  One way to
+			objects has to be calculated once for every march step. One way to
 			increase the performance is to reduce the number of objects that
 			the distance has to be calculated to, without reducing the actual
 			number of objects in the scene. To do this the GPU needs to
@@ -145,7 +145,7 @@
 
 			All threads that are not running are sent to a storage manager that
 			communicates with all cores, and threads are then dispatched to
-			cores as the cores become available for execution.  The cores are
+			cores as the cores become available for execution. The cores are
 			also able to spawn new threads by sending their data to the storage
 			manager, or terminate their current threads either by simply
 			dropping them or by sending them to the frame buffer, where some of
@@ -206,7 +206,7 @@
 					to three return values. D-type instructions can be split up
 					in chunks using the \texttt{next} instruction, where the
 					last computed result will be accumulated using the minimum
-					automatically by the core.  This is useful for encoding
+					automatically by the core. This is useful for encoding
 					distance functions.
 
 				\item[V-type] instructions deal with memory accesses. The
@@ -287,7 +287,7 @@
 			guess of the square root of any number without the need for a
 			look-up table. A 16-bit version of this circuit is shown in figure
 			\ref{orsqrt}, and an improved but slightly more expensive version
-			is showed in figure \ref{orsqrt2}.  The basic working principle is
+			is showed in figure \ref{orsqrt2}. The basic working principle is
 			based on the fact that the square root of a number has roughly half
 			as many digits as the original number. In the version with slightly
 			improved accuracy the placement of the extra wires is based on the
@@ -396,8 +396,8 @@ int isqrt(int num) {
     int bit = 1 << 30;
 
     while(bit != 0) {
-    	int tmp = num - (res | bit);
-    	res >>= 1;
+        int tmp = num - (res | bit);
+        res >>= 1;
         if(tmp >= 0) {
             num = tmp;
             res |= bit;
