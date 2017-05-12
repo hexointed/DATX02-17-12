@@ -2,16 +2,17 @@
 \chapter{Sphere Tracing} \label{spheretracing}
 
 	The graphics rendering algorithm the GPU was designed for is called Sphere
-	Tracing\cite{Hart1996}. The name is based on the fact that the algoritm
+	Tracing\cite{Hart1996}. The name is based on the fact that the algorithm
 	uses distance bounding spheres to incrementally advance a ray in 3D space.
 	The method of advancing rays in general is called Ray Marching which in
 	turn is a subset of Ray Tracing\cite{Whitted1980a}. Ray Tracing, then, is a
 	way to wholly or partially render the world through rays, cast from the eye
-	of the observer into the scene\cite{Shirley2005}. Sphere Tracing has been
-	around since at least as early as the late eighties\cite{Hart1989} and Ray
-	Tracing as early as the sixties\cite{Appel1968}.
+	of the observer into the scene\cite{PeterShirleyMichaelAshikhmin2005}. 
+	Sphere Tracing has been	around since at least as early as the late 
+	eighties\cite{Hart1989} and Ray Tracing as early as the 
+	sixties\cite{Appel1968}.
 
-	In this chapter the Sphere Tracing algorithm is discussied in detail with
+	In this chapter the Sphere Tracing algorithm is discussed in detail with
 	both definitions and examples. The explanation is based on the the very
 	succinct explanation in \cite{Korndorfer2014}. The paper also expands upon
 	the original algorithm in some innovative ways. For a more in-depth
@@ -61,7 +62,7 @@
 			\includegraphics[width=0.75\linewidth]{figure/SDF2}
 			\caption{Finding the intersection of an implicitly defined surface
 				and a ray con be done by marching point by point from the 
-				origin alog the ray as show here.}
+				origin along the ray as show here.}
 		\end{figure}
 
 		This is repeated until $f(p_i) \leq \varepsilon$ for a given precision
@@ -79,7 +80,7 @@
 			signed distance bounds: we define signed distance bounds such that
 			if $f$ is the signed distance function for a given object, $g$ is a
 			signed distance bound to the same object iff $\forall{} \vec{v}.
-			|g(\vec{v})| \leq |f(\vec{v})|$. The Sphere Tracing algoritm
+			|g(\vec{v})| \leq |f(\vec{v})|$. The Sphere Tracing algorithm
 			continues to function correctly (\emph{That is, it will not march
 			past any object without detecting it}) when signed distance
 			functions are exchanged with signed distance bounds. The reason for
@@ -117,11 +118,11 @@
 			It is of course possible to relax this concept further, and use
 			distance approximation functions. These can still work together 
 			with a Sphere Tracer if they are 'close enough' to the signed 
-			distance function for the object they are ment to represent, but
-			correctness can be harder to acheive. Distance approximation 
-			functions allow signifcantly greater flexibility when designing 
+			distance function for the object they are meant to represent, but
+			correctness can be harder to achieve. Distance approximation 
+			functions allow significantly greater flexibility when designing 
 			objects however, making it possible to add e.g. sinusoidal 
-			deformatins\cite{TODO}.
+			deformations\cite{TODO}.
 
 			Another relaxation that can be considered is using unsigned 
 			distance functions. This might reduce the complexity of the 
