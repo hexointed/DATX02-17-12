@@ -7,7 +7,6 @@
 	\section{Results}  \label{discussion}
 		
 		\subsection{Software Shader}
-		
 
 			The optimizations that were implemented improved performance more
 			than anticipated. There are many optimizations that are yet to be
@@ -47,6 +46,26 @@
 			done, and reveals previously unseen flaws in the design that must
 			be resolved. In the end we implemented the core and a storage 
 			manager which enabled multiple cores running in parallel.
+
+			The storage manager turned out to need to be more complex than we 
+			originally anticipated. In its first implementation, the storage in
+			the storage manager was a simple FIFO queue. This worked well for 
+			very simple shader programs, but we found that it was not possible
+			to write a full Sphere Tracer using this storage type. This was not
+			due to any complexity inherent in the sphere tracing algorithm, but
+			rather a consequence of how the GPU requires the shader programs to
+			keep track of all pixels they need to render. This is solved by 
+			having the shader generate a new thread for every pixel it needs to
+			render, and then running the actual pixel shader code on that 
+			thread. This fails when threads need to execute many jumps or 
+			loops, which are also solved by spawning new threads. Whenever a 
+			thread executed a jump, the pixel spawning thread took priority 
+			because of the FIFO storage, and a new pixel thread would be 
+			spawned. After many jumps, the storage in the storage manager would 
+			fill upp entirely, and all cores would stall waiting for the 
+			storage manager allowing them to send it more threads. This was 
+			solved by changing the internal storage to a double-ended queue,
+			giving the threads some control over execution priority.
 
 			If we were to continue working on this project another workflow
 			would be adopted when developing the GPU. More detailed planning is
