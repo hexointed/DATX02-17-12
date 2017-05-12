@@ -10,27 +10,26 @@
 		
 		\subsection{\clash}
 			As described in \ref{FHDLs}, the ability to simulate the function of
-			the gpu directly in a REPL was completely essential in us being able
-			to complete a working GPU in the short timespan available. The way
-			\clash handles state is quite elegant and effective once one has
+			the GPU directly in a REPL was completely essential in us being able
+			to complete a working GPU in the short time span available. The way
+			\clash{} handles state is quite elegant and effective once one has
 			learned the general pattern. Lists however, are too abstract for
-			synthesis so \clash uses its own vector type instead. Most regular
+			synthesis so \clash{}  uses its own vector type instead. Most 
+			regular
 			data functions are implemented, but all such vectors must have a
 			fixed size. This makes some operations such as combining two vectors
 			rather cumbersome and one has to work around this.
 	
 		\subsection{Synthclipse}
 			This is an IDE for developing shaders, using GLSL or JSX. It has
-			features for rapid recompilation and testing, easy resource loading and
-			Uniform Controls. The Uniform Controls are a collection of user
+			features for rapid recompilation and testing, easy resource loading 
+			and	Uniform Controls. The Uniform Controls are a collection of user
 			interface elements such as sliders and color pickers, which can be
-			saved into Presets. These allowed us to navigate our scene and modify
-			its parameters on the fly, enabling visual examination and debugging of
-			our algorithms.		
+			saved into Presets. These allowed us to navigate our scene and 
+			modify its parameters on the fly, enabling visual examination and 
+			debugging of our algorithms.		
 		
-	\section{Results} \label{discussion}
-		
-		\subsection{Software Shader}
+		\section{Software Shader}
 
 			The optimizations that were implemented improved performance more
 			than anticipated. There are many optimizations that are yet to be
@@ -45,7 +44,7 @@
 			optimizations and develop new features. For the purposes of this 
 			project GLSL was a perfect fit.
 		
-		\subsection{GPU} 
+		\section{GPU} 
 		
 			The project originally intended to create a simple single-core GPU
 			that could fully render a scene given enough time, and then add	
@@ -134,12 +133,12 @@
 		be able to reuse common components such as adders and multipliers
 		however, and might therefore be preferable.
 		
-		For the XQBGPPPU, we have used the shifting nth root algorithm in order
+		For the GPU, we have used the shifting nth root algorithm in order
 		to not have to consider possible accuracy problems when debugging
 		shaders, but all methods are implemented and ready to be switched out
 		at any time.
 
-	\section{Future work}
+	\section{Future work} \label{futureoptimizations} 
 
 		\subsection{GPU-CPU cooperation}
 

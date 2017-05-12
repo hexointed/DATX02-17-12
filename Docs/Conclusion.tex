@@ -1,37 +1,34 @@
 \chapter{Conclusions}
 
-	The goal of the project was to design and create a GPU built for the
-	Sphere Tracing algoritm and try to improve their performance. A
-	working GPU was written together with a Sphere Tracing shader
-	programmed, separately, running on the GPU. We also implemented the
-	GPU on an FPGA and writing our output to the screen on the FPGA. The
-	GPU executes as intended and, if programmed correctly, can Sphere
-	Trace complete scenes.
+	The goal of the project was to design and create a GPU for the Sphere Tracing
+	algorithm and try to improve its performance. A working GPU was designed
+	together with two shaders, one written in our own assembly language running
+	on the GPU and one written in GLSL runnign on a traditional consumer graphics
+	card. We also simulated the GPU, rendering to a small virtual screen. The GPU
+	executes as intended and, if programmed correctly, can Sphere Trace complete
+	scenes.
 	
-	A similar reference shader was also written in GLSL. On the GLSL
-	shader we tried two optimizations, Bounding Sphere and Orthogonal
-	Culling. Bounding spheres decreases the number of calculations made
-	in each march by enclosing several objects into one bounding sphere.
-	Orthogonal Culling is used to tell whether a object is in front of
-	the ray or not, decreasing the number of object needed to calculate
-	the distance to. Both improved the performance but only by one order
-	of magnitude. They can still be further improved by expanding the
-	shader to an engine where parts of the computation would be relieved
-	by the CPU.
+	For the GLSL shader we describe and try two optimizations, Bounding Spheres
+	and Orthogonal Culling. Bounding Spheres decrease the number of calculations
+	made in each march by enclosing several objects into one bounding sphere.
+	Orthogonal Culling is used to tell whether a object is in front of the ray or
+	not, decreasing the number of object needed to calculate the signed distance
+	function. Both improved performance. We believe they can be improved further
+	by offloading parts of the computation to the CPU.
 	
-	For the hardware optimization, calculating square roots was a bottle neck 
-	both in	speed and area. With that said, we explored ways of speeding up the	
-	square root. We found a number of fast solutions that are all bounded
-	in the relative error.
+	For the hardware optimization, calculating square roots was considered
+	important and methods for calculating them efficiently where investigated. We
+	found a number of fast approximations that are bounded in their relative
+	error. We also looked at possible optimizations for an exact integer square
+	root algorithm.
 	
-	It has been a challenging project for all of the group members due to
-	the scope of the project and the lack of experience in both hardware
-	design and graphics overall. This led to a lot of reading up on many
-	different subjects. Not only knowledge about the parts in the project but 
-	also the parts around the project.
+	It has been a challenging project for all of the group members due to the
+	scope of the project and the lack of experience in both hardware design and
+	graphics overall. This resulted in a relatively large amount of time spent
+	researching these subjects.
 
-	The importance of setting up well defined goals and following them as
-	close as possible. In our case getting a first working version of the
-	GPU to be able to continue working from there. We also realized the importance 
-	of keeping all project members busy simultaneously, much like it is sought for in
-	designing hardware and all of its components.
+	We realized the importance of setting up well defined goals and following
+	them as close as possible. In our case, this meant getting a working version
+	of the GPU up an runnign as soon as possible. We also realized the importance
+	of keeping all project members busy simultaneously, much like when designing
+	hardware and all of its components.
