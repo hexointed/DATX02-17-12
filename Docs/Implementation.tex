@@ -3,41 +3,20 @@
 	In order to achieve the goals set in this project, two separate pieces of
 	software and one piece of hardware were written. The software programs are
 	two different implementations of a reference shader. The first of these was
-	written in GLSL for traditional graphics hardware (in our case it was tested
-	on a GeForce GTX 1060M), and the second is written in an assembly language
-	we designed for the Sphere Tracing processor.
-	
-	It is here worth noting that a shader is an historical term that today in
-	modern industry terms refer to the code running on the GPU as opposed to on
-	the CPU. It is called a \emph{shader} because initially only the color and
-	illumination where programmable where as today the GPUs become more
-	generally programmable by the generation. Both of these shaders are
-	described in section \ref{implshader}.
+	written in GLSL for traditional graphics hardware, and the second is written
+	in an assembly language we designed for the Sphere Tracing processor. Both of
+	these shaders are described in section \ref{implshader}.
 	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
-	\ref{implproc}. In addition to these, a simple software assembler was
-	written for the assembly language used for the GPU.
+	\ref{implproc}. In addition to these, a simple assembler program was written
+	for the assembly language used for the GPU.
 	
-	\section{Reference Shader} \label{implshader}
+	\section{Shaders} \label{implshader}
 
-		Before any actual sphere tracing is done some essential values are
-		calculated from predefined parameters. To have a functional sphere
-		tracer a camera point and direction to look needs to be defined, in
-		practice this is done by having an eye-vector and a vector that
-		describes the point that the camera should be oriented against. From
-		these vectors a new direction vector is calculated that defines the
-		direction that the camera is oriented. The camera-vector is used as a
-		origin for rays and the direction-vector is used to calculate the
-		direction of each ray.
-		
-		The core of the Sphere Tracer is a simple while-loop. It begins by
-		calculating the distance to the closest object in the scene by sampling
-		the distance field and comparing its value at the current location to a
-		predefined epsilon. If the value of the distance field is smaller than
-		epsilon, the ray has hit an object. If no object has been hit, the
-		sampled distance will be added to the length of the ray.
-
+		The shaders written uses the theory described in \ref{spheretracing}
+		iterating over a ray in a main loop. The GLSL shader has more advanced
+		optimizations added to it.
 
 		\subsection{GLSL Based}
 	
@@ -50,53 +29,44 @@
 			number of objects in the distance field. Beyond this, objects can
 			also be enclosed in Bounding Spheres.
 			
-			After a hit is detected several different things will be done,
-			depending on the material assigned to the object. If the object is
-			reflective the normal of the surface hit is calculated and used to
-			reflect the ray. If the object is colored the pixel will simply be
-			set according to the object. Color can also be calculated from
-			object or ray coordinates, coloring the pixel depending on where the
-			object is or where it was hit.
+			After a hit is detected different things happen depending on the material
+			assigned to the object. If the object is reflective, then the normal of the
+			surface hit is calculated and used to reflect the ray. If the object is
+			colored the pixel will simply be set according to the object. Color can
+			also be calculated from object or ray coordinates. Coloring the pixel
+			depending on where the object is or where it was hit.
 
 		\subsection{Orthogonal Culling}
 
-			A bottleneck of Sphere Tracing is that the distance to
-			a lot of objects has to be calculated once for every march step.
-			One way to increase the performance is to reduce
-			the number of objects that the distance has to be calculated to,
-			without reducing the actual number of objects in the scene. To do
-			this the GPU needs to calculate which object a ray might hit,
-			traditionally the CPU will tell the GPU which objects are in the
-			field of view (Frustum culling) 
-			
-			// but we can't do that because of
-			//GLSL does not allow us to run code on the CPU. 
-			// öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
-			
-			Even if we could use frustum culling it would probably not be enough, each ray 
-			should only care for the objects that it might hit, not all 
-			objects in the field of view.
+			A bottleneck of Sphere Tracing is that the distance to a lot of objects
+			has to be calculated once for every march step. Performance can be
+			increased by reduceing the number of objects that the distance has to be
+			calculated to, without reducing the actual number of objects in the
+			scene. To do this the GPU needs to calculate which object a ray might hit
+			by checking its field of view. This information is traditionally
+			calculated on the CPU and then passed to the GPU (Frustum culling). Even
+			frustum culling might not be enough. Each ray should only care about the
+			objects that it might hit, not all objects in the field of view.
 
-			Orthogonal Culling works by going through all the objects in the 
-			scene for ray and calculating which it can hit. Orthogonal 
-			projection is used to tell whether a object is in front of the ray 
-			or not. By projecting the center of the sphere onto the directional 
-			line of the ray, its the line's closest point to the object is 
-			known. Then the distance between the line and the sphere can be 
-			calculated using the radius, if the distance is less than zero the 
-			sphere will be hit by the ray. If the distance is larger than zero
-			the ray can't possibly hit that sphere. This way the number of
-			objects that the distance has to be calculated to is decreased.
+			Orthogonal Culling works by going through all the objects in the scene
+			and calculate what rays might hit what object. Orthogonal projection is
+			used to tell whether a object is in front of the ray or not. By
+			projecting the center of the sphere onto the directional line of the ray,
+			its the line's closest point to the object is known. Then the distance
+			between the line and the sphere can be calculated using the radius, if
+			the distance is less than zero the sphere will be hit by the ray. If the
+			distance is larger than zero the ray can't possibly hit that sphere. This
+			way the number of objects that the distance has to be calculated to is
+			decreased.
 
 		\subsection{Bounding Spheres}
 			
-			To decrease the number of distance calculations that has to be
-			performed in each march step is to enclose several objects in a
-			Bounding Sphere. When the distance field is evaluated only the
-			bounding sphere will be considered and none of the objects enclosed
-			by it. If the bounding sphere is hit by the ray, it will be removed
-			and all the contained objects will be introduced to the distance
-			field.
+			In order to decrease the number of distance calculations that has to be
+			performed in each march step, objects can be grouped together in larger
+			enclosing bounding spheres. When the distance field is evaluated only the
+			bounding sphere will be considered and none of the objects enclosed by
+			it. If the bounding sphere is hit by the ray, it will be removed and all
+			the contained objects will be introduced to the distance field.
 			
 			A Bounding Sphere is defined by it's location, radius and enclosed
 			objects. The location is calculated by adding the position-vectors
@@ -109,18 +79,12 @@
 
 		\subsection{Assembler Based}
 
-			In this version no optimizations were implemented due to massively 
-			increased development times compared to GLSL and the assembler 
-			language wasn't completed until a late stage in the project. Therefore the 
-			time avaible for development on the Assembler Based Sphere Tracer 
-			was shorter than the shader.
-
-			Initially a single thread is created, it is used to create new 
-			threads and push them to the queue. One thread will be created for
-			each pixel on the screen, and also an id will be given to 
-			each thread. This id corresponds to a pixel to the screen. 
-			An example: If the resolution of the display is 2x2 4 threads will 
-			be created and given id's ranging from 4 to 1. Once all threads have
+			In this shader no optimizations were implemented. Initially a single
+			thread is created, it is used to create new threads and push them to the
+			queue. One thread will be created for each pixel on the screen, and also
+			an id will be given to each thread. This id corresponds to a pixel to the
+			screen.  An example: If the resolution of the display is 2x2 4 threads
+			will be created and given id's ranging from 4 to 1. Once all threads have
 			been instantiated the initial thread will be terminated.
 
 			When a new thread is created the screen coordinates is calculated 
