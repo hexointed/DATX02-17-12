@@ -1,39 +1,49 @@
 \thispagestyle{plain}			% Supress header 
 \setlength{\parskip}{0pt plus 1.0pt}
+
 \section*{Abstract}
 	
-	This thesis documents the result of using the Sphere Tracing algorithm and
-	designing a Graphics Processing Unit (GPU) to run it, using Clash, a
-	functional hardware description language. Real-time rendering speed has
-	always been a significant factor for 3D graphic cards. However, Sphere
-	Tracing rendering is slower in comparison with polygon-based rendering.
-	Therefore, the 3D graphic cards today are optimized and built for the
-	latter. Although Sphere Tracing is slower there are still possibly some
-	performance potentials that have not yet been reached, which could improve
-	the performance of the algorithm.
-	
-	The thesis begins with a description of the Sphere Tracing algorithm, then
-	continues with descriptions of the implementation, optimizations and results
-	of the hardware and software programs.
-	
-	The purpose of this report is to give a hint of what, if anything, could be
-	gained from an alternative approach to real time rendering 3D graphics
-	cards.
+	This thesis documents the result of designing a Graphics Processing Unit
+	(GPU) intended for the specific Ray Tracing algorithm, Sphere Tracing. The
+	GPU was written using \clash, a functional hardware description language
+	(FHDL). 
+
+	Real-time rendering speed has always been a significant factor for 3D graphic
+	cards. However, Sphere Tracing rendering is slower in comparison with
+	polygon-based rendering. Therefore, the 3D graphic cards today are optimized
+	and built for the latter. Although Sphere Tracing is slower there are still
+	possibly some performance potentials that have not yet been reached, which
+	could improve the performance of the algorithm. The purpose of this report
+	is to give a hint of what, if anything, could be gained from an alternative
+	approach to real time rendering 3D graphics cards.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
-	Keywords: ray-marching, GPU, real-time rendering.
+	Keywords: sphere tracing, ray marching, ray tracing, GPU, real-time rendering.
 
 \newpage
 \thispagestyle{plain}
 
 \section*{Sammanfattning}
 	
-	Sammanfattning på svenska.
+	Denna uppsats dokumenterar resultaten kring en grafikenhet (GPU) som vi
+	designat med avseende att köra en specifik rendreringsalgoritm kallad Sphere
+	Tracing, en typ av Ray Tracing. GPUn är skriven i det funktionella
+	hårdvarubeskrivande programmeringsspråket (FHDL) \clash.
+	
+	Hastigheten på realtidsrenderingen hos 3D grafikkort har alltid varit en
+	viktig säljpunkt. Dock, när det kommer till Sphere Tracing rendrering jämfört
+	med polygonbaserade rendreringsmetoder så har den förstnämda historiskt sett
+	varit långsammare. Detta har lett till att man vidareutvecklat hårdvaran
+	specifikt för att accelerera polygonrendrering vilket leder till frågan hur
+	pass snabbt Sphere Tracing kan köras om liknande hårdvara skräddarsys för
+	just den algoritmen. Avsikten med denna rapporten är att ge en idé om vilka
+	prestandaökningar som finns att uppnå med ett alternativt realtidsrenderande
+	3D grafikkort.
 	
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
-	Nyckelord: ray-marching, GPU, realtidsrendering.
+	Nyckelord: bollkoll, sphere tracing, ray marching, ray tracing, realtidsrendering.
 
 
 \newpage
