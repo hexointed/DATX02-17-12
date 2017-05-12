@@ -22,7 +22,8 @@
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of objects
 			has to be calculated once for every march step. Performance can be
-			increased by reduceing the number of objects that the distance has to be
+			increased by reducing the number of objects that the distance has 
+			to be
 			calculated to, without reducing the actual number of objects in the
 			scene. To do this the GPU needs to calculate which object a ray might hit
 			by checking its field of view. This information is traditionally
@@ -90,7 +91,7 @@
             as concurrently as the GPU has cores, minimizing core stalls and 
             therefore maximizing GPU usage.
 
-			When a render thread is created it immidietly starts setting up the
+			When a render thread is created it immediately starts setting up the
 			ray. The screen coordinates are calculated from the thread id, this 
 			is essential for calculating the ray direction. As with the software
 			shader, camera position and a point	to orient the camera against are 
@@ -142,14 +143,15 @@
 			storage and sent to that core. If more than one core is ready, one
 			is chosen arbitrarily.
 
-			Each core has an instruction memory and a data memory. The instruction
-			memory controls logic for execution order and the DFU. The data and
-			instruction memories are immutable and mirrored across all cores in their
-			entirety. The control logic is responsible for feeding the DFU with
-			instructions and data. It also updates the thread registers when a new
-			thread is attached, sending thread registers to the storage manager when
-			new threads are spawned and and requesting a new thread whenever the
-			previously executing one terminates.
+			Each core has an instruction memory and a data memory. The
+			instruction memory controls logic for execution order and the DFU.
+			The data and instruction memories are immutable and mirrored across
+			all cores in their entirety. The control logic is responsible for
+			feeding the DFU with instructions and data. It also updates the
+			thread registers when a new thread is attached, sending thread
+			registers to the storage manager when new threads are spawned and
+			and requesting a new thread whenever the previously executing one
+			terminates.
 			
 			The DFU contains a stack which all arithmetic instructions operate
 			on, as well as an ALU for carrying out calculations. It also keeps
@@ -261,7 +263,8 @@
 			achieving good performance. Several different approaches for this
 			were considered.
 
-			Firstly, using an iterative method like Goldschmidt's or the babylonian
+			Firstly, using an iterative method like Goldschmidt's or the 
+			Babylonian
 			method require an initial starting value which is usually generated
 			using a look-up table. We tested a different and very fast method for
 			generating an initial rough guess of the square root of any number
@@ -321,13 +324,13 @@
 			square root algorithm}, which calculates the square root one digit
 			at a time. A \texttt{c} implementation of this algorithm is shown
 			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
-			a good canditate for a high performance hardware implementation,
+			a good candidate for a high performance hardware implementation,
 			but several important optimizations are possible when unrolling it
 			combinatorially. Most of the additions can be already reduced to bitwise
 			logic operations when computing it in software, as shown in
 			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
 			these bitwise operations can be removed entirely by simply moving
-			wires around yeilding a logic cost of 0. The only remaining
+			wires around yielding a logic cost of 0. The only remaining
 			operations is therefore the subtraction on line 6, and the
 			conditional assignments of \texttt{num} and \texttt{res} on lines 9
 			and 10. The cost of the subtraction can be significantly reduced

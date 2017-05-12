@@ -70,7 +70,7 @@
 			thread executed a jump, the pixel spawning thread took priority 
 			because of the FIFO storage, and a new pixel thread would be 
 			spawned. After many jumps, the storage in the storage manager would 
-			fill upp entirely, and all cores would stall waiting for the 
+			fill up entirely, and all cores would stall waiting for the 
 			storage manager allowing them to send it more threads. This was 
 			solved by changing the internal storage to a double-ended queue,
 			giving the threads some control over execution priority.
