@@ -86,20 +86,16 @@
 
 		\subsection{Bounding spheres}
 
-			Although an increase in performance could be seen using this
-			method, it can also be used in ways that decreases the performance.
-			By setting up a too large bounding sphere or by setting it up with
-			few objects or simply objects that are far apart.
+			If used the right way this technique can give great performance 
+			boosts. The testing showed an increase in gain as the number of 
+			objects increased, which is promising.
 
-			In testing we saw an increase in performance, but in some cases a
-			decrease could also be observed. The performance increase depends
-			on a lot of factors such as number of objects in a sphere, how well
-			the sphere is fits around them and how far apart they are. If
-			misused the performance will be decreased.
-
-			To use this optimization efficiently the objects inside a bounding
-			sphere should never come far apart and the sphere should be exactly
-			the right size.
+			The test was in this case simpler than the issue. The results depend
+			on more factors than we can analyze, the test only handles the 
+			number of objects inside a fixed sphere. To be used in a optimal way
+			the objects should be bound in a way similar to the one described in
+			IMPLEMENTATION but more adaptive, enclosing objects depending how 
+			they are grouped per frame. 
 
 		\subsection{Orthogonal culling}
 
