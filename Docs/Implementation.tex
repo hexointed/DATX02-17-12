@@ -76,7 +76,6 @@
 			sphere of influence (how far it reaches from it's origin). This
 			way there is no risk of objects being partially rendered.
 
-
 		\subsection{Assembler Based}
 
 			In this shader no optimizations were implemented. Initially a single
@@ -164,6 +163,14 @@
 			instruction encodings. Their layout in memory is shown in figure
 			\ref{encodingfig} and the type of instructions are:
 
+			\begin{figure}
+				\centering
+				\caption{Bit encoding for the different instruction types. All
+					instruction types have a fixed width 16-bit encoding.}
+				\label{encodingfig}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/instruction_layout} 
+			\end{figure}
+
 			\begin{description} 
 				\item[C-type] instructions are for control flow, that
 						is, instructions that affect the global queue or frame buffer or
@@ -199,7 +206,7 @@
 			\begin{figure}[H]
 				\centering
 				\caption{ XQBGPPPU Data flow diagram }
-					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
+				\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
 	
