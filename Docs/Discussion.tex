@@ -37,26 +37,13 @@
 			implemented and tested and it's hard to estimate the potential
 			achievable performance, the only thing that is certain is that
 			there are massive performance potentials.
-
-			There are great limitations in what could be done with the shader
-			because of the language that we chose to implement it in, GLSL. It
-			offers nothing more than a way to write a program which will run on
-			a per-pixel basis and put the result on the screen. Because of
-			this, CPU-GPU cooperation is not possible. Modern graphics engines 
-			not only does a lot of work on the CPU but it has granular control 
-			over the GPU. In GLSL nothing can be done on the CPU in order to 
-			increase performance. Things such as object positioning, frustum 
-			culling, etc. should be done by the CPU, not the GPU. This kind of 
-			implementation can not be done in GLSL and therefore a 
-			high-performance sphere tracer should be done not in GLSL but in a 
-			lower-level language.
-
-			Although GLSL has it's limits it still has some very attractive
-			features, it was easy to learn because the syntax has much in
-			common with java. The time it takes to develop new features and
-			test them is short. The purpose of the software shader was to study
-			the algorithm, implement and test optimizations and develop new
-			features. For the purposes of this project GLSL was a perfect fit.
+			
+			GLSL has some very attractive features, it was easy to learn 
+			because the syntax has much in common with C++. The time it takes 
+			to develop new features and	test them is short. The purpose of the 
+			software shader was to study the algorithm, implement and test 
+			optimizations and develop new features. For the purposes of this 
+			project GLSL was a perfect fit.
 		
 		\subsection{GPU} 
 		
@@ -112,14 +99,10 @@
 		\subsection{Orthogonal culling}
 
 			The performance gain from this optimization exceeded our 
-			expectations. This could probably be further improved by 
-			implementing the Sphere tracer in a language that has more granular 
-			GPU control than GLSL, which is what we used in this paper.
-
-			However great the performance gain the way this is implemented 
-			is still far from the optimal solution, currently it performs 
-			orthogonal culling on all the objects in the scene per pixel. 
-			Instead, culling should be done on a per-object basis and calculate 
+			expectations. However great the performance gain, this
+			is still far from the optimal implementation. It currently performs 
+			Orthogonal Culling on all the objects in the scene, per pixel. 
+			Instead, culling should be done once per object and calculate 
 			which rays an object intersects, this way fewer calculations would
 			have to be performed and optimally they would be performed on the
 			CPU.
