@@ -6,7 +6,47 @@ BibTeX export options can be customized via Preferences -> BibTeX in Mendeley De
 @book{Lauwereins,
 author = {Lauwereins, Rudy and Madsen, Jan},
 isbn = {9781402064883},
-title = {{Design, Automation, and Test in Europe}}
+title = {{Design, Automation, and Test in Europe}},
+year = {2008}
+}
+@article{Li,
+abstract = {Square root operation is hard to implement on FPGAs because of the complexity of the algorithms. In this pa-per, we present a non-restoring square root algorithm and two very simple single precision floating point square root implementations based on the algorithm on FPGAs. One is low-cost iterative implementation that uses a traditional adderlsubtractor. The operation latency is 25 clock cy-cles and the issue rate is 24 clock cycles. The other is high-throughput pipelined implementation that uses mul-tiple adderlsubtractors. The operation latency is 15 clock cycles and the issue rate is one clock cycle. It means that the pipelined implementation 1s capable of accepting a square root instruction on every clock cycle.},
+author = {Li, Yamin and Chu, Wanming},
+file = {::;::},
+institution = {The University of Aizu},
+journal = {FCCM '97 Proceedings of the 5th IEEE Symposium on FPGA-Based Custom Computing Machines},
+pages = {226----},
+title = {{Implementation of Single Precision Floating Point Square Root on FPGAs}},
+year = {1997}
+}
+@article{Phong1975,
+author = {Phong, Bui Tuong},
+doi = {10.1145/360825.360839},
+file = {::},
+journal = {Communications of the ACM},
+keywords = {computer graphics,graphic display,hidden surface removal,shading},
+month = {jun},
+number = {6},
+pages = {311--317},
+publisher = {ACM},
+title = {{Illumination for computer generated pictures}},
+url = {http://portal.acm.org/citation.cfm?doid=360825.360839},
+volume = {18},
+year = {1975}
+}
+@misc{InigoQuilez,
+author = {Quilez, I{\~{n}}igo},
+title = {{Modeling with Signed Distance Fields}},
+url = {http://www.iquilezles.org/www/articles/sdfmodeling/sdfmodeling.htm},
+urldate = {2017-05-08}
+}
+@article{Christensen2006,
+abstract = {This paper describes how we extended Pixar's RenderMan renderer with ray tracing abilities. In order to ray trace highly complex scenes we use multiresolution geometry and texture caches, and use ray differentials to determine the appropriate resolution. With this method we are able to efficiently ray trace scenes with much more geometry and texture data than there is main memory. Movie-quality rendering of scenes of such complexity had only previously been possible with pure scanline rendering algorithms. Adding ray tracing to the renderer enables many additional effects such as ac-curate reflections, detailed shadows, and ambient occlusion. The ray tracing functionality has been used in many recent movies, including Pixar's latest movie 'Cars'. This paper also de-scribes some of the practical ray tracing issues from the production of 'Cars'.},
+author = {Christensen, Per H and Fong, Julian and Laur, David M and Batali, Dana},
+file = {::},
+journal = {IEEE Symposium on Interactive Ray Tracing 2006},
+title = {{Ray Tracing for the Movie 'Cars'}},
+year = {2006}
 }
 @phdthesis{Raa2015a,
 abstract = {C$\lambda$aSH is a functional hardware description language in which structural
@@ -40,101 +80,19 @@ title = {{Recursive functional hardware descriptions using C$\lambda$aSH}},
 url = {http://essay.utwente.nl/68804/},
 year = {2015}
 }
-@misc{InigoQuilez2008,
-author = {Quilez, I{\~{n}}igo},
-keywords = {NVSCENE 08},
-mendeley-tags = {NVSCENE 08},
-title = {{Rendering Worlds with Two Triangles with raytracing on the GPU in 4096 bytes}},
-url = {http://www.iquilezles.org/www/material/nvscene2008/rwwtt.pdf},
-year = {2008}
-}
-@article{Phong1975,
-author = {Phong, Bui Tuong},
-doi = {10.1145/360825.360839},
+@article{Hart1989,
+author = {Hart, J. C. and Sandin, D. J. and Kauffman, L. H.},
+doi = {10.1145/74334.74363},
 file = {::},
-journal = {Communications of the ACM},
-keywords = {computer graphics,graphic display,hidden surface removal,shading},
-month = {jun},
-number = {6},
-pages = {311--317},
-publisher = {ACM},
-title = {{Illumination for computer generated pictures}},
-url = {http://portal.acm.org/citation.cfm?doid=360825.360839},
-volume = {18},
-year = {1975}
-}
-@book{PeterShirleyMichaelAshikhmin2005,
-author = {Shirley, Peter and Ashikhmin, Michael and Marschner, Steve},
-isbn = {1568812698, 9781568812694},
-title = {{Fundamentals of Computer Graphics}},
-year = {2005}
-}
-@misc{Quilez,
-author = {Quilez, I{\~{n}}igo},
-title = {modeling with distance functions},
-url = {http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm},
-urldate = {2017-05-12}
-}
-@article{Hart1996,
-abstract = {Sphere tracing is a new technique for rendering implicit surfaces that uses geometric distance. Sphere tracing marches along the ray toward its Þrst intersection in steps guaranteed not to penetrate the implicit surface. It is particularly adept at rendering pathological surfaces. Creased and rough implicit surfaces are deÞned by functions with discontinuous or undeÞned derivatives. Sphere tracing requires only a bound on the magnitude of the derivative, robustly avoiding problems where the derivative jumps or vanishes. It is an e¦cient direct visualization system for the design and investigation of new implicit models. Sphere tracing e¦ciently approximates cone tracing, supporting symbolicpre Þltered antialiasing. Signed distance functions for a variety of primitives and operations are derived.},
-author = {Hart, John C},
-doi = {10.1007/s003710050084},
-file = {::},
-issn = {01782789},
-journal = {The Visual Computer},
-keywords = {distance,implicit surface,lipschitz condition,ray tracing,solid},
-number = {10},
-pages = {527--545},
-pmid = {20635080},
-title = {{Sphere tracing: a geometric method for the antialiased ray tracing of implicit surfaces}},
-volume = {12},
-year = {1996}
-}
-@article{Christensen2006,
-abstract = {This paper describes how we extended Pixar's RenderMan renderer with ray tracing abilities. In order to ray trace highly complex scenes we use multiresolution geometry and texture caches, and use ray differentials to determine the appropriate resolution. With this method we are able to efficiently ray trace scenes with much more geometry and texture data than there is main memory. Movie-quality rendering of scenes of such complexity had only previously been possible with pure scanline rendering algorithms. Adding ray tracing to the renderer enables many additional effects such as ac-curate reflections, detailed shadows, and ambient occlusion. The ray tracing functionality has been used in many recent movies, including Pixar's latest movie 'Cars'. This paper also de-scribes some of the practical ray tracing issues from the production of 'Cars'.},
-author = {Christensen, Per H and Fong, Julian and Laur, David M and Batali, Dana},
-file = {::},
-journal = {IEEE Symposium on Interactive Ray Tracing 2006},
-title = {{Ray Tracing for the Movie 'Cars'}},
-year = {2006}
-}
-@article{Whitted1980a,
-author = {Whitted, Turner},
-doi = {10.1145/358876.358882},
-file = {::},
-journal = {Communications of the ACM},
-keywords = {computer animation,computer graphics,raster displays,shading,visible surface algorithms},
-month = {jun},
-number = {6},
-pages = {343--349},
-publisher = {ACM},
-title = {{An improved illumination model for shaded display}},
-url = {http://portal.acm.org/citation.cfm?doid=358876.358882},
+issn = {00978930},
+journal = {ACM SIGGRAPH Computer Graphics},
+month = {jul},
+number = {3},
+pages = {289--296},
+title = {{Ray tracing deterministic 3-D fractals}},
+url = {http://portal.acm.org/citation.cfm?doid=74334.74363},
 volume = {23},
-year = {1980}
-}
-@phdthesis{Baaij2009,
-abstract = {Functional hardware description languages are a class of hardware description languages that emphasize on the ability to express higher level structural properties, such a parameterization and regularity. Due to such features as higher-order functions and polymorphism, parameterization
-in functional hardware description languages is more natural than the parameterization support found in the more traditional hardware description languages, like VHDL and Verilog. We develop a new functional hardware description language, C?asH, that borrows both the syntax and
-semantics from the general-purpose functional programming language Haskell. In many existing functional hardware description languages, a circuit designer has to use language primitives that are encoded as data-types and combinators within Haskell. In C?asH on the other hand, circuit designers build their circuits using regular Haskell syntax. Where many existing languages encode state using a so-called delay element within the body of a function, C?asH specifications explicitly encode state in the type-signature of a function thereby avoiding the nodesharing problem most other functional hardware description languages face. To cope with the direct physical restrictions of hardware, the familiar dynamically sized lists found in Haskell are replaced with fixed-size vectors. Being in essence a subset of Haskell, C?asH
-inherits the strong typing system of Haskell. C?asH exploits this typing system to specify the dependently-typed fixed-size vectors, be it that the dependent types are ?fake?. As the designers of Haskell never set out to create a dependently typed language, the fixed-size vector specification suffers slightly from limits imposed by the typing system. Still, the developed fixed-size vector
-library presents a myriad of functionality to an eventual circuit designer. Besides having support for fixed-size vectors, C?asH also incorporates two integer type primitives. C?asH can be used to develop more than just trivial designs, exemplified by the reduction circuit designed with it. The C?asH design  f this reduction circuit runs only 50{\%} slower than
-a hand-coded optimized VHDL design, even though this first generation C?asH compiler does not have any optimizations whatsoever. With the used FPGA resources being in the same order as the resources used by the hand-coded VHDL we are confident that this first-generation compiler is indeed well behaved. Much has been accomplished with this first attempt at developing a new functional hardware
-description language, as it already allows us to build more than just trivial designs. There are however many possibilities for future work, the most pressing being able to support recursive functions.},
-author = {Baaij, Christiaan},
-month = {dec},
-pages = {89},
-publisher = {University of Twente},
-school = {University of Twente},
-title = {{C$\lambda$asH : from Haskell to hardware}},
-url = {http://essay.utwente.nl/59482/},
-year = {2009}
-}
-@misc{JONATHANGRANSKOG2017,
-author = {Granskog, Jonathan},
-title = {{CUDA Ray Marching}},
-url = {http://granskog.xyz/blog/2017/1/11/cuda-ray-marching},
-year = {2017}
+year = {1989}
 }
 @article{Chen2012,
 abstract = {Functional programming languages offer a high degree of abstractions and clean semantics, which are desirable for hardware descriptions. This short historical survey is about functional languages specifically created for hardware design and verification. It also includes those hardware languages or formalisms which are strongly influenced by functional programming style.},
@@ -145,6 +103,18 @@ journal = {International Scholarly Research Network ISRN Electronics},
 title = {{A Short Historical Survey of Functional Hardware Languages}},
 volume = {11},
 year = {2012}
+}
+@book{PeterShirleyMichaelAshikhmin2005,
+author = {Shirley, Peter and Ashikhmin, Michael and Marschner, Steve},
+isbn = {1568812698, 9781568812694},
+title = {{Fundamentals of Computer Graphics}},
+year = {2005}
+}
+@misc{Keinert,
+author = {Keinert, Benjamin and Kornd{\"{o}}rfer, Johann and Ganse, Urs},
+title = {hg{\_}sdf},
+url = {http://mercury.sexy/hg{\_}sdf/},
+urldate = {2017-05-12}
 }
 @inproceedings{Bjesse1998,
 address = {New York, New York, USA},
@@ -161,6 +131,22 @@ url = {http://portal.acm.org/citation.cfm?doid=289423.289440},
 volume = {34},
 year = {1998}
 }
+@misc{Houston2010,
+author = {Houston, Mike},
+file = {::},
+title = {{CS448S – Spring 2010 – Beyond Programmable Shading GPU Architecture CS448S – Spring 2010 – Beyond Programmable Shading}},
+year = {2010}
+}
+@techreport{Tommiska,
+abstract = {In this paper, an area-efficient implementation of a fast converging square root algorithm is presented. The design of special arithmetic operations differs in many ways from the traditional tasks that digital designers are used to, and the role of parameterizibility and mapping of mathematical algorithms into digital hardware is discussed. Certain real-world applications requiring the use of the square root operator are presented, and it is argued, that implementing special arithmetic operations directly in hardware offers significant speed advantages over the conventional approach of implementing them in software. The mathematical algorithm of the square root operator is described, and its applicability to an implementation in digital logic is presented. It also is shown, that the the square root operator can be efficiently implemented without the need to resort to multiplications or divisions, which is advantageous in terms of both area and timing.},
+author = {Tommiska, Matti T},
+doi = {10.1109/ICCDCS.2000.869869},
+file = {::},
+institution = {Helsinki University of Technology, Laboratory of Signal Processing and Computer Technology},
+pages = {4},
+title = {{Area-efficient implementation of a fast square root algorithm}},
+year = {2000}
+}
 @inproceedings{Appel1968,
 address = {New York, New York, USA},
 author = {Appel, Arthur},
@@ -172,6 +158,35 @@ publisher = {ACM Press},
 title = {{Some techniques for shading machine renderings of solids}},
 url = {http://portal.acm.org/citation.cfm?doid=1468075.1468082},
 year = {1968}
+}
+@misc{InigoQuilez2008,
+author = {Quilez, I{\~{n}}igo},
+keywords = {NVSCENE 08},
+mendeley-tags = {NVSCENE 08},
+title = {{Rendering Worlds with Two Triangles with raytracing on the GPU in 4096 bytes}},
+url = {http://www.iquilezles.org/www/material/nvscene2008/rwwtt.pdf},
+year = {2008}
+}
+@misc{Quilez,
+author = {Quilez, I{\~{n}}igo},
+title = {modeling with distance functions},
+url = {http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm},
+urldate = {2017-05-12}
+}
+@article{Whitted1980a,
+author = {Whitted, Turner},
+doi = {10.1145/358876.358882},
+file = {::},
+journal = {Communications of the ACM},
+keywords = {computer animation,computer graphics,raster displays,shading,visible surface algorithms},
+month = {jun},
+number = {6},
+pages = {343--349},
+publisher = {ACM},
+title = {{An improved illumination model for shaded display}},
+url = {http://portal.acm.org/citation.cfm?doid=358876.358882},
+volume = {23},
+year = {1980}
 }
 @inproceedings{Woop2005,
 abstract = {Recursive ray tracing is a simple yet powerful and general approach for accurately computing global light transport and rendering high quality images. While recent algorithmic improvements and optimized parallel software implementations have increased ray tracing performance to realtime levels, no compact and programmable hardware solution has been available yet.This paper describes the architecture and a prototype implementation of a single chip, fully programmable Ray Processing Unit (RPU). It combines the flexibility of general purpose CPUs with the efficiency of current GPUs for data parallel computations. This design allows for realtime ray tracing of dynamic scenes with programmable material, geometry, and illumination shaders.Although, running at only 66 MHz the prototype FPGA implementation already renders images at up to 20 frames per second, which in many cases beats the performance of highly optimized software running on multi-GHz desktop CPUs. The performance and efficiency of the proposed architecture is analyzed using a variety of benchmark scenes.},
@@ -198,37 +213,37 @@ title = {{Enhanced Sphere Tracing}},
 url = {http://erleuchtet.org/{~}cupe/permanent/enhanced{\_}sphere{\_}tracing.pdf},
 year = {2014}
 }
-@misc{Houston2010,
-author = {Houston, Mike},
+@phdthesis{Baaij2009,
+abstract = {Functional hardware description languages are a class of hardware description languages that emphasize on the ability to express higher level structural properties, such a parameterization and regularity. Due to such features as higher-order functions and polymorphism, parameterization
+in functional hardware description languages is more natural than the parameterization support found in the more traditional hardware description languages, like VHDL and Verilog. We develop a new functional hardware description language, C?asH, that borrows both the syntax and
+semantics from the general-purpose functional programming language Haskell. In many existing functional hardware description languages, a circuit designer has to use language primitives that are encoded as data-types and combinators within Haskell. In C?asH on the other hand, circuit designers build their circuits using regular Haskell syntax. Where many existing languages encode state using a so-called delay element within the body of a function, C?asH specifications explicitly encode state in the type-signature of a function thereby avoiding the nodesharing problem most other functional hardware description languages face. To cope with the direct physical restrictions of hardware, the familiar dynamically sized lists found in Haskell are replaced with fixed-size vectors. Being in essence a subset of Haskell, C?asH
+inherits the strong typing system of Haskell. C?asH exploits this typing system to specify the dependently-typed fixed-size vectors, be it that the dependent types are ?fake?. As the designers of Haskell never set out to create a dependently typed language, the fixed-size vector specification suffers slightly from limits imposed by the typing system. Still, the developed fixed-size vector
+library presents a myriad of functionality to an eventual circuit designer. Besides having support for fixed-size vectors, C?asH also incorporates two integer type primitives. C?asH can be used to develop more than just trivial designs, exemplified by the reduction circuit designed with it. The C?asH design  f this reduction circuit runs only 50{\%} slower than
+a hand-coded optimized VHDL design, even though this first generation C?asH compiler does not have any optimizations whatsoever. With the used FPGA resources being in the same order as the resources used by the hand-coded VHDL we are confident that this first-generation compiler is indeed well behaved. Much has been accomplished with this first attempt at developing a new functional hardware
+description language, as it already allows us to build more than just trivial designs. There are however many possibilities for future work, the most pressing being able to support recursive functions.},
+author = {Baaij, Christiaan},
+month = {dec},
+pages = {89},
+publisher = {University of Twente},
+school = {University of Twente},
+title = {{C$\lambda$asH : from Haskell to hardware}},
+url = {http://essay.utwente.nl/59482/},
+year = {2009}
+}
+@article{Hart1996,
+abstract = {Sphere tracing is a new technique for rendering implicit surfaces that uses geometric distance. Sphere tracing marches along the ray toward its Þrst intersection in steps guaranteed not to penetrate the implicit surface. It is particularly adept at rendering pathological surfaces. Creased and rough implicit surfaces are deÞned by functions with discontinuous or undeÞned derivatives. Sphere tracing requires only a bound on the magnitude of the derivative, robustly avoiding problems where the derivative jumps or vanishes. It is an e¦cient direct visualization system for the design and investigation of new implicit models. Sphere tracing e¦ciently approximates cone tracing, supporting symbolicpre Þltered antialiasing. Signed distance functions for a variety of primitives and operations are derived.},
+author = {Hart, John C},
+doi = {10.1007/s003710050084},
 file = {::},
-title = {{CS448S – Spring 2010 – Beyond Programmable Shading GPU Architecture CS448S – Spring 2010 – Beyond Programmable Shading}},
-year = {2010}
-}
-@misc{Keinert,
-author = {Keinert, Benjamin and Kornd{\"{o}}rfer, Johann and Ganse, Urs},
-title = {hg{\_}sdf},
-url = {http://mercury.sexy/hg{\_}sdf/},
-urldate = {2017-05-12}
-}
-@misc{InigoQuilez,
-author = {Quilez, I{\~{n}}igo},
-title = {{Modeling with Signed Distance Fields}},
-url = {http://www.iquilezles.org/www/articles/sdfmodeling/sdfmodeling.htm},
-urldate = {2017-05-08}
-}
-@article{Hart1989,
-author = {Hart, J. C. and Sandin, D. J. and Kauffman, L. H.},
-doi = {10.1145/74334.74363},
-file = {::},
-issn = {00978930},
-journal = {ACM SIGGRAPH Computer Graphics},
-month = {jul},
-number = {3},
-pages = {289--296},
-title = {{Ray tracing deterministic 3-D fractals}},
-url = {http://portal.acm.org/citation.cfm?doid=74334.74363},
-volume = {23},
-year = {1989}
+issn = {01782789},
+journal = {The Visual Computer},
+keywords = {distance,implicit surface,lipschitz condition,ray tracing,solid},
+number = {10},
+pages = {527--545},
+pmid = {20635080},
+title = {{Sphere tracing: a geometric method for the antialiased ray tracing of implicit surfaces}},
+volume = {12},
+year = {1996}
 }
 @inproceedings{Beberg2009,
 author = {Beberg, Adam L. and Ensign, Daniel L. and Jayachandran, Guha and Khaliq, Siraj and Pande, Vijay S.},
@@ -243,23 +258,9 @@ title = {{Folding@home: Lessons from eight years of volunteer distributed comput
 url = {http://ieeexplore.ieee.org/document/5160922/},
 year = {2009}
 }
-@techreport{Tommiska,
-abstract = {In this paper, an area-efficient implementation of a fast converging square root algorithm is presented. The design of special arithmetic operations differs in many ways from the traditional tasks that digital designers are used to, and the role of parameterizibility and mapping of mathematical algorithms into digital hardware is discussed. Certain real-world applications requiring the use of the square root operator are presented, and it is argued, that implementing special arithmetic operations directly in hardware offers significant speed advantages over the conventional approach of implementing them in software. The mathematical algorithm of the square root operator is described, and its applicability to an implementation in digital logic is presented. It also is shown, that the the square root operator can be efficiently implemented without the need to resort to multiplications or divisions, which is advantageous in terms of both area and timing.},
-author = {Tommiska, Matti T},
-doi = {10.1109/ICCDCS.2000.869869},
-file = {::},
-institution = {Helsinki University of Technology, Laboratory of Signal Processing and Computer Technology},
-pages = {4},
-title = {{Area-efficient implementation of a fast square root algorithm}},
-year = {2000}
-}
-@article{Li,
-abstract = {Square root operation is hard to implement on FPGAs because of the complexity of the algorithms. In this pa-per, we present a non-restoring square root algorithm and two very simple single precision floating point square root implementations based on the algorithm on FPGAs. One is low-cost iterative implementation that uses a traditional adderlsubtractor. The operation latency is 25 clock cy-cles and the issue rate is 24 clock cycles. The other is high-throughput pipelined implementation that uses mul-tiple adderlsubtractors. The operation latency is 15 clock cycles and the issue rate is one clock cycle. It means that the pipelined implementation 1s capable of accepting a square root instruction on every clock cycle.},
-author = {Li, Yamin and Chu, Wanming},
-file = {::;::},
-institution = {The University of Aizu},
-journal = {FCCM '97 Proceedings of the 5th IEEE Symposium on FPGA-Based Custom Computing Machines},
-pages = {226----},
-title = {{Implementation of Single Precision Floating Point Square Root on FPGAs}},
-year = {1997}
+@misc{JONATHANGRANSKOG2017,
+author = {Granskog, Jonathan},
+title = {{CUDA Ray Marching}},
+url = {http://granskog.xyz/blog/2017/1/11/cuda-ray-marching},
+year = {2017}
 }
