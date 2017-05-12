@@ -58,7 +58,7 @@
 			object or ray coordinates, coloring the pixel depending on where the
 			object is or where it was hit.
 
-		\subsection{Orthogonal culling}
+		\subsection{Orthogonal Culling}
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of
 			objects has to be calculated once for every march step.  One way to
@@ -72,13 +72,13 @@
 			probably not be enough, each ray should only care for the objects
 			that it might hit, not all objects in the field of view.
 
-			Orthogonal projection works by going through all the objects in the 
-			scene for ray and calculating if the ray can hit the object. 
+			Orthogonal Culling works by going through all the objects in the 
+			scene for ray and calculating which it can hit. 
 
 			Orthogonal projection is used to tell whether a object is in front
 			of the ray or not. By projecting the center of the sphere onto
-			the directional line of the ray, its closest point to the line is
-			known.  Then the distance between the line and the sphere can be
+			the directional line of the ray, its the line's closest point to the
+			object is known. Then the distance between the line and the sphere can be
 			calculated using the radius, if the distance is less than zero the
 			sphere will be hit by the ray. If the distance is larger than zero
 			the ray can't possibly hit that sphere. This way the number of
@@ -99,11 +99,17 @@
 			of objects and scaling the result with the inverse of the number of
 			objects. The radius is the distance to the object that is the
 			furthest from the Bounding Sphere's position added to that objects
-			sphere of influence (how far it reaches from it's location). This
+			sphere of influence (how far it reaches from it's origin). This
 			way there is no risk of objects being partially rendered.
 
 
 		\subsection{Assembler Based}
+
+			In this version no optimizations were implemented due to massively 
+			increased development times compared to GLSL and the assembler 
+			language wasn't completed until later in the project. Therefore the 
+			time avaible for development on the Assembler Based Sphere Tracer 
+			was shorter than the
 
 			In the assembler version that runs on our own hardware there is
 			initially a single thread. This thread will create one new thread
