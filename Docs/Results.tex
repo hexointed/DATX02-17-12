@@ -42,7 +42,8 @@
 			\includegraphics[width=0.75\linewidth]{figure/value12x.png} 
 			\caption{Value from the simple square root approximator (green),
 				the improved version (blue), and the shifting nth root 
-				algorithm (red).}
+				algorithm (red). In these graphs, they all operate on integers. 
+				The shifting nth root is exact for integer square roots.}
 			\label{sres1}
 		\end{figure}
 
@@ -69,7 +70,9 @@
 			\includegraphics[width=0.75\linewidth]{figure/value_lin12x.png} 
 			\caption{Value from lerp-approximator (purple), simple square root
 				approximator with one step of the babylonian method (green),
-				and the shifting nth root algorithm (red).}
+				and the shifting nth root algorithm (red). In these graphs, 
+				they all operate on integers. The shifting nth root is exact 
+				for integer square roots.}
 			\label{sres4}
 		\end{figure}
 
@@ -102,9 +105,14 @@
 		that affects the algorithm were implemented in the software shader, not
 		on our own GPU.
 
+		For all tests performed, FPS (Frames Per Second) is used to measure
+		performance. FPS is simply how many times the GPU is able to render 
+		the scene per second. The time it takes to render the scene once is 
+		equal to one divided by the FPS.
+
 		\subsection{Orthogonal culling}
 		
-		Tests to see the performance of the orthogonal culling optimization
+		Tests to see the performance of the Orthogonal Culling optimization
 		were performed by putting an increasing number of solid-colored spheres
 		in a plane in front of the camera. Because of this, the spheres are not
 		obstructed by other spheres, making this the best possible scenario for
@@ -134,26 +142,37 @@
 				without the orthogonal culling optimization.}
 			\end{table}
 
-			%CHARTS
-			
-			\begin{table}
-			\centering
-			\scatterplot{1,2,10,15,20,25}{50,100,150,200,250,300}{4}{0.33}
-				{frames}{number of objects}{/figure/OptimizedGraf.txt}
-			\end{table}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.0\linewidth]{figure/TestResults/PercentageImprovement.png} 
+				\caption{Results from Orthogonal Culling tests}
+				\label{orthcull}
+			\end{figure}
 
-			The tests were performed by using an increasing number of
-			solid-colored spheres in a plane in front of the camera. Because of
-			this, the spheres are not obstructed by other spheres, making this
-			the best possible scenario for the optimization.
+			The reason for this graph's irregular behavior is probably some 
+			instruction memory cache running out or something of that 
+			fashion, although we can't know for sure. 
 
 		\subsection{Bounding spheres}
 
 			Bounding spheres were implemented and tested. There was a clear
-			gain in performance in some cases, but the results are very
-			situational, depending on too many factors (number of objects, the
-			dispersion of objects, size and place of the bounding sphere, etc.)
-			to be able to review properly at this time, will be a subject of
-			future work. The larger the bounding sphere, the less performance
-			gain will be seen and the more objects that can fit into a bounding
-			sphere the more performance gain will be seen. 
+			gain in performance in some cases, but the results are situational. 
+			The performance gain depends on number of objects bound, the spacing
+			between them, how well the sphere fits the objects, etc. 
+
+			To test the performance of this method a scene with an successively 
+			increasing amount spheres was rendered and the FPS measured. For 
+			reference an identical scene was rendered but without the 
+			optimization running.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.0\linewidth]{figure/TestResults/BSObjects.png} 
+				\caption{Results from Bounding Sphere test}
+				\label{boundsphere}
+			\end{figure}
+
+			This chart shows that in this scene a performance gain is observed 
+			when more than three objects are placed in a Bounding Sphere. If
+			fewer than 4 objects are enclosed, a performance decrease is 
+			observed.

@@ -98,20 +98,16 @@
 
 		\subsection{Bounding spheres}
 
-			Although an increase in performance could be seen using this
-			method, it can also be used in ways that decreases the performance.
-			By setting up a too large bounding sphere or by setting it up with
-			few objects or simply objects that are far apart.
+			If used the right way this technique can give great performance 
+			boosts. The testing showed an increase in gain as the number of 
+			objects increased, which is promising.
 
-			In testing we saw an increase in performance, but in some cases a
-			decrease could also be observed. The performance increase depends
-			on a lot of factors such as number of objects in a sphere, how well
-			the sphere is fits around them and how far apart they are. If
-			misused the performance will be decreased.
-
-			To use this optimization efficiently the objects inside a bounding
-			sphere should never come far apart and the sphere should be exactly
-			the right size.
+			The test was in this case simpler than the issue. The results depend
+			on more factors than we can analyze, the test only handles the 
+			number of objects inside a fixed sphere. To be used in a optimal way
+			the objects should be bound in a way similar to the one described in
+			the subsection implementation\ref{implshader} but more adaptive, 
+			enclosing objects depending how they are grouped per frame. 
 
 		\subsection{Orthogonal culling}
 
@@ -231,18 +227,13 @@
 			mentioned example due to the increase in subsets early in the
 			marching.
 
-	\section{Societal implications} %%döpa om
+	\section{Future impact on industry} 
 
-		%There will be no big impact on society from the results described in
-		%this report as it stands right now. 
-		%påverkan på bransch?
-		
-		The GPU is still too underdeveloped
-		to definitively show if the algorithm has potential one way or another.
-		Further prototypes needs to be built with greater rigor before that can
-		happen. If we however assume that somewhere down the line it turns out
-		to be a success, then there are generally three ways in which we could
-		foresee that happening.
+		The GPU is still too underdeveloped to definitively show if the algorithm
+		has potential one way or another.  Further prototypes needs to be built
+		with greater rigor before that can happen. If we however assume that
+		somewhere down the line it turns out to be a success, then there are
+		generally three ways in which we could foresee that happening.
 
 		First up is by breaking through in the games industry. Granted that it
 		probably will not be able to outperform modern graphic cards at their own
@@ -264,18 +255,17 @@
 		significant gain in computational power.
 
 		Finally, we designed our GPU similar to a CPU but with more	cores like a
-		GPU except with no lockstepping. If this proves to be feasible for full
-		a ASIC (Application-specific integrated circuit), then this type of
-		processing unit would be better at parallel processing than a regular
-		CPU, and it would perform better than a regular GPU at recursive and
-		conditionally branching algorithms. This lends itself well to
-		computations such as fractals, population simulation and artificial
-		intelligence. It might also fit classes of computation not yet thought
-		of, such in the example of Folding@Home\cite{Beberg2009}. They created
-		software, deployed all over the world, to run on Graphics cards in home
-		computers, when the computer was idle. So instead of wasting precious
-		computing power, these GPUs, adept at parallel computations, were
-		repurposed to work on the complicated problem of protein folding. In
-		effect acting as a global supercomputer to aid medical research. Given
-		the uniqueness of our GPU it might find a similar novel use in the
-		future.
+		GPU except with no lockstepping. If this proves to be feasible for a full
+		ASIC (Application-specific integrated circuit), then this type of
+		processing unit would be better at parallel processing than a regular CPU,
+		and it would perform better than a regular GPU at recursive and
+		conditionally branching algorithms. This lends itself well to computations
+		such as fractals, population simulation and artificial intelligence. It
+		might also fit classes of computation not yet thought of, such in the
+		example of Folding@Home\cite{Beberg2009}. They created software, deployed
+		all over the world, to run on Graphics cards in home computers, when the
+		computer was idle. So instead of wasting precious computing power, these
+		GPUs, adept at parallel computations, were repurposed to work on the
+		complicated problem of protein folding. In effect acting as a global
+		supercomputer to aid medical research. Given the uniqueness of our GPU it
+		might find a similar novel use in the future.

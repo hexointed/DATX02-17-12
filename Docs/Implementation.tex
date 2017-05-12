@@ -9,87 +9,46 @@
 	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
-	\ref{implproc}. In addition to these, a simple software assembler was written
+	\ref{implproc}. In addition to these, a simple assembler program was written
 	for the assembly language used for the GPU.
 	
-	\section{Reference Shader} \label{implshader}
+	\section{Shaders} \label{implshader}
 
-		Before any actual sphere tracing is done some essential values are
-		calculated from predefined parameters. To have a functional sphere
-		tracer a camera point and direction to look needs to be defined, in
-		practice this is done by having an eye-vector and a vector that
-		describes the point that the camera should be oriented against. From
-		these vectors a new direction vector is calculated that defines the
-		direction that the camera is oriented. The camera-vector is used as a
-		origin for rays and the direction-vector is used to calculate the
-		direction of each ray.
-		
-		The core of the Sphere Tracer is a simple while-loop. It begins by
-		calculating the distance to the closest object in the scene by sampling
-		the distance field and comparing its value at the current location to a
-		predefined epsilon. If the value of the distance field is smaller than
-		epsilon, the ray has hit an object. If no object has been hit, the
-		sampled distance will be added to the length of the ray.
-
-
-		\subsection{GLSL Based}
-	
-			The shader is made to run on conventional graphics hardware, it was
-			created in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input.
-			
-			Before the loop is run Orthogonal Culling is executed, reducing the
-			number of objects in the distance field. Beyond this, objects can
-			also be enclosed in Bounding Spheres.
-			
-			After a hit is detected several different things will be done,
-			depending on the material assigned to the object. If the object is
-			reflective the normal of the surface hit is calculated and used to
-			reflect the ray. If the object is colored the pixel will simply be
-			set according to the object. Color can also be calculated from
-			object or ray coordinates, coloring the pixel depending on where the
-			object is or where it was hit.
+		The shaders written uses the theory described in \ref{spheretracing}
+		iterating over a ray in a main loop. The GLSL shader has more advanced
+		optimizations added to it.
 
 		\subsection{Orthogonal Culling}
 
-			A bottleneck of Sphere Tracing is that the distance to
-			a lot of objects has to be calculated once for every march step.
-			One way to increase the performance is to reduce
-			the number of objects that the distance has to be calculated to,
-			without reducing the actual number of objects in the scene. To do
-			this the GPU needs to calculate which object a ray might hit,
-			traditionally the CPU will tell the GPU which objects are in the
-			field of view (Frustum culling) 
-			
-			% but we can't do that because of
-			% GLSL does not allow us to run code on the CPU. 
-			% öhm inte glsl kanske men ville vi implementera det går det ju lätt i .jsx
-			
-			Even if we could use frustum culling it would probably not be enough, each ray 
-			should only care for the objects that it might hit, not all 
-			objects in the field of view.
+			A bottleneck of Sphere Tracing is that the distance to a lot of objects
+			has to be calculated once for every march step. Performance can be
+			increased by reduceing the number of objects that the distance has to be
+			calculated to, without reducing the actual number of objects in the
+			scene. To do this the GPU needs to calculate which object a ray might hit
+			by checking its field of view. This information is traditionally
+			calculated on the CPU and then passed to the GPU (Frustum culling). Even
+			frustum culling might not be enough. Each ray should only care about the
+			objects that it might hit, not all objects in the field of view.
 
-			Orthogonal Culling works by going through all the objects in the 
-			scene for ray and calculating which it can hit. Orthogonal 
-			projection is used to tell whether a object is in front of the ray 
-			or not. By projecting the center of the sphere onto the directional 
-			line of the ray, its the line's closest point to the object is 
-			known. Then the distance between the line and the sphere can be 
-			calculated using the radius, if the distance is less than zero the 
-			sphere will be hit by the ray. If the distance is larger than zero
-			the ray can't possibly hit that sphere. This way the number of
-			objects that the distance has to be calculated to is decreased.
+			Orthogonal Culling works by going through all the objects in the scene
+			and calculate what rays might hit what object. Orthogonal projection is
+			used to tell whether a object is in front of the ray or not. By
+			projecting the center of the sphere onto the directional line of the ray,
+			its the line's closest point to the object is known. Then the distance
+			between the line and the sphere can be calculated using the radius, if
+			the distance is less than zero the sphere will be hit by the ray. If the
+			distance is larger than zero the ray can't possibly hit that sphere. This
+			way the number of objects that the distance has to be calculated to is
+			decreased.
 
 		\subsection{Bounding Spheres}
 			
-			To decrease the number of distance calculations that has to be
-			performed in each march step is to enclose several objects in a
-			Bounding Sphere. When the distance field is evaluated only the
-			bounding sphere will be considered and none of the objects enclosed
-			by it. If the bounding sphere is hit by the ray, it will be removed
-			and all the contained objects will be introduced to the distance
-			field.
+			In order to decrease the number of distance calculations that has to be
+			performed in each march step, objects can be grouped together in larger
+			enclosing bounding spheres. When the distance field is evaluated only the
+			bounding sphere will be considered and none of the objects enclosed by
+			it. If the bounding sphere is hit by the ray, it will be removed and all
+			the contained objects will be introduced to the distance field.
 			
 			A Bounding Sphere is defined by it's location, radius and enclosed
 			objects. The location is calculated by adding the position-vectors
@@ -99,43 +58,58 @@
 			sphere of influence (how far it reaches from it's origin). This
 			way there is no risk of objects being partially rendered.
 
+		\subsection{GLSL Based}
+	
+			The shader is made to run on conventional graphics hardware, it was
+			created in the high-level shading language GLSL (short for OpenGL
+			Shading Language). It runs the program for each pixel the shader is
+			rendered on, using the screen-coordinates as input. Both the 
+			previously discussed optimizations were implemented and used in this
+			shader.
+			
+			Before the loop is run Orthogonal Culling is executed, reducing the
+			number of objects in the distance field. Orthogonal Culling can cull
+			individual objects or Bounding Spheres. 
+			
+			After a hit is detected different things happen depending on the material
+			assigned to the object. If the object is reflective, then the normal of the
+			surface hit is calculated and used to reflect the ray. If the object is
+			colored the pixel will simply be set according to the object. Color can
+			also be calculated from object or ray coordinates. Coloring the pixel
+			depending on where the object is or where it was hit.
 
 		\subsection{Assembler Based}
 
-			In this version no optimizations were implemented due to massively 
-			increased development times compared to GLSL and the assembler 
-			language wasn't completed until a late stage in the project. Therefore the 
-			time avaible for development on the Assembler Based Sphere Tracer 
-			was shorter than the shader.
+			In this shader no optimizations were implemented. In the assembler 
+			version that runs on our own hardware single thread is initially 
+			created. This thread will create a render thread, which will 
+			calculate the color of the next pixel, and one new version of
+            itself. Lastly it simply terminates it's execution, freeing up the 
+            core to request a new thread. The new version of the thread keeps 
+            track of the next pixel to be rendered. This will render all pixels 
+            as concurrently as the GPU has cores, minimizing core stalls and 
+            therefore maximizing GPU usage.
 
-			Initially a single thread is created, it is used to create new 
-			threads and push them to the queue. One thread will be created for
-			each pixel on the screen, and also an id will be given to 
-			each thread. This id corresponds to a pixel to the screen. 
-			An example: If the resolution of the display is 2x2 4 threads will 
-			be created and given id's ranging from 4 to 1. Once all threads have
-			been instantiated the initial thread will be terminated.
+			When a render thread is created it immidietly starts setting up the
+			ray. The screen coordinates are calculated from the thread id, this 
+			is essential for calculating the ray direction. As with the software
+			shader, camera position and a point	to orient the camera against are 
+			predefined. 
 
-			When a new thread is created the screen coordinates is calculated 
-			from the thread id, this is essential for calculating the ray 
-			direction. As with the software shader, camera position and a point 
-			to orient the camera against is predefined. 
-
-			After screen coordinates are calculated a ray direction vector is
-			calculated, after this all initial setup calculations are done. The
-			Sphere Tracing loop is a straight-forward implementation of the 
-			algorithm. If a hit is detected a flat color will be assigned to 
-			the corresponding pixel.
+			After screen coordinates are calculated a direction vector for the 
+			ray is calculated, after this all initial setup calculations are 
+			done. The Sphere Tracing loop is a straight-forward implementation 
+			of the algorithm. If a hit is detected a flat color will be assigned
+			to the corresponding pixel.
 
 	\section{Processor Unit} \label{implproc}
 
 		The properties of the ray marching algorithm as described in chapter
 		\ref{spheretracing} led to the decision of designing a GPU architecture
-		that does not utilize multi-ALU SIMD with lockstepping to the same
-		extent as that of traditional graphics processors. Instead, a solution 
-		with slightly simpler independent cores was decided upon. This is 
-		similar to reasoning employed by \cite{Woop2005} for a Ray Tracing 
-		hardware design.
+		that does not utilize multi-ALU SIMD with lockstepping to the same extent
+		as that of traditional graphics processors. We instead went for a solution
+		with slightly simpler independent cores. This is similar to the reasoning
+		employed by \cite{Woop2005} for a Ray Tracing hardware design.
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
@@ -150,34 +124,32 @@
 			stored.
 
 			All threads that are not running are sent to a storage manager that
-			communicates with all cores, and threads are then dispatched to
-			cores as the cores become available for execution. The cores are
-			also able to spawn new threads by sending their data to the storage
-			manager, or terminate their current threads either by simply
-			dropping them or by sending them to the frame buffer, where some of
-			the registers will be used to determine the color of some pixel on
-			the screen.
+			communicates with all cores, and threads are then dispatched to the cores
+			as they become available for execution. The cores are also able to spawn
+			new threads by sending their data to the storage manager or by
+			terminating their current thread either by simply dropping them or by
+			sending them to the frame buffer. Where the register content will be used
+			to determine the color of a pixel on the screen.
 
-			The storage in the storage manager on the XQBGPPPU is implemented
+			The storage in the storage manager on the BiQRiU is implemented
 			as a double-ended queue. This makes it possible for threads to have
 			some coarse-grained control over execution priority, which is
 			needed in order for many types of programs to be able to run with a
-			bunded number of threads at any given time. During execution, the
+			bounded number of threads at any given time. During execution the
 			storage manager selects one core that is ready to send a thread, if
 			any core is ready to do so, and adds its thread to the storage. If
 			any core is ready to receive a thread, one is taken from the 
 			storage and sent to that core. If more than one core is ready, one
 			is chosen arbitrarily.
 
-			Each core consists of instruction and data memories, some control 
-			logic for execution order and a DFU. The data and instruction 
-			memories are immutable and mirrored across all cores in their 
+			Each core has an instruction memory and a data memory. The instruction
+			memory controls logic for execution order and the DFU. The data and
+			instruction memories are immutable and mirrored across all cores in their
 			entirety. The control logic is responsible for feeding the DFU with
-			instructions and data, as well as updating the thread registers 
-			when a new thread is attached, sending thread registers to the 
-			storage manager when new threads are spawned and and 
-			requesting a new thread whenever the previously executing one 
-			terminates.
+			instructions and data. It also updates the thread registers when a new
+			thread is attached, sending thread registers to the storage manager when
+			new threads are spawned and and requesting a new thread whenever the
+			previously executing one terminates.
 			
 			The DFU contains a stack which all arithmetic instructions operate
 			on, as well as an ALU for carrying out calculations. It also keeps
@@ -191,33 +163,38 @@
 		\subsection{Instruction Set}
 
 			A representation for distance functions was also designed. It is
-			implemented as a reverse polish notation inspired stack based 
-			instruction set.
+			implemented as a reverse polish notation inspired stack based instruction
+			set. There are a total of four instruction types with different
+			instruction encodings. Their layout in memory is shown in figure
+			\ref{encodingfig} and the type of instructions are:
 
-			There are a total of four instruction types with different
-			instruction encodings, their layout in memory is shown in figure
-			\ref{encodingfig}, and the type of instructions are:
+			\begin{figure}
+				\centering
+				\caption{Bit encoding for the different instruction types. All
+					instruction types have a fixed width 16-bit encoding.}
+				\label{encodingfig}
+				\includegraphics[width=0.75\linewidth]{figure/pdf/instruction_layout} 
+			\end{figure}
 
-			\begin{description}
-				\item[C-type] instructions are for control flow, that is, 
-					instructions that affect the global queue or frame buffer or
-					terminate the current thread. C-type instructions can be 
-					conditionally executed, based on the condition encoded in
-					the two highest bits in the opcode. 
+			\begin{description} 
+				\item[C-type] instructions are for control flow, that
+						is, instructions that affect the global queue or frame buffer or
+						terminate the current thread. C-type instructions can be
+						conditionally executed based on the condition encoded in the two
+						highest bits in the opcode, equal to zero or not equal to zero. 
 
-				\item[D-type] instructions, which encode arithmetic- and vector
-					instructions on the stack. These operate only on the
+				\item[D-type] instructions encode arithmetic- and vector
+					operations that work on the stack. These operate only on the
 					internal stack in the core and not on any of the other
 					registers. They can take up to six arguments and return up
 					to three return values. D-type instructions can be split up
 					in chunks using the \texttt{next} instruction, where the
-					last computed result will be accumulated using the minimum
-					automatically by the core. This is useful for encoding
-					distance functions.
+					last computed result will be accumulated using the min-function
+					automatically. This is useful for encoding distance functions.
 
 				\item[V-type] instructions deal with memory accesses. The
 					\texttt{p} bit encodes whether this access is for pack
-					(mutable) or read-only memory.
+					(mutable register) or read-only memory.
 
 				\item[R-type] instructions load wide immediate values into the
 					DFU. They are currently only used for assigning distance
@@ -227,13 +204,13 @@
 		\subsection{Execution Model}
 
 			The processor contains a global storage structure that is shared
-			among all cores by a storage manager. All threads that are 
+			among all cores by a single storage manager. All threads that are 
 			ready for execution are held in this storage until a core is ready 
 			to start executing them.
 
 			\begin{figure}[H]
 				\centering
-				\caption{ XQBGPPPU Data flow diagram }
+				\caption{ BiQRiU Data flow diagram }
 					\includegraphics[width=0.75\linewidth]{figure/dots/GPU-schematic} 
 				\vspace{-4pt}
 			\end{figure}
@@ -265,19 +242,17 @@
 			register (\texttt{r2}), which will be sent to the frame buffer in
 			order to be displayed on the screen.
 
-			This set of instructions for control flow might initially seem to
-			be neither useful nor easy to implement but they are powerful
-			enough to implement for all branching that is needed in our ray
-			marchers efficiently while being restrictive enough to make
-			instruction memory accesses very predictable.
+			This set of instructions for control flow might initially seem to be
+			neither useful nor easy to implement but it is powerful enough for all
+			branching that is needed in our Sphere Tracer while being restrictive
+			enough to make instruction memory accesses very predictable.
 
-			In addition to this, each core can accelerate finding the minimum 
-			distance for a set of distance functions using a built-in 
-			accumulator, together with the instructions \texttt{next} and 
-			\texttt{accum}. Because of this, distance functions can be written
-			without any regard for how the shader that called them works, and
-			this very common operation is automated, reducing the size of each
-			distance function slightly.
+			The instructions \texttt{next} and \texttt{accum} are used to accelerate
+			finding the minimum distance for a set of distance functions using a
+			built-in accumulator. Because of this, distance functions can be written
+			without any regard for how the shader that called them works. This very
+			common operation being automated thus reduces the size of each distance
+			function slightly.
 
 		\subsection{Square Roots}
 
@@ -286,18 +261,17 @@
 			achieving good performance. Several different approaches for this
 			were considered.
 
-			Firstly, using an iterative method like Goldschmidt's or the
-			babylonian method was considered. These require an initial starting
-			value, which is usually generated using a look-up table. We tested
-			a different and very fast method for generating an initial rough
-			guess of the square root of any number without the need for a
-			look-up table. A 16-bit version of this circuit is shown in figure
-			\ref{orsqrt}, and an improved but slightly more expensive version
-			is showed in figure \ref{orsqrt2}. The basic working principle is
-			based on the fact that the square root of a number has roughly half
-			as many digits as the original number. In the version with slightly
-			improved accuracy the placement of the extra wires is based on the
-			bit pattern of $\sqrt{2}$.
+			Firstly, using an iterative method like Goldschmidt's or the babylonian
+			method require an initial starting value which is usually generated
+			using a look-up table. We tested a different and very fast method for
+			generating an initial rough guess of the square root of any number
+			without the need for a look-up table. A 16-bit version of this circuit is
+			shown in figure \ref{orsqrt}, and an improved but slightly more expensive
+			version is showed in figure \ref{orsqrt2}. The basic working principle is
+			based on the fact that the square root of a number has roughly half as
+			many digits as the original number. In the version with slightly improved
+			accuracy the placement of the extra wires is based on the bit pattern of
+			$\sqrt{2}$.
 
 			\begin{figure}
 				\centering
@@ -315,19 +289,18 @@
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt3Or.pdf} 
 			\end{figure}
 
-			In order to improve upon this method, both in terms of accuracy and
-			stability, another design was considered in which the input was
-			both rounded up and down to values where the simple square root
-			approximator was very accurate and the result was then linearly
-			interpolated between these roots. This linear interpolation
-			requires only a multiplication and a couple of additions, but
-			choosing upper and lower seed values is a more complex problem.
-			Choosing the two geometrically closest powers of two was tested
-			because the or-gate square root circuit is very accurate for powers
-			of two, but this is not the only possible choice, as there are many 
-			points for which the simple square root approximator is very 
-			accurate. We did not look further into choosing different upper and
-			lower bounds for the lerp-approximator.
+			In order to improve upon this method both in terms of accuracy and
+			stability another design was considered. The input was both rounded up
+			and down to values where the simple square root approximator was very
+			accurate and the result was then linearly interpolated between these
+			roots. Especially with circuit \ref{orsqrt3}. This linear interpolation
+			requires only a multiplication and a couple of additions, but choosing
+			upper and lower seed values is a more complex problem. Choosing the two
+			geometrically closest powers of two was tested because the or-gate square
+			root circuit is very accurate for powers of two, but this is not the only
+			possible choice, as there are many points for which the simple square
+			root approximator is very accurate. We did not look further into choosing
+			different upper and lower bounds for the lerp-approximator.
 
 			\begin{figure}
 				\centering
@@ -337,8 +310,8 @@
 					powers of 2. Note that the gates in this diagram seem to be
 					ordered in two extra layers. This is, however, only a
 					visual artifact in this image. Adding more layers with
-					shifts of 6, 10, 14, 26 etc increases accuracy further,
-					although returns are diminishing quickly.}
+					shifts of 6, 10, 14, 26 etc increases accuracy further but 
+					with rapidly diminishing returns.}
 				\label{orsqrt3}
 				\includegraphics[width=0.75\linewidth]{figure/pdf/sqrt2Or.pdf} 
 			\end{figure}
@@ -350,11 +323,11 @@
 			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
 			a good canditate for a high performance hardware implementation,
 			but several important optimizations are possible when unrolling it
-			combinatorially. Most of the additions can be reduced to bitwise
-			logic operations already when computing it in software, as shown in
+			combinatorially. Most of the additions can be already reduced to bitwise
+			logic operations when computing it in software, as shown in
 			figure \ref{sqrtcopt}. In a combinatorial hardware implementation,
 			these bitwise operations can be removed entirely by simply moving
-			wires around, yeilding a logic cost of 0. The only remaining
+			wires around yeilding a logic cost of 0. The only remaining
 			operations is therefore the subtraction on line 6, and the
 			conditional assignments of \texttt{num} and \texttt{res} on lines 9
 			and 10. The cost of the subtraction can be significantly reduced
@@ -367,7 +340,10 @@
 			\begin{table}
 				\centering
 				\caption{A \texttt{C} implementation of the shifting nth root 
-					algorithm}
+					algorithm. The shifting nth root algorithm approximates the
+					square root one bit at a time, and is as accurate as the 
+					precision allows. All calculated bits are stored in the 
+					variable \texttt{res}.}
 				\label{sqrtc}
 				\begin{tabular}{c}
 				\begin{lstlisting}
@@ -393,7 +369,10 @@ int isqrt(int num) {
 				\caption{A \texttt{C} implementation of the shifting nth root
 					algorithm. This code example is slightly longer, but
 					relatively expensive additions have been replaced by
-					bitwise ors.}
+					bitwise ors. The bit-shift of \texttt{res} has been moved, 
+					removing the else-statement, and the comparison has been 
+					rewritten to require less logic when implemented in 
+					hardware.}
 				\label{sqrtcopt}
 				\begin{tabular}{c}
 				\begin{lstlisting}

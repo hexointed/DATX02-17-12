@@ -250,28 +250,27 @@ float DistToMetaballs(vec3 p)
 float BoundingSphere(vec3 p){
 
 //	float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
-//	int i = 1;
-//	while(i < NumSpheres)
+//	for(int i=1; i < 2; i++)
 //	{
 //		dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
-//		i++;
 //	}
-//	return dist2;
+	return sdSphere(p,spherePos[0],sphereRadii[0]);
 
-	float dist = sdSphere(p,boundingSpherePos,boundingSphereRad);
-	if (dist > 0.1)
-	{
-		return dist;
-	}
-	else
-	{
-		float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
-		for(int i=1; i < 10; i++)
-		{
-			dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
-		}
-		return dist2;
-	}
+
+//	float dist = sdSphere(p,boundingSpherePos,boundingSphereRad);
+//	if (dist > 0.1)
+//	{
+//		return dist;
+//	}
+//	else
+//	{
+//		float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
+//		for(int i=1; i < 1; i++)
+//		{
+//			dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
+//		}
+//		return dist2;
+//	}
 }
 
 float DistToObjectId(vec3 p, uint objId)
