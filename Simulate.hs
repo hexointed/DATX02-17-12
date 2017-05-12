@@ -66,7 +66,7 @@ picAtTime time = bm  --picAtTime time = Pictures [Blank, bm]
 	where 
 	bm = bitmapOfByteString 16 16 (BitmapFormat TopToBottom PxRGBA) pxStr False
 		where 
-		pxStr = B.pack $ foldr (\x a -> 80*(fromInteger.toInteger $ fst3 x) : 80*(fromInteger.toInteger $ snd3 x) : 80*(fromInteger.toInteger $ thd3 x):255:a) [] (simPixels time)
+		pxStr = B.pack $ foldr (\x a -> (fromInteger.toInteger $ fst3 x) : (fromInteger.toInteger $ snd3 x) : (fromInteger.toInteger $ thd3 x):255:a) [] (simPixels time)
 			where 
 			fst3 (x,_,_) = x
 			snd3 (_,x,_) = x
