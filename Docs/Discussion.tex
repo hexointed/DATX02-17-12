@@ -4,7 +4,7 @@
 	yet	implemented optimizations, and what future work is possible from this
 	point in time.
 	
-	\section{Results}  \label{discussion}
+	\section{Results} \label{discussion}
 		
 		\subsection{Software Shader}
 
@@ -97,12 +97,12 @@
 			implementing the Sphere tracer in a language that has more granular 
 			GPU control than GLSL, which is what we used in this paper.
 
-			However great the performance gain the way this is implemented             
+			However great the performance gain the way this is implemented 
 			is still far from the optimal solution, currently it performs 
 			orthogonal culling on all the objects in the scene per pixel. 
 			Instead, culling should be done on a per-object basis and calculate 
-            which rays an object intersects, this way fewer calculations would
-            have to be performed and optimally they would be performed on the
+			which rays an object intersects, this way fewer calculations would
+			have to be performed and optimally they would be performed on the
 			CPU.
 
 			This method could work together with the Bounding Sphere
@@ -190,7 +190,7 @@
 			not inside the minimum distance spheres (MDS) the combined pixel is
 			split up into smaller sets, which each have a centered pixel. Each
 			set then repeats the these steps over and over again individually
-			along their new center pixel's ray.  This is repeated a number of
+			along their new center pixel's ray. This is repeated a number of
 			times depending on the march distance in the scene for every set.
 			The closer the sets are to a target, the more likely it is for a
 			higher amount of subsets to be created due to the decrease of the
@@ -214,7 +214,7 @@
 		this report as it stands right now. The GPU is still too underdeveloped
 		to definively show if the algorithm has potential one way or another.
 		Further prototypes needs to be built with greater rigor before that can
-		happen.  If we however assume that somewhere down the line it turns out
+		happen. If we however assume that somewhere down the line it turns out
 		to be a success, then there are generally three ways in which we could
 		forsee that happening.
 
