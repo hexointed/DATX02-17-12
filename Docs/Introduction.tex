@@ -5,8 +5,8 @@
 	algorithms were developed and tested \cite{Hart1989}. This was possible
 	because they ran in software on the	CPU (Central Processing Unit), and
 	could thus be easily altered and enhanced. Photo realistic rendering could
-	be done using a method called Ray Tracing, but this is slow for real time
-	graphics\cite{Shirley2005}. Improvements were made to this method and one
+	be achieved using a method called Ray Tracing, but this is slow for real time
+	graphics\cite{Shirley2005}. Improvements has been made to this method and one
 	such algorithm was named Sphere Tracing. This could be used to render 3D
 	fractals\cite{Hart1989}, but it was	still too slow to render complex
 	geometry in real time\cite{Hart1989}. Better graphics rendering (fast real
@@ -31,7 +31,8 @@
 		architecture that is designed to efficiently execute the Sphere Tracing 
 		algorithm. In striving towards efficiency, we examine Sphere Tracing in 
 		order to find possible optimizations, both algorithmic and hardware 
-		based.
+		based. For testing some of the optimizations performance, a software shader is 
+                to be designed.
 		
 	\section{Scope}
 
@@ -39,4 +40,8 @@
 		is a large undertaking for a single bachelors project. The project is
 		therefore instead done on a best-effort basis where we try to implement
 		the novel parts of the design, while leaving out generally well
-		researched systems such as cache and memory management.
+		researched systems such as cache and memory management. When creating 
+software shaders, very simple, smooth running, graphic scenes has been prioritized 
+over very complex scenes. This to have more resources for optimizations and testing.
+
+
