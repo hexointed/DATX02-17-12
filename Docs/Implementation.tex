@@ -67,9 +67,9 @@
 			number of objects in the scene. To do this the GPU needs to
 			calculate which object a ray might hit, traditionally the CPU will
 			tell the GPU which objects are in the field of view (Frustum
-			culling) but we can't do that because of GLSL does not allow us to
-			run code on the CPU. Even if we could use frustum culling it would
-			probably not be enough, each ray should only care for the objects
+			culling) but we can't do that because GLSL does not allow us to run 
+			code on the CPU. Even if we could use frustum culling it would
+			probably not be enough since each ray should only care for the objects
 			that it might hit, not all objects in the field of view.
 
 			Orthogonal Culling works by going through all the objects in the 
@@ -107,16 +107,26 @@
 
 			In this version no optimizations were implemented due to massively 
 			increased development times compared to GLSL and the assembler 
-			language wasn't completed until later in the project. Therefore the 
+			language wasn't completed until a later stage in the project. Therefore the 
 			time avaible for development on the Assembler Based Sphere Tracer 
-			was shorter than the
+			was shorter than the shader.
 
-			In the assembler version that runs on our own hardware there is
-			initially a single thread. This thread will create one new thread
-			for each pixel on the screen, and this thread will calculate what 
-			color the pixel should have and then terminate. This differs from 
-			the shader version that simply runs the GLSL-code for each pixel
-			in parallel at the graphics cards many cores.
+			Initially a single thread is created, it is used to create new 
+			threads and push them to the queue. One thread will be created for
+			each pixel on the screen, and also an id will be given to 
+			each thread. This id corresponds to a pixel to the screen. 
+			An example: If the resolution of the display is 2x2 4 threads will 
+			be created and given id's ranging from 4 to 1. Once all threads have
+			been instantiated the initial thread will be terminated.
+
+			When a new thread is created the screen coordinates is calculated 
+			from the thread id, this is essential for calculating the ray 
+			direction. As with the software shader, camera position and a point 
+			to orient the camera against is predefined. 
+
+			After screen coordinates are calculated a ray direction vector is
+			calculated, after this all initial setup calculations are done. A
+			straight-forward implementation of the Sphere Tracing algorithm 
 
 	\section{Processor Unit} \label{implproc}
 
