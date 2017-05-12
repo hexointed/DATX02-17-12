@@ -8,7 +8,6 @@
 		
 		\subsection{Software Shader}
 		
-
 			The optimizations that were implemented improved performance more
 			than anticipated. There are many optimizations that are yet to be
 			implemented and tested and it's hard to estimate the potential
@@ -19,32 +18,30 @@
 			because of the language that we chose to implement it in, GLSL. It
 			offers nothing more than a way to write a program which will run on
 			a per-pixel basis and put the result on the screen. Because of
-			this, CPU-GPU cooperation is not possible and that comes with
-			consequences.
-
-			Modern graphics engines not only does a lot of work on the CPU but
-			it has granular control over the GPU, whereas we have no control at
-
-			all. Things such as object positioning, frustum culling, etc.
-			should be done by the CPU, not the GPU. This kind of implementation
-			can not be done in GLSL and therefore a high-performance sphere
-			tracer should be done not in GLSL but in a lower-level language.
+			this, CPU-GPU cooperation is not possible. Modern graphics engines 
+			not only does a lot of work on the CPU but it has granular control 
+			over the GPU. In GLSL nothing can be done on the CPU in order to 
+			increase performance. Things such as object positioning, frustum 
+			culling, etc. should be done by the CPU, not the GPU. This kind of 
+			implementation can not be done in GLSL and therefore a 
+			high-performance sphere tracer should be done not in GLSL but in a 
+			lower-level language.
 
 			Although GLSL has it's limits it still has some very attractive
 			features, it was easy to learn because the syntax has much in
 			common with java, which we've studied. The time it takes to develop
 			new features and test them is short. The purpose of the software
 			shader was to study the algorithm, implement and test optimizations
-			and develop new features. For the purposes of this sphere tracer
-			GLSL was a perfect fit.
+			and develop new features. For the purposes of this project GLSL was 
+			a perfect fit.
 		
 		\subsection{GPU} 
 		
 			The project originally intended to create a simple single-core GPU
 			that could fully render a scene given enough time, and then add	
-			components as time allowed. As happens with projects like these,
-			every design decision one makes clarifies what further needs to be
-			done, and reveals previously unseen flaws in the design that must
+			components as time allowed. Every design decision one makes 
+			clarifies what further needs to be done, and reveals previously 
+			unseen flaws in the design that must
 			be resolved. In the end we implemented the core and a storage 
 			manager which enabled multiple cores running in parallel.
 
@@ -80,12 +77,12 @@
 			implementing the Sphere tracer in a language that has more granular 
 			GPU control than GLSL, which is what we used in this paper.
 
-			However great the performance gain the way this is implemented is
-			still far from the optimal solution, currently it performs
-			orthogonal culling on all the objects in the scene per pixel.
-			Instead, culling should be done on a per-object basis and calculate
-			which rays an object intersects, this way fewer calculations would
-			have to be performed and optimally they would be performed on the
+			However great the performance gain the way this is implemented             
+			is still far from the optimal solution, currently it performs 
+			orthogonal culling on all the objects in the scene per pixel. 
+			Instead, culling should be done on a per-object basis and calculate 
+            which rays an object intersects, this way fewer calculations would
+            have to be performed and optimally they would be performed on the
 			CPU.
 
 			This method could work together with the Bounding Sphere
