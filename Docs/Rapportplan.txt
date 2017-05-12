@@ -1,26 +1,25 @@
 _Rapportläge_
 
-Abstract:     		 0%  (göras i slutfas)
-sammanfattning		 0%
+Abstract:     		 90%  (göras i slutfas)
+sammanfattning		 90%
 
-Intro 				80%  ~400 ord  ?? fråga
+Intro 				90%  ~100 
 
-State of the art    95%  ~50 ord
+State of the art    100%  
 Teori               100% 
-Implementation      70%  300-700 ord assembler- shader, 300 ord assemblerspråk, 
+Implementation      ?
 
 Resultat                 
-                         Ortho culling: jämförelse med basfall
-                         intro: ~100 ord
-                         nytt stycke: GPU, queue based operation: 300-400 ord
-Discussion               ? ord
+Discussion          
 
-Conclusion               gruppdiskussion på torsdag, 600-800 ord
+Conclusion               gruppdiskussion
 
 
 _Rapportskrivning_
 
 State of the art
+		layout-centric workflow, %  - fixaref
+
 
 Implementation
 

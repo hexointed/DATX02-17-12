@@ -4,7 +4,6 @@
 	yet	implemented optimizations, and what future work is possible from this
 	point in time.
 	
-<<<<<<< HEAD
 	\section{Development Environment}
 	
 		Clash
@@ -13,6 +12,7 @@
 		simulating the Verilog code on a bit level. 
 	
 		Synthclipse?
+		
 		
 		FPGA-synth-program?
 	
@@ -125,14 +125,14 @@
 	\section{Square roots}
 
 		The simple square root approximator and its improved version are
-		extremely simple circuits, indeed they are signifcantly smaller than
+		extremely simple circuits, in fact they are significantly smaller than
 		most other common operations performed on numbers in hardware. Of
 		course, they are far from accurate, but we find it interesting that it
-		is possible to acheive a bounded relative error from the true square
+		is possible to achieve a bounded relative error from the true square
 		root for any number of input bits with these small circuits. When
 		combined with linear interpolation or iterative methods like the
 		Babylonian method the accuracy of these approximations increases
-		signifcantly.
+		significantly.
 		
 		The shifting nth root algorithm is the only bit-accurate method tested,
 		and it performs well, albeit slower than the approximations. If
@@ -219,15 +219,13 @@
 			mentioned example due to the increase in subsets early in the
 			marching.
 
-	\section{Societal implications}
+	\section{Future impact on industry} 
 
-		There will be no big inpact on society from the results described in
-		this report as it stands right now. The GPU is still too underdeveloped
-		to definively show if the algorithm has potential one way or another.
-		Further prototypes needs to be built with greater rigor before that can
-		happen. If we however assume that somewhere down the line it turns out
-		to be a success, then there are generally three ways in which we could
-		forsee that happening.
+		The GPU is still too underdeveloped to definitively show if the algorithm
+		has potential one way or another.  Further prototypes needs to be built
+		with greater rigor before that can happen. If we however assume that
+		somewhere down the line it turns out to be a success, then there are
+		generally three ways in which we could foresee that happening.
 
 		First up is by breaking through in the games industry. Granted that it
 		probably will not be able to outperform modern graphic cards at their own
@@ -248,12 +246,18 @@
 		improvement over current graphic cards might be amplified to a
 		significant gain in computational power.
 
-		Finally, since we wrote the hardware similar to a CPU but with more
-		threading like a GPU except with no lockstepping, it might be a perfect
-		fit for some problem not yet discovered. Much like GPUs used to sit
-		unused while not being used for gaming or video editing essentialy
-		wasting potential computations. Novel projects like
-		Folding@Home\cite{Beberg2009} popped up to exploit this fact to a great
-		success. Although it is hard to guess at exactly how. Given the
-		uniqueness of the hardware it might find a similar novel use in the
-		future.
+		Finally, we designed our GPU similar to a CPU but with more	cores like a
+		GPU except with no lockstepping. If this proves to be feasible for a full
+		ASIC (Application-specific integrated circuit), then this type of
+		processing unit would be better at parallel processing than a regular CPU,
+		and it would perform better than a regular GPU at recursive and
+		conditionally branching algorithms. This lends itself well to computations
+		such as fractals, population simulation and artificial intelligence. It
+		might also fit classes of computation not yet thought of, such in the
+		example of Folding@Home\cite{Beberg2009}. They created software, deployed
+		all over the world, to run on Graphics cards in home computers, when the
+		computer was idle. So instead of wasting precious computing power, these
+		GPUs, adept at parallel computations, were repurposed to work on the
+		complicated problem of protein folding. In effect acting as a global
+		supercomputer to aid medical research. Given the uniqueness of our GPU it
+		might find a similar novel use in the future.
