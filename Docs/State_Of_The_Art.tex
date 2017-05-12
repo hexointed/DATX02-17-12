@@ -2,22 +2,26 @@
 
 	\section{ Real Time Graphics Rendering on Current Hardware } 
 
-		Sphere tracing is currently being used to visualize complex data such
-		as fractals \cite{granskog2017}, but there is no hardware designed to
-		run it efficiently.  Today's top of the line consumer 3D graphics cards
-		are made for real time rendering of polygons\cite{Houston2010}. They achieve good
-		performance by executing rasterization and pixel color calculation in
-		parallel between pixels. To make this efficient they use what is known
-		as lockstepping, which means a group of calculation units that are
-		always operating on the same instruction, but with differing input
-		data. This enables all of the cooperating cores to use only a single
-		instruction memory and bus. This reduces the area usage of the design,
-		making it possible to add more cores per chip and thus achieve greater
-		performance. Pixels rendered by polygon based methods can usually be
-		queued for calculation in such a way that pixels belonging to the same
-		object in the scene can be grouped for computation. The drawback of
-		lockstepped cores only being able to work on the same instruction at a
-		time is thus greatly reduced.
+		Sphere tracing is currently being used to visualize complex data such as
+		fractals \cite{granskog2017}, but there is no hardware designed to run
+		it efficiently. Today's top of the line consumer 3D graphics cards are
+		instead made for real time rendering of polygons\cite{Houston2010}. They
+		achieve good performance by executing rasterization and pixel color
+		calculation in parallel between pixels. To make this efficient they use
+		what is known as lockstepping, which means a group of calculation units
+		that are always operating on the same instruction, but with differing
+		input data. This enables all of the cooperating cores to use only a
+		single instruction memory and bus. This reduces the area usage of the
+		design, making it possible to add more cores per chip and thus achieve
+		greater performance. Pixels rendered by polygon based methods can
+		usually be queued for calculation in such a way that pixels belonging to
+		the same object in the scene can be grouped for computation. This is
+		possible because the GPU gets its graphics drawing instructions as a
+		list of polygons, and consecutive polygons in this list mostly belong to
+		the same 3D object. The drawback of a group of lockstepped cores; that
+		all of the cores have to execute the same instruction at any given time,
+		is greatly reduced since the color calculation for adjacent pixels of a
+		certain 3D object will have the same set of instructions.
 		
 		Using this hardware for Sphere Tracing, as is currently being done,
 		increases the overhead caused by this lockstepped design significantly.
@@ -27,8 +31,11 @@
 		Tracers do not have polygons and pixel order is usually based on the
 		output image pixel order. Even if more grouping was introduced to a
 		Sphere Tracer, the pixels in these groups differ much more in their
-		instruction execution path, since the algorithm is more iterative and
-		often varies greatly in number of steps until completion.
+		instruction execution path, since the algorithm contains a loop that
+		often varies greatly in the number of steps until completion. As
+		described above, when the current instruction differs across cores in a
+		group, some cores can not execute and have to wait until the remaining
+		cores arrive at the instruction that they are wanting to execute.
 		
 	\section{ Hobbyists and Academia }
 
@@ -39,40 +46,43 @@
 		found in non real time Ray Tracers. Examples of such are true
 		reflections and refractions, spacial repetition, object morphing and 3D
 		fractals\cite{InigoQuilez}.  Inspired by research papers such as John
-		C. Hart's 1996 paper\cite{Hart1996}, their success encouraged hobbyist
+		C. Hart's 1996 paper\cite{Hart1996}, their success encouraged some
 		to do academic research of their own, which led to new papers being
 		written. A good example of this is the 2014 paper "Enhanced Sphere
 		Tracing"\cite{Korndorfer2014}.
 
 	\section{ Industry }		
 
-		% Kanske helt orelevant ?
 		There are as of today no big commercial applications using Sphere Tracing
 		that we know of, but Ray Tracing algorithms have long been in use in
 		multiple computer graphics domains. For instance in film making
 		\cite{Christensen2006}, where a comparatively large amount of time to
-		render a scene can be acceptable but the demand for realism is higher
-		than in real time graphics. An example of this would be the Ray Tracing
-		engine RenderMan developed by Disney Pixar which is used in their movies
-		\cite{Christensen2006}.
-	
+		render a scene can be acceptable since it can be computed ahead of time
+		and saved as individual images, rather than producing the images in real
+		time, which is needed for interactive visuals. Thus the computer
+		graphics in movies can be much more photorealistic than interactively
+		rendered computer graphics. An example of this would be the Ray Tracing
+		engine RenderMan developed by Disney Pixar which they use in their movie 
+		production \cite{Christensen2006}.
+
 	\section{ Hardware Design Methods } 
 	
-		The design of Integrated Circuits in the hardware industry has since
+		The design of Integrated Circuitry in the hardware industry has since
 		the early '90s primarily been done in hardware description languages
-		(HDL) \cite{Chen2012}, where one describes the operation of a chip in a
+		(HDLs) \cite{Chen2012}, where one describes the operation of a chip in a
 		style similar to regular imperative programming languages. This
 		descriptive code can then be compiled into a list of components and
 		connections that constitutes the blueprint for that specific circuit.
 		The most prevalent of these languages are VHDL and Verilog\cite{TODO}.
-		While being great help to designers, compared to more manual design,
+		While being powerful aid in circuit design, compared to a more 
+		layout-centric workflow, %  - fixaref
 		these languages can be quite cumbersome to work with. They are verbose
 		and require a fair amount of boilerplate code. This makes it more
 		difficult to understand, follow, and also write code that performs
 		complex tasks, since it can be more difficult to see the greater
 		patterns in interconnecting code\cite{TODO}.
 		
-		This has resulted in Functional HDLs (FHDL): ``Functional hardware
+		This has resulted in Functional HDLs (FHDLs): ``Functional hardware
 		description languages are a class of hardware description languages
 		that emphasize on the ability to express higher level structural
 		properties, such a parameterization and regularity. Due to such
@@ -81,14 +91,13 @@
 		parameterization support found in the more traditional hardware
 		description languages, like VHDL and Verilog'' \cite{Baaij2009}
 		
-		HDLs have been around since the late '70s \cite{Chen2012},
-		but in recent times they have become more mature\cite{TODO}. There are in
-		particular two FHDLs, \emph{Lava} and \clash \cite{Baaij2009,
-		Bjesse1998}, that are implemented in Haskell. This allows the same
-		interactive type checking and high-level simulation of the program that
-		normal Haskell programs enjoy. This means that instead of simulating
-		the underlying circuit directly which is more time consuming, the
-		design can be tested repeatedly at a faster pace, allowing faster
-		development. This high level simulation can also be done in an
-		interpreter enabling easy and rapid testing of code. These are called
-		read-eval-print-loop interpreters.
+		HDLs have been around since the late '70s \cite{Chen2012}, but in recent
+		times they have become more mature\cite{TODO}. Two notable modern FHDLs
+		are \emph{Lava} and \clash \cite{Baaij2009}, Bjesse1998}, which are both
+		implemented in Haskell. This allows the same high-level interactive
+		simulation of the program that normal Haskell programs enjoy. This means
+		that instead of simulating the underlying circuit directly which is more
+		time consuming, the design can be tested repeatedly at a faster pace,
+		allowing faster development. This high level simulation can also be done
+		in an interpreter enabling easy and rapid testing of code. These are
+		called read-eval-print-loop interpreters.
