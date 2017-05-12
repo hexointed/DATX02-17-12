@@ -98,7 +98,7 @@
 			bound for the union of $a$ and $b$, $\textrm{max}(g, f)$ is a
 			signed distance bound for the intersection of $a$ and $b$, and $-f$
 			is a signed distance bound for the complementary shape of
-			$a$\cite{TODO}.  The union of signed distance bounds relates nicely
+			$a$\cite{Hart1996}. The union of signed distance bounds relates nicely
 			to how Sphere Tracers handle multiple objects in scenes. By taking
 			the minimum of all distance functions it is in effect taking the
 			union of all ojects in the scene.
@@ -110,10 +110,10 @@
 			immediately upon evaluating this function, and no useful object
 			would be rendered. A Sphere Tracer can still work well though, as
 			long as the distance bounds are 'close enough' to the signed
-			distance function of the object they represent\cite{TODO}. Being
+			distance function of the object they represent\cite{InigoQuilez}. Being
 			close enough is a fuzzy constraint, but generally the length of the
 			gradient should be as close to 1 as possible for good
-			results\cite{TODO}.
+			results\cite{Keinert}.
 
 			It is of course possible to relax this concept further, and use
 			distance approximation functions. These can still work together 
@@ -122,14 +122,14 @@
 			correctness can be harder to achieve. Distance approximation 
 			functions allow significantly greater flexibility when designing 
 			objects however, making it possible to add e.g. sinusoidal 
-			deformations\cite{TODO}.
+			deformations\cite{Keinert}.
 
 			Another relaxation that can be considered is using unsigned 
 			distance functions. This might reduce the complexity of the 
 			distance function, but it also reduces the stability of the Sphere
 			Tracing algorithm and invalidates some optimizations that are 
 			possible for their signed counterparts, such as predictive 
-			overstepping\cite{TODO}.
+			overstepping\cite{Quilez}.
 
 		\subsection{Reflections, refractions and shading}
 
