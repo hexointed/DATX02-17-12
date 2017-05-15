@@ -3,13 +3,13 @@
 
 	The graphics rendering algorithm our GPU was designed for is called Sphere
 	Tracing\cite{Hart1996}. The name is based on the fact that the algorithm
-	uses distance bounding spheres to incrementally advance a ray in 3D space.
-	The method of advancing rays in general is called Ray Marching which in
-	turn is a subset of Ray Tracing\cite{Whitted1980a}. Ray Tracing, then, is a
+	uses distance bounding spheres to incrementally advance along a ray in 3D space.
+	The method of advancing along rays in general is called Ray Marching which in
+	turn is a subset of Ray Tracing\cite{Whitted1980a}. Ray Tracing, is a
 	way to wholly or partially render the world through rays, cast from the eye
 	of the observer into the scene\cite{PeterShirleyMichaelAshikhmin2005}. 
 	Sphere Tracing has been	around since at least as early as the late 
-	eighties\cite{Hart1989} and Ray Tracing as early as the 
+	eighties\cite{Hart1989} and Ray Tracing the 
 	sixties\cite{Appel1968}.
 
 	In this chapter the Sphere Tracing algorithm is discussed in detail with
@@ -39,7 +39,7 @@
 		|\vec{v}| - 1$. We can here see that a point $\vec{v}$ exactly on the
 		surface would evaluate to $1-1=0$, any point outside of the sphere
 		would evaluate to some positive distance and any point inside the
-		sphere will result in a negative distance. It is, as we will discuss
+		sphere will result in a negative distance. It is, as will be discussed
 		later, possible to generalize these distance functions to both unsigned
 		distance functions and different kinds of distance bounds and
 		approximations.
@@ -131,7 +131,7 @@
 
 		\subsection{Reflections, refractions and shading}
 
-			Once a point on a surface for a given pixel has been located
+			Once a point on a surface for a given pixel has been located,
 			reflections, light, shadows and refractions needs to be calculated.
 			A lot of these depend on the surface normal which can be
 			approximated with the partial derivatives around the surface point
@@ -148,7 +148,7 @@
 			Phong Lightning\cite{Phong1975}. But any number of alternative
 			algorithms could be used instead to determine the final color.
 			Shadows can be determined by further Sphere Tracing out towards the
-			sources of light to check for obstructions. Same for reflections
+			sources of light from the surface to check for obstructions. Same for reflections
 			and refractions where further marching in proportionate angles to
 			the angle of incidence can determine what objects reflects on the
 			surface.
