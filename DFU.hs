@@ -114,7 +114,6 @@ opCheck op
 pushOp :: Op -> Stack Float -> Stack Float
 pushOp operation s 
 	| opCheck operation == True = push x (push y (push z (popN (arity operation) s)))
-	| operation == Copy = push newValue (push newValue (popN (arity operation) s))
 	| otherwise =  push newValue (popN (arity operation) s)
 	where
 		Right (x,y,z) = apply operation (topN 0 s) (topN 1 s) (topN 2 s) (topN 3 s) (topN 4 s) (topN 5 s)

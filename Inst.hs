@@ -114,7 +114,6 @@ assembleDFU ws = do
 		"subv"  -> Right 0x0d
 		"scale" -> Right 0x0e
 		"copy"  -> Right 0x0f
-                "norm"  -> Right 0x10
 		_       -> Left $ "Unrecognized instruction" ++ show ws
 	return $ (2 :: BitVector 2) ++# (i :: BitVector 6) ++# 0
 

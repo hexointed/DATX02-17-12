@@ -44,7 +44,7 @@ arity Cross = 6
 arity Addv = 6
 arity Subv = 6
 arity Scale = 4
-arity Copy = 1
+arity Copy = 0
 arity _ = 2
 
 apply :: Op -> Float -> Float -> Float -> Float -> Float -> Float -> Either Float (Float,Float,Float)

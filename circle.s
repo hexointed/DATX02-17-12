@@ -27,7 +27,7 @@ white:
 maxDist:
 	20.0
 epsilon:
-	0.1
+	0.01
 
 eyex:
 	0.0
@@ -118,10 +118,10 @@ draw:
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
 camSetup: 
-		; sätter upp ray-direction registren
-		; args:   reg. 1-2
-		; result: reg. 4-6
-		; alters: reg. 8-10
+	; sätter upp ray-direction registren
+	; args:   reg. 1-2
+	; result: reg. 4-6
+	; alters: reg. 8-10
 
 	; calculate a directional vector which will be in the center of the view, 
 	; stores in ray-direction. This will be used to offset with later.
@@ -193,19 +193,38 @@ camSetup:
 	a setval 10 0
 
 
+normalize:
+	; creates vector that has the same length as the previous but with
+	; a length of 1
+	; args:   reg. 8-10
+	; result: reg. 8-10
 
-	; normalize the resulting vector 
-	val &normalize
-	a setval 0 0
-	val &camCont
-	a setval 2 0
-	a pushq
-	a drop
+	pack 8
+	pack 9
+	pack 10
 
+	; calculates length of vector
+	pack 8
+	pack 8
+	mul
+	pack 9
+	pack 9
+	mul
+	pack 10
+	pack 10 
+	mul
+	add
+	add
+	sqrt
+
+	scale
+
+	a setval 8 2
+	a setval 9 1
+	a setval 10 0
 
 camCont:
-
-
+	; continue setting up the camera
 
 	pack 8
 	a setval 4 0
@@ -221,62 +240,9 @@ camCont:
 	a pushq
 	a drop
 
-
-	;-------
-
-
-
-	normalize:
-		; creates vector that has the same length as the previous but with
-		; a length of 1
-		; args:   reg. 8-10
-		; result: reg. 8-10
-		; note: alters reg. 14
-
-
-	; calculates length of vector
-	pack 8
-	pack 8
-	mul
-	pack 9
-	pack 9
-	mul
-	pack 10
-	pack 10 
-	mul
-	add
-	add
-	sqrt
-	a setval 14 0
-
-	pack 8
-	pack 14
-	div
-	a setval 8 0
-
-	pack 9
-	pack 14
-	div
-	a setval 9 0
-
-	pack 10
-	pack 14
-	div
-	a setval 10 0
-
-	pack 2
-	a setval 0 0
-	a pushq
-	a drop
-
-	;-------
-
-
-
-
-
-
 afterSetup:
+	; clear all registers
+
 	val &zero
 	a setval 2 0
 	a setval 3 0
@@ -307,51 +273,31 @@ rayPos:
 	a setval 9 1
 	a setval 10 0
 
+distBall:
+	; calculates the length between tempVec and Ball, ball should
+	; probably be easy to substitute ball with another object
+	; args: reg. 8-10 
+	; result: reg. 14
+	; note: alters reg. 11-13
 
-;-----
-	;distBall
-
-	distBall:
-		; calculates the length between tempVec and Ball, ball should
-		; probably be easy to substitute ball with another object
-		; args: reg. 8-10 
-		; result: reg. 14
-		; note: alters reg. 11-13
-
-	; squares the difference in the x-axis, saves result in 11
 	val &ballx	
 	pack 8
 	sub
-	a setval 14 0
-	pack 14
-	pack 14
+	copy
 	mul
-	a setval 11 0
 
-	; squares the difference in the y-axis, saves result in 12
 	val &bally
 	pack 9
 	sub
-	a setval 14 0
-	pack 14
-	pack 14
+	copy
 	mul
-	a setval 12 0
 
-	; squares the difference in the z-axis, saves result in 13
 	val &ballz 
 	pack 10
 	sub
-	a setval 14 0
-	pack 14
-	pack 14
+	copy
 	mul
-	a setval 13 0
 
-	; adds the results and takes the square 
-	pack 11
-	pack 12
-	pack 13
 	add
 	add
 	sqrt
@@ -360,17 +306,6 @@ rayPos:
 	sub
 	a setval 14 0
 
-
-;----
-
-
-
-
-
-
-
-
-	;hit?
 hit:
 	val &zero 
 	pack 14
@@ -388,9 +323,9 @@ hit:
 	add
 	a setval 7 0
 
-	;scaler over 100?
-	;continue
 tooFar:
+	; We'we marched too many steps and should stop
+
 	val &white
 	val &hundred
 	pack 7
@@ -398,184 +333,11 @@ tooFar:
 	n 0 setval 2 1
 	n 0 pushf
 	n 0 drop
+
+nextStep:
+	; We should continue marching more steps
+
 	val &rayPos
 	a setval 0 0
 	a pushq
 	a drop
-
-
-
-
-length:
-		; calculates distance between tempVec and TempVec2. current march position 
-		; should suitably be placed in tempVec and object position in tempVec2
-		; args:   reg. 8-10, 11-13
-		; result: reg. 14
-		; note: alters reg. 11-13
-
-	; squares the difference in the x-axis, saves result in 11
-	pack 11
-	pack 8
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 11 0
-
-	; squares the difference in the y-axis, saves result in 12
-	pack 12
-	pack 9
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 12 0
-
-	; squares the difference in the z-axis, saves result in 13
-	pack 13 
-	pack 10
-	sub
-	a setval 14 0
-	pack 14
-	mul
-	a setval 13 0
-
-	; adds the results and takes the square 
-	pack 11
-	pack 12
-	pack 13
-	add
-	add
-	sqrt
-
-	a setval 14 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-	;--------------- probably not useful
-
-	norm
-	a setval 4 2
-	a setval 5 1
-	a setval 6 0
-
-	
-	; calculate a "right-direction vector", stores in tempVec
-	pack 4
-	pack 5
-	pack 6
-	val &zero
-	val &one
-	val &zero
-	cross
-	norm
-	a setval 8 2
-	a setval 9 1
-	a setval 10 0
-
-	; calculate actual up vector, store in tempVec2
-	pack 8
-	pack 9
-	pack 10
-	pack 4
-	pack 5
-	pack 6
-	cross
-	norm
-	a setval 11 2
-	a setval 12 1
-	a setval 13 0
-
-
-	; scale the right-vector with the x-value
-	pack 8
-	pack 9
-	pack 10
-	pack 14
-	scale
-	a setval 8 2
-	a setval 9 1
-	a setval 10 0
-
-	; sscale the up-vector with the y-value
-	pack 11
-	pack 12
-	pack 13
-	pack 15
-	scale
-	a setval 11 2
-	a setval 12 1
-	a setval 13 0
-
-
-	pack 4
-	pack 8
-	pack 11
-	add
-	add
-	a setval 4 0
-
-	pack 5
-	pack 9
-	pack 12
-	add
-	add
-	a setval 5 0
-
-	pack 6
-	pack 10
-	pack 13
-	add
-	add
-	a setval 6 0
-	;---------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		; if done after "length", will deduce whether the march point is
-		; sufficiently close to the surface
-	val &epsilon
-	;lessthan
-	z 0 pushq 	; om epsilon är mindre än d, välj färg på pixel
-
-	nz 0 pushq	; om epsilon är större än d, gör om hela skiten
-
-
-;subrutiner
-
-
