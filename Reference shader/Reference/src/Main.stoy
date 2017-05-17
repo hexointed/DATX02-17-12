@@ -1,8 +1,8 @@
 //#define DEBUG_SAFETY_TESTS	1
-//#define SHOW_DEBUG_PLANE	1
+#define SHOW_DEBUG_PLANE	2
 
-#define MaxRaySteps 	121
-#define MaxRayLength	140.0		//max length of a single ray (distance is reset at reflection)
+#define MaxRaySteps 	400
+#define MaxRayLength	100.0		//max length of a single ray (distance is reset at reflection)
 #define MinStep			0.00091		//#define MinStep			0.000021
 const vec3 normOffset 	  = vec3(0.0006,0,0);  //make const perhaps  //const vec3 normOffset2=vec3(0.06,0,0); //vec3 normOffset=vec3(0.0006*normEps_s,0,0);  //make const perhaps  //const vec3 normOffset2=vec3(0.06,0,0);
 
@@ -43,12 +43,10 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
     	if(marchedDist == 0.0){
     		for(int z=1; z!=NumObjects+1; z++)
     		{
-    		    //RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
-    		    RenderList[z] = true; //unoptimized
+    		    RenderList[z] = ShouldDraw(objectCoords[z]-pEye,objectRadii[z],vRayDir); //optimized
+    		    //RenderList[z] = true; //unoptimized
     		}
     	}
-
-
 
     	pRayPos = pEye + marchedDist * vRayDir;
 		di = DistToScene(pRayPos);
@@ -56,7 +54,7 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
 
 #ifdef SHOW_DEBUG_PLANE
 
-		distDbgPlane = pRayPos.y-1;  //distDbgPlane = sdPlane( pRayPos, vec4(0,1,0,-1) );
+		distDbgPlane = pRayPos.y;  //distDbgPlane = sdPlane( pRayPos, vec4(0,1,0,-1) );
 		if(  distDbgPlane<MinStep)
 		{
 			di = DistToScene2(pRayPos);
@@ -75,7 +73,7 @@ vec3 GetRayColor( vec3 pEye, vec3 vRayDir )
 				return col;
 
 			case Mat_Reflection:
-				col += Shader_Reflection(0.55555, di, pRayPos, vRayDir, pEye, curAlpha);
+				col += Shader_Reflection(0.8, di, pRayPos, vRayDir, pEye, curAlpha);
 	            marchedDist=0.0;
 
 
@@ -98,8 +96,8 @@ void main()
 	vec2 uv = (gl_FragCoord.xy / iResolution.xy*2.0-1.0); uv.y *= iResolution.y/iResolution.x;
 
 	//these two points define the camera origin and target, and are initialized by their corresponding uniforms, up is atm hardcoded to (0,1,0)
-    vec3 pEye 	 = pEye_slider;    //pEye.y +=	cos(iGlobalTime*0.5)*1;
-    vec3 pLookAt = pLookAt_slider; //;vec3( 1.5, 1.2 , 0.0);
+    vec3 pEye 	 = vec3( 6*sin(iGlobalTime/6),2.8,6*cos(iGlobalTime/6));    //pEye.y +=	cos(iGlobalTime*0.5)*1;
+    vec3 pLookAt = vec3(0,0,0); //;vec3( 1.5, 1.2 , 0.0);
 
     vec3 vRayDir ; //gets initialized by CameraSetup();
 	CameraSetup( pEye, pLookAt, uv, vRayDir );
@@ -129,7 +127,6 @@ DistInfo DistToScene(vec3 p)
 	return ret;
 }
 
-
 DistInfo DistToScene2(vec3 p) //used to render distance field visualization while using optimization.
 {	DistInfo ret;
 	ret.obj = 0;
@@ -142,7 +139,6 @@ DistInfo DistToScene2(vec3 p) //used to render distance field visualization whil
 
 	return ret;
 }
-
 
 //calculate surface normal vector of object by its identifier
 vec3 GetNormalByObj(uint objId, vec3 p, float d)
