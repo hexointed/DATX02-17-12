@@ -11,10 +11,14 @@ hundred:
 	100.0
 ones:
 	255.0
-displaysize:
+displaysizex:
+	32.0
+displaysizey:
 	16.0
+scalex:
+	2.0
 numPixels:
-	256.0
+	512.0
 pos:
 	7.5
 radius:
@@ -60,7 +64,7 @@ upz:
 	0.0
 
 ballr:
-	2.0
+	3.0
 ballx:
 	0.0
 bally:
@@ -96,17 +100,19 @@ generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden fö
 calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	next 2 
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
 	pack 1
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
-	val &displaysize
+	val &displaysizex
 	mul
 	sub
+	val &scalex
+	div
 	val &draw
 	a setval 0 0
 	a setval 2 1
@@ -141,7 +147,7 @@ camSetup:
 	; calculate screen positions as a range from 1 to -1, 
 	; store in reg. 14 and 15
 	pack 2
-	val &displaysize
+	val &displaysizey
 	val &one
 	sub
 	val &two
@@ -153,7 +159,7 @@ camSetup:
 
 
 	pack 3
-	val &displaysize
+	val &displaysizey
 	val &one
 	sub
 	val &two
@@ -309,16 +315,12 @@ rayPos:
 	a setval 9 1
 	a setval 10 0
 
-
-;-----
-	;distBall
-
-	distBall:
-		; calculates the length between tempVec and Ball, ball should
-		; probably be easy to substitute ball with another object
-		; args: reg. 8-10 
-		; result: reg. 14
-		; note: alters reg. 11-13
+distBall:
+	; calculates the length between tempVec and Ball, ball should
+	; probably be easy to substitute ball with another object
+	; args: reg. 8-10 
+	; result: reg. 14
+	; note: alters reg. 11-13
 
 	; squares the difference in the x-axis, saves result in 11
 	val &ballx	
@@ -341,7 +343,7 @@ rayPos:
 	a setval 12 0
 
 	; squares the difference in the z-axis, saves result in 13
-	val &ballz 
+	val &ballz
 	pack 10
 	sub
 	a setval 14 0
@@ -377,7 +379,7 @@ hit:
 	val &ones
 	val &shift
 	div
-	val &white 
+	val &zero 
 	add
 	pack 14
 	val &epsilon
@@ -397,7 +399,7 @@ hit:
 	;scaler over 100?
 	;continue
 tooFar:
-	val &zero
+	val &white
 	val &hundred
 	pack 7
 	sub

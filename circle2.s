@@ -2,9 +2,9 @@
 one:
 	1.0
 displaysizex:
-	16.0
-displaysizey:
-	16.0
+	32.0
+scalex:
+	2.0
 pos:
 	7.5
 radius:
@@ -12,7 +12,7 @@ radius:
 greenshift:
 	256
 numPixels:
-	256.0
+	512.0
 
 .text:
 initialize:
@@ -54,6 +54,8 @@ calcpos:
 	val &displaysizex
 	mul
 	sub
+	val &scalex
+	div
 	val &draw
 	a setval 0 0
 	a setval 2 1

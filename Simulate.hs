@@ -11,6 +11,9 @@ import Graphics.Gloss.Data.ViewPort
 import qualified Data.ByteString as B
 import CLaSH.Class.BitPack
 
+type NumPixels = 512
+type SimIndex = Unsigned (Log 2 NumPixels)
+
 showFrame = 
 	fmap show' $
 	mealy simDisplay (repeat (0,0,0), 0) $
@@ -21,7 +24,7 @@ showFrame =
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
 			fmap (foldr (:) "") $ 
-			unconcat d16 $
+			unconcat d32 $
 			fmap showPixel vs 
 		
 		showPixel (0,0,0) = ' '
@@ -33,8 +36,8 @@ showFrameRGB =
 	snd $ fb (fmap resize inc :: Signal (Unsigned 32))
 
 
-simDisplay :: (Vec 256 Pixel, Unsigned 8) -> (Bool, Pixel, Unsigned 8) ->
-	((Vec 256 Pixel, Unsigned 8), Vec 256 Pixel)
+simDisplay :: (Vec NumPixels Pixel, SimIndex) -> (Bool, Pixel, SimIndex) ->
+	((Vec NumPixels Pixel, SimIndex), Vec NumPixels Pixel)
 
 simDisplay (disp, i') (r, p, i) = case r of
 	False -> ((disp, i), disp)
@@ -46,13 +49,13 @@ discardFirst p =
 	register (False, (0,0,0), 0) $ 
 	signal ((,,) True) <*> p <*> incr
 
-incr :: Signal (Unsigned 8)
+incr :: Signal SimIndex
 incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 
 simGPU = 
 	sequence $ 
 	fmap putStr  ( 
-	P.concatMap (P.take 1) . P.iterate (P.drop 50) $ 
+	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
 	sample showFrame )
 
 simGPUclr = 

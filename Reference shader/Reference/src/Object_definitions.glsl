@@ -1,4 +1,4 @@
-#define NumObjects	1
+#define NumObjects	4
 #define NumSpheres	10
 
 bool RenderList[NumObjects+1]; //is not initialised here since we will do it later at start of each ray
@@ -6,7 +6,7 @@ vec3 objectCoords[NumObjects+1];
 float objectRadii[NumObjects+1];
 
 uint  matIdList[NumObjects+1] = {0
-		,Mat_SolidColor//,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
+		,Mat_Reflection,Mat_Reflection,Mat_Reflection,Mat_SolidColor//,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
 //		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
 //		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
 //		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
@@ -17,14 +17,14 @@ uint  matIdList[NumObjects+1] = {0
 //		,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor,Mat_SolidColor
 		};
 
-vec3  s1Coord	= vec3(-0.5,-0.5,0.5);
-float s1Radius	= 0.5;
-vec3  s2Coord	= vec3(0.5,0-0.5,0.5);
+vec3  s1Coord	= vec3(3,1,0); //in use for sinus-deformed ball
+float s1Radius	= 1.2;
+vec3  s2Coord	= vec3(0,1,3); //used in metaBalls
 float s2Radius	= 0.5;
-vec3  s3Coord	= vec3(-0.5,0.5,0.5);
+vec3  s3Coord	= vec3(0,1,3) + vec3( 0.5*sin(iGlobalTime),0,0.5*cos(iGlobalTime)); //used in metaBalls
 float s3Radius	= 0.5;
-vec3  s4Coord	= vec3(0.5,0.5,0.5);
-float s4Radius	= 0.5;
+vec3  s4Coord	= vec3(0,0.5,0) + vec3( 1*sin(iGlobalTime),1.1,1*cos(iGlobalTime)); //used for cube
+float s4Radius	= 0.7;
 vec3  s5Coord	= vec3(-0.5,-0.5,-0.5);
 float s5Radius	= 0.5;
 vec3  s6Coord	= vec3(0.5,0-0.5,-0.5);
@@ -37,11 +37,6 @@ vec3  s9Coord	= vec3(-0.8,0,0);
 float s9Radius	= 0.5;
 vec3  s10Coord	= vec3(0.8,0,0);
 float s10Radius	= 0.5;
-
-
-
-
-
 
 float sphereRadii[NumSpheres] = {s1Radius,s2Radius,s3Radius,
 		s4Radius,s5Radius,s6Radius,s7Radius,s8Radius,s9Radius,s10Radius};
@@ -60,17 +55,17 @@ void InitObjDefs()
 //	s2Coord.x += sin(iGlobalTime/3)*0.6;
 //	s2Coord.z += cos(iGlobalTime/3)*0.6;
 
-	objectCoords[1] = vec3(0,0,0);
-	objectRadii[1] = 1.4;
+	objectCoords[1] = vec3(3,1,0);
+	objectRadii[1] = 1.5;
 
-//	objectCoords[2] = vec3(0,3,0);
-//	objectRadii[2] = 1.4;
-//
-//	objectCoords[3] = vec3(0.5,0.5,0); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
-//	objectRadii[3]=0.5;
-//
-//	objectCoords[4] = vec3(0.5,-0.5,0);
-//	objectRadii[4] = 0.5;
+	objectCoords[2] = vec3(0,1,3);
+	objectRadii[2] = 0.5;
+
+	objectCoords[3] = vec3(0,1,0); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
+	objectRadii[3]=2;
+
+	objectCoords[4] = vec3(-3.5,0.2,0);
+	objectRadii[4] = 0.5;
 //
 //	objectCoords[5] = vec3(-1,4,0);
 //	objectRadii[5] = 0.5;
@@ -197,10 +192,7 @@ void InitObjDefs()
 
 }
 
-//vec3  skysphereCoord	= vec3(0, 0, 0 );
-//float skysphereRadius	= 20;
-
-vec3 boundingSpherePos = vec3(0,0,0);
+vec3 boundingSpherePos = vec3(3,1,0);
 float boundingSphereRad = 1.4;
 
 float DistToModfield(vec3 p)
@@ -222,11 +214,10 @@ float DistToModfield(vec3 p)
 }
 
 float DistToMetaballs(vec3 p)
-{   float dist = length( (p-s1Coord) ) - s1Radius;
-    float dist2 = length( (p-s2Coord) ) - s2Radius;
-    float dist3 = length(p - vec3(0,20,0)) - 18.5;
-
-    dist = max(-dist2,(max(dist,-dist3)));
+{
+	float dist = length( (p-s2Coord) ) - s2Radius;
+    float dist2 = length( (p-s3Coord) ) - s3Radius;
+    dist = max(-dist2,dist);
 
 
 //    dist = smin(dist, dist2, 0.35  );
@@ -247,30 +238,8 @@ float DistToMetaballs(vec3 p)
     return dist;
 }
 
-float BoundingSphere(vec3 p){
-
-//	float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
-//	for(int i=1; i < 2; i++)
-//	{
-//		dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
-//	}
-	return sdSphere(p,spherePos[0],sphereRadii[0]);
-
-
-//	float dist = sdSphere(p,boundingSpherePos,boundingSphereRad);
-//	if (dist > 0.1)
-//	{
-//		return dist;
-//	}
-//	else
-//	{
-//		float dist2 = sdSphere(p,spherePos[0],sphereRadii[0]);
-//		for(int i=1; i < 1; i++)
-//		{
-//			dist2 = min(dist2, sdSphere(p,spherePos[i],sphereRadii[i]));
-//		}
-//		return dist2;
-//	}
+float DistToMetaballs2(vec3 p){
+	return max(-sdSphere(p,s4Coord,s4Radius), sdBox2(vec3(1,2,1), vec3(0,0,0), p) ); //
 }
 
 float DistToObjectId(vec3 p, uint objId)
@@ -278,19 +247,13 @@ float DistToObjectId(vec3 p, uint objId)
 	switch (objId)
 	{
 		case 1:
-			return BoundingSphere(p);
-//			return sdSphere(p, s1Coord, s1Radius);
-//			return DistToMetaballs(p);
-//			return DistToModfield(p);
-//
-//
-//			return sdSphere( p, objectCoords[1], objectRadii[1]);
-//		case 2:
-//			return sdSphere( p, objectCoords[2], objectRadii[2]);
-//		case 3:
-//			return sdSphere( p, objectCoords[3], objectRadii[3]);
-//		case 4:
-//			return sdSphere( p, objectCoords[4], objectRadii[4]);
+			return sdSphere(p, s1Coord, s1Radius) + sin(p.y*20+iGlobalTime*2)*0.02 + sin(p.x*20+iGlobalTime*2)*0.02 + 0.05+sin(p.z*20+iGlobalTime*2)*0.02;
+		case 2:
+			return DistToMetaballs(p);
+		case 3:
+			return DistToMetaballs2(p);
+		case 4:
+			return sdSphere( p, objectCoords[4], objectRadii[4]);
 //		case 5:
 //			return sdSphere( p, objectCoords[5], objectRadii[5]);
 //		case 6:
