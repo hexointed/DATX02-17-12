@@ -11,8 +11,12 @@ hundred:
 	100.0
 ones:
 	255.0
-displaysize:
+displaysizex:
 	16.0
+displaysizey:
+	32.0
+scalex:
+	2.0
 numPixels:
 	256.0
 pos:
@@ -96,17 +100,19 @@ generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden fö
 calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	next 2 
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
 	pack 1
 	pack 1
-	val &displaysize
+	val &displaysizex
 	div
 	floor
-	val &displaysize
+	val &displaysizex
 	mul
 	sub
+	val &scalex
+	div
 	val &draw
 	a setval 0 0
 	a setval 2 1
@@ -141,7 +147,7 @@ camSetup:
 	; calculate screen positions as a range from 1 to -1, 
 	; store in reg. 14 and 15
 	pack 2
-	val &displaysize
+	val &displaysizex
 	val &one
 	sub
 	val &two
@@ -153,7 +159,7 @@ camSetup:
 
 
 	pack 3
-	val &displaysize
+	val &displaysizey
 	val &one
 	sub
 	val &two
@@ -341,7 +347,7 @@ rayPos:
 	a setval 12 0
 
 	; squares the difference in the z-axis, saves result in 13
-	val &ballz 
+	val &ballz
 	pack 10
 	sub
 	a setval 14 0

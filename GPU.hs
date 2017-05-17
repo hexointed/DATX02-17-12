@@ -20,8 +20,6 @@ coreIn = pure meld
 	<*> fmap (register (Nothing, False)) mealyQueue
 	<*> fmap (register (Nothing, Nothing)) mealyMemory
 	<*> mealyFrame
--- coreIn = fmap meld 
---	(fmap (register (Nothing, False)) mealyQueue) 
 
 mealyQueue :: Vec Cores (Signal (Maybe Pack, Bool))
 mealyQueue = unbundle $ topQueue $ bundle wiw
