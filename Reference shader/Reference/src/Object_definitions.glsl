@@ -62,7 +62,7 @@ void InitObjDefs()
 	objectRadii[2] = 0.5;
 
 	objectCoords[3] = vec3(0,1,0); //vec3(-2+cos(iGlobalTime),2+sin(iGlobalTime),0);
-	objectRadii[3]=2;
+	objectRadii[3]=1.8;
 
 	objectCoords[4] = vec3(-3.5,0.2,0);
 	objectRadii[4] = 0.5;
@@ -239,7 +239,7 @@ float DistToMetaballs(vec3 p)
 }
 
 float DistToMetaballs2(vec3 p){
-	return max(-sdSphere(p,s4Coord,s4Radius), sdBox2(vec3(1,2,1), vec3(0,0,0), p) ); //
+	return max(-sdSphere(p,s4Coord,s4Radius), sdBox2(vec3(1,1,1), vec3(0,1,0), p) ); //
 }
 
 float DistToObjectId(vec3 p, uint objId)
