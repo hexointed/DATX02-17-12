@@ -11,7 +11,8 @@ simPixels "X" simulerar GPU:n i X klockcykler
 zero-flaggan kräver en siffra som perkar på stacken.
 
 setval a b - c         
-värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver till minnet. påverkar inte stacken.
+	värde 'a' är på minnet, värde 'b' är plats på stacken. operationen skriver
+	till minnet. påverkar inte stacken.
 
 pushq - c
 pushar hela tråden till kön

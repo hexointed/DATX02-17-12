@@ -10,7 +10,7 @@ import Memory
 import Framebuffer
 import Float
 
-type Cores = 1
+type Cores = 32  --use 16 - 32 when simulating for best performance
 
 coreOut :: Vec Cores (Signal CoreOut)
 coreOut = fmap (mealy step' initial') coreIn

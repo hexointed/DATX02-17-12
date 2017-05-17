@@ -55,7 +55,7 @@ incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 simGPU = 
 	sequence $ 
 	fmap putStr  ( 
-	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
+	P.concatMap (P.take 1) . P.iterate (P.drop 1000) $ 
 	sample showFrame )
 
 simGPUclr = 
