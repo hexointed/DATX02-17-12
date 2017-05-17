@@ -18,7 +18,7 @@ vec3 Shader_Reflection(float reflectivity, DistInfo di, vec3 pRayPos, inout vec3
 	//c.r = clamp( sin(2.6-dot(norm, -vRayDir)*4.3)*1 ,0,1);
 	//c.gb = clamp( sin(.6-dot(-vRayDir,norm*7.0)*1.4)*0.85 ,0,1).xx;
 	//c *= (1.0-reflectivity)*curAlpha;
-	//curAlpha *= reflectivity;
+	curAlpha *= reflectivity;
 
 	//reflect the ray through the surface normal of the object
 	pEye = pRayPos;

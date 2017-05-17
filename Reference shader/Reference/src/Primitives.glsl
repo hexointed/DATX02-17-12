@@ -12,3 +12,7 @@ float sdPlane( vec3 p, vec4 n )
   // n must be normalized
   return dot(p,n.xyz) + n.w;
 }
+
+float sdBox2(vec3 r, vec3 c, vec3 p){
+	return max(abs(p.x - c.x) - r.x, max(abs(p.y - c.y) - r.y, abs(p.z - c.z) - r.z));
+}
