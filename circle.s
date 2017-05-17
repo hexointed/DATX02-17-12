@@ -14,11 +14,11 @@ ones:
 displaysizex:
 	16.0
 displaysizey:
-	32.0
+	16.0
 scalex:
 	2.0
 numPixels:
-	256.0
+	512.0
 pos:
 	7.5
 radius:
@@ -64,7 +64,7 @@ upz:
 	0.0
 
 ballr:
-	2.0
+	3.0
 ballx:
 	0.0
 bally:
