@@ -12,13 +12,13 @@ hundred:
 ones:
 	255.0
 displaysizex:
-	16.0
-displaysizey:
 	32.0
+displaysizey:
+	16.0
 scalex:
 	2.0
 numPixels:
-	256.0
+	512.0
 pos:
 	7.5
 radius:
@@ -64,7 +64,7 @@ upz:
 	0.0
 
 ballr:
-	2.0
+	3.0
 ballx:
 	0.0
 bally:
@@ -147,7 +147,7 @@ camSetup:
 	; calculate screen positions as a range from 1 to -1, 
 	; store in reg. 14 and 15
 	pack 2
-	val &displaysizex
+	val &displaysizey
 	val &one
 	sub
 	val &two
@@ -315,16 +315,12 @@ rayPos:
 	a setval 9 1
 	a setval 10 0
 
-
-;-----
-	;distBall
-
-	distBall:
-		; calculates the length between tempVec and Ball, ball should
-		; probably be easy to substitute ball with another object
-		; args: reg. 8-10 
-		; result: reg. 14
-		; note: alters reg. 11-13
+distBall:
+	; calculates the length between tempVec and Ball, ball should
+	; probably be easy to substitute ball with another object
+	; args: reg. 8-10 
+	; result: reg. 14
+	; note: alters reg. 11-13
 
 	; squares the difference in the x-axis, saves result in 11
 	val &ballx	
@@ -383,7 +379,7 @@ hit:
 	val &ones
 	val &shift
 	div
-	val &white 
+	val &zero 
 	add
 	pack 14
 	val &epsilon
@@ -403,7 +399,7 @@ hit:
 	;scaler over 100?
 	;continue
 tooFar:
-	val &zero
+	val &white
 	val &hundred
 	pack 7
 	sub
