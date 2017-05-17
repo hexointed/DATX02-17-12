@@ -25,7 +25,7 @@ encodeDfuI b = Just instr
 			0xE -> Next . resize $ aptr
 			0xF -> undefined
 			_   -> case hsel of
-				0x0 -> Instr (Cond condition (resize cptr)) action
+				0x0 -> Instr (Cond condition 0) action
 				0x1 -> Comp op
 		op = case opcd of
 			0x00 -> Oper Max
@@ -54,7 +54,7 @@ encodeDfuI b = Just instr
 			0x1 -> PushQ
 			0x2 -> Drop
 			0x3 -> SetVal arg2 arg1
-		
+
 		arg1 = bitCoerce $ bSlice d12 d4  b
 		arg2 = bitCoerce $ bSlice d8  d4  b
 		argn = bitCoerce $ bSlice d8  d8  b
@@ -67,7 +67,6 @@ encodeDfuI b = Just instr
 
 		sel  = bSlice d0  d4  b
 		hsel = bSlice d0  d1  b
-
 
 encodeDfuD :: BitVector (BitSize Float) -> Maybe Float
 encodeDfuD = Just . bitCoerce

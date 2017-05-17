@@ -11,7 +11,11 @@ import Indexed
 
 type FunId = Unsigned 24
 
-data PackType = Frame | Queue | None
+data PackType 
+	= Stack 
+	| Frame 
+	| Queue 
+	| None
 	deriving (Eq, Show, Generic, NFData)
 
 data Choice
