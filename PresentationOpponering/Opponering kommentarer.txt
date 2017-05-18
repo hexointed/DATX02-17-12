@@ -17,3 +17,26 @@ prestandabesvären.
 På vissa bilder ser det ut som att simuleringen sker på en bana som är massivt 
 mycket större (man ser berg osv i bakgrunden) än den relevanta delen av scenen
 (hus, bilar, osv.) Simuleras raycasting för den runtomliggande terrängen?
+
+Chi:
+
+Som Jesper säger det borde funka bättre med multi core.
+
+i 3.3 "Further, a tool allowing the user to manually instepc the collected
+data in a visual manner culd enable the suer to inspec whether the colleced data 
+is of sufficient quality for their purposes."
+i 3.3.2 En väldig liknande mening uppstår igen "The necessity of allowing the 
+the user to manually inspec the collected data and determine whether it was of 
+further use of their purposes.".
+Detta bordes fixas om lite för det känns lite upprepande.
+
+sida 29. Man förstår ju att "pedestrian" är stilla i editor mode när det står "
+the moving pedestrians are completelty frozen while in editor mode.." så behöver
+ej nämna "and freze again if the suer switches back to editor mode"
+
+4.4 Texten borde bli "combined" med 4.4.1 eller något.
+
+sida 36 "Furthermore the fact that there were many different menus for different
+types of objects alllot of serial executions during usage included toggling 
+between the menus" är konstig.
+
