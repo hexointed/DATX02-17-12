@@ -51,9 +51,10 @@ encodeDfuI b = Just instr
 			0x3 -> N
 		action = case opca of
 			0x0 -> PushF
-			0x1 -> PushQ
-			0x2 -> Drop
-			0x3 -> SetVal arg2 arg1
+			0x1 -> PushS
+			0x2 -> PushQ
+			0x3 -> Drop
+			0x4 -> SetVal arg2 arg1
 
 		arg1 = bitCoerce $ bSlice d12 d4  b
 		arg2 = bitCoerce $ bSlice d8  d4  b

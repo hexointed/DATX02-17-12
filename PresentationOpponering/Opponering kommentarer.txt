@@ -42,15 +42,22 @@ data?
 
 4.2.3,  Real-time Visualization For Generated Data  
 "The particle systems are updated once every revolution of the lidar sensor, 
-this will create a rotation effect on the visualized point cloud." - är det 
-inte tvärt om, uppdaterar man bara vid varje helt varv borde väl inga 
-effekter av ett roterande svep ses i punktmolnet, för statisk terräng. 
-eller syftas det på objekt som rör sig medan lidarn sveper? isf borde detta 
-framgå. (kanske mest språklig poäng ändå..)
+this will create a rotation effect on the visualized point cloud." De 
+rotationseffekter som syns borde väl komma ifrån att datan är samplad/skapad 
+medan lidarn roterar, inte på grund av att denna data ritas ut en gång per varv?
+den skulle alltså framträda hur ni än ritade ut datan?
 
 Angående partikelsystem, varför skulle icke-interagerande sådana bli 
 icke-linjärt långsammare? är det en begränsning i unity? ni nämner att detta 
 är visat genom tester men ingen sådan data presenteras.
+
+4.3.2 Validation of Collision Detection Performance Difference
+här ändras metod för kollisionsdetektion. detta borde rimligen alltså enbart 
+påverka tiden som fysikmotorn tar på sig, per frame. ändå visar ni att "total 
+time" (vad nu detta innefattar) får en större förbättring än fysik-tiden. Hur 
+är detta ens möjligt?
+
+
 
 
 4.4 Texten borde bli "combined" med 4.4.1 eller något.
