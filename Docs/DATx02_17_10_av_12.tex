@@ -29,55 +29,61 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 
 \section*{Inledning}
 
-Detta är en opponering på rapporten ``Virtual Generation of Lidar Data for
-Autonomous Vehicles‘‘. I denna opponeringen ger vi konstruktiv kritik och
-förslag angående innehållet och strukturen på rapporten. Det finns en bilaga
-som noterar alla funna detaljfel för att underlätta den kommande
-kompletteringen. Vi börjar med att gå över alla kapitel för sig. 
+	Detta är en opponering på rapporten ``Virtual Generation of Lidar Data for
+	Autonomous Vehicles‘‘. I denna opponeringen ger vi konstruktiv kritik och
+	förslag angående innehållet och strukturen på rapporten. Det finns en
+	bilaga som noterar alla funna detaljfel för att underlätta den kommande
+	kompletteringen. Vi börjar med att gå över alla kapitel för sig. 
 
-\section*{Sammanfattning}
+\section*{Abstract}
 
-Sammanfattningen är koncis och representativ för projektet.
+	The abstract is concise and reprasentative for the project.
 
 \section*{Introduction}
 
-The beginning of the introduction gets the reader up to speed and explains why
-the thesis is relevant. All references except [4] either says something
-conflicting to the text or just not supports the text and as such needs some
-more scrutinization. 1.1 express what you intend to do clearly but the second
-paragraph belongs to the beginning of introduction. 1.2 state what the
-overarching problem of the thesis is but does not further clarify other
-challenges. 1.3 is fine but in the last paragraph (insert jon rant).
+	The beginning of the introduction gets the reader up to speed and explains
+	why the thesis is relevant. All references except [4] either says something
+	conflicting to the text or just not supports the text and as such needs
+	some more scrutinization. 1.1 express what you intend to do clearly but the
+	second paragraph belongs to the beginning of introduction. 1.2 state what
+	the overarching problem of the thesis is but does not further clarify other
+	challenges. 1.3 is fine but in the last paragraph (insert jon rant).
 
 \section*{Technical Background}
 
-Here the terms introduced in the previous chapter are further clarified as
-expected. 2.2.1 and 2.2.2 could maybe be merged to one section and 2.2 could
-arguably be called Unity instead of Game Engine since Unity is the sole focus
-of the section. There could be a better picture in figure 2.1 to explain the
-concept of collision and the subtext in figure 2.2 is redundant. 2.2.3 is clear
-overall. 2.2.4 could be renamed to Pathfinding since that is the specific
-subject being discussed. It is a bit more rough put the point gets across.
+	Here the terms introduced in the previous chapter are further clarified as
+	expected. 2.2.1 and 2.2.2 could maybe be merged to one section and 2.2
+	could arguably be called Unity instead of Game Engine since Unity is the
+	sole focus of the section. There could be a better picture in figure 2.1 to
+	explain the concept of collision and the subtext in figure 2.2 is
+	redundant. 2.2.3 is clear overall. 2.2.4 could be renamed to Pathfinding
+	since that is the specific subject being discussed. It is a bit more rough
+	put the point gets across.
 
 \section*{Methods}
 
-This chapter's sections describes the methodology, requirement and the final
-choice that was made in creating the components. It sounds a bit wide for a
-"methods" section. 3.1 could become clearer by showing the math of the
-ray-casting algorithm in detail. Also, from what we could find reading up on
-Unity a bit, (elias rant on multithreading). 3.2 is fine overall but while the
-thesis uses scene in general to refer to the part that is created by the user,
-"world", "environment" and "space" is also sometimes used and it can get a bit
-confusing. The first paragraph in 3.2.2 is just a reiteration of 3.1. In 3.2.3
-you mention that there are alternative methods and that there where tests to
-confirm decisions. Expand on this. 3.2.4 Is too small and seems to be out of
-place. It could maybe be a separate section in this chapter. 3.1 is good in
-general but 3.3.1 (elias rant). 3.4 was quite tough to parse and might be
-helped by some pictures and relating the concepts discussed to your application
-in paticular.
+	This chapter's sections describes the methodology, requirement and the
+	final choice that was made in creating the components. It sounds a bit wide
+	for a "methods" section. 3.1 could become clearer by showing the math of
+	the ray-casting algorithm in detail. Also, from what we could find reading
+	up on Unity a bit, (elias rant on multithreading). 3.2 is fine overall but
+	while the thesis uses scene in general to refer to the part that is created
+	by the user, "world", "environment" and "space" is also sometimes used and
+	it can get a bit confusing. The first paragraph in 3.2.2 is just a
+	reiteration of 3.1. In 3.2.3 you mention that there are alternative methods
+	and that there where tests to confirm decisions. Expand on this. 3.2.4 Is
+	too small and seems to be out of place. It could maybe be a separate
+	section in this chapter. 3.1 is good in general but 3.3.1 (elias rant). 3.4
+	was quite tough to parse and might be helped by some pictures and relating
+	the concepts discussed to your application in paticular.
 
 \section*{Results}
 
+	As with the methods chapter, the results contain a lot of information about
+	the implementation of the simulator. If all this information was moved to
+	the same place, it should be possible to reduce the amount of text without
+	losing any information. Consider creating a Implementation/Application 
+	chapter and moving all implementation information there.
 
 \section*{Slutsats}
 
