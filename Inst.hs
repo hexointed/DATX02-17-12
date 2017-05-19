@@ -56,9 +56,10 @@ assembleCFU ws = case ws of
 			name <- head' ws
 			case name of
 				"pushf"  -> return (0 ++#) <*> args 0 []
-				"pushq"  -> return (1 ++#) <*> args 0 []
-				"drop"   -> return (2 ++#) <*> args 0 []
-				"setval" -> return (3 ++#) <*> args 2 (tail ws)
+				"pushs"  -> return (1 ++#) <*> args 0 []
+				"pushq"  -> return (2 ++#) <*> args 0 []
+				"drop"   -> return (3 ++#) <*> args 0 []
+				"setval" -> return (4 ++#) <*> args 2 (tail ws)
 				_        -> Left "Unrecognized instruction"
 
 		args :: Int -> [Word] -> Bits' 8

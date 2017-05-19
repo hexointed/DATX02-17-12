@@ -26,7 +26,8 @@ mealyQueue = unbundle $ topQueue $ bundle wiw
 	where
 		wiw = fmap (fmap (\co -> (wantPack co, pack' co))) coreOut
 		pack' co = case packType co of
-			DFU.Queue -> Just $ packOut co
+			DFU.Queue -> Just $ (packOut co, packType co)
+			DFU.Stack -> Just $ (packOut co, packType co)
 			_         -> Nothing
 
 mealyMemory :: Vec Cores (Signal (Maybe Instr, Maybe Float))

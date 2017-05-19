@@ -31,6 +31,7 @@ data Cond
 
 data Action
 	= PushF
+	| PushS
 	| PushQ
 	| Drop
 	| SetVal (Ptr Pack) (Ptr (Stack Float))
@@ -94,6 +95,7 @@ execInst c a dfu = case checkCond c (stack dfu) of
 	False -> (dfu, noAddr)
 	True  -> case a of
 		PushF      -> (dfu, Right Frame)
+		PushS      -> (dfu, Right Stack)
 		PushQ      -> (dfu, Right Queue)
 		Drop       -> (dfu {ready = True, minValue = maxBound}, noAddr)
 		SetVal p s -> 
