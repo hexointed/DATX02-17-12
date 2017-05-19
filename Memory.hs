@@ -59,11 +59,10 @@ encodeDfuI b = Just instr
 		arg2 = bitCoerce $ bSlice d8  d4  b
 		argn = bitCoerce $ bSlice d8  d8  b
 		aptr = bitCoerce $ bSlice d4  d12 b
-		cptr = bitCoerce $ bSlice d1  d3  b
 
 		opcd = bSlice d2  d6  b
-		opcc = bSlice d4  d2  b
-		opca = bSlice d6  d2  b
+		opcc = bSlice d1  d3  b
+		opca = bSlice d4  d4  b
 
 		sel  = bSlice d0  d4  b
 		hsel = bSlice d0  d1  b

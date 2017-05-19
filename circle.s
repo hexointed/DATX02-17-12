@@ -74,7 +74,7 @@ generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden fö
 	val &one
 	sub
 	a setval 1 0
-	nz 0 pushq ; pushar till kön
+	nz pushq ; pushar till kön
 	val &calcpos
 	a setval 0 0
 	a pushq
@@ -94,15 +94,12 @@ calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
 	val &displaysizex
 	mul
 	sub
-	val &draw
+	val &camSetup
 	a setval 0 0
 	a setval 2 1
 	a setval 3 2
 	a pushq
 	a drop
-
-
-draw: 
 
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
@@ -281,7 +278,7 @@ distBall:
 	copy
 	mul
 
-	val &ballz 
+	val &ballz
 	pack 10
 	sub
 	copy
@@ -302,9 +299,9 @@ hit:
 	sub
 
 	; if result is negative algorithm is finished
-	n 0 setval 2 1
-	n 0 pushf
-	n 0 drop
+	n setval 2 1
+	n pushf
+	n drop
 
 	;otherwie increase scaler
 	pack 14
@@ -319,9 +316,9 @@ tooFar:
 	val &maxSteps
 	pack 7
 	sub
-	n 0 setval 2 1
-	n 0 pushf
-	n 0 drop
+	n setval 2 1
+	n pushf
+	n drop
 
 nextStep:
 	; We should continue marching more steps

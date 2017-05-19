@@ -44,16 +44,14 @@ assembleInst str = case words str of
 
 assembleCFU :: [Word] -> Bits' 16
 assembleCFU ws = case ws of
-	"a"   :inst -> ass "a" "0"  inst
-	c:cptr:inst -> ass c   cptr inst
+	c:inst -> ass c inst
 	where
-		ass a b c = do
+		ass a c = do
 			con <- cond a
-			ptr <- rptr b
 			tra <- tran c
-			return $ 0 ++# ptr ++# con ++# tra
+			return $ 0 ++# con ++# tra
 
-		tran :: [Word] -> Bits' 10
+		tran :: [Word] -> Bits' 12
 		tran ws = do
 			name <- head' ws
 			case name of
@@ -71,10 +69,7 @@ assembleCFU ws = case ws of
 			return $ n1 ++# n2
 		args _ _ = Left "Wrong number of arguments"
 		
-		rptr :: Word -> Bits' 3
-		rptr = readUnsigned d3
-		
-		cond :: Word -> Bits' 2
+		cond :: Word -> Bits' 3
 		cond "a"  = Right 0
 		cond "z"  = Right 1
 		cond "nz" = Right 2
