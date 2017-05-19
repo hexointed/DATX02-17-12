@@ -50,15 +50,21 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	paragraph belongs to the beginning of introduction. 1.2 - state what the
 	overarching problem of the thesis is but does not further clarify other
 	challenges. 1.3 is fine overall but in the last paragraph you claim that
-	reflection intensity is not needed	to create and test object recognition
-	algorithms. This is not true and you cite no sources showing this.
-	Reflection intensity is not only used for determining things such as the
-	type of material but is also essential when determining the shape of an
-	object, regardless of target geometry. The fact that some type of data is
-	not emulated could be worded as it already is, but with a slight rephrasing
-	and a reference substantiating the claim. For example "Not producing this
-	data gives a rougher picture but shortens the time needed to produce our
-	results".
+	reflection intensity is not needed to create and test object recognition
+	algorithms. This seems very unlikely and you cite no sources supporting this
+	claim. Reflection intensity is not only used for determining things such as
+	the type of material but is also essential when determining the shape of an
+	object, regardless of target geometry. This is because the intensity gives a
+	lot of information about how to interpret the validity of the positional
+	information of a certain point. This is used as a weight when calculating
+	the final geometry, making it much more accurate. It is also used to
+	minimize noise in the data by rejecting bad points entirely. The fact that
+	some type of data is not emulated/created is reasonable for your short
+	timeframe but this part should be rephrased. For example "Not producing this
+	data gives a rougher picture or simpler data set, but shortens our 
+	development time". Section 4.1.4 does not confirm that this data is good 
+	enough, since no real comparison using an algorithm that takes reflection 
+	intensity into account has been shown. 
 
 \section*{Technical Background}
 
@@ -98,12 +104,10 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	losing any information. Consider creating a Implementation/Application 
 	chapter and moving all implementation information there.
 	
-	4.3.2 - Här jämförs metod för kollisionsdetektion. Detta borde rimligen 
-	alltså enbart påverka tiden som fysikmotorn tar på sig, per frame. Ändå 
-	visar ni att "total time" (vad nu detta innefattar) får en större 
-	förbättring än fysik-tiden. Hur är detta ens möjligt? beskriv övriga 
-	förändringar eller motivera skillnaden i total time.
-
+	4.3.2 - Methods for collision detection are compared. The increased 
+	performance should therefore affect the physics time bar only, yet total 
+	time is improved even more. How is this possible? Describe what other 
+	changes you made or give arguments for how this is a valid result.
 
 \section*{Discussion}
 
