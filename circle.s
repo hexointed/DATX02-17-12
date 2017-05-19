@@ -17,7 +17,7 @@ white:
 	65535.0
 
 maxSteps:
-	100.0
+	1000.0
 epsilon:
 	0.01
 
@@ -220,11 +220,6 @@ camCont:
 	a setval 6 0
 	val &one
 	a setval 7 0
-
-	val &afterSetup
-	a setval 0 0
-	a pushq
-	a drop
 
 afterSetup:
 	; clear all registers

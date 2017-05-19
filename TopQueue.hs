@@ -10,8 +10,9 @@ import CLaSH.Sized.Fixed
 import CLaSH.Class.BitPack
 import CLaSH.Sized.BitVector
 import BramStack
+import DFU
 
-type VecIn n = Vec n (Bool, Maybe Pack)
+type VecIn n = Vec n (Bool, Maybe (Pack, PackType))
 type VecOut n = Vec n (Maybe Pack, Bool)
 
 topQueue :: KnownNat n => Signal (VecIn (n + 1)) -> Signal (VecOut (n + 1))
@@ -26,25 +27,25 @@ coresInterface v p = zipWith (,) outs acc
 		acc = accCorrect (map snd v)
 		outs = giveBackCorrect (map fst v) p
 
-accCorrect :: Vec n (Maybe Pack) -> Vec n Bool
+accCorrect :: Vec n (Maybe a) -> Vec n Bool
 accCorrect v = snd $ mapAccumL onlyFirst True v
 	where
-		onlyFirst isFirst pack = case isFirst && pack /= Nothing of
-			True ->  (False, True)
-			False -> (isFirst, False)
+		onlyFirst isFirst Nothing = (isFirst, False)
+		onlyFirst isFirst pack    = (False, isFirst)
 
-giveBackCorrect :: Vec n Bool -> Maybe Pack -> Vec n (Maybe Pack)
+giveBackCorrect :: Vec n Bool -> Maybe a -> Vec n (Maybe a)
 giveBackCorrect v p = snd $ mapAccumL onlyFirst True v
 	where
 		onlyFirst isFirst wants = case isFirst && wants of
 			True  -> (False, p)
 			False -> (isFirst, Nothing)
 
-packFromMaybe :: Maybe Pack -> Push
-packFromMaybe Nothing  = None
-packFromMaybe (Just p) = Bottom p
+packFromMaybe :: Maybe (Pack, PackType) -> Push
+packFromMaybe (Just (p, Queue)) = Bottom p
+packFromMaybe (Just (p, Stack)) = Top p
+packFromMaybe _                 = BramStack.None
 
-calcDecision :: VecIn (n + 1) -> (Maybe Pack, Bool)
+calcDecision :: VecIn (n + 1) -> (Maybe (Pack, PackType), Bool)
 calcDecision inputs = (has, wants)
 	where
 		has = snd $ fold hasPack inputs
