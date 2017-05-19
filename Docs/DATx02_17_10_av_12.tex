@@ -37,17 +37,26 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 
 \section*{Abstract}
 
-	The abstract is concise and reprasentative for the project.
+	The abstract is concise and representative for the project.
 
 \section*{Introduction}
 
 	The beginning of the introduction gets the reader up to speed and explains
-	why the thesis is relevant. All references except [4] either says something
-	conflicting to the text or just not supports the text and as such needs
-	some more scrutinization. 1.1 express what you intend to do clearly but the
-	second paragraph belongs to the beginning of introduction. 1.2 state what
-	the overarching problem of the thesis is but does not further clarify other
-	challenges. 1.3 is fine but in the last paragraph (insert jon rant).
+	why the thesis is relevant. All references except [4] either say something
+	conflicting to the text or does just not support the text, requiring more 
+	scrutiny. 1.1 - express what you intend to do clearly but the second 
+	paragraph belongs to the beginning of introduction. 1.2 - state what the
+	overarching problem of the thesis is but does not further clarify other
+	challenges. 1.3 is fine overall but in the last paragraph you claim that
+	reflection intensity is not needed	to create and test object recognition
+	algorithms. This is not true and you cite no sources showing this.
+	Reflection intensity is not only used for determining things such as the
+	type of material but is also essential when determining the shape of an
+	object, regardless of target geometry. The fact that some type of data is
+	not emulated could be worded as it already is, but with a slight rephrasing
+	and a reference substantiating the claim. For example "Not producing this
+	data gives a rougher picture but shortens the time needed to produce our
+	results".
 
 \section*{Technical Background}
 
@@ -58,7 +67,7 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	explain the concept of collision and the subtext in figure 2.2 is
 	redundant. 2.2.3 is clear overall. 2.2.4 could be renamed to Pathfinding
 	since that is the specific subject being discussed. It is a bit more rough
-	put the point gets across.
+	but the point gets across.
 
 \section*{Methods}
 
@@ -66,14 +75,14 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	final choice that was made in creating the components. It sounds a bit wide
 	for a "methods" section. 3.1 could become clearer by showing the math of
 	the ray-casting algorithm in detail. Also, from what we could find reading
-	up on Unity a bit, (elias rant on multithreading). 3.2 is fine overall but
+	up on Unity a bit, (Elias rant on multithreading). 3.2 is fine overall but
 	while the thesis uses scene in general to refer to the part that is created
 	by the user, "world", "environment" and "space" is also sometimes used and
 	it can get a bit confusing. The first paragraph in 3.2.2 is just a
 	reiteration of 3.1. In 3.2.3 you mention that there are alternative methods
 	and that there where tests to confirm decisions. Expand on this. 3.2.4 Is
 	too small and seems to be out of place. It could maybe be a separate
-	section in this chapter. 3.1 is good in general but 3.3.1 (elias rant). 3.4
+	section in this chapter. 3.1 is good in general but 3.3.1 (Elias rant). 3.4
 	was quite tough to parse and might be helped by some pictures and relating
 	the concepts discussed to your application in paticular.
 
@@ -85,6 +94,24 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	losing any information. Consider creating a Implementation/Application 
 	chapter and moving all implementation information there.
 
-\section*{Slutsats}
+\section*{Discussion}
+
+	The beginning of 5.1 just mentions further content and needs to be fleshed 
+	out	some more. It is still a bit vague in 5.1.1 as to how things have been
+	verified. This is maybe something that could be expanded upon in Methods
+	beforehand. The first paragraph in 5.1.2 is written as more of a result and
+	could instead be a reference to the results. The rest of the section could
+	maybe expand on whether there were any alternative ways to reduce the
+	performance that weren't explored. 5.2.1, 5.3 and 5.4 are reiterations of
+	previous points. In 5.3.2 you mention that JSON is not directly readable, 
+	but it is, in any text editor. You also conclude that the simulation 
+	depends on the hardware, but this is always true to some extent. It would 
+	help if you were more specific, maybe figure out some required minimum 
+	spec. 5.5 is an interesting read.
+
+\section*{Conclusion}
+
+	The conclusion has some minor nitpicks mentioned in the appendix but gives
+	overall a good summation.
 
 \end{document}
