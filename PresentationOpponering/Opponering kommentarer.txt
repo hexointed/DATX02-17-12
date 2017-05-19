@@ -34,6 +34,25 @@ sida 29. Man förstår ju att "pedestrian" är stilla i editor mode när det st�
 the moving pedestrians are completelty frozen while in editor mode.." så behöver
 ej nämna "and freze again if the suer switches back to editor mode"
 
+4.2.2,  Post-Simulation Visualization
+Det beskrivs att det är långsamt att skapa en mesh från point clouds (i programmet). 
+Vad finns det för belägg för detta? är det inte så att voxelisera eller bygga 
+meshes av punktdata är vanligen tillämpat just för att kunna realtidsrendera sådan 
+data?   
+
+4.2.3,  Real-time Visualization For Generated Data  
+"The particle systems are updated once every revolution of the lidar sensor, 
+this will create a rotation effect on the visualized point cloud." - är det 
+inte tvärt om, uppdaterar man bara vid varje helt varv borde väl inga 
+effekter av ett roterande svep ses i punktmolnet, för statisk terräng. 
+eller syftas det på objekt som rör sig medan lidarn sveper? isf borde detta 
+framgå. (kanske mest språklig poäng ändå..)
+
+Angående partikelsystem, varför skulle icke-interagerande sådana bli 
+icke-linjärt långsammare? är det en begränsning i unity? ni nämner att detta 
+är visat genom tester men ingen sådan data presenteras.
+
+
 4.4 Texten borde bli "combined" med 4.4.1 eller något.
 
 sida 36 "Furthermore the fact that there were many different menus for different
