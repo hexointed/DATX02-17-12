@@ -33,7 +33,9 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	Autonomous Vehicles‘‘, where we provide feedback and suggestions for the
 	content and structure of the report. Our comments are ordered by chapter in
 	the original report. An appendix with more specific comments, including
-	typos and gramatical errors has been included to aid the authors.
+	typos and gramatical errors has been included to aid the authors, most 
+	comments in the appendix are not mentioned in this opposition report, as 
+	they are very minor.
 
 \section*{Abstract}
 
@@ -61,33 +63,32 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 \section*{Technical Background}
 
 	Here the terms introduced in the previous chapter are further clarified as
-	expected. 2.2.1 and 2.2.2 could maybe be merged to one section and 2.2
-	could arguably be called Unity instead of Game Engine since Unity is the
-	sole focus of the section. There could be a better picture in figure 2.1 to
-	explain the concept of collision and the subtext in figure 2.2 is
-	redundant. 2.2.3 is clear overall. 2.2.4 could be renamed to Pathfinding
-	since that is the specific subject being discussed. It is a bit more rough
-	but the point gets across.
+	expected. Section 2.2 could arguably be called Unity instead of Game Engine
+	since Unity is the central focus of this section. 2.2.3 is clear overall.
+	2.2.4 could be renamed to Pathfinding since that is the subject being
+	discussed. 
 
 \section*{Methods}
 
 	This chapter's sections describes the methodology, requirement and the
-	final choice that was made in creating the components. It sounds a bit wide
-	for a "methods" section. 3.1 could become clearer by showing the math of
-	the ray-casting algorithm in detail. Also, from what we could find reading
-	up on Unity a bit, multithreaded physics simulation has been avalable since
-	Unity 5, does this not work for ray tracing? 3.2 is fine overall but while
-	the thesis uses scene in general to refer to the part that is created by
-	the user, "world", "environment" and "space" is also sometimes used and it
-	can get a bit confusing. The first paragraph in 3.2.2 is just a reiteration
-	of 3.1. In 3.2.3 you mention that there are alternative methods and that
-	there where tests to confirm decisions. Expand on this. 3.2.4 Is too small
-	and seems to be out of place.  It could maybe be a separate section in this
-	chapter. 3.1 is good in general but in 3.3.1, you choose a hash map 
-	containing linked lists as storage structure for the data points. Why was 
-	this chosen instead of, for example, a dynamic array? 3.4 was quite tough
-	to parse and might be helped by some pictures and relating the concepts
-	discussed to your application in paticular.
+	final choice that was made in creating the components well. It is, however,
+	a bit wide for a "methods" section, perhaps information about the
+	implementation could be moved to a separate chapter?  From what we could
+	find reading up on Unity, multithreaded physics simulation has been
+	avalable since Unity 5, does this not work for ray tracing? It might be
+	good to add a more detailed comment about Unity's support for multithreaded
+	physics. Section 3.2 is good overall but the thesis uses the word "scene"
+	in general to refer to the part that is created by the user, "world",
+	"environment" and "space" is also sometimes used and this might confuse a
+	reader slightly. The first sentence in 3.2.2 is just a reiteration of the
+	first paragraph in 3.1. In section 3.2.3 it is mentioned that there are
+	alternative methods and that there where tests to confirm decisions. Expand
+	on this.  3.2.4 Is too small and seems to be out of place.  It could maybe
+	be a separate section in this chapter. 3.1 is good in general but in 3.3.1,
+	you choose a hash map containing linked lists as storage structure for the
+	data points. Why was this chosen instead of, for example, a dynamic array?
+	3.4 was quite tough to parse and might be helped by some pictures and
+	relating the concepts discussed to your application in paticular.
 
 \section*{Results}
 
@@ -106,18 +107,18 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 
 \section*{Discussion}
 
-	The beginning of 5.1 just mentions further content and needs to be fleshed 
-	out	some more. It is still a bit vague in 5.1.1 as to how things have been
-	verified. This is maybe something that could be expanded upon in Methods
-	beforehand. The first paragraph in 5.1.2 is written as more of a result and
-	could instead be a reference to the results. The rest of the section could
-	maybe expand on whether there were any alternative ways to reduce the
-	performance that weren't explored. 5.2.1, 5.3 and 5.4 are reiterations of
-	previous points. In 5.3.2 you mention that JSON is not directly readable, 
-	but it is, in any text editor. You also conclude that the simulation 
-	depends on the hardware, but this is always true to some extent. It would 
-	help if you were more specific, maybe figure out some required minimum 
-	spec. 5.5 is an interesting read.
+	It is a bit vague in 5.1.1 as to how the verifications you have discussed
+	have been done. Has any verifications except visual comparison been done?
+	This is maybe something that could be expanded upon in Methods beforehand.
+	The first paragraph in 5.1.2 is written as more of a result and could
+	instead be a reference to the results. The rest of the section could maybe
+	expand on whether there were any alternative ways to reduce the performance
+	that weren't explored.  5.2.1, 5.3 and 5.4 are reiterations of previous
+	points.  In 5.3.2 you mention that JSON is not directly readable, but it
+	is, in any text editor.  You also conclude that the simulation depends on
+	the hardware, but this is always true to some extent. It would help if you
+	were more specific, maybe figure out some required minimum spec. 5.5 is an
+	interesting read.
 
 \section*{Conclusion}
 
