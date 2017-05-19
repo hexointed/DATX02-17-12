@@ -7,25 +7,17 @@ minusone:
 	-1.0
 two:
 	2.0
-hundred:
-	100.0
-ones:
-	255.0
 displaysizex:
 	32.0
 displaysizey:
 	16.0
 numPixels:
 	512.0
-red:
-	65280.0
-shift:
-	256.0
 white:
 	65535.0
 
-maxDist:
-	20.0
+maxSteps:
+	100.0
 epsilon:
 	0.01
 
@@ -65,9 +57,6 @@ bally:
 	0.0
 ballz:
 	10.0
-
-greenshift:
-	256
 
 .text:
 
@@ -327,7 +316,7 @@ tooFar:
 	; We'we marched too many steps and should stop
 
 	val &white
-	val &hundred
+	val &maxSteps
 	pack 7
 	sub
 	n 0 setval 2 1
