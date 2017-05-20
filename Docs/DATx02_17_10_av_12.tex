@@ -33,7 +33,9 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	Autonomous Vehicles‘‘, where we provide feedback and suggestions for the
 	content and structure of the report. Our comments are ordered by chapter in
 	the original report. An appendix with more specific comments, including
-	typos and gramatical errors has been included to aid the authors.
+	typos and grammatical errors has been included to aid the authors, most 
+	comments in the appendix are not mentioned in this opposition report, as 
+	they are very minor.
 
 \section*{Abstract}
 
@@ -42,49 +44,54 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 \section*{Introduction}
 
 	The beginning of the introduction gets the reader up to speed and explains
-	why the thesis is relevant. All references except [4] either say something
-	conflicting to the text or does just not support the text, requiring more 
-	scrutiny. 1.1 - express what you intend to do clearly but the second 
-	paragraph belongs to the beginning of introduction. 1.2 - state what the
-	overarching problem of the thesis is but does not further clarify other
-	challenges. 1.3 is fine overall but in the last paragraph you claim that
-	reflection intensity is not needed	to create and test object recognition
-	algorithms. This is not true and you cite no sources showing this.
-	Reflection intensity is not only used for determining things such as the
-	type of material but is also essential when determining the shape of an
-	object, regardless of target geometry. The fact that some type of data is
-	not emulated could be worded as it already is, but with a slight rephrasing
-	and a reference substantiating the claim. For example "Not producing this
-	data gives a rougher picture but shortens the time needed to produce our
-	results".
+	why the thesis is relevant. Some of the references in this section do not
+	seem to support your claims entirely, however. See the appendix of this
+	report for further comments. Section 1.3 is fine overall but in the last
+	paragraph you claim that reflection intensity is not needed to create and
+	test object recognition algorithms. This seems very unlikely and you cite
+	no sources supporting this claim. Reflection intensity is not only used for
+	determining things such as the type of material but is also essential when
+	determining the shape of an object, regardless of target geometry. This is
+	because the intensity gives a lot of information about how to interpret the
+	validity of the positional information of a certain point. This is used as
+	a weight when calculating the final geometry, making it much more accurate.
+	It is also used to minimize noise in the data by rejecting bad points
+	entirely. The fact that some type of data is not emulated/created is
+	reasonable for your short time-frame but this part should be rephrased. For
+	example "Not producing this data gives a rougher picture or simpler data
+	set, but shortens our development time". Section 4.1.4 does not confirm
+	that this data is good enough, since no real comparison using an algorithm
+	that takes reflection intensity into account has been shown. 
 
 \section*{Technical Background}
 
 	Here the terms introduced in the previous chapter are further clarified as
-	expected. 2.2.1 and 2.2.2 could maybe be merged to one section and 2.2
-	could arguably be called Unity instead of Game Engine since Unity is the
-	sole focus of the section. There could be a better picture in figure 2.1 to
-	explain the concept of collision and the subtext in figure 2.2 is
-	redundant. 2.2.3 is clear overall. 2.2.4 could be renamed to Pathfinding
-	since that is the specific subject being discussed. It is a bit more rough
-	but the point gets across.
+	expected. Section 2.2 could arguably be called Unity instead of Game Engine
+	since Unity is the central focus of this section. 2.2.3 is clear overall.
+	2.2.4 could be renamed to Pathfinding since that is the subject being
+	discussed. 
 
 \section*{Methods}
 
 	This chapter's sections describes the methodology, requirement and the
-	final choice that was made in creating the components. It sounds a bit wide
-	for a "methods" section. 3.1 could become clearer by showing the math of
-	the ray-casting algorithm in detail. Also, from what we could find reading
-	up on Unity a bit, (Elias rant on multithreading). 3.2 is fine overall but
-	while the thesis uses scene in general to refer to the part that is created
-	by the user, "world", "environment" and "space" is also sometimes used and
-	it can get a bit confusing. The first paragraph in 3.2.2 is just a
-	reiteration of 3.1. In 3.2.3 you mention that there are alternative methods
-	and that there where tests to confirm decisions. Expand on this. 3.2.4 Is
-	too small and seems to be out of place. It could maybe be a separate
-	section in this chapter. 3.1 is good in general but 3.3.1 (Elias rant). 3.4
-	was quite tough to parse and might be helped by some pictures and relating
-	the concepts discussed to your application in paticular.
+	final choice that was made in creating the components well. It is, however,
+	a bit wide for a "methods" section, perhaps information about the
+	implementation could be moved to a separate chapter?  From what we could
+	find reading up on Unity, multithreaded physics simulation has been
+	available since Unity 5, does this not work for ray tracing? It might be
+	good to add a more detailed comment about Unity's support for multithreaded
+	physics. Section 3.2 is good overall but the thesis uses the word "scene"
+	in general to refer to the part that is created by the user, "world",
+	"environment" and "space" is also sometimes used and this might confuse a
+	reader slightly. The first sentence in 3.2.2 is just a reiteration of the
+	first paragraph in 3.1. In section 3.2.3 it is mentioned that there are
+	alternative methods and that there where tests to confirm decisions. Expand
+	on this.  3.2.4 Is too small and seems to be out of place.  It could maybe
+	be a separate section in this chapter. 3.1 is good in general but in 3.3.1,
+	you choose a hash map containing linked lists as storage structure for the
+	data points. Why was this chosen instead of, for example, a dynamic array?
+	3.4 was quite tough to parse and might be helped by some pictures and
+	relating the concepts discussed to your application in particular.
 
 \section*{Results}
 
@@ -93,25 +100,30 @@ Elias Forsberg, Jesper Åberg, Jon Johnsson}
 	the same place, it should be possible to reduce the amount of text without
 	losing any information. Consider creating a Implementation/Application 
 	chapter and moving all implementation information there.
+	
+	4.3.2 - Methods for collision detection are compared. The increased 
+	performance should therefore affect the physics time bar only, yet total 
+	time is improved even more. How is this possible? Describe what other 
+	changes you made or give arguments for how this is a valid result.
 
 \section*{Discussion}
 
-	The beginning of 5.1 just mentions further content and needs to be fleshed 
-	out	some more. It is still a bit vague in 5.1.1 as to how things have been
-	verified. This is maybe something that could be expanded upon in Methods
-	beforehand. The first paragraph in 5.1.2 is written as more of a result and
-	could instead be a reference to the results. The rest of the section could
-	maybe expand on whether there were any alternative ways to reduce the
-	performance that weren't explored. 5.2.1, 5.3 and 5.4 are reiterations of
-	previous points. In 5.3.2 you mention that JSON is not directly readable, 
-	but it is, in any text editor. You also conclude that the simulation 
-	depends on the hardware, but this is always true to some extent. It would 
-	help if you were more specific, maybe figure out some required minimum 
-	spec. 5.5 is an interesting read.
+	It is a bit vague in 5.1.1 as to how the verifications you have discussed
+	have been done. Has any verifications except visual comparison been done?
+	This is maybe something that could be expanded upon in Methods beforehand.
+	The first paragraph in 5.1.2 is written as more of a result and could
+	instead be a reference to the results. The rest of the section could maybe
+	expand on whether there were any alternative ways to reduce the performance
+	that weren't explored.  5.2.1, 5.3 and 5.4 are reiterations of previous
+	points.  In 5.3.2 you mention that JSON is not directly readable, but it
+	is, in any text editor.  You also conclude that the simulation depends on
+	the hardware, but this is always true to some extent. It would help if you
+	were more specific, maybe figure out some required minimum spec. 5.5 is an
+	interesting read.
 
 \section*{Conclusion}
 
-	The conclusion has some minor nitpicks mentioned in the appendix but gives
-	overall a good summation.
+	The conclusion has some minor issues mentioned in the appendix but
+	summarizes the thesis well overall.
 
 \end{document}
