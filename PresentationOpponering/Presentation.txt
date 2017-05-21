@@ -1,0 +1,32 @@
+Sphere Tracing:
+	
+	- How Sphere Tracing works.
+	- Why is it interesting?
+
+Software shader:
+	
+	- Very quick
+	- Materials? Reflections?
+
+Optimizations:
+	
+	- Describe each
+	- Show with/without optimizations to show fps differance
+
+Processor:
+	
+	- Architecture overview
+	- Assembler
+
+Square Roots:
+	
+	- Fast approximation
+	- Improved approximation
+	- Lerp/Babylonian
+	- Shifting nth root
+	- Sphere Tracing fault tolerance
+
+Conclusion:
+	
+	- More work needed on GPU for more meaningful conclusions
+	- Sphere Tracing has interesting properties
