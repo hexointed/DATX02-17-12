@@ -1,7 +1,31 @@
 Sphere Tracing:
 	
+	Vårt projekts mål har varit att utreda en alternativ grafikrenderingsmetod 
+	som kallas Sphere Tracing, och utifrån detta, designa en grafikprocessor 
+	optimerad för denna. Detta ville vi göra eftersom man kan se att prestandan 
+	för metoden, när den körs på en konventionell GPU, blir kraftigt begränsad. 
+	Den kan därmed inte uppnå sin fulla potential eftersom dagens 
+	grafikhårdvara är designad för polygonbaserad grafikrendering.
+	
+	Varför just Sphere Tracing?  För att motivera vårt intresse börjar vi med 
+	att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
+	algoritmen, som vi kom fram till under utredningsfasen.
+	
 	- How Sphere Tracing works.
-		visa visuellt
+		Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
+		grafikrenderingsmetod baserad på att projicera strålar, från en kamera, 
+		mot en uppsättning av 3D-Objekt. Det objekt som strålen träffar först 
+		avgör vilken färg den korresponderande pixeln på skärmen kommer att få. 
+		Detta kräver mycket datorkraft då man ofta måste lösa 
+		differentialekvationer för att hitta skärningspunkterna mellan strålen  
+		och objekten. Sphere Tracing är ett alternativ till att hitta denna 
+		skärningspunkt, vilket görs genom att först definiera alla objekt som 
+		sk distansfunktioner. Dessa är funktioner som tar en given 3d-koordinat 
+		och returnerar avståndet till den punkt på funktionsytan som ligger 
+		närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
+		strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
+		(bilderbilder...)
+				
 	 - optimizations
 		Describe each
 		Show with/without optimizations to show fps difference
