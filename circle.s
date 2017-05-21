@@ -8,9 +8,9 @@ minusone:
 two:
 	2.0
 displaysizex:
-	32.0
+	128.0
 displaysizey:
-	16.0
+	32.0
 numPixels:
 	512.0
 white:
