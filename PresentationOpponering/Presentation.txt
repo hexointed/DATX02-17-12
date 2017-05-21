@@ -26,7 +26,49 @@ Square Roots:
 	- Shifting nth root
 	- Sphere Tracing fault tolerance
 
+	För att kunna räkna ut längder till alla objekten i scenen behövdes roten ur användas.
+	Vi insåg ganska snabbt att det det var en väldigt krävande operation, och om vi kunde
+	optimera implementationen av roten ur skulle det potentiellt kunna spara både tid och
+	area i GPU:n
+
+	*Bild fast approx
+
+	Vi hittade en snabb men grov approximering  som bara använde sig utav en rad or-gatear.
+	Den utnyttjar det faktum att antalet bitar halveras vid roten ur, och ger e
+	En bättre approximering är denna:
+
+	*Bild improved approx
+
+	Denna implementationen har fler or-gatear och deras placeringar är baserat på bit mönstret
+	för roten ur 2.
+
+	lerp/babylonian?
+
+	shifting?
+
+	Hur hög fel tolerans har då sphere tracing? Hur exakt måste roten ur vara för sphere tracen skall fungera?
+	Det beror på olika saker, vi har det satta epsilonet, sträckan som avgjorde om vi var "tillräckligt"
+	nära för att säga att vi träffat. Om vi har ett större fel än vårt epsilon riskerar vi att overstepa och 
+	poteniellt missa objekt. 
+	Ett annat kritiskt tillfälle där fel tolerans är viktigt är när vi räknar ut normalen som vi använder för
+	 att räkna ut reflektioner och skuggor. Får vi fel värde värde på normalen riskerar vi att stega i fel riktning
+	och då reflektera fel saker eller få en missvisande skuggning.
+	
+
+	
+
+	
+	
+
 Conclusion:
 	
 	- More work needed on GPU for more meaningful conclusions
 	- Sphere Tracing has interesting properties
+
+	Sphere tracing har definitivt fördelar och nackdelar kontra polygon baserad rendering, och det finns fortfarande
+	mycket som kan göra sphere tracing bättre och snabbare. Vi har testat två optimeringar på algoritmen och visat 
+	att dem ökar prestandan. Men vi tror att det finns mycket mer kvar att lära. 
+
+	Vi anser att det behövs läggas mer tid på alla delar i projektet för att kunna gör en realistisk bedömning av 
+	potentialen i en GPU  byggd för Sphere Tracing algoritmen. Det vi har lärt oss under vårat utförande av 
+	projektet är hur många delar med Sphere tracing som ännu är outforskade.	
