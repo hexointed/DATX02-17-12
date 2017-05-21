@@ -18,6 +18,49 @@ Processor:
 	- Architecture overview
 	- Assembler
 
+	Utöver detta har vi ocksȧ byggt en GPU, eftersom ett av mȧlen med projektet
+	var att designa hȧrdvara som är gjord för Sphere Tracing. GPU:n som vi 
+	designade blev ocksȧ en mer generell parallellprocessor, eftersom vi tyckte
+	att det ökade möjligheterna för att enkelt kunna implementera de 
+	optimeringar som vi disskuterade tidigare pȧ processorn.
+
+	För arkitekturen i sig beslutade vi att lägga mindre fokus pȧ lockstepping
+	än traditionella grafikkort, dȧ alla rays kan variera kraftigt i antal
+	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vȧr GPU
+	har altsȧ lite mer kontrolllogik per beräkningsenhet än traditionella
+	grafikkort, men mindre, och därmed fler, kärnor än en CPU. Tillsammans med
+	kärnorna behövs ett sätt att representera alla de strȧlar som behöver
+	beräknas. 
+
+	Vi ville ocksȧ, om möjligt, kunna skapa nya strȧlar on demand för att
+	enkelt kunna implementera tex reflektioner och refraktioner, som är
+	relativt enkla att göra med raymarching, och som vore trȧkiga att gȧ miste
+	om. Vi valde därför att designa GPU:n sȧ att alla shaders som kör pȧ den
+	kör i en slags trȧdar, och att varje trȧd fȧr möjligheten att spawna nya
+	trȧdar. Sedan lade vi till en kö som alla kärnor kunde kommunicera med, där
+	kärnorna kan lägga upp nya trȧdar, och hämta trȧdar för att börja exekvera.
+
+	[Bild Arkitektur]
+
+	Detta visade sig vara en ganska användbar arkitektur som det utan större
+	problem gȧr att implementera allt som krävs för att kunna köra Sphere 
+	Tracing, men möjligtvis även för andra typer av problem som bȧde är mycket
+	parallella men även iterativa/rekursiva och har lite mer komplicerade 
+	programflöden, vilket lätt skapar problem när de körs pȧ locksteppade 
+	arkitekturer.
+
+	[Bild Assembler]
+
+	Vi behövde ocksȧ kunna programmera GPU:n enkelt, och därför designade vi
+	ett assemblersprȧk ȧt den. Det ser ut som de flesta assemblersprȧk, men är
+	lite intressant pȧ grund av hȧrdvarustödet för trȧdar. Trȧdstödet gör
+	faktiskt assemblern lite mer ovanlig en enbart att det finns instruktioner
+	som hanterar trȧdar, det gorde även att vi kunde lȧta bli att implementera
+	jump-instruktioner, eftersom de kan ersättas genom att spawna en kopia av
+	den nuvarande trȧden med en instruktionspekare som pekar dit man vill
+	hoppa, följt av att man terminerar den nuvarande trȧden. Det lȧter dyrare 
+	än det behöver vara, 
+
 Square Roots:
 	
 	- Fast approximation
