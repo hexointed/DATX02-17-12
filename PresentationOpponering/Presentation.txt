@@ -1,17 +1,39 @@
 Sphere Tracing:
 	
 	- How Sphere Tracing works.
-	- Why is it interesting?
+		visa visuellt
+	 - optimizations
+		Describe each
+		Show with/without optimizations to show fps difference
+		visa visuellt, demonstrera hastighetsförbättring?
+	- Software shader	
+		berätta att dessa optimeringar är implementerade och testade i en sk 
+		shader, ett program som körs på en GPU i en vanlig speldator. 
+		(ge visuellt exempel med flowchart)		
 
-Software shader:
-	
-	- Very quick
-	- Materials? Reflections?
+	- Vad är då Sphere tracing bra för?
+		Denna algoritm fungerar väldigt annorlunda än polyonrendering, och blir
+		därför intressant då den kan vara väldigt snabb på många
+		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
+		för. Exempel på detta visas här i vår shader, som visar hur ytan på en
+		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
+		kanter vid inzoomning, och skulle man öka antalet polygoner för att
+		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
+		mycket. (visa inzoomning av 2 sfärer närbild), smooth geometry blending
+		between objects (kan visas med metabollarna), äkta
+		reflektion/refraction (visa nån fin interreflektion, t.ex i
+		metabollarna), 
+		[permutable geometry repetition]
+			Även repetition av objekt i alla dimensioner går att göra med en 
+			fast hastighetskostnad, till skillnad från det klassiska fallet som 
+			har en linjärt ökande kostnad för antal utritade objekt. Varje 
+			repeterat objekt kan skilja sig från sina grannar då dess utseende 
+			kan varieras och animeras med hjälp av t.ex dess position eller id. 
+			Detta medför att stora fält av intressant geometri kan renderas 
+			extremt snabbt.	(visa animerat våg-sfär-fält),
 
-Optimizations:
-	
-	- Describe each
-	- Show with/without optimizations to show fps differance
+		Ytterligare saker: penumbra-skuggning (inigos bilder?),	
+		tredimensionella material,  (kanske bara skriva dessa i text på slides)
 
 Processor:
 	
