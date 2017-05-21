@@ -1,22 +1,87 @@
 Sphere Tracing:
 	
 	- How Sphere Tracing works.
-	- Why is it interesting?
+		visa visuellt
+	 - optimizations
+		Describe each
+		Show with/without optimizations to show fps difference
+		visa visuellt, demonstrera hastighetsförbättring?
+	- Software shader	
+		berätta att dessa optimeringar är implementerade och testade i en sk 
+		shader, ett program som körs på en GPU i en vanlig speldator. 
+		(ge visuellt exempel med flowchart)		
 
-Software shader:
-	
-	- Very quick
-	- Materials? Reflections?
+	- Vad är då Sphere tracing bra för?
+		Denna algoritm fungerar väldigt annorlunda än polyonrendering, och blir
+		därför intressant då den kan vara väldigt snabb på många
+		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
+		för. Exempel på detta visas här i vår shader, som visar hur ytan på en
+		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
+		kanter vid inzoomning, och skulle man öka antalet polygoner för att
+		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
+		mycket. (visa inzoomning av 2 sfärer närbild), smooth geometry blending
+		between objects (kan visas med metabollarna), äkta
+		reflektion/refraction (visa nån fin interreflektion, t.ex i
+		metabollarna), 
+		[permutable geometry repetition]
+			Även repetition av objekt i alla dimensioner går att göra med en 
+			fast hastighetskostnad, till skillnad från det klassiska fallet som 
+			har en linjärt ökande kostnad för antal utritade objekt. Varje 
+			repeterat objekt kan skilja sig från sina grannar då dess utseende 
+			kan varieras och animeras med hjälp av t.ex dess position eller id. 
+			Detta medför att stora fält av intressant geometri kan renderas 
+			extremt snabbt.	(visa animerat våg-sfär-fält),
 
-Optimizations:
-	
-	- Describe each
-	- Show with/without optimizations to show fps differance
+		Ytterligare saker: penumbra-skuggning (inigos bilder?),	
+		tredimensionella material,  (kanske bara skriva dessa i text på slides)
 
 Processor:
 	
 	- Architecture overview
 	- Assembler
+
+	Utöver detta har vi ocksȧ byggt en GPU, eftersom ett av mȧlen med projektet
+	var att designa hȧrdvara som är gjord för Sphere Tracing. GPU:n som vi 
+	designade blev ocksȧ en mer generell parallellprocessor, eftersom vi tyckte
+	att det ökade möjligheterna för att enkelt kunna implementera de 
+	optimeringar som vi disskuterade tidigare pȧ processorn.
+
+	För arkitekturen i sig beslutade vi att lägga mindre fokus pȧ lockstepping
+	än traditionella grafikkort, dȧ alla rays kan variera kraftigt i antal
+	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vȧr GPU
+	har altsȧ lite mer kontrolllogik per beräkningsenhet än traditionella
+	grafikkort, men mindre, och därmed fler, kärnor än en CPU. Tillsammans med
+	kärnorna behövs ett sätt att representera alla de strȧlar som behöver
+	beräknas. 
+
+	Vi ville ocksȧ, om möjligt, kunna skapa nya strȧlar on demand för att
+	enkelt kunna implementera tex reflektioner och refraktioner, som är
+	relativt enkla att göra med raymarching, och som vore trȧkiga att gȧ miste
+	om. Vi valde därför att designa GPU:n sȧ att alla shaders som kör pȧ den
+	kör i en slags trȧdar, och att varje trȧd fȧr möjligheten att spawna nya
+	trȧdar. Sedan lade vi till en kö som alla kärnor kunde kommunicera med, där
+	kärnorna kan lägga upp nya trȧdar, och hämta trȧdar för att börja exekvera.
+
+	[Bild Arkitektur]
+
+	Detta visade sig vara en ganska användbar arkitektur som det utan större
+	problem gȧr att implementera allt som krävs för att kunna köra Sphere 
+	Tracing, men möjligtvis även för andra typer av problem som bȧde är mycket
+	parallella men även iterativa/rekursiva och har lite mer komplicerade 
+	programflöden, vilket lätt skapar problem när de körs pȧ locksteppade 
+	arkitekturer.
+
+	[Bild Assembler]
+
+	Vi behövde ocksȧ kunna programmera GPU:n enkelt, och därför designade vi
+	ett assemblersprȧk ȧt den. Det ser ut som de flesta assemblersprȧk, men är
+	lite intressant pȧ grund av hȧrdvarustödet för trȧdar. Trȧdstödet gör
+	faktiskt assemblern lite mer ovanlig en enbart att det finns instruktioner
+	som hanterar trȧdar, det gorde även att vi kunde lȧta bli att implementera
+	jump-instruktioner, eftersom de kan ersättas genom att spawna en kopia av
+	den nuvarande trȧden med en instruktionspekare som pekar dit man vill
+	hoppa, följt av att man terminerar den nuvarande trȧden. Det lȧter dyrare 
+	än det behöver vara, 
 
 Square Roots:
 	
@@ -31,7 +96,49 @@ Square Roots:
 	högpresterande hårdvaruimplementering
 
 
+	F�r att kunna r�kna ut l�ngder till alla objekten i scenen beh�vdes roten ur anv�ndas.
+	Vi ins�g ganska snabbt att det det var en v�ldigt kr�vande operation, och om vi kunde
+	optimera implementationen av roten ur skulle det potentiellt kunna spara b�de tid och
+	area i GPU:n
+
+	*Bild fast approx
+
+	Vi hittade en snabb men grov approximering  som bara anv�nde sig utav en rad or-gatear.
+	Den utnyttjar det faktum att antalet bitar halveras vid roten ur, och ger e
+	En b�ttre approximering �r denna:
+
+	*Bild improved approx
+
+	Denna implementationen har fler or-gatear och deras placeringar �r baserat p� bit m�nstret
+	f�r roten ur 2.
+
+	lerp/babylonian?
+
+	shifting?
+
+	Hur h�g fel tolerans har d� sphere tracing? Hur exakt m�ste roten ur vara f�r sphere tracen skall fungera?
+	Det beror p� olika saker, vi har det satta epsilonet, str�ckan som avgjorde om vi var "tillr�ckligt"
+	n�ra f�r att s�ga att vi tr�ffat. Om vi har ett st�rre fel �n v�rt epsilon riskerar vi att overstepa och 
+	poteniellt missa objekt. 
+	Ett annat kritiskt tillf�lle d�r fel tolerans �r viktigt �r n�r vi r�knar ut normalen som vi anv�nder f�r
+	 att r�kna ut reflektioner och skuggor. F�r vi fel v�rde v�rde p� normalen riskerar vi att stega i fel riktning
+	och d� reflektera fel saker eller f� en missvisande skuggning.
+	
+
+	
+
+	
+	
+
 Conclusion:
 	
 	- More work needed on GPU for more meaningful conclusions
 	- Sphere Tracing has interesting properties
+
+	Sphere tracing har definitivt f�rdelar och nackdelar kontra polygon baserad rendering, och det finns fortfarande
+	mycket som kan g�ra sphere tracing b�ttre och snabbare. Vi har testat tv� optimeringar p� algoritmen och visat 
+	att dem �kar prestandan. Men vi tror att det finns mycket mer kvar att l�ra. 
+
+	Vi anser att det beh�vs l�ggas mer tid p� alla delar i projektet f�r att kunna g�r en realistisk bed�mning av 
+	potentialen i en GPU  byggd f�r Sphere Tracing algoritmen. Det vi har l�rt oss under v�rat utf�rande av 
+	projektet �r hur m�nga delar med Sphere tracing som �nnu �r outforskade.	
