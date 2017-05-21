@@ -25,6 +25,11 @@ Square Roots:
 	- Lerp/Babylonian
 	- Shifting nth root
 	- Sphere Tracing fault tolerance
+	
+	Vi jobbade även med Dijkstras square root algorithm som beräknar roten ur 
+	på en bit åt gången. Denna algorithm var ursprungligen inte så bra för en
+	högpresterande hårdvaruimplementering
+
 
 Conclusion:
 	
