@@ -115,11 +115,6 @@ Square Roots:
 	- Shifting nth root
 	- Sphere Tracing fault tolerance
 	
-	Vi jobbade Ã¤ven med Dijkstras square root algorithm som berÃ¤knar roten ur 
-	pÃ¥ en bit Ã¥t gÃ¥ngen. Denna algorithm var ursprungligen inte sÃ¥ bra fÃ¶r en
-	hÃ¶gpresterande hÃ¥rdvaruimplementering
-
-
 	För att kunna räkna ut längder till alla objekten i scenen behövdes roten ur användas.
 	Vi insåg ganska snabbt att det det var en väldigt krävande operation, och om vi kunde
 	optimera implementationen av roten ur skulle det potentiellt kunna spara både tid och
@@ -139,6 +134,10 @@ Square Roots:
 	lerp/babylonian?
 
 	shifting?
+	
+	Vi jobbade även med Dijkstras square root algorithm som beräknar roten ur 
+	på en bit åt gången. Denna algorithm var ursprungligen inte så bra för en
+	högpresterande hårdvaruimplementering.
 
 	Hur hög fel tolerans har då sphere tracing? Hur exakt måste roten ur vara för sphere tracen skall fungera?
 	Det beror på olika saker, vi har det satta epsilonet, sträckan som avgjorde om vi var "tillräckligt"
