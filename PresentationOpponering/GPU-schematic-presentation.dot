@@ -1,0 +1,115 @@
+digraph GPU
+{
+//graph [fontsize=3]
+bgcolor="transparent"
+fontsize=20;
+labelloc=top;
+nodesep="0.55";
+pad="0";
+//label="Sphere Tracing GPU Layout";
+edge [color=darkblue]
+//newrank=true
+//rankdir=LR
+splines=Ortho
+//compound=true
+//clusterrank=local
+{ 	rank=source; 
+	queue [label="Storage Manager",shape=box3d]; //, margin="0.2"
+}
+
+subgraph cluster_core1
+{	fontsize=16;
+	style=filled;
+	color=lightgrey;
+ 	//node [width=0.8,fixedsize=true];
+	subgraph cluster_core1_ROM
+	{	label = "ROM"
+		style=solid;
+		color=darkgreen;
+		//fillcolor=green;
+		node [shape=record];
+		data  [label="{Data Memory (32b)| {0|...|511}}"];
+		instr [label="{Instruction Memory (16b)| {0|...|511}}"];
+	}
+
+ 	node [shape=record];
+	stack [group=g1,label="Stack (32b)| {15|...|0}"];
+{ //rank=same;
+	reg [group=g1,label="{Registers (32b)| {0|...|15}}"];
+}
+
+//ICU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+
+	subgraph cluster_DFU
+	{ //rank=min;
+		label = "DFU"
+		style=solid;
+		color=darkgreen;
+			
+		ALU [shape=doubleoctagon,style=filled,color=black,fontcolor=white];
+		reg->stack [style=invis]
+		stack->instr [style=invis]
+	}
+
+
+	instr->data [style=invis]
+	reg->stack [style=invis]
+
+	edge [dir=both,constraint=false]
+	reg -> ALU [arrowsize=0.85]
+	stack -> ALU //[constraint=false]
+	edge [dir=single]
+	instr -> ALU
+	data -> ALU
+	//edge [constraint=true]
+	label = "Core #1";
+}
+
+//queue->pl [style=invis]
+{
+	//rank=min;
+
+subgraph cluster_core2
+{	fontsize=16;
+	style=filled;
+	color=lightgrey;
+	label = "Core #2";
+	//margin="0.0";
+	DFU2 [label="DFU",shape=box,style=solid,color=black,group=g3];
+}
+subgraph cluster_core3
+{	fontsize=16;
+	style=filled;
+	color=lightgrey;
+	label = "Core..";
+	DFU3 [label="DFU",shape=box,style=solid,color=black,group=g3];
+}
+
+	
+	FrameBuf [style=invis,label="\n\nFrame Buffer",shape=noverhang,height=0.1,labelfloat=true];
+}
+
+//DFU2->DFU3
+
+
+queue->reg
+queue->DFU2
+queue->DFU3
+
+ALU->queue
+DFU2->queue
+DFU3->queue
+
+ALU->FrameBuf
+DFU2->FrameBuf
+DFU3->FrameBuf
+}
+
+
+
+
+
+
+
+
+
