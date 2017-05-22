@@ -261,7 +261,7 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
-        André
+        
 
 Teori: 		Slide 3-7
         André
@@ -279,4 +279,4 @@ Sqrt:
 	Elias
 
 Conclusion:
-        André
+        
