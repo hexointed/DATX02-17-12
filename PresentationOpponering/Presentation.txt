@@ -9,10 +9,10 @@ Sphere Tracing:
 	(QS 2)
 	Detta kommer sig av att en grafikprocessor gjord för polygonrendering gör 
 	antaganden om att dess många kärnor gruppvis alltid arbetar med samma 
-	instruktion. Detta tillåter många kärnor att dela på instruktionsminne 
-	vilket gör det möjligt att få plats med fler kärnor på samma chip. Då 
-	Sphere Tracing arbetar med skilda loop-längder per stråle, så kan den på 
-	en konventionell GPU inte uppnå sin fulla potential.
+	instruktion.(peka på en grupp) Detta tillåter många kärnor att dela på 
+	instruktionsminne vilket gör det möjligt att få plats med fler kärnor på 
+	samma chip. Då Sphere Tracing arbetar med skilda loop-längder per stråle, 
+	så kan den på en konventionell GPU inte uppnå sin fulla potential.
 	
 	(QS 3)
 	/*Så varför just Sphere Tracing?  För att motivera vårt intresse börjar vi 
@@ -50,42 +50,46 @@ Sphere Tracing:
 	För att ytterligare öka metodens prestanda så har vi skapat och 
 	implementerat två slags optimeringar.
 
-	(QS 8 - Bild utan orthogonal culling)	- Ortogonal Culling	
-	Ortogonal Culling används för att minska antalet distansuträkningar som 
-	behöver göras per steg genom att räkna ut vilka	objekt i scenen som strålen 
-	aldrig kommer att träffa. Genom att ortogonalt projicera ett objekts 
-	centrumpunkt på strålen så kan man avgöra om objektet skär dess väg. 
-
-	(QS 9 - bild med orthogonal culling)		
-	Detta görs för alla objekt vid strålens början, vilket sedan gör att varje 
-	steg längs med denna får mycket färre beräkningar.	
+	- Ortogonal Culling	
+		(QS 8 - Bild utan orthogonal culling)	
+		Ortogonal Culling används för att minska antalet distansuträkningar som 
+		behöver göras per steg genom att räkna ut vilka	objekt i scenen som 
+		strålen aldrig kommer att träffa. Genom att ortogonalt projicera ett 
+		objekts centrumpunkt på strålen så kan man avgöra om objektet skär dess 
+		väg. 
+	
+		(QS 9 - bild med orthogonal culling)		
+		Detta görs för alla objekt vid strålens början, vilket medför att varje 
+		påföljande steg längs med denna kan skippa onödiga distansberäkningar.	
 	
 	- Bounding Sphere
-		(bild med bounding sphere)
+		(QS 10 - bild med bounding sphere)
 		Bounding Spheres används för att minska antalet uträkningar som 
 		behöver göras innan strålen är i närheten av objekt som den kanske
-		kommer träffa. Flera objekt placeras inuti en större sfär, 
-		istället för att räkna ut avståndet till alla objekt så används
-		bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
-		och alla objekt inuti används igen. 
-
-	- Software shader	
-
-		Optimiseringarna var implementerade och testade i en shader, ett program
+		kommer träffa. Flera objekt placeras inuti en större sfär, och
+		istället för att räkna ut avståndet till alla objekt så evalueras 
+		endast denna sfärs distansfunktion. Detta ger väldigt enkla beräkningar 
+		för varje steg fram tills att strålen skär den omslutande sfären. Först 
+		därefter behöver samtliga inneslutna objekts avstånd beräknas.
+	
+	- Software shader
+		(QS 11 - flowchart )
+		Optimeringarna är implementerade och testade i en shader, ett program
 		som körs på ett vanligt grafikkort. Det här flödesschemat beskriver 
-		grovt algoritmen på vår implementering. Anledningen till att Bounding 
+		grovt vår implementation av algoritmen. Den är implementerad dels i 
+		shader-språket GLSL och dels i vårt eget assembler-språk.
+		
+		/* Anledningen till att Bounding 
 		Spheres tekniken inte syns i flödesschemat är att det behandlas som ett
-		vanligt objekt.
-
-		berätta att dessa optimeringar är implementerade och testade i en sk 
-		shader, ett program som körs på en GPU i en vanlig speldator. 
-		(ge visuellt exempel med flowchart)		
+		vanligt objekt.*/
 
 	- Vad är då Sphere Tracing bra för?
 		Denna algoritm fungerar väldigt annorlunda än polygonrendering, och blir
 		därför intressant då den kan vara väldigt snabb på många
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
-		för. Exempel på detta visas här i vår §, som visar hur ytan på en
+		för. 
+		(QS 12 - film för poly-vs-dist)
+		Exempel på detta visas här i vår §, som visar hur ytan på en
 		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
 		kanter vid inzoomning, och skulle man öka antalet polygoner för att
 		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
@@ -107,20 +111,18 @@ Sphere Tracing:
 
 Processor:
 	
-	- Architecture overview
-	- Assembler
-
 	Utöver detta har vi också byggt en GPU, eftersom ett av målen med projektet
 	var att designa hårdvara som är gjord för Sphere Tracing. GPU:n som vi 
 	designade blev också en mer generell parallellprocessor, eftersom vi tyckte
 	att det ökade möjligheterna för att enkelt kunna implementera de 
 	optimeringar som vi diskuterade tidigare på processorn.
 
+	- Architecture overview
 	För arkitekturen i sig beslutade vi att lägga mindre fokus på lockstepping
 	än traditionella grafikkort, då alla rays kan variera kraftigt i antal
 	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vår GPU
 	har alltså lite mer kontrolllogik per beräkningsenhet än traditionella
-	grafikkort, men mindre, och därmed fler, kärnor än en CPU. Tillsammans med
+	grafikkort, men mindre, och därmed fler kärnor än en CPU. Tillsammans med
 	kärnorna behövs ett sätt att representera alla de strålar som behöver
 	beräknas. 
 
@@ -141,8 +143,8 @@ Processor:
 	programflöden, vilket lätt skapar problem när de körs på locksteppade 
 	arkitekturer.
 
+	- Assembler
 	[Bild Assembler]
-
 	Vi behövde också kunna programmera GPU:n enkelt, och därför designade vi
 	ett assemblerspråk åt den. Det ser ut som de flesta assemblerspråk, men är
 	lite intressant på grund av hårdvarustödet för trådar. Trådstödet gör
@@ -200,7 +202,7 @@ Square Roots:
 	för kostsamma. Men efter optimeringarna som vi gjorde (help) lyckades vi
 	minska kostanden för addition och subraktion.
 
-	Hur hög fel tolerans har då sphere tracing? Hur exakt måste kvadratroten vara
+	Hur hög feltolerans har då sphere tracing? Hur exakt måste kvadratroten vara
 	för att sphere tracen skall fungera?  Det beror på olika saker, vi har det
 	satta epsilonet, sträckan som avgjorde om vi var "tillräckligt" nära för
 	att säga att vi träffat. Om vi har ett större fel än vårt epsilon riskerar
@@ -215,7 +217,7 @@ Conclusion:
 	- More work needed on GPU for more meaningful conclusions
 	- Sphere Tracing has interesting properties
 
-	Sphere tracing har definitivt fördelar och nackdelar kontra polygon baserad
+	Sphere tracing har definitivt fördelar och nackdelar kontra polygonbaserad
 	rendering som xxx förklarade tidigare, och det finns fortfarande mycket som
 	kan göra sphere tracing bättre och snabbare.  Vi har testat två
 	optimeringar på algoritmen och visat att dem ökar prestandan. Vi tror att
@@ -228,4 +230,12 @@ Conclusion:
 	Tracing algoritmen. Det vi har lärt oss under vårat utförande av projektet
 	är hur många delar med Sphere tracing som ännu är outforskade.	
 
-	
+
+Indelning av presentationen	
+
+Introduktion:	Slide 1-2
+Teori: 			Slide 3-7
+Optimeringar:	Slide 8-11
+
+
+
