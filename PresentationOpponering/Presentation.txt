@@ -11,53 +11,55 @@ Sphere Tracing:
 	antaganden om att dess många kärnor gruppvis alltid arbetar med samma 
 	instruktion. Detta tillåter många kärnor att dela på instruktionsminne 
 	vilket gör det möjligt att få plats med fler kärnor på samma chip. Då 
-	Sphere Tracing arbetar med skiljda loop-längder per stråle, så kan den på 
+	Sphere Tracing arbetar med skilda loop-längder per stråle, så kan den på 
 	en konventionell GPU inte uppnå sin fulla potential.
 	
 	(QS 3)
-	Så varför just Sphere Tracing?  För att motivera vårt intresse börjar vi 
+	/*Så varför just Sphere Tracing?  För att motivera vårt intresse börjar vi 
 	med att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
-	algoritmen, som vi kom fram till under projektets utredningsfas.
+	algoritmen, som vi kom fram till under projektets utredningsfas.*/
 	
-	Vad är då Sphere Tracing?
-	
-	(- How Sphere Tracing works.)
-	
+	Vad är då Sphere Tracing?	
 	Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
 	grafikrenderingsmetod baserad på att projicera strålar, från en kamera, 
-	mot en uppsättning av 3D-Objekt. Det objekt som strålen träffar först 
-	avgör vilken färg den korresponderande pixeln på skärmen kommer att få. 
-	Detta kräver mycket datorkraft då man ofta måste lösa 
-	differentialekvationer för att hitta skärningspunkterna mellan strålen  
-	och objekten. Sphere Tracing är ett alternativ till att hitta denna 
+	mot en uppsättning av 3D-Objekt. 
+
+	(QS 4)
+	Det objekt som strålen träffar först avgör vilken färg den korresponderande 
+	pixeln på skärmen kommer att få. Detta kräver mycket datorkraft då man ofta 
+	måste lösa differentialekvationer för att hitta skärningspunkterna mellan 
+	strålen och objekten. 
+
+	(QS 5)
+	Sphere Tracing är ett alternativ till att hitta denna 
 	skärningspunkt, vilket görs genom att först definiera alla objekt som 
 	sk distansfunktioner. Dessa är funktioner som tar en given 3d-koordinat 
 	och returnerar avståndet till den punkt på funktionsytan som ligger 
-	närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
-	strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
-	( - visa bildserien som visar en stråla marchera genom terräng)
-				
+	närmast in-koordinaten. 
 
-	 - optimizations
-		Describe each
-		visa visuellt, demonstrera hastighetsförbättring?
+	(QS 6)
+	Detta gör att man kan hitta skärningspunkter genom 
+	att successivt stega sig längs strålen, där varje steglängd avgörs av 
+	nuvarande avstånd till närmsta objekt. 
 
-	- Orthogonal Culling
-		( - Bild utan orthogonal culling)
-		Orthogonal Culling används för att minska antalet distans-fält 
-		uträkningar som behöver göras per steg genom att räkna ut vilka
-		objekt i scenen som strålen kan träffa. Varje stråle följer en 
-		linje, genom att ortogonalt projicera objekts centrum på linjen
-		kan man räkna ut om de ligger framför strålen eller inte. Om 
-		objektet inte ligger framför strålen så slutar man räkna ut 
-		avståndet till det, för det kan inte träffas ändå.
+	(QS 7 - animation-bildserien som visar en stråle marschera genom terräng)
+	Trots att algoritmen alltså måste ta flera steg för att nå fram till en 
+	skärningspunkt, så är den beräkningsmässiga kostnaden totalt ändå mycket 
+	lägre än vid klassisk Ray Tracing.
+					
+	För att ytterligare öka metodens prestanda så har vi skapat och 
+	implementerat två slags optimeringar.
 
-		(bild med orthogonal culling)
+	(QS 8 - Bild utan orthogonal culling)	- Ortogonal Culling	
+	Ortogonal Culling används för att minska antalet distansuträkningar som 
+	behöver göras per steg genom att räkna ut vilka	objekt i scenen som strålen 
+	aldrig kommer att träffa. Genom att ortogonalt projicera ett objekts 
+	centrumpunkt på strålen så kan man avgöra om objektet skär dess väg. 
 
-		Här syns skillnaden som blir när tekniken används, de flesta objekten
-		ignoreras.
-
-
+	(QS 9 - bild med orthogonal culling)		
+	Detta görs för alla objekt vid strålens början, vilket sedan gör att varje 
+	steg längs med denna får mycket färre beräkningar.	
+	
 	- Bounding Sphere
 		( - bild med bounding sphere)
 		Bounding Spheres används för att minska antalet uträkningar som 
@@ -66,7 +68,6 @@ Sphere Tracing:
 		istället för att räkna ut avståndet till alla objekt så används
 		bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
 		och alla objekt inuti används igen. 
-
 
 	- Software shader	
 
