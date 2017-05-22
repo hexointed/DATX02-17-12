@@ -31,7 +31,7 @@ generate:
 	sub
 	a setval 1 0
 
-	nz 0 pushq
+	nz pushq
 
 	val &calcpos
 	a setval 0 0
