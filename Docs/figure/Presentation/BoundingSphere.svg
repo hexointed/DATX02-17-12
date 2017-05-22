@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -44,13 +44,13 @@
      inkscape:window-height="1017"
      id="namedview156"
      showgrid="false"
-     inkscape:zoom="0.45254834"
-     inkscape:cx="1006.4165"
-     inkscape:cy="973.06582"
+     inkscape:zoom="1"
+     inkscape:cx="1581.0935"
+     inkscape:cy="411.86568"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg154" />
+     inkscape:current-layer="g150" />
   <defs
      id="defs32">
     <path
@@ -215,7 +215,7 @@
         <use
            xlink:href="#cmRep2IxF"
            id="use50"
-           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           style="opacity:1;fill:#298187;fill-opacity:0.39215687"
            x="0"
            y="0"
            width="100%"
@@ -313,11 +313,12 @@
         </g>
       </g>
       <g
-         id="g106">
+         id="g106"
+         transform="matrix(1.5129755,0,0,1,-218.16937,20.019531)">
         <use
            xlink:href="#cehU6S9hA"
            id="use104"
-           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           style="opacity:1;fill:#298187;fill-opacity:0.39215686"
            x="0"
            y="0"
            width="100%"
@@ -325,7 +326,7 @@
       </g>
       <g
          id="b42Ki8X5bQ"
-         transform="translate(-6.711522,4.3145499)">
+         transform="translate(21.472072,22.732519)">
         <use
            xlink:href="#k4A5PhtzVA"
            id="use108"
@@ -336,7 +337,8 @@
            height="100%" />
       </g>
       <g
-         id="g117">
+         id="g117"
+         transform="matrix(1.5129755,0,0,1,-218.16937,21.452031)">
         <use
            xlink:href="#b1e8fAV6YT"
            id="use115"
@@ -348,7 +350,7 @@
       </g>
       <g
          id="b1LPfq0sR2"
-         transform="translate(-5.7527331,3.355761)">
+         transform="translate(21.239454,25.133105)">
         <use
            xlink:href="#d1M7Uiunci"
            id="use119"
@@ -364,7 +366,7 @@
         <use
            xlink:href="#cmRep2IxF"
            id="use50-3"
-           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           style="opacity:1;fill:#298187;fill-opacity:0.39215687"
            x="0"
            y="0"
            width="100%"
