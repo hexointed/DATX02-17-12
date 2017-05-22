@@ -43,7 +43,7 @@ Sphere Tracing:
 		visa visuellt, demonstrera hastighetsförbättring?
 
 	- Orthogonal Culling
-		(Bild utan orthogonal culling)
+		( - Bild utan orthogonal culling)
 		Orthogonal Culling används för att minska antalet distans-fält 
 		uträkningar som behöver göras per steg genom att räkna ut vilka
 		objekt i scenen som strålen kan träffa. Varje stråle följer en 
@@ -59,7 +59,7 @@ Sphere Tracing:
 
 
 	- Bounding Sphere
-		(bild med bounding sphere)
+		( - bild med bounding sphere)
 		Bounding Spheres används för att minska antalet uträkningar som 
 		behöver göras innan strålen är i närheten av objekt som den kanske
 		kommer träffa. Flera objekt placeras inuti en större sfär, 
@@ -74,11 +74,7 @@ Sphere Tracing:
 		som körs på ett vanligt grafikkort. Det här flödesschemat beskriver 
 		grovt algoritmen på vår implementering. Anledningen till att Bounding 
 		Spheres tekniken inte syns i flödesschemat är att det behandlas som ett
-		vanligt objekt.
-
-		berätta att dessa optimeringar är implementerade och testade i en sk 
-		shader, ett program som körs på en GPU i en vanlig speldator. 
-		(ge visuellt exempel med flowchart)		
+		vanligt objekt.		
 
 	- Vad är då Sphere Tracing bra för?
 		Denna algoritm fungerar väldigt annorlunda än polygonrendering, och blir
