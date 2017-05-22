@@ -261,17 +261,20 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
-
+	Jon
 Teori: 			Slide 3-7
 
 Optimeringar:	Slide 8-11
+	Jon
 
 Demonstration:	Slide 12-13
+	Jon?
 
 Hȧrdvara:
 	Elias
 
 Sqrt:
 	Elias
+	Jon - 2 sista paragraferna
 
 Conclusion:
