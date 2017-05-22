@@ -9,9 +9,12 @@ Sphere Tracing:
 	(QS 2)
 	Detta kommer sig av att en grafikprocessor gjord för polygonrendering gör 
 	antaganden om att dess många kärnor gruppvis alltid arbetar med samma 
-	instruktion.(peka på en grupp) Detta kallas lockstepping och tillåter många kärnor att 
-	dela på instruktionsminne vilket gör det möjligt att få plats med fler kärnor på 
-	samma chip. Då Sphere Tracing arbetar med skilda loop-längder per stråle, 
+	instruktion.(peka på en grupp) Detta kallas lockstepping och tillåter att 
+	många kärnor
+	delar instruktionsminne, vilket gör det möjligt att få plats med fler 
+	kärnor på 
+	ett och samma chip. Då Sphere Tracing arbetar med skilda loop-längder per 
+	stråle, 
 	så kan den på en konventionell GPU inte uppnå sin fulla potential.
 	
 	(QS 3)
@@ -25,21 +28,25 @@ Sphere Tracing:
 	mot en uppsättning av 3D-Objekt. 
 
 	(QS 4)
-	Det objekt som strålen träffar först avgör vilken färg den korresponderande 
-	pixeln på skärmen kommer att få. Detta kräver mycket datorkraft då man ofta 
-	måste lösa differentialekvationer för att hitta skärningspunkterna mellan 
-	strålen och objekten. 
+	Det objekt som strålen träffar först avgör vilken färg den motsvarande 
+	pixeln på 
+	skärmen kommer att få. Detta kräver mycket datorkraft då man ofta måste 
+	lösa 
+	differentialekvationer för att hitta skärningspunkterna mellan strålen och 
+	objekten. 
 
 	(QS 5)
 	Sphere Tracing är ett alternativ till att hitta denna 
 	skärningspunkt, vilket görs genom att först definiera alla objekt som 
 	sk distansfunktioner. Dessa är funktioner som tar en given 3d-koordinat 
-	och returnerar avståndet till den punkt på funktionsytan som ligger 
-	närmast in-koordinaten. 
+	och returnerar avståndet till den punkt på objektet som ligger 
+	närmast input-koordinaten. De blåa punkterna är alltså input-koordinater 
+	och längden på 
+	den röda linjen är det minsta avståndet till objektets yta.
 
 	(QS 6)
 	Detta gör att man kan hitta skärningspunkter genom 
-	att successivt stega sig längs strålen, där varje steglängd avgörs av 
+	att successivt stega sig längs med strålen, där varje steglängd avgörs av 
 	nuvarande avstånd till närmsta objekt. 
 
 	(QS 7 - animation-bildserien som visar en stråle marschera genom terräng)
@@ -48,7 +55,7 @@ Sphere Tracing:
 	lägre än vid klassisk Ray Tracing.
 					
 	För att ytterligare öka metodens prestanda så har vi skapat och 
-	implementerat två slags optimeringar.
+	implementerat två olika optimeringar.
 
 	- Ortogonal Culling	
 		(QS 8 - Bild utan orthogonal culling)	
@@ -74,10 +81,11 @@ Sphere Tracing:
 	
 	- Software shader
 		(QS 11 - flowchart )
-		Optimeringarna är implementerade och testade i en shader, ett program
-		som körs på ett vanligt grafikkort. Det här flödesschemat beskriver 
-		grovt vår implementation av algoritmen. Den är implementerad dels i 
+		Optimeringarna är implementerade och testade i sk shaders, dvs program
+		som körs på en grafikprocessor. Den är implementerad dels i 
 		shader-språket GLSL och dels i vårt eget assembler-språk.
+		Det här flödesschemat beskriver 
+		grovt vår implementation av algoritmen. 
 		
 		/* Anledningen till att Bounding 
 		Spheres tekniken inte syns i flödesschemat är att det behandlas som ett
@@ -88,18 +96,22 @@ Sphere Tracing:
 		därför intressant då den kan vara väldigt snabb på många
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
 		för. 
-		(QS 12 - startframe i film för poly-vs-dist)
-		Exempel på detta visas här i vår §, som visar hur ytan på en
-		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
+			(QS 12 - startframe i film för poly-vs-dist)
+		Exempel på detta visas här i vår GLSL-shader, som visar hur ytan på en
+		sfär kan se mjuk ut, oavsett zoom-nivå. 
+			(inzoomning av 2 sfärer närbild, tala vidare direkt)
+		I polygonmodellen syns skarpa
 		kanter vid inzoomning, och skulle man öka antalet polygoner för att
 		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
 		mycket. 
-		(inzoomning av 2 sfärer närbild)
 		
-		(QS 13 - Bild på 2 statiska reflektiva metabollar, första frame i anim)
-		mjuk geometri sammansmältning av objekt kan göras genom att vikta ihop 
-		distansfunktionerna för två olika objekt.
-		(Spela animationen till mitten)
+		
+			(QS 13 - Bild på 2 statiska reflektiva metabollar, första frame i 
+			anim)
+		Mjuk sammansmältning av objekt kan göras genom att vikta ihop 
+		distansfunktionerna 
+		för två olika objekt.
+			(Spela animationen till mitten)
 		
 		Äkta reflektioner och refraktioner är enkla att beräkna genom att beräkna 
 		reflektionsvektorn och starta om loopen vid reflektionspunkten.
@@ -121,11 +133,13 @@ Sphere Tracing:
 
 Processor:
 	(QS 14)
-	Utöver detta har vi också byggt en GPU, eftersom ett av målen med projektet
+	Vi har även byggt en GPU, eftersom ett av målen med projektet
 	var att designa hårdvara som är gjord för Sphere Tracing. GPU:n som vi 
-	designade blev också en mer generell parallellprocessor, eftersom vi tyckte
-	att det ökade möjligheterna för att enkelt kunna implementera de 
-	optimeringar som vi diskuterade tidigare på processorn.
+	designade blev mer utav en generell parallellprocessor, än vi först tänkt 
+	oss.  
+	Anledingen till det, var att vi bedömde att det ökade möjligheterna för att 
+	enkelt 
+	kunna implementera de optimeringar som tidigare nämnts.
 
 	- Architecture overview
 	För arkitekturen i sig beslutade vi att lägga mindre fokus på lockstepping
@@ -136,6 +150,7 @@ Processor:
 	kärnorna behövs ett sätt att representera alla de strålar som behöver
 	beräknas. 
 
+	(QS 15 Bild Arkitektur)
 	Vi ville också, om möjligt, kunna skapa nya strålar on demand för att
 	enkelt kunna implementera t.ex. reflektioner och refraktioner, som är
 	relativt enkla att göra med raymarching, och som vore tråkiga att gå miste
@@ -144,7 +159,6 @@ Processor:
 	trådar. Sedan lade vi till en kö som alla kärnor kunde kommunicera med, där
 	kärnorna kan lägga upp nya trådar, och hämta trådar för att börja exekvera.
 
-	[Bild Arkitektur]
 
 	Detta visade sig vara en ganska användbar arkitektur som det utan större
 	problem går att implementera allt som krävs för att kunna köra Sphere 
@@ -156,8 +170,8 @@ Processor:
 	- Assembler
 	[Bild Assembler]
 	Vi behövde också kunna programmera GPU:n enkelt, och därför designade vi
-	ett assemblerspråk åt den. Det ser ut som de flesta assemblerspråk, men är
-	lite intressant på grund av hårdvarustödet för trådar. Trådstödet gör
+	ett assemblerspråk åt den. Det liknar de flesta assemblerspråken, men är
+	lite intressant tack vare hårdvarustödet för trådar. Trådstödet gör
 	faktiskt assemblern lite mer ovanlig en enbart att det finns instruktioner
 	som hanterar trådar, det gjorde även att vi kunde låta bli att implementera
 	jump-instruktioner, eftersom de kan ersättas genom att skapa en kopia av
@@ -167,7 +181,7 @@ Processor:
 	klockcykler pȧ grund av att trȧden först mȧste skickas till den globala
 	trȧdlagringen och sedan tillbaka, men det är ocksȧ möjligt att ge varje
 	kärna möjligheten att känna igen kombinationen pushq drop, eller lägga till
-	en synonym instruktion till denna kombination  och dȧ inte behöver skicka
+	en synonym instruktion till denna kombination och dȧ inte behöver skicka
 	iväg trȧden frȧn kärnan.
 	
 
@@ -218,8 +232,8 @@ Square Roots:
 	för kostsamma. Men efter optimeringarna som vi gjorde lyckades vi minska
 	kostanden för addition och subraktion.
 
-	Hur hög fel tolerans har då sphere tracing? Hur exakt måste kvadratroten
-	vara för att sphere tracen skall fungera?  Det beror på olika saker, vi har
+	Hur hög feltolerans har då sphere tracing? Hur exakt måste kvadratroten
+	vara för att sphere tracern skall fungera?  Det beror på olika saker, vi har
 	det satta epsilonet, sträckan som avgjorde om vi var "tillräckligt" nära
 	för att säga att vi träffat. Om vi har ett större fel än vårt epsilon
 	riskerar vi att overstepa och poteniellt missa objekt.  Ett annat kritiskt
@@ -247,13 +261,13 @@ Conclusion:
 	Sphere tracing har definitivt fördelar och nackdelar kontra polygonbaserad
 	rendering som xxx förklarade tidigare, och det finns fortfarande mycket som
 	kan göra sphere tracing bättre och snabbare.  Vi har testat två
-	optimeringar på algoritmen och visat att dem ökar prestandan. Vi tror att
+	optimeringar på algoritmen och visat att de ökar prestandan. Vi tror att
 	vi kan öka prestandan ännu mer om man låter CPUn göra delar av
-	uträkningarna istället för GPUn.  Men vi tror att det finns mycket mer kvar
+	uträkningarna istället för GPUn.  Vi tror att det finns mycket mer kvar
 	att lära. 
 
 	Vi anser att det behövs läggas mer tid på alla delar i projektet för att
-	kunna gör en realistisk bedömning av potentialen i en GPU  byggd för Sphere
+	kunna gör en välgrundad bedömning av potentialen i en GPU  byggd för Sphere
 	Tracing algoritmen. Det vi har lärt oss under vårat utförande av projektet
 	är hur många delar med Sphere tracing som ännu är outforskade.	
 
@@ -261,22 +275,33 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
-	Jon
+	Jon, 1
 Teori: 			Slide 3-7
-	André
+	André, 1.5
 
 Optimeringar:	Slide 8-11
-	Jon
+	Jon, 1.5
 
 Demonstration:	Slide 12-13
-    André
+    André, 2.5
 
-Hȧrdvara:
-	Elias
+Hȧrdvara:		Slide 14
+	Processorarkitektur-intro (QS 15): Chi, 1min
+	Arkitektur+assembler: 	Elias, 3min
 
 Sqrt:
-	Elias
-	Jon - 2 sista paragraferna
+	Elias - 5 min
+	2 sista paragraferna: Jon, 1.75
 
 Conclusion:
+	Chi, 1
         
+        
+Jon: 1+1.5+1.75 = 4.25
+André: 1.5+2.5	= 4
+Chi: 1+1		= 2
+Elias: 3+5		= 8
+
+
+total tid
+4.25+4+2+8
