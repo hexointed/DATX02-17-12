@@ -35,19 +35,19 @@ Sphere Tracing:
 		shader, ett program som körs på en GPU i en vanlig speldator. 
 		(ge visuellt exempel med flowchart)		
 
-	- Vad är då Sphere tracing bra för?
-		Denna algoritm fungerar väldigt annorlunda än polyonrendering, och blir
+	- Vad är då Sphere Tracing bra för?
+		Denna algoritm fungerar väldigt annorlunda än polygonrendering, och blir
 		därför intressant då den kan vara väldigt snabb på många
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
 		för. Exempel på detta visas här i vår shader, som visar hur ytan på en
 		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
 		kanter vid inzoomning, och skulle man öka antalet polygoner för att
 		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
-		mycket. (visa inzoomning av 2 sfärer närbild), smooth geometry blending
-		between objects (kan visas med metabollarna), äkta
-		reflektion/refraction (visa nån fin interreflektion, t.ex i
+		mycket. (visa inzoomning av 2 sfärer närbild), 
+		mjuk geometri-blending mellan objekt (kan visas med metabollarna), äkta
+		reflektion/refraktion (visa nån fin interreflektion, t.ex i
 		metabollarna), 
-		[permutable geometry repetition]
+		[permuterbar geometrirepetition]
 			Även repetition av objekt i alla dimensioner går att göra med en 
 			fast hastighetskostnad, till skillnad från det klassiska fallet som 
 			har en linjärt ökande kostnad för antal utritade objekt. Varje 
@@ -64,47 +64,47 @@ Processor:
 	- Architecture overview
 	- Assembler
 
-	Utöver detta har vi ocksȧ byggt en GPU, eftersom ett av mȧlen med projektet
-	var att designa hȧrdvara som är gjord för Sphere Tracing. GPU:n som vi 
-	designade blev ocksȧ en mer generell parallellprocessor, eftersom vi tyckte
+	Utöver detta har vi också byggt en GPU, eftersom ett av målen med projektet
+	var att designa hårdvara som är gjord för Sphere Tracing. GPU:n som vi 
+	designade blev också en mer generell parallellprocessor, eftersom vi tyckte
 	att det ökade möjligheterna för att enkelt kunna implementera de 
-	optimeringar som vi disskuterade tidigare pȧ processorn.
+	optimeringar som vi diskuterade tidigare på processorn.
 
-	För arkitekturen i sig beslutade vi att lägga mindre fokus pȧ lockstepping
-	än traditionella grafikkort, dȧ alla rays kan variera kraftigt i antal
-	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vȧr GPU
-	har altsȧ lite mer kontrolllogik per beräkningsenhet än traditionella
+	För arkitekturen i sig beslutade vi att lägga mindre fokus på lockstepping
+	än traditionella grafikkort, då alla rays kan variera kraftigt i antal
+	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vår GPU
+	har alltså lite mer kontrolllogik per beräkningsenhet än traditionella
 	grafikkort, men mindre, och därmed fler, kärnor än en CPU. Tillsammans med
-	kärnorna behövs ett sätt att representera alla de strȧlar som behöver
+	kärnorna behövs ett sätt att representera alla de strålar som behöver
 	beräknas. 
 
-	Vi ville ocksȧ, om möjligt, kunna skapa nya strȧlar on demand för att
-	enkelt kunna implementera tex reflektioner och refraktioner, som är
-	relativt enkla att göra med raymarching, och som vore trȧkiga att gȧ miste
-	om. Vi valde därför att designa GPU:n sȧ att alla shaders som kör pȧ den
-	kör i en slags trȧdar, och att varje trȧd fȧr möjligheten att spawna nya
-	trȧdar. Sedan lade vi till en kö som alla kärnor kunde kommunicera med, där
-	kärnorna kan lägga upp nya trȧdar, och hämta trȧdar för att börja exekvera.
+	Vi ville också, om möjligt, kunna skapa nya strålar on demand för att
+	enkelt kunna implementera t.ex. reflektioner och refraktioner, som är
+	relativt enkla att göra med raymarching, och som vore tråkiga att gå miste
+	om. Vi valde därför att designa GPU:n så att alla shaders som kör på den
+	kör i en slags trådar, och att varje tråd får möjligheten att skapa nya
+	trådar. Sedan lade vi till en kö som alla kärnor kunde kommunicera med, där
+	kärnorna kan lägga upp nya trådar, och hämta trådar för att börja exekvera.
 
 	[Bild Arkitektur]
 
 	Detta visade sig vara en ganska användbar arkitektur som det utan större
-	problem gȧr att implementera allt som krävs för att kunna köra Sphere 
-	Tracing, men möjligtvis även för andra typer av problem som bȧde är mycket
+	problem går att implementera allt som krävs för att kunna köra Sphere 
+	Tracing, men möjligtvis även för andra typer av problem som både är mycket
 	parallella men även iterativa/rekursiva och har lite mer komplicerade 
-	programflöden, vilket lätt skapar problem när de körs pȧ locksteppade 
+	programflöden, vilket lätt skapar problem när de körs på locksteppade 
 	arkitekturer.
 
 	[Bild Assembler]
 
-	Vi behövde ocksȧ kunna programmera GPU:n enkelt, och därför designade vi
-	ett assemblersprȧk ȧt den. Det ser ut som de flesta assemblersprȧk, men är
-	lite intressant pȧ grund av hȧrdvarustödet för trȧdar. Trȧdstödet gör
+	Vi behövde också kunna programmera GPU:n enkelt, och därför designade vi
+	ett assemblerspråk åt den. Det ser ut som de flesta assemblerspråk, men är
+	lite intressant på grund av hårdvarustödet för trådar. Trådstödet gör
 	faktiskt assemblern lite mer ovanlig en enbart att det finns instruktioner
-	som hanterar trȧdar, det gorde även att vi kunde lȧta bli att implementera
-	jump-instruktioner, eftersom de kan ersättas genom att spawna en kopia av
-	den nuvarande trȧden med en instruktionspekare som pekar dit man vill
-	hoppa, följt av att man terminerar den nuvarande trȧden. Det lȧter dyrare 
+	som hanterar trådar, det gjorde även att vi kunde låta bli att implementera
+	jump-instruktioner, eftersom de kan ersättas genom att skapa en kopia av
+	den nuvarande tråden med en instruktionspekare som pekar dit man vill
+	hoppa, följt av att man terminerar den nuvarande tråden. Det låter dyrare 
 	än det behöver vara, 
 
 Square Roots:
