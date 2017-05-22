@@ -14,7 +14,7 @@
    width="2048"
    height="2048"
    id="svg154"
-   sodipodi:docname="BoundingSphereVec.svg"
+   sodipodi:docname="BoundingSphere.svg"
    inkscape:version="0.92.1 r15371"
    inkscape:export-filename="D:\skola\Kandidatarbete\Docs\figure\Presentation\BoundingSphere.png"
    inkscape:export-xdpi="96"
@@ -27,6 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -37,19 +38,19 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      id="namedview156"
      showgrid="false"
-     inkscape:zoom="0.32593203"
-     inkscape:cx="925.96428"
-     inkscape:cy="786.77283"
+     inkscape:zoom="0.45254834"
+     inkscape:cx="1006.4165"
+     inkscape:cy="973.06582"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="svg154" />
   <defs
      id="defs32">
     <path
@@ -171,128 +172,131 @@
        id="b1gWnVCgox" />
   </defs>
   <g
-     id="g152">
+     id="g152"
+     inkscape:label="g152">
     <g
-       inkscape:groupmode="layer"
-       id="layer1"
-       inkscape:label="Background">
-      <rect
-         style="fill:#ffffff;stroke-width:0.3125"
-         id="rect3843"
-         width="666.35828"
-         height="663.48193"
-         x="-20.134565"
-         y="-11.017634" />
-    </g>
-    <g
-       id="g150">
+       id="g150"
+       transform="translate(-1.5580319)">
       <g
          id="g36">
         <use
            xlink:href="#a49pDFF2vJ"
            id="use34"
-           fill-opacity="1"
-           fill="#000000"
-           opacity="1" />
+           style="opacity:1;fill:#000000;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g40">
         <use
            xlink:href="#c3ET3w2pb"
            id="use38"
-           fill-opacity="1"
-           fill="#000000"
-           opacity="1" />
+           style="opacity:1;fill:#000000;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g44">
         <use
            xlink:href="#c2cVi7AvFU"
            id="use42"
-           fill-opacity="1"
-           fill="#000000"
-           opacity="1" />
-      </g>
-      <g
-         id="g48">
-        <use
-           xlink:href="#ai4ihFuzH"
-           id="use46"
-           fill-opacity="1"
-           fill="#298187"
-           opacity="0.25" />
+           style="opacity:1;fill:#000000;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g52">
         <use
            xlink:href="#cmRep2IxF"
            id="use50"
-           fill-opacity="1"
-           fill="#298187"
-           opacity="0.25" />
+           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g56">
         <use
            xlink:href="#d8KcJwcLhV"
            id="use54"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g60">
         <use
            xlink:href="#ad1H3ixj"
            id="use58"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g64">
         <use
            xlink:href="#e7jcHriktx"
            id="use62"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g68">
         <use
            xlink:href="#hXGEKgVyn"
            id="use66"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g72">
         <use
            xlink:href="#f1YCuwQirV"
            id="use70"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g76">
         <use
            xlink:href="#a19ttDEAGH"
            id="use74"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g80">
         <use
            xlink:href="#e39hLVZ8Pe"
            id="use78"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="g86">
@@ -301,51 +305,11 @@
           <use
              xlink:href="#a3IJE8iOwg"
              id="use82"
-             stroke-opacity="1"
-             stroke-width="1"
-             stroke="#000000"
-             fill-opacity="0"
-             opacity="1" />
-        </g>
-      </g>
-      <g
-         id="g94">
-        <use
-           xlink:href="#c8ivMP4TyH"
-           id="use88"
-           fill-opacity="1"
-           fill="#000000"
-           opacity="0.19" />
-        <g
-           id="g92">
-          <use
-             xlink:href="#c8ivMP4TyH"
-             id="use90"
-             stroke-opacity="1"
-             stroke-width="1"
-             stroke="#5e6fdf"
-             fill-opacity="0"
-             opacity="0.19" />
-        </g>
-      </g>
-      <g
-         id="g102">
-        <use
-           xlink:href="#auxJ4spWj"
-           id="use96"
-           fill-opacity="1"
-           fill="#030808"
-           opacity="0.19" />
-        <g
-           id="g100">
-          <use
-             xlink:href="#auxJ4spWj"
-             id="use98"
-             stroke-opacity="1"
-             stroke-width="1"
-             stroke="#5e6fdf"
-             fill-opacity="0"
-             opacity="0.19" />
+             style="opacity:1;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-opacity:1"
+             x="0"
+             y="0"
+             width="100%"
+             height="100%" />
         </g>
       </g>
       <g
@@ -353,9 +317,11 @@
         <use
            xlink:href="#cehU6S9hA"
            id="use104"
-           fill-opacity="1"
-           fill="#298187"
-           opacity="0.25" />
+           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="b42Ki8X5bQ"
@@ -370,22 +336,15 @@
            height="100%" />
       </g>
       <g
-         id="g113">
-        <use
-           xlink:href="#bagsrSdEC"
-           id="use111"
-           fill-opacity="1"
-           fill="#0018ff"
-           opacity="1" />
-      </g>
-      <g
          id="g117">
         <use
            xlink:href="#b1e8fAV6YT"
            id="use115"
-           fill-opacity="1"
-           fill="#aa1e1e"
-           opacity="1" />
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
          id="b1LPfq0sR2"
@@ -400,72 +359,228 @@
            height="100%" />
       </g>
       <g
-         id="g128">
+         id="g52-8"
+         transform="rotate(-60.97895,519.53385,628.46466)">
         <use
-           xlink:href="#fIUXcjFsL"
-           id="use122"
-           fill-opacity="1"
-           fill="#030808"
-           opacity="0.19" />
-        <g
-           id="g126">
-          <use
-             xlink:href="#fIUXcjFsL"
-             id="use124"
-             stroke-opacity="1"
-             stroke-width="1"
-             stroke="#5e6fdf"
-             fill-opacity="0"
-             opacity="0.19" />
-        </g>
+           xlink:href="#cmRep2IxF"
+           id="use50-3"
+           style="opacity:0.25;fill:#298187;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
-         id="g132">
+         id="g60-2"
+         transform="rotate(-60.97895,534.6186,602.84508)">
         <use
-           xlink:href="#g1csY0v3bs"
-           id="use130"
-           fill-opacity="1"
-           fill="#0018ff"
-           opacity="1" />
+           xlink:href="#ad1H3ixj"
+           id="use58-1"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
-         id="g136">
+         id="g64-9"
+         transform="rotate(-60.97895,510.15283,623.32879)">
         <use
-           xlink:href="#b8CGatSp"
-           id="use134"
-           fill-opacity="1"
-           fill="#0018ff"
-           opacity="1" />
+           xlink:href="#e7jcHriktx"
+           id="use62-3"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
-         id="g144">
+         id="g68-3"
+         transform="rotate(-60.97895,519.53385,628.46466)" />
+      <g
+         id="g72-2"
+         transform="matrix(0.82974676,-0.87444153,1.4956067,0.48513092,-547.16954,690.76035)">
         <use
-           xlink:href="#j1fAIjgdvK"
-           id="use138"
-           fill-opacity="1"
-           fill="#030808"
-           opacity="0.19" />
-        <g
-           id="g142">
-          <use
-             xlink:href="#j1fAIjgdvK"
-             id="use140"
-             stroke-opacity="1"
-             stroke-width="1"
-             stroke="#5e6fdf"
-             fill-opacity="0"
-             opacity="0.19" />
-        </g>
+           xlink:href="#f1YCuwQirV"
+           id="use70-6"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
       <g
-         id="g148">
+         id="g76-5"
+         transform="rotate(-60.97895,495.92654,621.1549)">
         <use
-           xlink:href="#b1gWnVCgox"
-           id="use146"
-           fill-opacity="1"
-           fill="#0018ff"
-           opacity="1" />
+           xlink:href="#a19ttDEAGH"
+           id="use74-1"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
       </g>
+      <g
+         id="g80-0"
+         transform="rotate(-60.97895,544.31895,695.00405)">
+        <use
+           xlink:href="#e39hLVZ8Pe"
+           id="use78-8"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g64-9-8"
+         transform="matrix(-0.04276074,-1.7735018,0.99908534,-0.07590567,-110.08554,1360.5198)">
+        <use
+           xlink:href="#e7jcHriktx"
+           id="use62-3-4"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g72-2-7"
+         transform="matrix(0.53700856,-0.58320285,0.96795029,0.32355477,-186.95902,643.10657)">
+        <use
+           xlink:href="#f1YCuwQirV"
+           id="use70-6-9"
+           style="opacity:1;fill:#aa1e1e;fill-opacity:1"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g136-6"
+         transform="translate(-119.13586,-0.47644325)" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:2.09223032;stroke-opacity:0"
+         id="path4802-5"
+         cx="90.913498"
+         cy="288.68164"
+         rx="102.86665"
+         ry="100.55503" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:1.34816229;stroke-opacity:0"
+         id="path4802-5-9"
+         cx="194.04437"
+         cy="289.20874"
+         rx="66.283783"
+         ry="64.79425" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:1.43865705;stroke-opacity:0"
+         id="path4802-5-9-2"
+         cx="260.59125"
+         cy="288.92578"
+         rx="70.733047"
+         ry="69.143532" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:0.96675497;stroke-opacity:0"
+         id="path4802-5-9-2-6"
+         cx="331.63617"
+         cy="288.92578"
+         rx="47.531498"
+         ry="46.463367" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:1.13014841;stroke-opacity:0"
+         id="path4802-5-9-2-6-5"
+         cx="379.48773"
+         cy="288.92578"
+         rx="55.564903"
+         ry="54.316238" />
+      <ellipse
+         style="opacity:0.18999999;fill:#280b0b;fill-opacity:1;stroke:#000000;stroke-width:0.38630855;stroke-opacity:0"
+         id="path4802-5-9-2-6-5-7"
+         cx="435.51801"
+         cy="289.04785"
+         rx="18.993256"
+         ry="18.566437" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 1">
+    <g
+       id="g136-2"
+       transform="translate(-204.06955,-0.21749282)">
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(17.578125,0.24414063)" />
+    </g>
+    <g
+       id="g136-2-3"
+       transform="translate(-137.32699,-0.48629055)">
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9-5"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(17.578125,0.24414063)" />
+    </g>
+    <g
+       id="g136-2-3-6"
+       transform="translate(-66.159999,-0.60836068)">
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9-5-3"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(17.578125,0.24414063)" />
+    </g>
+    <g
+       id="g136-2-3-6-7"
+       transform="translate(-18.674647,-0.48629055)">
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9-5-3-9"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(17.578125,0.24414063)" />
+    </g>
+    <g
+       id="g136-2-3-6-7-5"
+       transform="translate(37.477697,-0.60836086)">
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9-5-3-9-5"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(17.578125,0.24414063)" />
+      <use
+         xlink:href="#b8CGatSp"
+         id="use134-9-5-3-9-5-3"
+         style="opacity:1;fill:#0018ff;fill-opacity:1"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%"
+         transform="translate(37.111537,0.26815432)" />
     </g>
   </g>
 </svg>
