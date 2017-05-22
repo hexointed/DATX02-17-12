@@ -110,7 +110,7 @@ Sphere Tracing:
 		tredimensionella material,  (kanske bara skriva dessa i text på slides)
 
 Processor:
-	
+
 	Utöver detta har vi också byggt en GPU, eftersom ett av målen med projektet
 	var att designa hårdvara som är gjord för Sphere Tracing. GPU:n som vi 
 	designade blev också en mer generell parallellprocessor, eftersom vi tyckte
@@ -251,8 +251,15 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
+
 Teori: 			Slide 3-7
+
 Optimeringar:	Slide 8-11
 
+Hȧrdvara:
+	Elias
 
+Sqrt:
+	Elias
 
+Conclusion:
