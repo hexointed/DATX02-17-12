@@ -261,7 +261,7 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
-Teori: 			Slide 3-7
+Teori: 		Slide 3-7
 Optimeringar:	Slide 8-11
 Demonstration:	Slide 12-13
 
