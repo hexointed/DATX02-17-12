@@ -19,6 +19,8 @@ Sphere Tracing:
 	med att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
 	algoritmen, som vi kom fram till under projektets utredningsfas.
 	
+	Vad är då Sphere Tracing?
+	
 	(- How Sphere Tracing works.)
 	
 	Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
