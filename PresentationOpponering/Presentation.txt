@@ -215,8 +215,8 @@ Square Roots:
 	Vi jobbade även med Dijkstras square root algorithm som beräknar roten ur
 	på en bit åt gången. Denna algorithm var ursprungligen inte så bra för en
 	högpresterande hårdvaruimplementering eftersom addition och subtraktion var
-	för kostsamma. Men efter optimeringarna som vi gjorde (help) lyckades vi
-	minska kostanden för addition och subraktion.
+	för kostsamma. Men efter optimeringarna som vi gjorde lyckades vi minska
+	kostanden för addition och subraktion.
 
 	Hur hög fel tolerans har då sphere tracing? Hur exakt måste kvadratroten
 	vara för att sphere tracen skall fungera?  Det beror på olika saker, vi har
