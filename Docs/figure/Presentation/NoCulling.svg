@@ -38,19 +38,19 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      id="namedview149"
      showgrid="false"
-     inkscape:zoom="0.4609375"
-     inkscape:cx="612.36093"
-     inkscape:cy="1204.6713"
+     inkscape:zoom="0.32593203"
+     inkscape:cx="972.74178"
+     inkscape:cy="1273.5004"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg147" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs32">
     <path
@@ -164,13 +164,6 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="Layer 1">
-    <rect
-       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.31141382"
-       id="rect4628"
-       width="640.04968"
-       height="640.26038"
-       x="-0.058143772"
-       y="-0.020662952" />
     <g
        id="g145"
        style="">
