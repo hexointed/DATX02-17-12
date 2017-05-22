@@ -261,12 +261,16 @@ Conclusion:
 Indelning av presentationen	
 
 Introduktion:	Slide 1-2
+        
 
-Teori: 			Slide 3-7
+Teori: 		Slide 3-7
+        André
 
 Optimeringar:	Slide 8-11
+        André
 
 Demonstration:	Slide 12-13
+        André
 
 Hȧrdvara:
 	Elias
@@ -275,3 +279,4 @@ Sqrt:
 	Elias
 
 Conclusion:
+        
