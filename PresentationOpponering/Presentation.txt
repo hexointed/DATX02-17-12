@@ -91,7 +91,7 @@ Sphere Tracing:
 		vanligt objekt.*/
 
 	- Vad är då Sphere Tracing bra för?
-		Denna algoritm fungerar väldigt annorlunda än polygonrendering, och blir
+		Denna algoritm fungerar väldigt annorlunda från polygonrendering, och blir
 		därför intressant då den kan vara väldigt snabb på många
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
 		för. 
