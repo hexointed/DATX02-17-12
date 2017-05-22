@@ -146,8 +146,14 @@ Processor:
 	som hanterar trådar, det gjorde även att vi kunde låta bli att implementera
 	jump-instruktioner, eftersom de kan ersättas genom att skapa en kopia av
 	den nuvarande tråden med en instruktionspekare som pekar dit man vill
-	hoppa, följt av att man terminerar den nuvarande tråden. Det låter dyrare 
-	än det behöver vara, 
+	hoppa, följt av att man terminerar den nuvarande tråden. Det låter dyrare
+	än det behöver vara, i vȧr GPU kräver ett hopp ungefär tre extra
+	klockcykler pȧ grund av att trȧden först mȧste skickas till den globala
+	trȧdlagringen och sedan tillbaka, men det är ocksȧ möjligt att ge varje
+	kärna möjligheten att känna igen kombinationen pushq drop, eller lägga till
+	en synonym instruktion till denna kombination  och dȧ inte behöver skicka
+	iväg trȧden frȧn kärnan.
+	
 
 Square Roots:
 	
