@@ -29,9 +29,8 @@ Sphere Tracing:
 
 	(QS 4)
 	Det objekt som strålen träffar först avgör vilken färg den motsvarande 
-	pixeln på 
-	skärmen kommer att få. Detta kräver mycket datorkraft då man ofta måste 
-	lösa 
+	pixeln på skärmen kommer att få. 
+	Detta kräver mycket datorkraft då man ofta måste lösa 
 	differentialekvationer för att hitta skärningspunkterna mellan strålen och 
 	objekten. 
 
@@ -97,10 +96,13 @@ Sphere Tracing:
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
 		för. 
 			(QS 12 - startframe i film för poly-vs-dist)
-		Exempel på detta visas här i vår GLSL-shader, som visar hur ytan på en
+			
+		Ett exempel på detta visas här i vår GLSL-shader, som visar hur ytan på en
 		sfär kan se mjuk ut, oavsett zoom-nivå. 
+		
 			(inzoomning av 2 sfärer närbild, tala vidare direkt)
-		I polygonmodellen syns skarpa
+			
+		Medans i polygonmodellen syns skarpa
 		kanter vid inzoomning, och skulle man öka antalet polygoner för att
 		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
 		mycket. 
@@ -108,25 +110,30 @@ Sphere Tracing:
 		
 			(QS 13 - Bild på 2 statiska reflektiva metabollar, första frame i 
 			anim)
-		Mjuk sammansmältning av objekt kan göras genom att vikta ihop 
-		distansfunktionerna 
-		för två olika objekt.
+			
+		även mjuk sammansmältning av objekt kan göras genom att vikta ihop 
+		distansfunktionerna för två olika objekt.
+		
 			(Spela animationen till mitten)
 		
 		Äkta reflektioner och refraktioner är enkla att beräkna genom att beräkna 
-		reflektionsvektorn och starta om loopen vid reflektionspunkten.
+		reflektionsvektorn och starta om "loopen" vid reflektionspunkten.
 		Här ser vi en stråle speglas flera gånger fram och tillbaka i sfärerna innan den 
 		slutligen studsar ut i omgivningsbilden.
+		
 		(Spela animationen till sitt slut)
 		
 		[permuterbar geometrirepetition]
+		
 			Även repetition av objekt i alla dimensioner går att göra med en 
 			fast hastighetskostnad, till skillnad från det klassiska fallet som 
 			har en linjärt ökande kostnad för antal utritade objekt. Varje 
 			repeterat objekt kan skilja sig från sina grannar då dess utseende 
 			kan varieras och animeras med hjälp av t.ex dess position eller id. 
 			Detta medför att stora fält av intressant geometri kan renderas 
-			extremt snabbt.	(visa animerat våg-sfär-fält),
+			extremt snabbt.	
+
+			(visa animerat våg-sfär-fält),
 
 		Ytterligare saker: penumbra-skuggning (inigos bilder?),	
 		tredimensionella material,  (kanske bara skriva dessa i text på slides)
