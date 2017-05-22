@@ -97,7 +97,7 @@ Sphere Tracing:
 		för. 
 			(QS 12 - startframe i film för poly-vs-dist)
 			
-		Ett exempel på detta visas här i vår GLSL-shader, som visar hur ytan på en
+		Ett exempel på detta visas här i vår GLSL-shader, som visar hur ytan på vår
 		sfär kan se mjuk ut, oavsett zoom-nivå. 
 		
 			(inzoomning av 2 sfärer närbild, tala vidare direkt)
