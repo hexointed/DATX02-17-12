@@ -32,21 +32,21 @@ Sphere Tracing:
 		visa visuellt, demonstrera hastighetsfÃ¶rbÃ¤ttring?
 
 		- Orthogonal Culling
-			Orthogonal Culling används för att minska antalet distans-fält 
-			uträkningar som behöver göras per steg genom att räkna ut vilka
-			objekt i scenen som strålen kan träffa. Varje stråle följer en 
-			linje, genom att ortogonalt projicera objekts centrum på linjen
-			kan man räkna ut om de ligger framför strålen eller inte. Om 
-			objektet inte ligger framför strålen så slutar man räkna ut 
-			avståndet till det, för det kan inte träffas ändå.
+			Orthogonal Culling anvÃ¤nds fÃ¶r att minska antalet distans-fÃ¤lt 
+			utrÃ¤kningar som behÃ¶ver gÃ¶ras per steg genom att rÃ¤kna ut vilka
+			objekt i scenen som strÃ¥len kan trÃ¤ffa. Varje strÃ¥le fÃ¶ljer en 
+			linje, genom att ortogonalt projicera objekts centrum pÃ¥ linjen
+			kan man rÃ¤kna ut om de ligger framfÃ¶r strÃ¥len eller inte. Om 
+			objektet inte ligger framfÃ¶r strÃ¥len sÃ¥ slutar man rÃ¤kna ut 
+			avstÃ¥ndet till det, fÃ¶r det kan inte trÃ¤ffas Ã¤ndÃ¥.
 
 		- Bounding Sphere
-			Bounding Spheres används för att minska antalet uträkningar som 
-			behöver göras innan strålen är i närheten av objekt som den kanske
-			kommer träffa. Flera objekt placeras inuti en större sfär, 
-			istället för att räkna ut avståndet till alla objekt så används
-			bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
-			och alla objekt inuti används igen. 
+			Bounding Spheres anvÃ¤nds fÃ¶r att minska antalet utrÃ¤kningar som 
+			behÃ¶ver gÃ¶ras innan strÃ¥len Ã¤r i nÃ¤rheten av objekt som den kanske
+			kommer trÃ¤ffa. Flera objekt placeras inuti en stÃ¶rre sfÃ¤r, 
+			istÃ¤llet fÃ¶r att rÃ¤kna ut avstÃ¥ndet till alla objekt sÃ¥ anvÃ¤nds
+			bara sfÃ¤ren. Om en strÃ¥le trÃ¤ffar en Bounding Sphere sÃ¥ tas den bort
+			och alla objekt inuti anvÃ¤nds igen. 
 
 
 
