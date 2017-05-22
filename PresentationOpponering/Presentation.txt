@@ -145,8 +145,7 @@ Processor:
 	designade blev mer utav en generell parallellprocessor, än vi först tänkt 
 	oss.  
 	Anledingen till det, var att vi bedömde att det ökade möjligheterna för att 
-	enkelt 
-	kunna implementera de optimeringar som tidigare nämnts.
+	enkelt kunna implementera de optimeringar som tidigare nämnts.
 
 	- Architecture overview
 	För arkitekturen i sig beslutade vi att lägga mindre fokus på lockstepping
