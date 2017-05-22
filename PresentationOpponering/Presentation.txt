@@ -1,35 +1,72 @@
 Sphere Tracing:
 	
+	(QS 1)
 	Vårt projekts mål har varit att utreda en alternativ grafikrenderingsmetod 
 	som kallas Sphere Tracing, och utifrån detta, designa en grafikprocessor 
 	optimerad för denna. Detta ville vi göra eftersom man kan se att prestandan 
 	för metoden, när den körs på en konventionell GPU, blir kraftigt begränsad. 
-	Den kan därmed inte uppnå sin fulla potential eftersom dagens 
-	grafikhårdvara är designad för polygonbaserad grafikrendering.
 	
-	Varför just Sphere Tracing?  För att motivera vårt intresse börjar vi med 
-	att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
-	algoritmen, som vi kom fram till under utredningsfasen.
+	(QS 2)
+	Detta kommer sig av att en grafikprocessor gjord för polygonrendering gör 
+	antaganden om att dess många kärnor gruppvis alltid arbetar med samma 
+	instruktion. Detta tillåter många kärnor att dela på instruktionsminne 
+	vilket gör det möjligt att få plats med fler kärnor på samma chip. Då 
+	Sphere Tracing arbetar med skiljda loop-längder per stråle, så kan den på 
+	en konventionell GPU inte uppnå sin fulla potential.
 	
-	- How Sphere Tracing works.
-		Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
-		grafikrenderingsmetod baserad på att projicera strålar, från en kamera, 
-		mot en uppsättning av 3D-Objekt. Det objekt som strålen träffar först 
-		avgör vilken färg den korresponderande pixeln på skärmen kommer att få. 
-		Detta kräver mycket datorkraft då man ofta måste lösa 
-		differentialekvationer för att hitta skärningspunkterna mellan strålen  
-		och objekten. Sphere Tracing är ett alternativ till att hitta denna 
-		skärningspunkt, vilket görs genom att först definiera alla objekt som 
-		sk distansfunktioner. Dessa är funktioner som tar en given 3d-koordinat 
-		och returnerar avståndet till den punkt på funktionsytan som ligger 
-		närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
-		strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
-		(bilderbilder...)
+	(QS 3)
+	Så varför just Sphere Tracing?  För att motivera vårt intresse börjar vi 
+	med att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
+	algoritmen, som vi kom fram till under projektets utredningsfas.
+	
+	(- How Sphere Tracing works.)
+	
+	Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
+	grafikrenderingsmetod baserad på att projicera strålar, från en kamera, 
+	mot en uppsättning av 3D-Objekt. Det objekt som strålen träffar först 
+	avgör vilken färg den korresponderande pixeln på skärmen kommer att få. 
+	Detta kräver mycket datorkraft då man ofta måste lösa 
+	differentialekvationer för att hitta skärningspunkterna mellan strålen  
+	och objekten. Sphere Tracing är ett alternativ till att hitta denna 
+	skärningspunkt, vilket görs genom att först definiera alla objekt som 
+	sk distansfunktioner. Dessa är funktioner som tar en given 3d-koordinat 
+	och returnerar avståndet till den punkt på funktionsytan som ligger 
+	närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
+	strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
+	( - visa bildserien som visar en stråla marchera genom terräng)
 				
+
 	 - optimizations
 		Describe each
-		Show with/without optimizations to show fps difference
 		visa visuellt, demonstrera hastighetsförbättring?
+
+	- Orthogonal Culling
+		(Bild utan orthogonal culling)
+		Orthogonal Culling används för att minska antalet distans-fält 
+		uträkningar som behöver göras per steg genom att räkna ut vilka
+		objekt i scenen som strålen kan träffa. Varje stråle följer en 
+		linje, genom att ortogonalt projicera objekts centrum på linjen
+		kan man räkna ut om de ligger framför strålen eller inte. Om 
+		objektet inte ligger framför strålen så slutar man räkna ut 
+		avståndet till det, för det kan inte träffas ändå.
+
+		(bild med orthogonal culling)
+
+		Här syns skillnaden som blir när tekniken används, de flesta objekten
+		ignoreras.
+
+
+	- Bounding Sphere
+		(bild utan bounding sphere)
+		Bounding Spheres används för att minska antalet uträkningar som 
+		behöver göras innan strålen är i närheten av objekt som den kanske
+		kommer träffa. Flera objekt placeras inuti en större sfär, 
+		istället för att räkna ut avståndet till alla objekt så används
+		bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
+		och alla objekt inuti används igen. 
+
+
+
 	- Software shader	
 		berätta att dessa optimeringar är implementerade och testade i en sk 
 		shader, ett program som körs på en GPU i en vanlig speldator. 
