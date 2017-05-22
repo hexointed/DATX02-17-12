@@ -33,7 +33,7 @@ Sphere Tracing:
 	och returnerar avståndet till den punkt på funktionsytan som ligger 
 	närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
 	strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
-	(visa bildserien som visar en stråla marchera genom terräng)
+	( - visa bildserien som visar en stråla marchera genom terräng)
 				
 
 	 - optimizations
@@ -51,7 +51,7 @@ Sphere Tracing:
 		avståndet till det, för det kan inte träffas ändå.
 
 		(bild med orthogonal culling)
-		
+
 		Här syns skillnaden som blir när tekniken används, de flesta objekten
 		ignoreras.
 
