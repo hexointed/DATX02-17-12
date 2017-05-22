@@ -59,7 +59,7 @@ Sphere Tracing:
 
 
 	- Bounding Sphere
-		(bild utan bounding sphere)
+		(bild med bounding sphere)
 		Bounding Spheres används för att minska antalet uträkningar som 
 		behöver göras innan strålen är i närheten av objekt som den kanske
 		kommer träffa. Flera objekt placeras inuti en större sfär, 
@@ -68,8 +68,14 @@ Sphere Tracing:
 		och alla objekt inuti används igen. 
 
 
-
 	- Software shader	
+
+		Optimiseringarna var implementerade och testade i en shader, ett program
+		som körs på ett vanligt grafikkort. Det här flödesschemat beskriver 
+		grovt algoritmen på vår implementering. Anledningen till att Bounding 
+		Spheres tekniken inte syns i flödesschemat är att det behandlas som ett
+		vanligt objekt.
+
 		berätta att dessa optimeringar är implementerade och testade i en sk 
 		shader, ett program som körs på en GPU i en vanlig speldator. 
 		(ge visuellt exempel med flowchart)		
@@ -78,7 +84,7 @@ Sphere Tracing:
 		Denna algoritm fungerar väldigt annorlunda än polygonrendering, och blir
 		därför intressant då den kan vara väldigt snabb på många
 		grafikrenderingsmetoder som traditionella polygonrenderare har svårt
-		för. Exempel på detta visas här i vår shader, som visar hur ytan på en
+		för. Exempel på detta visas här i vår §, som visar hur ytan på en
 		sfär kan se mjuk ut, oavsett zoom-nivå. I polygonmodellen syns skarpa
 		kanter vid inzoomning, och skulle man öka antalet polygoner för att
 		klara kraftig inzoomning så skulle prestandan istället sänkas alltför
