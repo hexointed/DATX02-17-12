@@ -19,6 +19,8 @@ Sphere Tracing:
 	med att kort beskriva hur metoden fungerar, samt några sätt att förbättra 
 	algoritmen, som vi kom fram till under projektets utredningsfas.
 	
+	Vad är då Sphere Tracing?
+	
 	(- How Sphere Tracing works.)
 	
 	Sphere Tracing är en variant av sk Ray Tracing, vilket är en 
@@ -207,12 +209,16 @@ Conclusion:
 	- Sphere Tracing has interesting properties
 
 	Sphere tracing har definitivt fördelar och nackdelar kontra polygon baserad
-	rendering, och det finns fortfarande mycket som kan göra sphere tracing
-	bättre och snabbare. Vi har testat två optimeringar på algoritmen och visat
-	att dem ökar prestandan. Men vi tror att det finns mycket mer kvar att
-	lära. 
+	rendering som xxx förklarade tidigare, och det finns fortfarande mycket som
+	 kan göra sphere tracing bättre och snabbare. 
+	Vi har testat två optimeringar på algoritmen och visat
+	att dem ökar prestandan. Vi tror att vi kan öka prestandan ännu mer om 
+	man låter CPUn göra delar av uträkningarna istället för GPUn. 
+	Men vi tror att det finns mycket mer kvar att lära. 
 
 	Vi anser att det behövs läggas mer tid på alla delar i projektet för att
 	kunna gör en realistisk bedömning av potentialen i en GPU  byggd för Sphere
 	Tracing algoritmen. Det vi har lärt oss under vårat utförande av projektet
 	är hur många delar med Sphere tracing som ännu är outforskade.	
+
+	
