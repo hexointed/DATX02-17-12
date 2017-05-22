@@ -35,29 +35,37 @@ Sphere Tracing:
 	och returnerar avståndet till den punkt på funktionsytan som ligger 
 	närmast in-koordinaten. Detta möjliggör en effektiv ray-marching längs 
 	strålen, vilket ger högre prestanda än konventionell Ray Tracing. 
-	(bilderbilder...)
+	( - visa bildserien som visar en stråla marchera genom terräng)
 				
+
 	 - optimizations
 		Describe each
-		Show with/without optimizations to show fps difference
 		visa visuellt, demonstrera hastighetsförbättring?
 
-		- Orthogonal Culling
-			Orthogonal Culling används för att minska antalet distans-fält 
-			uträkningar som behöver göras per steg genom att räkna ut vilka
-			objekt i scenen som strålen kan träffa. Varje stråle följer en 
-			linje, genom att ortogonalt projicera objekts centrum på linjen
-			kan man räkna ut om de ligger framför strålen eller inte. Om 
-			objektet inte ligger framför strålen så slutar man räkna ut 
-			avståndet till det, för det kan inte träffas ändå.
+	- Orthogonal Culling
+		(Bild utan orthogonal culling)
+		Orthogonal Culling används för att minska antalet distans-fält 
+		uträkningar som behöver göras per steg genom att räkna ut vilka
+		objekt i scenen som strålen kan träffa. Varje stråle följer en 
+		linje, genom att ortogonalt projicera objekts centrum på linjen
+		kan man räkna ut om de ligger framför strålen eller inte. Om 
+		objektet inte ligger framför strålen så slutar man räkna ut 
+		avståndet till det, för det kan inte träffas ändå.
 
-		- Bounding Sphere
-			Bounding Spheres används för att minska antalet uträkningar som 
-			behöver göras innan strålen är i närheten av objekt som den kanske
-			kommer träffa. Flera objekt placeras inuti en större sfär, 
-			istället för att räkna ut avståndet till alla objekt så används
-			bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
-			och alla objekt inuti används igen. 
+		(bild med orthogonal culling)
+
+		Här syns skillnaden som blir när tekniken används, de flesta objekten
+		ignoreras.
+
+
+	- Bounding Sphere
+		(bild utan bounding sphere)
+		Bounding Spheres används för att minska antalet uträkningar som 
+		behöver göras innan strålen är i närheten av objekt som den kanske
+		kommer träffa. Flera objekt placeras inuti en större sfär, 
+		istället för att räkna ut avståndet till alla objekt så används
+		bara sfären. Om en stråle träffar en Bounding Sphere så tas den bort
+		och alla objekt inuti används igen. 
 
 
 
