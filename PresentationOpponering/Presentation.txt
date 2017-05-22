@@ -216,11 +216,11 @@ Conclusion:
 
 	Sphere tracing har definitivt fördelar och nackdelar kontra polygon baserad
 	rendering som xxx förklarade tidigare, och det finns fortfarande mycket som
-	 kan göra sphere tracing bättre och snabbare. 
-	Vi har testat två optimeringar på algoritmen och visat
-	att dem ökar prestandan. Vi tror att vi kan öka prestandan ännu mer om 
-	man låter CPUn göra delar av uträkningarna istället för GPUn. 
-	Men vi tror att det finns mycket mer kvar att lära. 
+	kan göra sphere tracing bättre och snabbare.  Vi har testat två
+	optimeringar på algoritmen och visat att dem ökar prestandan. Vi tror att
+	vi kan öka prestandan ännu mer om man låter CPUn göra delar av
+	uträkningarna istället för GPUn.  Men vi tror att det finns mycket mer kvar
+	att lära. 
 
 	Vi anser att det behövs läggas mer tid på alla delar i projektet för att
 	kunna gör en realistisk bedömning av potentialen i en GPU  byggd för Sphere
