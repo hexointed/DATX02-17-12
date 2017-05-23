@@ -150,12 +150,11 @@ Processor:
 
 	- Architecture overview
 	För arkitekturen i sig beslutade vi att lägga mindre fokus på lockstepping
-	än traditionella grafikkort, då alla rays kan variera kraftigt i antal
-	steg, vilka objekt som är nära, samt när de är klara. Kärnorna i vår GPU
-	har alltså lite mer kontrolllogik per beräkningsenhet än traditionella
-	grafikkort, men mindre, och därmed fler kärnor än en CPU. Tillsammans med
-	kärnorna behövs ett sätt att representera alla de strålar som behöver
-	beräknas. 
+	än traditionella grafikkort, eftersom exekveringstiden varierar krafitgt mellan
+	pixlar. Kärnorna i vår GPU har alltså lite mer kontrolllogik per 
+	beräkningsenhet än traditionella grafikkort, men mindre, och därmed fler 
+	kärnor än en CPU. Tillsammans med kärnorna behövs ett sätt att representera 
+	alla de strålar som behöver beräknas. 
 
 	(QS 15 Bild Arkitektur)
 	Vi ville också, om möjligt, kunna skapa nya strålar on demand för att
