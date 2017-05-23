@@ -1,8 +1,6 @@
 .data:
 one:
 	1.0
-greenshift:
-	256
 numPixels:
 	512.0
 .text:
@@ -21,7 +19,7 @@ generate:
 	sub
 	a setval 1 0
 	nz pushq
-	val &calcpos
+	val &draw
 	a setval 0 0
 	a pushq
 	a drop
