@@ -1,19 +1,10 @@
 .data:
 one:
 	1.0
-displaysizex:
-	32.0
-scalex:
-	2.0
-pos:
-	7.5
-radius:
-	45.0
 greenshift:
 	256
 numPixels:
 	512.0
-
 .text:
 initialize:
 	val &generate
@@ -24,20 +15,15 @@ initialize:
 	a drop
 
 generate:
-	next 1 ; comment
-
+	next 1
 	pack 1
 	val &one
 	sub
 	a setval 1 0
-
 	nz pushq
-
 	val &calcpos
 	a setval 0 0
-
 	a pushq
-
 	a drop
 
 calcpos:
