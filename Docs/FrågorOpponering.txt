@@ -1,0 +1,46 @@
+Q1	
+
+	Ni säger i introduktionen att reflektionsintensitet inte är relevant testdata
+	att generera för igenkännings algoritmer. Det finns inga källor på detta och
+	en i våran grupp som jobbat med LIDAR är av uppfattningen att det faktiskt är
+	något som man måste väga in för att få bättre resultat. Har ni läst om något
+	angående detta? Var det kanske snarare en avgränsning för att simplifiera
+	problemet?
+
+Q2	
+	
+	Ni nämner i Methods att det inte finns multithread support i Unitys
+	fysikmotor men så vitt vi har kunnat se verkar det finnas i Unity 5. Är det
+	nått ni tittat på? Hade man kanske kunnat avlasta raytracing metoden i en
+	separat tråd?
+
+Q3	
+
+	När ni pratar om alternativ till att simulera den användarstyrda bilen nämner
+	ni att “To achieve high realism without sacrificing performance, multiple
+	options was tested and evaluated.” men ni går inte in på vilka andra
+	alternativ ni testade och utvärderade. Skulle ni kunna beskriva dessa
+	alternativ lite mer ingående?
+
+Q4	
+
+	Ni använder en hashmap med länkade listor för att spara datan för att det
+	låter er föra in element på konstant tid, och nämner senare att er
+	applikation kräver mycket RAM. Det finns alternativ för att minska
+	minnesanvändningen som ändå tillåter konstant insättning av element, t.ex en
+	dynamisk array. Är detta något ni diskuterat om inom gruppen?
+
+Q5	
+
+	I Results diskuterar ni prestandakraven för olika kollisionsmetoder och visar
+	två grafer. Där ser man att tiden det tar för fysikenheten minskar som
+	förväntat. Utöver detta minskar dock även exekveringen av hela programmet med
+	det dubbla. Vart ifrån kommer den extra tidsvinsten?
+
+Q6	
+
+	I Discussion pratar ni om datalagringsformaten CSV vs JSON och hur CSV till
+	skillnad från JSON är direkt läsbart och att JSON datan inte är användbart
+	utanför simuleringen såvida man inte har en JSON parser. Gäller inte detta
+	dock för båda formaten? Dem är ju i grund och botten rätt lika, där JSON har
+	lite fler ASCii tecken än CSV.
