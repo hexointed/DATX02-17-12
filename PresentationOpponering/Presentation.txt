@@ -274,7 +274,7 @@ Conclusion:
 	- More work needed on GPU for more meaningful conclusions
 	- Sphere Tracing has interesting properties
 
-	Sphere tracing har intressanta jämfört med polygonbaserad
+	Sphere tracing har intressanta egenskaper jämfört med polygonbaserad
 	rendering som vi förklarade tidigare, och det finns fortfarande mycket som
 	kan göra sphere tracing bättre och snabbare. Vi har testat två optimeringar
 	på algoritmen och visat att de ökar prestandan. Vi tror att man kan öka
