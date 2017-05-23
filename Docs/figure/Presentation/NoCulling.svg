@@ -15,7 +15,7 @@
    height="2048"
    id="svg147"
    sodipodi:docname="NoCulling.svg"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.92.1 r15371"
    inkscape:export-filename="D:\skola\Kandidatarbete\Docs\figure\Presentation\NoCulling.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -38,18 +38,18 @@
      objecttolerance="10"
      gridtolerance="10"
      guidetolerance="10"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1647"
-     inkscape:window-height="1076"
+     inkscape:window-width="1536"
+     inkscape:window-height="801"
      id="namedview149"
      showgrid="false"
-     inkscape:zoom="0.65186406"
-     inkscape:cx="1083.1366"
-     inkscape:cy="835.18014"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
+     inkscape:zoom="0.4609375"
+     inkscape:cx="754.32023"
+     inkscape:cy="1222.1064"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="g143" />
   <defs
      id="defs32">
@@ -136,21 +136,20 @@
        x="151.53"
        y="165.45"
        font-size="14"
-       font-family="Open Sans"
        font-weight="normal"
        font-style="normal"
        letter-spacing="0"
        alignment-baseline="before-edge"
-       transform="matrix(1 0 0 1 116.76646371961442 19.502074688796654)"
-       style="line-height:100%"
+       transform="translate(116.76646,19.502075)"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:0%;font-family:'Open Sans';letter-spacing:0;dominant-baseline:text-before-edge"
        xml:space="preserve"
        dominant-baseline="text-before-edge"><tspan
          x="151.53"
          dy="0em"
          alignment-baseline="before-edge"
          dominant-baseline="text-before-edge"
-         text-anchor="start"
-         id="tspan28">Objects</tspan></text>
+         id="tspan28"
+         style="dominant-baseline:text-before-edge;text-anchor:start">Objects</tspan></text>
     <style
        id="opensansnormalnormal">
     @font-face {
@@ -248,102 +247,102 @@
         </g>
         <g
            id="g70"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:0.98">
           <use
              xlink:href="#h1kE2un8ha"
              id="use68"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g74"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:1">
           <use
              xlink:href="#h2frJSxJcj"
              id="use72"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g78"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:1">
           <use
              xlink:href="#ei9tBBTeH"
              id="use76"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g82"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:1">
           <use
              xlink:href="#emA7Lmy60"
              id="use80"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g86"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:1">
           <use
              xlink:href="#d1PhvZ0m4"
              id="use84"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g90"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:1;stroke:none;opacity:1">
           <use
              xlink:href="#aW6LjNwpk"
              id="use88"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:1;stroke:none" />
         </g>
         <g
            id="g94"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:0.98994976;stroke:none;opacity:1">
           <use
              xlink:href="#b327PndoRC"
              id="use92"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:0.98994976;stroke:none" />
         </g>
         <g
            id="g98"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:0.98994976;stroke:none;opacity:1">
           <use
              xlink:href="#einm1ThFp"
              id="use96"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:0.98994976;stroke:none" />
         </g>
         <g
            id="g102"
-           style="fill:#7e7e7e;fill-opacity:1;stroke:none;opacity:0.6682243">
+           style="fill:#000000;fill-opacity:0.98994976;stroke:none;opacity:1">
           <use
              xlink:href="#a5nYDQmcnH"
              id="use100"
              fill-opacity="1"
              fill="#000000"
              opacity="0.19"
-             style="fill:#7e7e7e;fill-opacity:1;stroke:none" />
+             style="fill:#000000;fill-opacity:0.98994976;stroke:none" />
         </g>
         <g
            id="g106">
