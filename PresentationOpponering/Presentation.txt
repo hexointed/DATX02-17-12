@@ -239,26 +239,36 @@ Square Roots:
 	för kostsamma. Men efter optimeringarna som vi gjorde lyckades vi minska
 	kostanden för addition och subraktion.
 
-	Hur hög feltolerans har då sphere tracing? Hur exakt måste kvadratroten
-	vara för att sphere tracern skall fungera?  Det beror på olika saker, vi har
-	det satta epsilonet, sträckan som avgjorde om vi var "tillräckligt" nära
-	för att säga att vi träffat. Om vi har ett större fel än vårt epsilon
-	riskerar vi att overstepa och poteniellt missa objekt.  Ett annat kritiskt
-	tillfälle där feltolerans är viktigt är när vi räknar ut normalen på ytan
-	som vi använder för att räkna ut reflektioner och skuggor. Får vi fel värde
-	värde på normalen riskerar vi att stega i fel riktning och då reflektera
-	fel saker eller få en missvisande skuggning.
+	Sphere Tracing algoritmen har hög feltolerans för kvadratrötter så länge 
+	det uppskattade värdet alltid är underskattat. Om vi får en för hög 
+	uppskattning riskerar algoritmen att gå för långt och då helt missa objekt. 
 
-	Däremot fortsätter Sphere Tracing - algoritmen fungera korrekt även om man 
-	underskattar kvadratrötterna när man bestämmer stegavstȧndet, och eftersom
-	det relativa felet är begränsat är det möjligt med dessa metoder att aldrig
-	överskatta det faktiska värdet för kvadratrötterna, och altsȧ möjligt att
-	använda dem tillsammans med Sphere Tracing. Tyvärr försämras prestandan 
-	nȧgot om avstȧnden underskattas för grovt pȧ grund av att man kan behöva ta
-	fler steg innan avstȧndet till geometrin är tillräckligt litet. De allra 
-	enklaste approximeringarna kommer altsȧ troligtvis inte, även om de är 
-	intressanta, att vara särskilt användbara för Sphere Tracing pȧ egen hand,
-	utan istället kombinerade med andra metoder för att förbättra precicionen.
+	Det finns dock andra problem med felaktiga uppskattningar, om uträkningarna 
+	för normalen på ytor blir för felaktig så riskerar till exempel reflektioner
+	och skuggning att bli inkorrekta. Dessa problem skulle dock kanske gå att 
+	dölja med hjälp av interpolation.
+
+
+//	Hur hög feltolerans har då sphere tracing? Hur exakt måste kvadratroten
+//	vara för att sphere tracern skall fungera?  Det beror på olika saker, vi har
+//	det satta epsilonet, sträckan som avgjorde om vi var "tillräckligt" nära
+//	för att säga att vi träffat. Om vi har ett större fel än vårt epsilon
+//	riskerar vi att overstepa och poteniellt missa objekt.  Ett annat kritiskt
+//	tillfälle där feltolerans är viktigt är när vi räknar ut normalen på ytan
+//	som vi använder för att räkna ut reflektioner och skuggor. Får vi fel värde
+//	värde på normalen riskerar vi att stega i fel riktning och då reflektera
+//	fel saker eller få en missvisande skuggning.
+//
+//	Däremot fortsätter Sphere Tracing - algoritmen fungera korrekt även om man 
+//	underskattar kvadratrötterna när man bestämmer stegavstȧndet, och eftersom
+//	det relativa felet är begränsat är det möjligt med dessa metoder att aldrig
+//	överskatta det faktiska värdet för kvadratrötterna, och altsȧ möjligt att
+//	använda dem tillsammans med Sphere Tracing. Tyvärr försämras prestandan 
+//	nȧgot om avstȧnden underskattas för grovt pȧ grund av att man kan behöva ta
+//	fler steg innan avstȧndet till geometrin är tillräckligt litet. De allra 
+//	enklaste approximeringarna kommer altsȧ troligtvis inte, även om de är 
+//	intressanta, att vara särskilt användbara för Sphere Tracing pȧ egen hand,
+//	utan istället kombinerade med andra metoder för att förbättra precicionen.
 
 Conclusion:
 
