@@ -273,7 +273,7 @@ Conclusion:
 	att lära. 
 
 	Vi anser att det behövs läggas mer tid på alla delar i projektet för att
-	kunna gör en välgrundad bedömning av potentialen i en GPU  byggd för Sphere
+	kunna göra en välgrundad bedömning av potentialen i en GPU  byggd för Sphere
 	Tracing algoritmen. Det vi har lärt oss under vårat utförande av projektet
 	är hur många delar med Sphere tracing som ännu är outforskade.	
 
