@@ -50,8 +50,9 @@ Sphere Tracing:
 
 	(QS 7 - animation-bildserien som visar en stråle marschera genom terräng)
 	Trots att algoritmen alltså måste ta flera steg för att nå fram till en 
-	skärningspunkt, så är den beräkningsmässiga kostnaden totalt ändå mycket 
-	lägre än vid klassisk Ray Tracing.
+	skärningspunkt, så är uträkningarna mest multiplikation och kvadratrötter. 
+	Den totala beräkningstiden för strålen blir då mycket lägre än vid klassisk 
+	vid klassisk Ray Tracing.
 					
 	För att ytterligare öka metodens prestanda så har vi skapat och 
 	implementerat två olika optimeringar.
