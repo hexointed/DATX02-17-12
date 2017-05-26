@@ -16,10 +16,65 @@ numPixels:
 white:
 	65535.0
 
-maxSteps:
-	1000.0
+maxDist:
+	10.0
 epsilon:
 	0.01
+
+.text:
+
+initialize:
+	; set the number of pixels / top pixel pointer
+	; args: none
+	; returns: reg 1 - highest pixel pointer
+
+	val &numPixels
+	a setval 1 0
+
+generate: 
+	; generate a thread for each pixel
+	; args: reg 1 - no. of pixels to create
+	; returns: reg 1 - pixel pointer
+
+	val &generate
+	a setval 0 0
+	pack 1
+	val &one
+	sub
+	a setval 1 0
+	nz pushq
+
+calcpos: 
+	; calculate the x, y coordinate of the current pixel
+	; args: reg 1 - pixel pointer
+	; returns:
+	; 	reg 1 - pixel pointer
+	; 	reg 2 - x coordinate
+	; 	reg 3 - y coordinate
+	pack 1
+	val &displaysizex
+	div
+	floor
+	pack 1
+	pack 1
+	val &displaysizex
+	div
+	floor
+	val &displaysizex
+	mul
+	sub
+	a setval 2 0
+	a setval 3 1
+
+;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
+
+camSetup: 
+	; sätter upp ray-direction registren
+	; args:   reg. 1-2
+	; result: reg. 4-6
+	; alters: reg. 8-10
+
+.data:
 
 eyex:
 	0.0
@@ -49,66 +104,7 @@ upy:
 upz:
 	0.0
 
-ballr:
-	6.0
-ballx:
-	0.0
-bally:
-	0.0
-ballz:
-	10.0
-
 .text:
-
-initialize:
-	val &generate
-	a setval 0 0
-	val &numPixels
-	a setval 1 0
-	a pushq
-	a drop
-
-generate: ; skapar calcpos tråden för nuvarande pixel och generate tråden för nästa pixel
-	next 1 ; comment
-	pack 1
-	val &one
-	sub
-	a setval 1 0
-	nz pushq ; pushar till kön
-	val &calcpos
-	a setval 0 0
-	a pushq
-	a drop ; discardar tråden
-
-calcpos: ; räknar ut vart på skärmen vi är och skapar en drawtråd
-	next 2 
-	pack 1
-	val &displaysizex
-	div
-	floor
-	pack 1
-	pack 1
-	val &displaysizex
-	div
-	floor
-	val &displaysizex
-	mul
-	sub
-	val &camSetup
-	a setval 0 0
-	a setval 2 1
-	a setval 3 2
-	a pushq
-	a drop
-
-;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
-
-camSetup: 
-	; sätter upp ray-direction registren
-	; args:   reg. 1-2
-	; result: reg. 4-6
-	; alters: reg. 8-10
-
 	; calculate a directional vector which will be in the center of the view, 
 	; stores in ray-direction. This will be used to offset with later.
 	val &lookatx
@@ -134,7 +130,6 @@ camSetup:
 	val &one 
 	sub
 	a setval 14 0
-
 
 	pack 3
 	val &displaysizey
@@ -221,22 +216,8 @@ camCont:
 	val &one
 	a setval 7 0
 
-afterSetup:
-	; clear all registers
-
 	val &zero
-	a setval 2 0
-	a setval 3 0
 	a setval 7 0
-	a setval 8 0
-	a setval 9 0
-	a setval 10 0
-	a setval 11 0
-	a setval 12 0
-	a setval 13 0
-	a setval 14 0
-	a setval 15 0
-
 
 rayPos:
 		; calculates the current march pos and stores in tempVec
@@ -261,6 +242,18 @@ distBall:
 	; result: reg. 14
 	; note: alters reg. 11-13
 
+.data:
+
+ballr:
+	6.0
+ballx:
+	0.0
+bally:
+	0.0
+ballz:
+	10.0
+
+.text:
 	val &ballx	
 	pack 8
 	sub
@@ -305,10 +298,10 @@ hit:
 	a setval 7 0
 
 tooFar:
-	; We'we marched too many steps and should stop
+	; We'we marched too far and should stop
 
 	val &white
-	val &maxSteps
+	val &maxDist
 	pack 7
 	sub
 	n setval 2 1

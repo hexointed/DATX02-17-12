@@ -24,7 +24,7 @@ showFrame =
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
 			fmap (foldr (:) "") $ 
-			unconcat d32 $
+			unconcat d64 $
 			fmap showPixel vs 
 		
 		showPixel (0,0,0) = ' '
@@ -55,7 +55,7 @@ incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 simGPU = 
 	sequence $ 
 	fmap putStr  ( 
-	P.concatMap (P.take 1) . P.iterate (P.drop 1000) $ 
+	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
 	sample showFrame )
 
 simGPUclr = 
