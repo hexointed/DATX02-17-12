@@ -11,7 +11,7 @@ import Graphics.Gloss.Data.ViewPort
 import qualified Data.ByteString as B
 import CLaSH.Class.BitPack
 
-type NumPixels = 512
+type NumPixels = 4096
 type SimIndex = Unsigned (Log 2 NumPixels)
 
 showFrame = 
@@ -23,12 +23,12 @@ showFrame =
 		show' vs = 
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
-			fmap (foldr (:) "") $ 
-			unconcat d32 $
+			fmap (foldr (P.++) "") $ 
+			unconcat d64 $
 			fmap showPixel vs 
 		
-		showPixel (0,0,0) = ' '
-		showPixel _       = '\x2588'
+		showPixel (0,0,0) = "  "
+		showPixel _       = "\x2588\x2588"
 
 showFrameRGB = 
 	mealy simDisplay (repeat (0,0,0), 0) $
@@ -55,7 +55,7 @@ incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 simGPU = 
 	sequence $ 
 	fmap putStr  ( 
-	P.concatMap (P.take 1) . P.iterate (P.drop 500) $ 
+	P.concatMap (P.take 1) . P.iterate (P.drop 2000) $ 
 	sample showFrame )
 
 simGPUclr = 
@@ -78,7 +78,7 @@ picAtTime time = bm  --picAtTime time = Pictures [Blank, bm]
 --denna ligger i global scope för att kunna användas i debugging -- P.drop 8 kan ändras
 simPixels time = P.head $ P.drop (P.round time) ( P.concatMap (P.take 1) . P.iterate (P.drop 8) $ sample showFrameRGB )
 
-main = G.simulate pixBufWindow white (60::Int) 0.0 picAtTime update   
+simGPUWindow = G.simulate pixBufWindow white (60::Int) 0.0 picAtTime update   
 	where 
 	update _ t st = st + 1
 	pixBufWindow = InWindow "GPU" (200, 200) (10, 10)

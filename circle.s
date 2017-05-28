@@ -8,11 +8,9 @@ minusone:
 two:
 	2.0
 displaysizex:
-	32.0
+	64.0
 displaysizey:
-	16.0
-numPixels:
-	512.0
+	64.0
 white:
 	65535.0
 
@@ -28,7 +26,9 @@ initialize:
 	; args: none
 	; returns: reg 1 - highest pixel pointer
 
-	val &numPixels
+	val &displaysizex
+	val &displaysizey
+	mul
 	a setval 1 0
 
 generate: 
