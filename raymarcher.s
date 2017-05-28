@@ -7,13 +7,15 @@ minusone:
 	-1.0
 two:
 	2.0
+sqrt2:
+	1.41421356
+	
 displaysizex:
 	64.0
 displaysizey:
 	64.0
 white:
 	65535.0
-
 maxDist:
 	20.0
 epsilon:
@@ -75,7 +77,6 @@ camSetup:
 	; 	reg 2,3   - x,y coordinates, normalized to range [-1, 1]
 	; 	reg 4,5,6 - march direction
 	; 	reg 7     - march distance (zero)
-	; alters: reg 8,9,10
 
 .data:
 
@@ -217,6 +218,7 @@ rayPos:
 		; 	reg 7      - total marched distance
 		; results: 
 		; 	reg 8,9,10 - current location
+		; 	reg 11     - currint epsilon
 
 	pack 4
 	pack 5
@@ -244,14 +246,14 @@ distBall:
 
 .data:
 
-ballr:
-	6.0
-ballx:
-	0.0
-bally:
-	0.0
-ballz:
-	10.0
+	ballr:
+		6.0
+	ballx:
+		0.0
+	bally:
+		0.0
+	ballz:
+		10.0
 
 .text:
 	val &ballx	
