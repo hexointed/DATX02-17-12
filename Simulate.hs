@@ -24,7 +24,7 @@ showFrame =
 			('\n':)$
 			foldr (\a b -> a P.++ '\n':b) "" $
 			fmap (foldr (:) "") $ 
-			unconcat d64 $
+			unconcat d32 $
 			fmap showPixel vs 
 		
 		showPixel (0,0,0) = ' '

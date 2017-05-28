@@ -8,6 +8,7 @@ import Prelude hiding (Word, Float, break)
 
 import Inst
 
+type Error a = Either String a
 type Float = Fixed Signed 16 16
 
 asm f = do
@@ -59,16 +60,15 @@ replaceLabels m w = map (unwords . map replace . words) w
 
 splitSections :: [Line] -> ([Line], [Line])
 splitSections [] = ([],[])
-splitSections (l:ls)
-	| head l == '.' = case l of
+splitSections (l:ls) = case l of
 		".data:" -> (p ++ d', t')
 		".text:" -> (d', p ++ t')
-		_       -> error $ "Unknown directive " ++ l
-		| otherwise = error "Expected directive"
+		_        -> error $ "Expected section specifier, found: " ++ l
 		where
-		p = takeWhile (not . isPrefixOf ".") ls
-		d = dropWhile (not . isPrefixOf ".") ls
+		p = takeWhile (not . isSection) ls
+		d = dropWhile (not . isSection) ls
 		(d', t') = splitSections d
+		isSection a = ".text:" `isPrefixOf` a || ".data:" `isPrefixOf` a
 
 makeData :: [Line] -> String
 makeData tt = 
