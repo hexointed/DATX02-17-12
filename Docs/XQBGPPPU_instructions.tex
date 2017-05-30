@@ -260,9 +260,9 @@
 		\end{wrapfigure}
 	
 			\texttt{cross} computes the cross product of two three-dimensional
-			fixed-point vectors on the stack. Vectors are stored on the stack
-			as three consecutive values with the x-coordinate at the top and
-			the z-coordinate at the bottom.
+			fixed-point or integer vectors on the stack. Vectors are stored on
+			the stack as three consecutive values with the x-coordinate at the
+			top and the z-coordinate at the bottom.
 			
 			All arguments are removed from the stack.
 			
@@ -295,14 +295,15 @@
 			\end{flushright}
 		\end{wrapfigure}
 	
-			\texttt{add} adds two fixed-point or integer values on the stack.
+			\texttt{dot} computes the dot product of two three-dimensional
+			fixed-point or integer vectors on the stack. Vectors are stored on
+			the stack as three consecutive values with the x-coordinate at the
+			top and the z-coordinate at the bottom
 			
-			Both arguments are removed from the stack.
+			All arguments are removed from the stack.
 			
-			The result is stored at the bottom of the stack. \\\\\\\\
+			The result is stored at the bottom of the stack. \\\\\\
 	
-	\qquad\qquad
-
 \newpage
 	
 	\subsection*{\texttt{dropv}}
