@@ -43,29 +43,30 @@
 
 		\subsection{Bounding Spheres}
 			
-			In order to decrease the number of distance calculations that has to be
-			performed in each march step, objects can be grouped together in larger
-			enclosing bounding spheres. When the distance field is evaluated only the
-			bounding sphere will be considered and none of the objects enclosed by
-			it. If the bounding sphere is hit by the ray, it will be removed and all
-			the contained objects will be introduced to the distance field.
+			In order to decrease the number of distance calculations that has 
+			to be performed in each march step, objects can be grouped together 
+			in larger enclosing bounding spheres. When the distance field is 
+			evaluated only the bounding sphere will be considered and none of 
+			the objects enclosed by	it. If the bounding sphere is hit by the 
+			ray, it will be removed and all	the contained objects will be 
+			introduced to the distance field.
 			
-			A Bounding Sphere is defined by it's location, radius and enclosed
+			A Bounding Sphere is defined by its location, radius and enclosed
 			objects. The location is calculated by adding the position-vectors
 			of objects and scaling the result with the inverse of the number of
 			objects. The radius is the distance to the object that is the
 			furthest from the Bounding Sphere's position added to that objects
-			sphere of influence (how far it reaches from it's origin). Using 
+			sphere of influence (how far it reaches from its origin). Using 
 			this method to define the sphere would make the sphere work in an 
 			optimal way but it is computationally expensive. A trade-off needs 
-			to be made to aproximate the sphere so that it is fast but also 
+			to be made to approximate the sphere so that it is fast but also 
 			accurate enough.
 
 			In our implementation a Bounding Sphere is simply an object in the
 			scene. Instead of returning a color or redefining the ray (such 
 			as reflecting objects do) when hit it will return the smallest 
 			distance of the enclosed objects. Our implementation does allow for
-			nesting Bouding Spheres but this was not tested.
+			nesting Bounding Spheres but this was not tested.
 
 
 
