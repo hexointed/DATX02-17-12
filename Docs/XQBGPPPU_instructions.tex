@@ -1,6 +1,22 @@
 % CREATED BY DAVID FRISK, 2016
 \chapter{XQBGPPPU Instruction Listing}
 
+	In this appendix, all instructions of the GPU are listed and explained. On
+	the left hand side of each instruction explanation is a diagram showing the
+	changes each instruction applies to the stack. Instruction encodings for
+	all instructions are shown in figure \ref{encodingfiga}.
+
+	\begin{figure}[H]
+		\centering
+		\caption{Bit encoding for the different instruction types. All
+			instruction types have a fixed width 16-bit encoding.}
+		\label{encodingfiga}
+		\includegraphics[width=0.75\linewidth]{figure/pdf/instruction_layout} 
+	\end{figure}
+
+
+\newpage
+
 \section{\texttt{C}-type Instructions}
 	
 	
@@ -10,7 +26,7 @@
 			\begin{flushright}
 				\includegraphics[width=\linewidth]{figure/pdf/i_pushf} 
 			\end{flushright}
-			\vspace{100pt}
+			\vspace{120pt}
 		\end{wrapfigure}
 	
 			\texttt{cond pushf} sends information from the tread registers to a
@@ -180,6 +196,8 @@
 	
 	\qquad
 	
+\newpage
+
 	\subsection*{\texttt{add}}
 	
 		\begin{wrapfigure}{r}{0.35\textwidth}
@@ -211,9 +229,10 @@
 			
 			All arguments are removed from the stack.
 			
-			The result is stored at the bottom of the stack.
-	
-	\qquad\qquad
+			The result is stored at the bottom of the stack.  \\
+			\\
+			\\
+
 	
 	\subsection*{\texttt{copy}}
 	
@@ -227,9 +246,10 @@
 			
 			The argument is \emph{not} removed from the stack.
 			
-			The result is stored at the bottom of the stack.
+			The result is stored at the bottom of the stack. \\\\\\
 	
-	\qquad
+\newpage
+\section*{}
 	
 	\subsection*{\texttt{cross}}
 	
@@ -246,7 +266,7 @@
 			
 			All arguments are removed from the stack.
 			
-			The result is stored at the bottom of the stack.
+			The result is stored at the bottom of the stack.\\\\
 	
 	\qquad\qquad
 	
@@ -279,9 +299,11 @@
 			
 			Both arguments are removed from the stack.
 			
-			The result is stored at the bottom of the stack.
+			The result is stored at the bottom of the stack. \\\\\\\\
 	
 	\qquad\qquad
+
+\newpage
 	
 	\subsection*{\texttt{dropv}}
 	
@@ -454,7 +476,7 @@
 			
 			All arguments are removed from the stack.
 			
-			The result is stored at the bottom of the stack.
+			The result is stored at the bottom of the stack.\\\\
 	
 	\qquad\qquad 
 	
@@ -472,7 +494,7 @@
 			
 			The results are stored at the bottom of the stack.
 
-
+\newpage
 \section{\texttt{R}-type Instructions}
 
 	\subsection*{\texttt{pack}}
@@ -509,6 +531,7 @@
 	
 	\qquad
 
+\newpage
 \section{\texttt{V}-type Instructions}
 
 	\subsection*{\texttt{next}}
