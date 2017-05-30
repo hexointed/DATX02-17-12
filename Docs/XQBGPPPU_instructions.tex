@@ -10,11 +10,13 @@
 			\begin{flushright}
 				\includegraphics[width=\linewidth]{figure/pdf/i_pushf} 
 			\end{flushright}
+			\vspace{100pt}
 		\end{wrapfigure}
 	
-			\texttt{pushf} sends information from the tread registers to a
-			pixel in the frame buffer. Any previous information associated with
-			that pixel is overwritten.
+			\texttt{cond pushf} sends information from the tread registers to a
+			pixel in the frame buffer, if \texttt{cond} is true for the bottom
+			value of the stack. Any previous information associated with that
+			pixel is overwritten.
 			
 			Thread register \texttt{1} is used by the frame buffer as a pixel
 			id. Pixel ids are sequential, the pixel with the highest id
@@ -36,6 +38,7 @@
 			\begin{flushright}
 				\includegraphics[width=\linewidth]{figure/pdf/i_push} 
 			\end{flushright}
+			\vspace{80pt}
 		\end{wrapfigure}
 	
 			\texttt{cond pushs} duplicates the current thread and adds it to
@@ -280,6 +283,22 @@
 	
 	\qquad\qquad
 	
+	\subsection*{\texttt{dropv}}
+	
+		\begin{wrapfigure}{r}{0.35\textwidth}
+			\begin{flushright}
+				\includegraphics[width=\linewidth]{figure/pdf/i_dropv} 
+			\end{flushright}
+		\end{wrapfigure}
+
+			\texttt{dropv} removes the bottom argument from the stack.
+
+			The argument is removed from the stack.
+
+			No result.
+
+	\qquad
+
 	\subsection*{\texttt{floor}}
 	
 		\begin{wrapfigure}{r}{0.35\textwidth}
@@ -452,3 +471,79 @@
 			Both arguments are removed from the stack.
 			
 			The results are stored at the bottom of the stack.
+
+
+\section{\texttt{R}-type Instructions}
+
+	\subsection*{\texttt{pack}}
+	
+		\begin{wrapfigure}{r}{0.35\textwidth}
+			\begin{flushright}
+				\includegraphics[width=\linewidth]{figure/pdf/i_rtype} 
+			\end{flushright}
+		\end{wrapfigure}
+	
+			\texttt{pack pptr} loads the value from thread register 
+			\texttt{pptr} to the bottom of the stack.
+			
+			No arguments are taken from the stack.
+			
+			The result is stored at the bottom of the stack.
+	
+	\qquad
+
+	\subsection*{\texttt{val}}
+	
+		\begin{wrapfigure}{r}{0.35\textwidth}
+			\begin{flushright}
+				\includegraphics[width=\linewidth]{figure/pdf/i_rtype} 
+			\end{flushright}
+		\end{wrapfigure}
+	
+			\texttt{val mptr} loads the value from immutable memory location 
+			\texttt{mptr} to the bottom of the stack.
+			
+			No arguments are taken from the stack.
+			
+			The result is stored at the bottom of the stack.
+	
+	\qquad
+
+\section{\texttt{V}-type Instructions}
+
+	\subsection*{\texttt{next}}
+	
+		\begin{wrapfigure}{r}{0.35\textwidth}
+			\begin{flushright}
+				\includegraphics[width=\linewidth]{figure/pdf/i_next} 
+			\end{flushright}
+		\end{wrapfigure}
+	
+			\texttt{next id} updates the accumulated minimum distance register
+			with the bottom value of the stack as the distance, and \texttt{id}
+			as the ID.
+
+			The argument is \emph{not} removed from the stack.
+			
+			No results are generated on the stack. The accumulated minimum 
+			distance register is updated.
+	
+	\qquad
+
+	\subsection*{\texttt{nextclr}}
+	
+		\begin{wrapfigure}{r}{0.35\textwidth}
+			\begin{flushright}
+				\includegraphics[width=\linewidth]{figure/pdf/i_nop} 
+			\end{flushright}
+		\end{wrapfigure}
+	
+			\texttt{nextclr} clears the minimum distance register, setting the
+			distance to the largest possible value.
+
+			No arguments are taken from the stack.
+			
+			No results are generated on the stack. The accumulated minimum 
+			distance register is updated.
+	
+	\qquad
