@@ -5,9 +5,11 @@
 
 	\section{Software Shader Performance}
 
-		The shader performed as expected, a conventional graphics card is
-		capable of rendering scenes with low scene complexity in real-time
-		using sphere tracing.
+		The shader we implemented could render simple scenes in real-time but
+		performance degrades rapidly as the number of objects rendered increases.
+		Rendering advanced scenes with a conventional GPU might be possible, but 
+		not with our implementation, although our optimizations could certainly
+		be used.
 
 		Scenes can easily be made to look a lot more complex than they
 		are, for example, by using mod fields, when the modulo
@@ -112,13 +114,13 @@
 
 		\subsection{Orthogonal culling}
 		
-		Tests to see the performance of the Orthogonal Culling optimization
+		Tests to examine the performance gain of the Orthogonal Culling optimization
 		were performed by putting an increasing number of solid-colored spheres
 		in a plane in front of the camera. Because of this, the spheres are not
 		obstructed by other spheres, making this the best possible scenario for
-		the optimization.
-
-		Below are test results from Orthogonal culling.
+		the optimization. In all scenarios tested there was an increase in 
+		performance when using the optimization, but the increase varied with the 
+		number of objects and how they were set up.
 
 			\begin{table}
 			\centering
@@ -145,10 +147,12 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/TestResults/PercentageImprovement.png} 
-				\caption{The performance of the optimized and unoptimized version, displayed in percentage.}
+				\caption{The performance difference of the optimized and unoptimized version, 
+				displayed in percentage.}
 				\label{orthcull}
 			\end{figure}
 
+		
 
 
 		\subsection{Bounding spheres}
@@ -166,7 +170,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/TestResults/BSObjects.png} 
-				\caption{Results from Bounding Sphere test. Blue is optimized, red is without optimization}
+				\caption{Results from Bounding Sphere tests. Blue is optimized, red is without optimization}
 				\label{boundsphere}
 			\end{figure}
 
