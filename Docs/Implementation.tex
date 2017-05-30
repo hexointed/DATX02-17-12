@@ -96,7 +96,7 @@
 			version that runs on our own hardware single thread is initially 
 			created. This thread will create a render thread, which will 
 			calculate the color of the next pixel, and one new version of
-            itself. Lastly it simply terminates it's execution, freeing up the 
+            itself. Lastly it simply terminates its execution, freeing up the 
             core to request a new thread. The new version of the thread keeps 
             track of the next pixel to be rendered. This will render all pixels 
             as concurrently as the GPU has cores, minimizing core stalls and 
@@ -136,12 +136,13 @@
 			stored.
 
 			All threads that are not running are sent to a storage manager that
-			communicates with all cores, and threads are then dispatched to the cores
-			as they become available for execution. The cores are also able to spawn
-			new threads by sending their data to the storage manager or by
-			terminating their current thread either by simply dropping them or by
-			sending them to the frame buffer. Where the register content will be used
-			to determine the color of a pixel on the screen.
+			communicates with all cores. Threads are then dispatched to the 
+			cores as they become available for execution. The cores are also 
+			able to spawn new threads by sending their data to the storage 
+			manager, or by terminating their current thread. This is done 
+			either by simply dropping them or by sending them to the frame 
+			buffer, where the register content will be used to determine the 
+			color of a pixel on the screen.
 
 			The storage in the storage manager on the GPU is implemented
 			as a double-ended queue. This makes it possible for threads to have

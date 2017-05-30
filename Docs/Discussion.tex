@@ -33,7 +33,7 @@
 
 			The implemented optimizations increased the performance of our 
 			shader and there are more improvements to implement. The potential
-			of Sphere Tracing on conventional GPU's is hard to estimate but 
+			of Sphere Tracing on conventional GPUs is hard to estimate but 
 			it is certainly possible to develop our implementation further.
 			
 			GLSL has some very attractive features, it was easy to learn 
@@ -214,8 +214,7 @@
 		algorithm has potential one way or another.  Further prototypes needs
 		to be built with greater rigor before that can happen. If we however
 		assume that somewhere down the line it turns out to be a success,
-		then there are generally three ways in which we could foresee that
-		happening.
+		then there are generally three ways we can see that happening.
 		
 		First up is by breaking through in the games industry. Granted that
 		it probably will not be able to outperform modern graphic cards at
@@ -231,10 +230,11 @@
 		commonly used in movie production faster that modern graphic cards.
 		This is not too unlikely since the calculation of the rays in both
 		cases follow many similar patterns in bouncing and reflecting etc.
-		Since movies render in render farms where like server farms, lots of
-		copies of the same hardware works in tandem. Meaning that even a
+		Movies are computed in render farms, where lots of
+		copies of the same hardware works in tandem. This means that even a
 		small improvement over current graphic cards might be amplified to a
 		significant gain in computational power.
+		?? ?? gäller la vanliga kort med?
 		
 		Finally, we designed our GPU similar to a CPU but with more	cores
 		like a GPU except with no lockstepping. If this proves to be feasible
