@@ -2,21 +2,28 @@
 \chapter{Sphere Tracing} \label{spheretracing}
 
 	The graphics rendering algorithm our GPU was designed for is called Sphere
-	Tracing\cite{Hart1996}. The name is based on the fact that the algorithm
-	uses distance bounding spheres to incrementally advance along a ray in 3D space.
+	Tracing\cite{Hart1996}. The name is based on the fact that the algorithm uses
+	distance bounding spheres to incrementally advance along a ray in 3D space.
 	The method of advancing along rays in general is called Ray Marching which in
-	turn is a subset of Ray Tracing\cite{Whitted1980a}. Ray Tracing, is a
-	way to wholly or partially render the world through rays, cast from the eye
-	of the observer into the scene\cite{PeterShirleyMichaelAshikhmin2005}. 
-	Sphere Tracing has been	around since at least as early as the late 
-	eighties\cite{Hart1989} and Ray Tracing the 
-	sixties\cite{Appel1968}.
+	turn is a subset of Ray Tracing\cite{Whitted1980a}. Ray Tracing, is a way to
+	wholly or partially render the world through rays, cast from the eye of the
+	observer into the scene\cite{PeterShirleyMichaelAshikhmin2005}. Sphere
+	Tracing has been around since at least as early as the late
+	eighties\cite{Hart1989} and Ray Tracing since the sixties\cite{Appel1968}.
+
+	Sphere Tracing can render detailed scenes with lightsetting that is very
+	close to how real light behaves, as seen here in \ref{AppendixRealLight}.
+	Moreover it also allows for creating complex objects from simpler primitive
+	objects using constructive solid geometry, as we will see later in \ref{CSG}.
+	These objects can be repeated and distorted at low costs to create finely
+	textured surfaces \ref{AppendixCoolSurface} or waterlike scenes
+	\ref{AppendixCoolWater}.
 
 	In this chapter the Sphere Tracing algorithm is discussed in detail with
 	both definitions and examples. The explanation is based on the the very
 	succinct explanation in \cite{Korndorfer2014}. The paper also expands upon
 	the original algorithm in some innovative ways. For a more in-depth
-	description of the original algorithm see Hart \cite{Hart1996}.
+	description of the original algorithm see \cite{Hart1996}.
 
 	\section{Sphere Tracing} 
 
@@ -72,7 +79,7 @@
 		pixel of the screen, almost simulating the light rays entering the
 		lens of an eye or camera in reverse.
 		
-		\subsection{Generalized Distance Functions}
+		\subsection{Generalized Distance Functions} \label{CSG}
 
 			It is also possible to generalize signed distance functions into
 			signed distance bounds: we define signed distance bounds such that
