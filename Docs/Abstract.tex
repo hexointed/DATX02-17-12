@@ -3,17 +3,29 @@
 \setlength{\parindent}{0pt}
 
 \section*{Abstract}
+
+	This thesis documents the result of a graphics processing unit (GPU) that
+	we have designed to be able to run a specific rendering algorithm called
+	Sphere Tracing, a sub algorithm of Ray Tracing. The GPU is written in the functional
+	hardware design programming language \clash. A software shader were implemented 
+	in GLSL to be able to research the algorithm.
 	
 	Real-time rendering performance has always been a significant factor for 3D
 	graphic cards. However, 3D graphic cards today are optimized and built for
 	polygon-based rendering. Therefore, Sphere Tracing rendering is slower on
-	this hardware. The aim of this thesis is to implement and design a basic GPU
-	(Graphics processing unit) that is designed for Sphere Tracing, using \clash,
+	this hardware. Which leads to the question, how fast can the Sphere Tracing 
+	algorithm run on hardware designed for this algorithm. The aim of this thesis 
+	is to implement and design a basic GPU (Graphics processing unit) that is 
+	designed for Sphere Tracing, using \clash,
 	a functional hardware description language. We assessed the potential
-	performace of the Sphere Tracing algorithm. This led to hardware and software
-	optimizations of which some where implemented. The results indicate that it
-	is possible to increase the performance of the Sphere Tracing algorithm. In
-	addition, possible future work is discussed.
+	performance of the Sphere Tracing algorithm using our software shader.
+	
+	 
+	This led to hardware and software optimizations, Orthogonal Culling, hardware square 
+	roots, Bounding Spheres, Ray Bunching, of which some where implemented. 
+	The results indicate that it is possible to increase the performance of the 
+	Sphere Tracing algorithm. In addition possible future work, software 
+	and hardware improvements, is discussed.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
@@ -27,7 +39,8 @@
 	Denna uppsats dokumenterar resultaten kring en grafikenhet (GPU) som vi
 	designat med avseende att köra en specifik renderingsalgoritm kallad Sphere
 	Tracing, en typ av Ray Tracing. GPUn är skriven i det funktionella
-	hårdvarubeskrivande programmeringsspråket \clash.
+	hårdvarubeskrivande programmeringsspråket \clash. För att undersöka algoritmen 
+	skapade vi en mjukvarushader i GLSL.
 	
 	Hastigheten på realtidsrenderingen hos 3D-grafikkort har alltid varit ett
 	viktigt säljargument. Dock, när det kommer till Sphere Tracing-rendering
@@ -36,9 +49,15 @@
 	vidareutvecklat hårdvaran specifikt för att accelerera polygonrendering
 	vilket leder till frågan hur pass snabbt Sphere Tracing kan köras om liknande
 	hårdvara skräddarsys för just den algoritmen. Avsikten med denna rapport är
-	att ge en idé om vilka prestandaökningar som finns att uppnå med ett
-	alternativt realtidsrenderande 3D-grafikkort. Resultaten pekar på att det går
-	att öka prestandan för algoritmen.
+	att ge en idé om vilka prestandaökningar som finns att uppnå och även implementera ett
+	alternativt realtidsrenderande 3D-grafikkort i \clash. För att studera potentiala 
+	förbättringar av algoritmen användes shadern.
+	
+	Detta bidrog till hårdvaru och mjukvaru förbättringar, Orthogonal Culling, 
+	kvadratrötter i hårdvara, Bounding Spheres, Ray Bounching. Vissa av dessa blev 
+	förverkligade i projektet. Resultaten pekar på att det går att öka prestandan 
+	för algoritmen. Utöver detta diskuteras även mjukvaru och hårdvaru 
+	förbättringar för framtida arbete.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
