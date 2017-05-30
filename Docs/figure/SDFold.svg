@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="-23 167 500 328" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="gradient-1" gradientUnits="userSpaceOnUse" cx="240.339" cy="243.238" r="106.267" spreadMethod="pad" gradientTransform="matrix(0.972953, 0, 0, 0.953606, 95.341844, 130.389546)">
+      <stop offset="0" style="stop-color: rgba(145, 189, 3, 1)"/>
+      <stop offset="1" style="stop-color: rgba(68, 88, 1, 1)"/>
+    </radialGradient>
+    <radialGradient id="gradient-5" gradientUnits="userSpaceOnUse" cx="240.339" cy="243.238" r="106.267" gradientTransform="matrix(0.972953, 0, 0, 0.953606, 95.341844, 130.389546)">
+      <stop offset="0" style="stop-color: rgb(255, 227, 43);"/>
+      <stop offset="1" style="stop-color: rgb(255, 255, 255);"/>
+    </radialGradient>
+    <style id="bx-google-fonts">@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,500,500italic,700,700italic,900,900italic);</style>
+  </defs>
+  <ellipse cx="329.181" cy="362.342" rx="103.392" ry="101.337" style="stroke: url(#gradient-1); fill: url(#gradient-5);"/>
+  <path d="M 205.561 265.457 Z" style="stroke: black; fill: none;"/>
+  <path d="M 300.235 262.559 Z" style="stroke: black; fill: none;"/>
+  <ellipse cx="96.021" cy="216.13" rx="6.917" ry="6.917" style="fill: rgb(216, 216, 216);" transform="matrix(1.000001, 0, 0, 1, 80.183053, 8.694565)"/>
+  <ellipse cx="307.125" cy="166.013" rx="6.917" ry="6.917" style="fill: rgb(216, 216, 216);" transform="matrix(1, 0, 0, 1.000002, -61.26178, 136.162811)"/>
+  <ellipse cx="290.065" cy="251.938" rx="6.917" ry="6.917" style="fill: rgb(216, 216, 216);" transform="matrix(1, 0, 0, 1.000002, 37.676422, 52.166818)"/>
+  <text style="font-size: 22.2px; white-space: pre;" y="373.974" x="20.406">SDF(p ) = 0</text>
+  <text x="86.87" y="241.223" style="font-size: 17.2px; white-space: pre;" transform="matrix(1, 0, 0, 0.999999, 67.624352, 8.694746)">p</text>
+  <text x="95.248" y="251.846" style="font-size: 12.9px; white-space: pre;" transform="matrix(1, 0, 0, 0.999999, 67.624359, 8.694813)">1</text>
+  <text x="186.448" y="272.646" style="font-size: 17.2px; white-space: pre;" transform="matrix(1.000002, 0, 0, 1, 28.958706, 38.524811)">p</text>
+  <text x="223.784" y="321.793" style="font-size: 12.9px; white-space: pre;">2</text>
+  <text x="68.337" y="60.617" style="font-size: 12px; white-space: pre;" transform="matrix(1.432046, 0, 0, 1.432047, 203.627335, 228.888229)">p</text>
+  <text x="126.232" y="151.707" style="font-size: 9px; white-space: pre;" transform="matrix(1.43205, 0, 0, 1.432047, 129.094696, 109.065346)">3</text>
+  <text x="135.851" y="84.135" style="font-size: 7px; white-space: pre;" transform="matrix(1.848314, 0, 0, 1.848317, -173.904236, 230.200089)">2</text>
+  <text style="font-size: 22.2px; white-space: pre;" y="412.125" x="19.733">SDF(p ) &lt; 0</text>
+  <text x="183.541" y="133.737" style="font-size: 10px; white-space: pre;" transform="matrix(1.290681, 0, 0, 1.29068, -160.374405, 251.247375)">3</text>
+  <text style="font-size: 22.2px; white-space: pre;" y="335.074" x="20.887">SDF(p ) &gt; 0</text>
+  <text x="184.435" y="74.04" style="font-size: 10px; white-space: pre;" transform="matrix(1.290677, 0, 0, 1.290681, -160.373764, 251.247223)">1</text>
+</svg>

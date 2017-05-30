@@ -3,17 +3,25 @@
 \setlength{\parindent}{0pt}
 
 \section*{Abstract}
+
+	This thesis documents our experiences and conclusions during the design of  
+	a graphics processing unit (GPU), specifically designed and optimized for 
+	executing the Sphere Tracing algorithm. This is a graphics rendering 
+	algorithm that is a variation of standard Ray Tracing. The GPU is written 
+	in the functional hardware design programming language \clash. A shader was 
+	implemented in GLSL to enable algorithm research.
 	
 	Real-time rendering performance has always been a significant factor for 3D
 	graphic cards. However, 3D graphic cards today are optimized and built for
 	polygon-based rendering. Therefore, Sphere Tracing rendering is slower on
-	this hardware. The aim of this thesis is to implement and design a basic GPU
-	(Graphics processing unit) that is designed for Sphere Tracing, using \clash,
-	a functional hardware description language. We assessed the potential
-	performace of the Sphere Tracing algorithm. This led to hardware and software
-	optimizations of which some where implemented. The results indicate that it
-	is possible to increase the performance of the Sphere Tracing algorithm. In
-	addition, possible future work is discussed.
+	this hardware. Which leads to the question, how fast can the Sphere Tracing 
+	algorithm run on hardware designed for this algorithm. We assessed 
+	potential performance improvements of the Sphere Tracing algorithm using 
+	our software shader. We designed hardware and software optimizations, and 
+	implemented some in \clash and our shaders. The results indicate that it is 
+	possible to increase the performance of the Sphere Tracing algorithm. In 
+	addition, possible future work, software and hardware improvements, is 
+	discussed.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
@@ -24,21 +32,26 @@
 
 \section*{Sammanfattning}
 	
-	Denna uppsats dokumenterar resultaten kring en grafikenhet (GPU) som vi
-	designat med avseende att köra en specifik renderingsalgoritm kallad Sphere
-	Tracing, en typ av Ray Tracing. GPUn är skriven i det funktionella
-	hårdvarubeskrivande programmeringsspråket \clash.
+	Denna uppsats dokumenterar våra upplevelser och slutsatser under 
+	utvecklingen av en grafikprocessor (GPU) som vi	designat och optimerat 
+	för att exekvera renderingsalgoritmen Sphere Tracing, en typ av Ray 
+	Tracing. GPU:n är skriven i det funktionella hårdvarubeskrivningsspråket 
+	\clash. För att undersöka algoritmen skapade vi en shader i GLSL.
 	
 	Hastigheten på realtidsrenderingen hos 3D-grafikkort har alltid varit ett
-	viktigt säljargument. Dock, när det kommer till Sphere Tracing-rendering
-	jämfört med polygonbaserade renderingsmetoder så har den förstnämda
-	historiskt sett varit långsammare. Detta har lett till att man
-	vidareutvecklat hårdvaran specifikt för att accelerera polygonrendering
-	vilket leder till frågan hur pass snabbt Sphere Tracing kan köras om liknande
-	hårdvara skräddarsys för just den algoritmen. Avsikten med denna rapport är
-	att ge en idé om vilka prestandaökningar som finns att uppnå med ett
-	alternativt realtidsrenderande 3D-grafikkort. Resultaten pekar på att det går
-	att öka prestandan för algoritmen.
+	viktigt säljargument. Dock så har Sphere Tracing-rendering historiskt sett 
+	varit långsammare jämfört med polygonbaserade renderingsmetoder. Detta har 
+	lett till att man vidareutvecklat hårdvaran specifikt för att accelerera 
+	polygonrendering, vilket leder till frågan hur pass snabbt Sphere Tracing 
+	egentligen skulle kunna köras om liknande hårdvara skräddarsys för just 
+	denna algoritm. Avsikten med rapporten är dels att ge en idé om vilka 
+	prestandaökningar som finns att uppnå, och dels att implementera ett
+	alternativt realtidsrenderande 3D-grafikkort i \clash. 
+	
+	Detta bidrog till hårdvaru- och mjukvaruförbättringar, varav vissa 
+	implementerades i \clash och våra shaders. Resultaten pekar på att det går 
+	att öka prestandan för algoritmen. Utöver detta diskuteras även mjukvaru- 
+	och hårdvaruförbättringar för framtida projekt.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
