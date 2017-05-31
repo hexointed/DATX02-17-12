@@ -3,9 +3,9 @@
 	In order to achieve the goals set in this project, two separate pieces of
 	software and one piece of hardware were written. The software programs are
 	two different implementations of a reference shader. The first of these was
-	written in GLSL for traditional graphics hardware, and the second is written
-	in an assembly language we designed for the Sphere Tracing processor. Both of
-	these shaders are described in section \ref{implshader}.
+	written in GLSL\cite{glsl} for traditional graphics hardware, and the second
+	is written in an assembly language we designed for the Sphere Tracing
+	processor. Both of these shaders are described in section \ref{implshader}.
 	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
@@ -22,13 +22,14 @@
 
 			A bottleneck of Sphere Tracing is that the distance to a lot of objects
 			has to be calculated once for every march step. Performance can be
-			increased by reducing the number of objects that the distance has 
-			to be calculated to, without reducing the actual number of objects in the
+			increased by reducing the number of objects that the distance has to be
+			calculated to, without reducing the actual number of objects in the
 			scene. To do this the GPU needs to calculate which object a ray might hit
 			by checking its field of view. This information is traditionally
-			calculated on the CPU and then passed to the GPU (Frustum culling). Even
-			frustum culling might not be enough. Each ray should only care about the
-			objects that it might hit, not all objects in the field of view.
+			calculated on the CPU and then passed to the GPU (a.k.a Frustum
+			culling\cite{frustum}). Even frustum culling might not be enough. Each
+			ray should only care about the objects that it might hit, not all objects
+			in the field of view.
 
 			Orthogonal Culling works by going through all the objects in the scene
 			and calculate what rays might hit what object. Orthogonal projection is
@@ -368,7 +369,7 @@
 
 			Another algorithm for calculating square roots is the
 			\emph{Shifting nth root algorithm}, also known as \emph{Dijkstras
-			square root algorithm}, which calculates the square root one digit
+			square root algorithm}\cite{Li}, which calculates the square root one digit
 			at a time. A \texttt{c} implementation of this algorithm is shown
 			in figure \ref{sqrtc}. Initially, this algorithm does not seem like
 			a good candidate for a high performance hardware implementation,

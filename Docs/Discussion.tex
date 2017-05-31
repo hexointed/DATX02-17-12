@@ -8,17 +8,15 @@
 		
 		In this section we describe some project specific tools and our experience using them.
 		
-		\subsection{\clash}
-			As described in \ref{FHDLs}, the ability to simulate the function of
-			the GPU directly in a REPL was completely essential in us being able
-			to complete a working GPU in the short time span available. The way
-			\clash{} handles state is quite elegant and effective once one has
-			learned the general pattern. Lists however, are too abstract for
-			synthesis so \clash{}  uses its own vector type instead. Most 
-			regular
-			data functions are implemented, but all such vectors must have a
-			fixed size. This makes some operations such as combining two vectors
-			rather cumbersome and one has to work around this.
+		\subsection{\clash} As described in \ref{FHDLs}, the ability to simulate
+		the function of the GPU directly in a REPL\cite{repl} was completely
+		essential in us being able to complete a working GPU in the short time span
+		available. The way \clash{} handles state is quite elegant and effective
+		once one has learned the general pattern. Lists however, are too abstract
+		for synthesis so \clash{}  uses its own vector type instead. Most regular
+		data functions are implemented, but all such vectors must have a fixed
+		size. This makes some operations such as combining two vectors rather
+		cumbersome and one has to work around this.
 	
 		\subsection{Synthclipse}
 			This is an IDE for developing shaders, using GLSL or JSX. It has
