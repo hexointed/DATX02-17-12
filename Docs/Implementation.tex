@@ -23,7 +23,8 @@
 			created in the high-level shading language GLSL (short for OpenGL Shading
 			Language). It executes its main-loop for each pixel the shader is
 			rendered on, using the screen-coordinates as input. The Bounding Sphere
-			and Ortogonal Culling optimizations were implemented and used in this
+			and Orthogonal Culling optimizations were implemented and used in 
+			this
 			shader.
 			
 			Before the loop is run Orthogonal Culling is executed, reducing the
@@ -45,7 +46,7 @@
 			thread will create a single render thread and one new version of itself
 			in order to create more render threads until it has created a render
 			thread for each pixel (or group if Ray Grouping is used). This will
-			happen continiously during execution. This will render all pixels as
+			happen continuously during execution. This will render all pixels as
 			concurrently as the GPU has cores, minimizing core stalls and therefore
 			maximizing GPU usage.
 
