@@ -1,30 +1,33 @@
 \chapter{Results}
 
-	In this chapter the results of GPU design choices and algorithmic
-	optimizations and their effects are reviewed.
+	In this chapter the results of the GPU design choices and the algorithmic
+	optimizations and their effects are presented.
 
-	\section{Software Shader}
+	\section{GLSL Shader}
 
-		Our GLSL shader can render simple scenes in real-time but
-		performance degrades rapidly as the number of objects rendered increases.
-		Scenes can easily be made to look more complex than they are, for 
-		example, by using mod fields, when the modulo operation is used on an object it creates a field with multiple copies of the original object next to each other, or fractals. The hardware (Geforce GTX 1060M) that the shader was tested 
-		on was able to render 20 reflective spheres in real time in 1920x1080 
-		resolution using our performance enhancing algorithm.
-
+		Our GLSL shader can render simple scenes in real-time but performance
+		degrades rapidly as the number of objects rendered increase. Scenes can
+		easily be made to look more complex than they are. For example by using mod
+		fields, where the modulo operation is used on an object to creates a field
+		with multiple copies of the original object next to each other. The
+		hardware (Geforce GTX 1060M) that the shader was tested on was able to
+		render 20 reflective spheres in real time in 1920x1080 resolution using our
+		performance enhancing algorithm. Exampels of scenes rendered using our GLSL
+		shader can be seen in appendix B.
  
 	\section{GPU}
 	
-		The GPU has been tested by simulating it in \clash. In the simulation a program is executed on the GPU, which renders a sphere using Sphere Tracing. 
+		The GPU has been tested by simulating it in \clash. In the simulation a
+		program is executed on the GPU, which renders a scene using Sphere
+		Tracing. 
 
-		It spawns threads
-		progressively to fill the screen data buffer with pixels. The simulated execution
-		of our test programs ran exactly as intended, with any number of
-		cores. The design has also been put through a synthesizing
-		tool for FPGAs, which creates a net list of the components and
-		connections that constitute the GPU. This also works as intended
-		without any unexpected problems, but the actual operation of the GPU on
-		an FPGA has not yet been verified.
+		It spawns threads progressively to fill the screen data buffer with pixels.
+		The simulated execution of our test programs ran exactly as intended, with
+		any number of cores. The design has also been put through a synthesizing
+		tool for FPGAs, which creates a net list of the components and connections
+		that constitute the GPU. This also works as intended without any unexpected
+		problems, but the actual operation of the GPU on an FPGA has not yet been
+		verified.
 	
 	\section{Square roots}
 		
@@ -32,7 +35,9 @@
 		methods are shown in figures \ref{sres1}, \ref{sres2}, \ref{sres3},
 		\ref{sres4}, \ref{sres5}, and \ref{sres6}. The shifting nth root
 		algorithm is used as a reference in all figures because it is always
-		bit-accurate for square roots. All graphs show integer values only.
+		bit-accurate for square roots. All graphs show integer values only but the
+		absolute and relative error comparisons are against real-valued square
+		roots.
 
 		\begin{figure}[H]
 			\centering
@@ -181,7 +186,7 @@
 			The ray grouping optimization was implemented and performance tests
 			were done, the results of wich can be seen in table
 			\ref{grouptable}. These tests rendered a scene containing three
-			speres at different distances on a 64 by 64 as well as a 128 by 128
+			spheres at different distances on a 64 by 64 as well as a 128 by 128
 			pixel display. Ray grouping lowered the execution time when the
 			maximum group size was set to 2, but did not decrease significantly
 			further when increasing the group size to 4 or 8. When rendering to

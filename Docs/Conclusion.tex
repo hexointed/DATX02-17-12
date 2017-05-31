@@ -8,29 +8,18 @@
 	executes as intended and, if programmed correctly, can Sphere Trace complete
 	scenes.
 	
-	For the GLSL shader we describe and tried three optimizations, Bounding Spheres, 
-	Orthogonal Culling and Ray Grouping. Bounding Spheres decrease the number of 
-	calculations made in each march by enclosing several objects into one bounding 
-	sphere. Orthogonal Culling is used to tell whether a object is in front of the ray 
-	or not, decreasing the number of objects needed to calculate the signed distance
-	function. Ray Grouping decreases the number of of steps needed to march by grouping 
-	rays together into blocks. And march just once for that entire block until it is split 
-	up into smaller blocks. All of them improved performance. We believe they can be 
-	improved further by offloading parts of the computation to the CPU.
+	For the GLSL shader we describe and tried three optimizations, Bounding
+	Spheres, Orthogonal Culling and Ray Grouping. Bounding Spheres decrease the
+	number of calculations made in each march by enclosing several objects into
+	one bounding sphere. Orthogonal Culling is used to tell whether a object is
+	in front of the ray or not, decreasing the number of objects needed to
+	calculate the signed distance function. Ray Grouping decreases the number of
+	of steps needed to march by grouping rays together into blocks. All of them
+	improved performance. We believe they can be improved further by offloading
+	parts of the computation to the CPU.
 	
 	For the hardware optimization, calculating square roots was considered
 	important and methods for calculating them efficiently where investigated. We
 	found a number of fast approximations that are bounded in their relative
 	error. We also looked at possible optimizations for an exact integer square
 	root algorithm.
-	
-	It has been a challenging project for all of the group members due to the
-	scope of the project and the lack of experience in both hardware design and
-	graphics overall. This resulted in a relatively large amount of time spent
-	researching these subjects.
-
-	We realized the importance of setting up well defined goals and following
-	them as close as possible. In our case, this meant getting a working version
-	of the GPU up an running as soon as possible. We also realized the importance
-	of keeping all project members busy simultaneously, much like when designing
-	hardware and all of its components.

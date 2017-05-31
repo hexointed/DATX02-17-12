@@ -10,17 +10,16 @@
 	Tracing has been around since at least as early as the late
 	eighties\cite{Hart1989} and Ray Tracing since the sixties\cite{Appel1968}.
 
-	Using Sphere Tracing scenes can be rendered with lighting that is very close
-	to how real light behaves (appendix \ref{AppendixRealLight},
-	\pageref{AppendixRealLight}). It also allows building more complex objects
-	from simpler primitives using constructive solid geometry, explained later in
-	\ref{CSG}. These objects can be repeated and distorted at a low cost to
-	create finely textured surfaces or water like scenes (appendix
-	\ref{AppendixCoolWater}, \pageref{AppendixCoolWater}).
+	Using Sphere Tracing, scenes can be rendered with lighting that is very close
+	to how real light behaves. It also allows building more complex objects from
+	simpler primitives using constructive solid geometry, explained later in
+	section \ref{CSG}. These objects can be repeated and distorted at a low cost
+	to create higly detailed vast scenes. For an example of some interesting
+	scenes rendered using Sphere Tracing, see appendix \ref{AppendixCoolWater}.
 
 	In this chapter the Sphere Tracing algorithm is discussed in detail with
 	both definitions and examples. The explanation is based on the the very
-	succinct explanation in \cite{Korndorfer2014}. The paper also expands upon
+	succinct explanation in \cite{Korndorfer2014}. That paper also expands upon
 	the original algorithm in some innovative ways. For a more in-depth
 	description of the original algorithm see \cite{Hart1996}.
 
@@ -38,7 +37,7 @@
 		all points in $\mathbb{R}^3$, the signed distance to the closest point
 		on the implicit surface $\text{f}^{-1}(0)$. Signed in this context
 		refers to the fact that the distance should be negative when measured
-		on the inside of the surface.
+		from the inside of the object represented by the surface.
 
 		A common example would be the signed distance function, $f$, of a
 		sphere centered at the origin with a radius of one: $f(\vec{v}) =
@@ -89,10 +88,10 @@
 			past any object without detecting it}) when signed distance
 			functions are exchanged with signed distance bounds. The reason for
 			this is simple: given a position $\vec{p}$, a Sphere Tracer using
-			signed distance bounds will march forward $g(\vec{v})$ distance
+			signed distance bounds will march forward $g(\vec{p})$ distance
 			units, whereas a Sphere Tracer using signed distance functions will
-			march forward at least as far or further, since $f(\vec{v}) \geq
-			g(\vec{v})$.
+			march forward at least as far or further, since $f(\vec{p}) \geq
+			g(\vec{p})$.
 
 			Using signed distance bounds, it is easy to construct complex
 			objects from simple primitives using constructive solid geometry.
@@ -138,11 +137,11 @@
 		\subsection{Reflections, refractions and shading}
 
 			Once a point on a surface for a given pixel has been located,
-			reflections, light, shadows and refractions needs to be calculated.
+			reflections, light, shadows and refractions can be calculated.
 			A lot of these depend on the surface normal which can be
 			approximated with the partial derivatives around the surface point
-			given some small delta $\delta$. This is the normalized gradient
-			$\vec{g}$ of the point.
+			given some small value $\delta$. This is the normalized gradient
+			$\vec{g}$ of that point.
 
 			$$\vec{g} = \vec{x}\cdot\frac{\text{SDF}(x+\delta, y, z)}{\delta} +
 			\vec{y}\cdot\frac{\text{SDF}(x, y+\delta, z)}{\delta} +
@@ -157,4 +156,4 @@
 			sources of light from the surface to check for obstructions. Same 
 			for reflections	and refractions where further marching in 
 			proportionate angles to	the angle of incidence can determine what 
-			objects are reflected in the surface.
+			objects are reflected on the surface.

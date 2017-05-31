@@ -12,41 +12,52 @@
 	
 	\section{Shaders} \label{implshader}
 
-		The shaders written uses the theory described in \ref{spheretracing}
-		iterating over a ray in a main loop. The GLSL shader has more
-		optimizations added to it, but lacks the ray grouping optimization.
+		The shaders written uses the theory described in chapter
+		\ref{spheretracing}, iterating over a ray in their main loop. The GLSL
+		shader has more optimizations, but lacks the ray grouping optimization. The
+		optimizations are described separately after the shaders.
 
-		\subsection{Orthogonal Culling Optimization}
+		\subsection{GLSL Based}
+	
+			This shader is designed to run on conventional graphics hardware. It was
+			created in the high-level shading language GLSL (short for OpenGL Shading
+			Language). It executes its main-loop for each pixel the shader is
+			rendered on, using the screen-coordinates as input. The Bounding Sphere
+			and Ortogonal Culling optimizations were implemented and used in this
+			shader.
+			
+			Before the loop is run Orthogonal Culling is executed, reducing the
+			number of objects in the distance field. Orthogonal Culling can cull
+			individual objects or Bounding Spheres. The Sphere Tracing loop is a
+			straight-forward implementation of the algorithm.
+			
+			After a hit is detected different things can happen depending on the
+			material assigned to the object. If the object is reflective, then the
+			normal of the surface that was hit is calculated and used to reflect the
+			ray. If the object is colored the pixel will simply be set according to
+			the object. Color can also be calculated from object or ray coordinates.
 
-			A bottleneck of Sphere Tracing is that the distance to a lot of
-			objects has to be calculated once for every march step. Performance
-			can be increased by reducing the number of objects that the
-			distance has to be calculated to, without reducing the actual
-			number of objects in the scene. To do this the GPU needs to
-			calculate which object a ray might hit executing the Sphere
-			Tracing. This information is traditionally calculated on the CPU
-			and then passed to the GPU (a.k.a Frustum culling\cite{frustum}).
+		\subsection{Assembler Based}
 
-			Orthogonal Culling works by going through all the objects in the
-			scene and calculate what objects a ray might hit. Orthogonal
-			projection is used to tell whether an object is in front of the ray
-			or not. By projecting the center of the sphere onto the directional
-			line of the ray, the lines' closest point to the object is known.
-			Then the distance between the line and the sphere can be calculated
-			using the radius, if the distance is less than zero the sphere will
-			be hit by the ray. If the distance is larger than zero the ray
-			can't possibly hit that sphere. This way the number of objects that
-			the distance has to be calculated to is decreased. In the current
-			implementation Orthogonal Culling only works on spheres, it is also
-			for spheres that this optimization is the most effective.
+			In this shader the Ray Grouping optimization was implemented. This shader
+			was written in an assembly language we designed for our GPU. When this
+			shader starts executing, a single thread is initially created. This
+			thread will create a single render thread and one new version of itself
+			in order to create more render threads until it has created a render
+			thread for each pixel (or group if Ray Grouping is used). This will
+			happen continiously during execution. This will render all pixels as
+			concurrently as the GPU has cores, minimizing core stalls and therefore
+			maximizing GPU usage.
 
-			\begin{figure}[H]
-                \centering
-                \includegraphics[width=1.0\linewidth]{figure/WithCulling} 
-                \caption{Note that the objects that isn't on the "path" of the ray
-                isn't considered.}
-            \end{figure}
+			When a render thread is created it immediately starts setting up the ray.
+			The screen coordinates are calculated from the thread id, this is
+			essential for calculating the ray direction. Camera position and a point
+			to orient the camera against are predefined. 
 
+			After screen coordinates are calculated a direction vector for the ray is
+			calculated. The Sphere Tracing loop is a straight-forward implementation
+			of the algorithm. If a hit is detected a color will be assigned to the
+			corresponding pixel.
 
 		\subsection{Bounding Spheres Optimization}
 			
@@ -59,92 +70,79 @@
 			introduced to the distance field.
 			
 			A Bounding Sphere is defined by its location, radius and enclosed
-			objects. The location is calculated by adding the position-vectors
-			of objects and scaling the result with the inverse of the number of
-			objects. The radius is the distance to the object that is the
-			furthest from the Bounding Sphere's position added to that objects
-			sphere of influence (how far it reaches from its origin). Using 
-			this method to define the sphere would make the sphere work in an 
-			optimal way but it is computationally expensive. A trade-off needs 
-			to be made to approximate the sphere so that it is fast but also 
-			accurate enough.
+			objects. The location is the mean position of all the enclosed objects.
+			The radius is made large enough to encompass all of it's objects.
 
 			In our implementation a Bounding Sphere is simply an object in the
 			scene. Instead of returning a color or redefining the ray (such 
 			as reflecting objects do) when hit it will return the smallest 
 			distance of the enclosed objects. Our implementation does allow for
-			nesting Bounding Spheres but this was not tested.
+			nested Bounding Spheres but this was not tested.
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
-				\caption{Bounding spheres, notice that the distance to objects 
-					isn't calculated until the ray is inside a sphere.}
+				\includegraphics[width=0.75\linewidth]{figure/BoundingSphere} 
+				\caption{Bounding spheres, notice that the distance to individual objects 
+					is not calculated until the ray is inside a sphere.}
 			\end{figure}
+
+		\subsection{Orthogonal Culling Optimization}
+
+			A bottleneck of Sphere Tracing is that the distance to a lot of objects
+			has to be calculated once for every march step. Performance can be
+			increased by reducing the number of objects that the distance has to be
+			calculated to, without reducing the actual number of objects in the
+			scene. To do this the GPU needs to calculate which object a ray might hit
+			during the execution of the Sphere Tracing algorithm. This information is
+			traditionally calculated on the CPU and then passed to the GPU (a.k.a
+			Frustum culling\cite{frustum}).
+
+			Orthogonal Culling works by going through all the objects in the scene
+			and calculating what objects a ray might hit. This is done for each ray
+			before the Sphere Tracing loop begins. Orthogonal projection is used to
+			tell whether an object is in front of the ray or not. By projecting the
+			center of the bounding sphere of the object onto the ray, the line's
+			closest point to the object is known. Then, the distance between the line
+			and the sphere can be calculated using the radius of the bounding sphere.
+			If this distance is less than zero, the ray will intersect the sphere.
+			This way the number of objects that has to be evaluated at each march
+			step is reduced. 
+
+			\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.75\linewidth]{figure/WithCulling} 
+                \caption{Note that the objects that are not on the path of the ray
+                is not considered at every step.}
+            \end{figure}
 
 		\subsection{Ray Grouping Optimization}
 
-			Ray grouping works by grouping adjacent rays together in groups and
-			marching them all at once in a single step. Each group of rays
-			marches along its center pixels' ray in the same way that is done
-			in normal Sphere Tracing. For each step the smallest distance to
-			the scene is compared to the total size of the group, to check if
-			any ray might collide with the geometry. If any ray of a group
-			might be inside the geometry, the group will be split into four new
-			groups. Each new group then repeats these steps again individually
-			along its new center.  This is repeated either until a group has
-			stepped to far enough in the scene to discard it entirely or until
-			there is only one ray in the group, and that ray has hit an object.
-			The closer the groups are to a target, the more likely it is for a
-			higher amount of sub-groups to be created due to the decrease of
-			the MDS's volume making less pixels fit inside.  When a group is
-			far from an object in the scene it probably will not need to split
-			and can theefore reduce the number of computations.
+			Ray Grouping works by grouping adjacent rays together and marching them
+			all at once in a single step. Each group of rays marches along its center
+			pixels' ray in the same way that is done in normal Sphere Tracing. For
+			each step, the smallest distance to the scene is compared to the total
+			size of the group, to check if any ray might collide with the geometry.
+			If any ray of the group might be inside the geometry, the group will be
+			split into four new groups. Each new group then repeats these steps again
+			individually along its new center. This is repeated either until a group
+			has stepped far enough into the scene to discard the group entirely or
+			until there is only one ray left in the group, and that ray has hit an
+			object.  The closer the groups are to a target, the more likely it is for
+			a higher amount of sub-groups to be created due to the decreased distance
+			to the geometry, making less pixels fit inside the group. When a group is
+			far from an object in the scene it will likely not need to split and
+			can therefore reduce the number of computations. An illustration of the reduced number of rays is shown in figure \ref{raybunch}.
 
-		\subsection{GLSL Based}
-	
-			The shader is made to run on conventional graphics hardware, it was
-			created in the high-level shading language GLSL (short for OpenGL
-			Shading Language). It runs the program for each pixel the shader is
-			rendered on, using the screen-coordinates as input. Both the 
-			previously discussed optimizations were implemented and used in this
-			shader.
-			
-			Before the loop is run Orthogonal Culling is executed, reducing the
-			number of objects in the distance field. Orthogonal Culling can cull
-			individual objects or Bounding Spheres. 
-			
-			After a hit is detected different things happen depending on the
-			material assigned to the object. If the object is reflective, then
-			the normal of the surface hit is calculated and used to reflect the
-			ray. If the object is colored the pixel will simply be set
-			according to the object. Color can also be calculated from object
-			or ray coordinates. Coloring the pixel depending on where the
-			object is or where it was hit.
-
-		\subsection{Assembler Based}
-
-			In this shader no optimizations were implemented. In the assembler 
-			version that runs on our own hardware single thread is initially 
-			created. This thread will create a render thread, which will 
-			calculate the color of the next pixel, and one new version of
-            itself. Lastly it simply terminates its execution, freeing up the 
-            core to request a new thread. The new version of the thread keeps 
-            track of the next pixel to be rendered. This will render all pixels 
-            as concurrently as the GPU has cores, minimizing core stalls and 
-            therefore maximizing GPU usage.
-
-			When a render thread is created it immediately starts setting up the
-			ray. The screen coordinates are calculated from the thread id, this 
-			is essential for calculating the ray direction. As with the software
-			shader, camera position and a point	to orient the camera against are 
-			predefined. 
-
-			After screen coordinates are calculated a direction vector for the 
-			ray is calculated. The Sphere Tracing loop is a straight-forward 
-			implementation of the algorithm. If a hit is detected a flat color 
-			will be assigned to the corresponding pixel.
-
+			\begin{figure}[H]
+                \centering
+                \includegraphics[width=0.75\linewidth]{figure/raybunching} 
+								\caption{A simulated $64 \cross 64$ display. Black pixels are
+								rays that hit an object. Green pixels are groups that were
+								discarded because they did not hit any objects. Note that the
+								groups are larger further from the sphere. White pixels did not
+								need to be calculated because of the ray grouping. }
+								\label{raybunch}
+            \end{figure}
 
 	\section{Processor Unit} \label{implproc}
 

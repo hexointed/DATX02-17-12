@@ -30,27 +30,27 @@
 		Order of pixel rendering in a polygon renderer is done by object and
 		then by constituent polygons. Pixels can not be grouped by what object
 		in the scene they belong to as easily in a Sphere Tracer, because Sphere
-		Tracers do not have polygons and pixel order is usually based on the
+		Tracers do not have polygons, and pixel order is usually based on the
 		output image pixel order. Even if more grouping was introduced to a
 		Sphere Tracer, the pixels in these groups differ much more in their
 		instruction execution path, since the algorithm contains a loop that
 		often varies greatly in the number of steps until completion. As
 		described above, when the current instruction differs across cores in a
 		group, some cores can not execute and have to wait until the remaining
-		cores arrive at the instruction that they are wanting to execute.
+		cores arrive at the instruction that they are waiting to execute.
 		
 	\section{ Hobbyists and Academia }
 
-		Despite the limitations of contemporary graphics processors, computer
-		art hobbyists are using Sphere Tracing to render stunning visuals on consumer PC's in real time. They showcase the possibilities of the
-		algorithm by reducing scene complexity and instead rendering using
-		techniques that are commonly found in non real time Ray Tracers.
-		Examples of such are true reflections and refractions, spacial
-		repetition, object morphing and 3D fractals\cite{InigoQuilez}. 
-		Inspired by research papers such as John C. Hart's 1996
-		paper\cite{Hart1996}, their success encouraged some to do academic
-		research of their own, which led to new papers being written. A good
-		example of this is the 2014 paper "Enhanced Sphere
+		Despite the limitations of contemporary graphics processors, computer art
+		hobbyists are using Sphere Tracing to render stunning visuals on consumer
+		PC's in real time. They showcase the possibilities of the algorithm by
+		reducing scene complexity and instead rendering using techniques that are
+		commonly found in non real-time Ray Tracers. Examples of such are true
+		reflections and refractions, spacial repetition, object morphing and 3D
+		fractals\cite{InigoQuilez}. Inspired by research papers such as John C.
+		Hart's 1996 paper\cite{Hart1996}, their success encouraged some to do
+		academic research of their own, which led to new papers being written. A
+		good example of this is the 2014 paper "Enhanced Sphere
 		Tracing"\cite{Korndorfer2014}.
 
 	\section{ Industry }		
@@ -61,20 +61,20 @@
 		making \cite{Christensen2006}, where a comparatively large amount of
 		time taken to render a scene can be acceptable since it can be computed
 		ahead of time and saved as individual images, rather than producing
-		the images in real time, which is needed for interactive visuals.
+		the images in real-time, which is needed for interactive visuals.
 		Thus the computer graphics in movies can be much more photorealistic
 		than interactively rendered computer graphics. An example of this
 		would be the Ray Tracing engine RenderMan developed by Disney Pixar
-		which they use in their movie production \cite{Christensen2006}.
+		which they use in some of their movie productions \cite{Christensen2006}.
 
 	\section{ Hardware Design Methods } 
 	
 		The design of Integrated Circuitry in the hardware industry has since
 		the early '90s primarily been done in hardware description languages
-		(HDLs) \cite{Chen2012}, where one describes the operation of a chip in a
+		(HDLs) \cite{Chen2012}, where the operation of a chip is described in a
 		style similar to regular imperative programming languages. This
 		descriptive code can then be compiled into a list of components and
-		connections that constitutes the blueprint for that specific circuit.
+		connections that constitute the blueprint for that specific circuit.
 		The most prevalent of these languages are VHDL and 
 		Verilog\cite{Chen2012}. While being a powerful aid in circuit design,
 		compared to a more block diagram-based workflow\cite{Lauwereins},
@@ -101,8 +101,8 @@
 		which are both implemented in Haskell. This allows the same
 		high-level interactive simulation of the program that normal Haskell
 		programs enjoy. This means that instead of simulating the underlying
-		circuit directly which is more time consuming, the design can be
+		circuit directly, which is more time consuming, the design can be
 		tested repeatedly at a faster pace, allowing faster development. This
 		high level simulation can also be done in an interpreter enabling
 		easy and rapid testing of code. These are called read-eval-print-loop
-		interpreters.
+		interpreters\cite{repl}.

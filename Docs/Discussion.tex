@@ -1,19 +1,19 @@
 \chapter{Discussion} 
 
-	This chapter will discuss our thoughts on our result, our theoretical not
-	yet	implemented optimizations, and what future work is possible from this
-	point in time.
+	This chapter will discuss our result, some not yet implemented optimizations,
+	and what future work is possible from this point in time.
 	
 	\section{Development Environment}
 		
-		In this section we describe some project specific tools and our experience using them.
+		In this section we describe some project specific tools and our experience
+		using them.
 		
-		\subsection{\clash} As described in \ref{FHDLs}, the ability to simulate
-		the function of the GPU directly in a REPL\cite{repl} was completely
-		essential in us being able to complete a working GPU in the short time span
+		\subsection{\clash} As described in section \ref{FHDLs}, the ability to
+		simulate the function of the GPU directly in a REPL\cite{repl} was
+		essential for us being able to complete a working GPU in the time span
 		available. The way \clash{} handles state is quite elegant and effective
 		once one has learned the general pattern. Lists however, are too abstract
-		for synthesis so \clash{}  uses its own vector type instead. Most regular
+		for synthesis so \clash{} uses its own vector type instead. Most regular
 		data functions are implemented, but all such vectors must have a fixed
 		size. This makes some operations such as combining two vectors rather
 		cumbersome and one has to work around this.
@@ -29,10 +29,14 @@
 		
 		\section{Software Shader}
 
-			The optimizations that were implemented surprised with the enormous performance increase they gave. There are many optimizations that are yet to be
-			implemented and tested and it's hard to estimate the potential
-			achievable performance of a shader on conventional GPU. The only thing that is certain is that
-			there are massive performance potentials of a shader on conventional hardware. To develop a GLSL shader for algorithmic development and testing was a great decision as it helped us understand the algorithm and how to improve it.
+			The optimizations that were implemented surprised with the enormous
+			performance increase they gave. There are many optimizations that are yet
+			to be implemented and tested and it's hard to estimate the potential
+			achievable performance of a shader on conventional GPU. The only thing
+			that is certain is that there are massive performance potentials of a
+			shader on conventional hardware. To develop a GLSL shader for algorithmic
+			development and testing was a great decision as it helped us understand
+			the algorithm and how to improve it.
 			
 			GLSL has some very attractive features, it was easy to learn 
 			because the syntax has much in common with C++. This makes the time it takes 
@@ -85,23 +89,24 @@
 			boosts. The testing showed an increase in gain as the number of 
 			objects increased inside the sphere, which is promising.
 
-			The test was in this case simpler than the issue. The results depend
-			on more factors than we can analyze in our time frame, the test only handles the 
-			number of objects inside a fixed sphere. To be used in a optimal way
-			the objects should be bound in a way similar to the one described in
-			the subsection implementation\ref{implshader} but more adaptive, 
-			enclosing objects depending how they are grouped per frame. It should also not try to compute the sphere definition exactly but rather aproximate it for increased performance. 
+			The test was in this case simpler than the issue. The results depend on
+			more factors than we can analyze in our time frame, the test only handles
+			the number of objects inside a fixed sphere. To be used in a optimal way
+			the objects should be bound in a way similar to the one described in the
+			subsection implementation\ref{implshader} but more adaptive, enclosing
+			objects depending how they are grouped per frame. It should also not try
+			to compute the sphere definition exactly but rather aproximate it for
+			increased performance. 
 
 		\subsection{Orthogonal culling}
 
-			The performance gain from this optimization was surprisingly high. However great the performance gain, this
-			is still far from the optimal implementation of Orthogonal culling. 
-			It currently performs Orthogonal Culling on all the objects in 
-			the scene, per pixel. 
-			Instead, culling should be done once per object and calculate 
-			which rays an object intersects, this way fewer calculations would
-			have to be performed and optimally this should be performed by the
-			CPU. 
+			The performance gain from this optimization was surprisingly high.
+			However great the performance gain, this is still far from the optimal
+			implementation of Orthogonal culling.  It currently performs Orthogonal
+			Culling on all the objects in the scene, per pixel.  Instead, culling
+			should be done once per object and calculate which rays an object
+			intersects, this way fewer calculations would have to be performed and
+			optimally this should be performed by the CPU. 
 
 			This method could work together with the Bounding Sphere
 			optimization. Instead of projecting single objects onto the ray,
@@ -130,12 +135,12 @@
 
 			Ray grouping was also the only optimization that was implemented on
 			the GPU. The hardware support for threads and the ability to
-			creating new threads dynamically worked very well with this
+			create new threads dynamically worked very well with this
 			optimization. This optimization also reduces the amount of rays
 			that have similar execution flows and might therefore be less
 			effective on traditional lockstepped architectures, although it
 			should probably still be possible to implement ray grouping and
-			improve performance on these GPUs.
+			improve performance on those GPUs.
 
 	\section{Square roots}
 
@@ -217,12 +222,11 @@
 
 	\section{Future impact on industry} 
 
-		The GPU is still too underdeveloped to definitively show if the
-		algorithm has potential one way or another.  Further prototypes needs
-		to be built with greater rigor before that can happen. If we however
-		assume that somewhere down the line it turns out to be a success,
-		then there are generally three ways in which we could foresee that
-		happening.
+		The GPU is still needs to be developed further in order to definitively
+		show if the algorithm has potential one way or another. Further prototypes
+		need to be built with greater rigor before that can happen. If we however
+		assume that somewhere down the line it turns out to be a success, then
+		there are generally three ways in which we could foresee that happening.
 		
 		First up is by breaking through in the games industry. Granted that
 		it probably will not be able to outperform modern graphic cards at
