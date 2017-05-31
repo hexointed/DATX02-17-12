@@ -31,10 +31,11 @@
 		
 		\section{Software Shader}
 
-			The implemented optimizations increased the performance of our 
-			shader and there are more improvements to implement. The potential
-			of Sphere Tracing on conventional GPUs is hard to estimate but 
-			it is certainly possible to develop our implementation further.
+			The optimizations that were implemented improved performance more
+			than anticipated. There are many optimizations that are yet to be
+			implemented and tested and it's hard to estimate the potential
+			achievable performance, the only thing that is certain is that
+			there are massive performance potentials.
 			
 			GLSL has some very attractive features, it was easy to learn 
 			because the syntax has much in common with C++. The time it takes 
@@ -184,29 +185,21 @@
 
 		\subsection{Ray grouping}
 		
-			Ray grouping works by grouping adjacent rays together. If a
-			specific pixel N is to be rendered we group the adjacent pixels
-			into a set, then march along the ray of N. If any of the pixels are
-			not inside the minimum distance spheres (MDS) the combined pixel is
-			split up into smaller sets, which each have a centered pixel. Each
-			set then repeats the these steps over and over again individually
-			along their new center pixel's ray. This is repeated a number of
-			times depending on the march distance in the scene for every set.
-			The closer the sets are to a target, the more likely it is for a
-			higher amount of subsets to be created due to the decrease of the
-			MDS's volumes making less pixels fit inside.
 			
 			We believe ray grouping gives a performance increase by lowering
-			the number of steps needed to march. Depending on the scene it
-			could lower the steps significantly. One example would be a scene
-			with only one object in it let's say a sphere, this implies that
-			the MDS's volume will be substantial. This will in turn make the
-			number of subgroups very low and give us a a performance gain. 
+			the number of steps needed to march due to the decrease in number 
+			of rays needed to calculate. Depending on the scene it could lower 
+			the steps significantly. One example would be a scene with only one 
+			object in it, let's say a sphere, this implies that the MDS's volume 
+			will be substantial. This will in turn make the number of subgroups 
+			very low and thus give us a a performance gain. 
 			
 			A very complex scene with many objects creates very varying MDS
 			volumes which would not give as good of a result as the earlier
 			mentioned example due to the increase in subsets early in the
 			marching.
+			
+			
 
 	\section{Future impact on industry} 
 
@@ -214,7 +207,8 @@
 		algorithm has potential one way or another.  Further prototypes needs
 		to be built with greater rigor before that can happen. If we however
 		assume that somewhere down the line it turns out to be a success,
-		then there are generally three ways we can see that happening.
+		then there are generally three ways in which we could foresee that
+		happening.
 		
 		First up is by breaking through in the games industry. Granted that
 		it probably will not be able to outperform modern graphic cards at
@@ -230,11 +224,10 @@
 		commonly used in movie production faster that modern graphic cards.
 		This is not too unlikely since the calculation of the rays in both
 		cases follow many similar patterns in bouncing and reflecting etc.
-		Movies are computed in render farms, where lots of
-		copies of the same hardware works in tandem. This means that even a
+		Since movies render in render farms where like server farms, lots of
+		copies of the same hardware works in tandem. Meaning that even a
 		small improvement over current graphic cards might be amplified to a
 		significant gain in computational power.
-		?? ?? gäller la vanliga kort med?
 		
 		Finally, we designed our GPU similar to a CPU but with more	cores
 		like a GPU except with no lockstepping. If this proves to be feasible

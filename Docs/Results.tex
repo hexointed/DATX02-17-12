@@ -161,21 +161,23 @@
 			Bounding spheres were implemented and tested. There was a clear
 			gain in performance in some cases, but the results are situational. 
 			The performance gain depends on number of objects bound, the spacing
-			between them, how well the sphere fits the objects, etc. 
+			between them, how well the bounding sphere fits the objects, etc.   
 
-			To test the performance of this method a scene with an successively 
-			increasing amount spheres was rendered and the FPS measured. For 
-			reference an identical scene was rendered but without the 
-			optimization running.
+			To test the performance of this method, based on number of enclosed 
+			objects, a scene with an successively increasing amount spheres was 
+			rendered and the FPS measured. For reference an identical scene was 
+			rendered but without the optimization running.
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/TestResults/BSObjects.png} 
-				\caption{Results from Bounding Sphere tests. Blue is optimized, red is without optimization}
+				\caption{Results from Bounding Sphere tests. Blue is with Bounding Spheres, 
+				red is without optimization. X-axis being the number of objects enclosed by 
+				a single Bounding Sphere, Y-axis showing the frames per second(FPS).}
 				\label{boundsphere}
 			\end{figure}
 
-			This chart shows that in this scene a performance gain is observed 
-			when more than three objects are placed in a Bounding Sphere. If
+			\ref{boundsphere} shows that in this particular scene a performance gain is 
+			achieved when more than three objects are placed inside a Bounding Sphere. If
 			fewer than 4 objects are enclosed, a performance decrease is 
-			observed.
+			observed. 
