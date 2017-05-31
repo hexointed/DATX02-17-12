@@ -51,4 +51,4 @@ buffer :: (Num a, Enum a) => Signal a -> Signal (Maybe (a, Pixel)) -> Signal Pix
 buffer read px = setFirst (0,0,0) $ bram
 	where 
 		bram = blockRam init read px
-		init = repeat (0,0,0) :: Vec 4096 Pixel
+		init = repeat (0,0,0) :: Vec 16384 Pixel

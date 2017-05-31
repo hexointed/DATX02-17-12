@@ -7,10 +7,12 @@ import Pack
 import Base
 import Indexed
 
-type SPack = Vec 256 Float
+type DIMem = Vec 512 ()
+type DDMem = Vec 256 ()
+
 
 data FunOp
-	= Point (Ptr SPack)
+	= Point (Ptr DDMem)
 	| Arg (Ptr Pack)
 	| Oper Op
 	| Acc

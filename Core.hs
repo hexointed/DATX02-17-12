@@ -10,9 +10,6 @@ import DFU
 import Data.Maybe
 import DistFunc
 
-type DIMem = Vec 256 Instr
-type DDMem = Vec 256 Float
-
 data Core = Core
 	{ dfu :: DFU
 	, idptr :: Ptr DIMem
