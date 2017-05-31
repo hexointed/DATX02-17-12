@@ -69,17 +69,17 @@
 		
 			Ray grouping works by grouping adjacent rays together in blocks, the number of 
 			rays grouped can be chosen before the marching begins. Each block of rays
-			then marches along its center pixels' ray the same way that is done 
-			in normal sphere tracing. For each step the smallest distance to 
+			then marches along its center pixels' ray in the same way that is done 
+			in normal Sphere Tracing. For each step the smallest distance to 
 			the scene (minimum distance sphere, MDS) is compared to all the pixels of a block. If a single pixel 
 			of a block is outside of the MDS the block will be split into new 
-			blocks. Each new block then repeats these steps all over again individually 
+			blocks. Each new block then repeats these steps again individually 
 			along its new center pixel's ray. This is repeated either until a block
 			has stepped to far in the scene or all the pixels of a block has hit an
 			object. The closer the blocks 
 			are to a target, the more likely it is for a higher amount of sub-blocks 
-			to be created due to the decrease of the MDS's volumes making less pixels 
-			fit inside. But when a block is far from a object in the scene it, probably, 
+			to be created due to the decrease of the MDS's volume making less pixels 
+			fit inside. When a block is far from an object in the scene it, probably, 
 			does not need to split and thus saving computations.
 			
 			
