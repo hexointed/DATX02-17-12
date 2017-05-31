@@ -111,6 +111,22 @@
 			bounding spheres could be culled, decreasing the number of
 			orthogonal projections that has to be made. This too was tested and
 			an increase in performance was observed.
+			
+		\subsection{Ray grouping}
+		
+			
+			We believe ray grouping gives a performance increase by lowering
+			the number of steps needed to march due to the decrease in number 
+			of rays needed to calculate. Depending on the scene it could lower 
+			the steps significantly. One example would be a scene with only one 
+			object in it, let's say a sphere, this implies that the MDS's volume 
+			will be substantial. This will in turn make the number of subgroups 
+			very low and thus give us a a performance gain. 
+			
+			A very complex scene with many objects creates very varying MDS
+			volumes which would not give as good of a result as the earlier
+			mentioned example due to the increase in subsets early in the
+			marching.
 
 	\section{Square roots}
 
@@ -137,6 +153,7 @@
 		to not have to consider possible accuracy problems when debugging
 		shaders, but all methods are implemented and ready to be switched out
 		at any time.
+		
 
 	\section{Future work} \label{futureoptimizations} 
 
@@ -183,21 +200,7 @@
 			giving an increase in performance. This has previously been discussed
 			by\cite{Korndorfer2014}. 
 
-		\subsection{Ray grouping}
 		
-			
-			We believe ray grouping gives a performance increase by lowering
-			the number of steps needed to march due to the decrease in number 
-			of rays needed to calculate. Depending on the scene it could lower 
-			the steps significantly. One example would be a scene with only one 
-			object in it, let's say a sphere, this implies that the MDS's volume 
-			will be substantial. This will in turn make the number of subgroups 
-			very low and thus give us a a performance gain. 
-			
-			A very complex scene with many objects creates very varying MDS
-			volumes which would not give as good of a result as the earlier
-			mentioned example due to the increase in subsets early in the
-			marching.
 			
 			
 
