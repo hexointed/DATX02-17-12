@@ -17,13 +17,15 @@ displaysizex:
 displaysizey:
 	64.0
 blockSize:
-	2.0
+	1.0
 white:
 	65535.0
+blue:
+	0.99999999999
 maxDist:
-	20.0
+	40.0
 epsilon:
-	0.0001
+	0.03125
 
 .text:
 
@@ -69,7 +71,7 @@ calcpos:
 	; 	reg 2 - x coordinate
 	; 	reg 3 - y coordinate
 
-	val &displaysizex
+	val &displaysizex ;number of bunches in x or y direction
 	val &blockSize
 	div
 	a setval 13 0
@@ -81,30 +83,30 @@ calcpos:
 	floor
 	pack 13
 	mul
-	sub
+	sub ; number of blocks from left edge
 
 	pack 12
-	mul
+	mul ; number of pixels from left edge
 	pack 12
 	val &two
 	div
 	floor
-	add
+	add ; add half block of pixels
 
 	a setval 2 0
 
 	pack 1
 	pack 13
 	div
-	floor
+	floor ; number of bunches from top
 
 	pack 12
-	mul
+	mul   ; number of pixels from top
 	pack 12
 	val &two
 	div
 	floor
-	add
+	add ; add half block of pixels
 
 	a setval 3 0
 
@@ -171,26 +173,24 @@ camSetup:
 
 	; calculate screen positions as a range from 1 to -1,
 	; store in reg. 2 and 3
+
 	pack 2
 	val &displaysizex
-	val &one
-	sub
+	div
 	val &two
-	div
-	div
+	mul
 	val &one
 	sub
 	a setval 14 0
 
 	pack 3
-	val &displaysizey
-	val &one
-	sub
+	val &displaysizex
+	div
 	val &two
-	div
-	div
+	mul
 	val &one
 	sub
+
 	val &minusone	; (1,1) should be in the upper right corner,
 					; not the lower right corner, so the y-value is negated.
 	mul
@@ -283,6 +283,10 @@ rayPos:
 	mul
 	val &epsilon
 	mul
+	val &sqrt2
+	pack 12
+	mul
+	mul
 	a setval 11 0
 
 distBall:
@@ -334,16 +338,20 @@ distBall:
 	pack 14
 	pack 11
 	sub
+	val &epsilon
+	sub
 
 	; if result is negative algorithm is finished
 	n setval 0 1
-	n pushq
+	n pushs
 	n drop
 
 	;otherwie increase scaler
 	pack 14
 	pack 7
 	add
+	pack 11
+	sub
 	a setval 7 0
 
 ;tooFar:
@@ -355,7 +363,7 @@ distBall:
 	sub
 
 	n setval 0 1
-	n pushq
+	n pushs
 	n drop
 
 nextStep:
@@ -368,7 +376,14 @@ nextStep:
 
 tooFar:
 
-	val &white
+	pack 2
+	pack 3
+	val &displaysizex
+	mul
+	add
+	a setval 1 0
+
+	val &blue
 	a setval 2 0
 	a pushf
 	a drop
@@ -395,56 +410,70 @@ hitObject:
 	val &camSetup
 	a setval 0 0
 
-	pack 12
-	pack 2
-	pack 12
-	div
-	floor
-	mul
-	pack 12
-	val &two
-	div
-	floor
-;heavyside h(x - 1.5)
-	val &one
-	pack 12
-	val &onehalf
-	sub
-	copy
-	abs
-	div
-	add
-	val &two
-	div
-;end heavyside
-	sub
-	add
-	
-	a setval 2 0
+;	pack 12
+;	pack 2
+;	pack 12
+;	div
+;	floor
+;	mul
+;	pack 12
+;	val &two
+;	div
+;	floor
+;;heavyside h(x - 1.5)
+;	val &one
+;	pack 12
+;	val &onehalf
+;	sub
+;	copy
+;	abs
+;	div
+;	add
+;	val &two
+;	div
+;;end heavyside
+;	sub
+;	add
 
 	pack 12
-	pack 3
-	pack 12
-	div
-	floor
-	mul
-	pack 12
 	val &two
 	div
 	floor
-;heavyside h(x - 1.5)
-	val &one
-	pack 12
-	val &onehalf
-	sub
-	copy
-	abs
-	div
+	pack 2
 	add
+
+	a setval 2 0
+
+;	pack 12
+;	pack 3
+;	pack 12
+;	div
+;	floor
+;	mul
+;	pack 12
+;	val &two
+;	div
+;	floor
+;;heavyside h(x - 1.5)
+;	val &one
+;	pack 12
+;	val &onehalf
+;	sub
+;	copy
+;	abs
+;	div
+;	add
+;	val &two
+;	div
+;;end heavyside
+;	sub
+;	add
+
+	pack 12
 	val &two
 	div
-;end heavyside
-	sub
+	floor
+	pack 3
 	add
 
 	a setval 3 0
