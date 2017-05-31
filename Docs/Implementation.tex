@@ -40,6 +40,14 @@
 			implementation Orthogonal Culling only works on spheres, it is also
 			for spheres that this optimization is the most effective.
 
+			\begin{figure}[H]
+                \centering
+                \includegraphics[width=1.0\linewidth]{figure/WithCulling} 
+                \caption{Note that the objects that isn't on the "path" of the ray
+                isn't considered.}
+            \end{figure}
+
+
 		\subsection{Bounding Spheres Optimization}
 			
 			In order to decrease the number of distance calculations that has 
@@ -67,6 +75,13 @@
 			distance of the enclosed objects. Our implementation does allow for
 			nesting Bounding Spheres but this was not tested.
 
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
+				\caption{Bounding spheres, notice that the distance to objects 
+					isn't calculated until the ray is inside a sphere.}
+			\end{figure}
+
 			
 		\subsection{Ray Grouping Optimization}
 
@@ -87,12 +102,6 @@
 			far from an object in the scene it probably will not need to split
 			and can theefore reduce the number of computations.
 
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
-				\caption{Bounding spheres, notice that the distance to objects 
-					isn't calculated until the ray is inside a sphere.}
-			\end{figure}
 			
 		\subsection{Ray grouping Optimization}
 
