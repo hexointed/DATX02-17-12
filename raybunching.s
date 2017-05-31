@@ -7,6 +7,8 @@ minusone:
 	-1.0
 two:
 	2.0
+onehalf:
+	1.5
 sqrt2:
 	1.41421356
 	
@@ -14,29 +16,40 @@ displaysizex:
 	64.0
 displaysizey:
 	64.0
+blockSize:
+	2.0
 white:
 	65535.0
 maxDist:
 	20.0
 epsilon:
-	0.01
+	0.0001
 
 .text:
 
 initialize:
 	; set the number of pixels / top pixel pointer
 	; args: none
-	; returns: reg 1 - highest pixel pointer
+	; returns: 
+	; 	reg 1  - number of ray threads to spawn
+	; 	reg 12 - ray block size
 
 	val &displaysizex
 	val &displaysizey
 	mul
+	val &blockSize
+	copy
+	mul
+	div
 	a setval 1 0
+	val &blockSize
+	a setval 12 0
 
-generate: 
-	; generate a thread for each pixel
-	; args: reg 1 - no. of pixels to create
-	; returns: reg 1 - pixel pointer
+generate:
+	; generate a thread for each ray
+	; args: reg 1 - no. of rays to create
+	; returns: reg 1 - ray id
+	; internal: reg 13 - partial pixel pointer
 
 	val &generate
 	a setval 0 0
@@ -46,35 +59,68 @@ generate:
 	a setval 1 0
 	nz pushq
 
-calcpos: 
-	; calculate the x, y coordinate of the current pixel
-	; args: reg 1 - pixel pointer
+calcpos:
+	; calculate the x, y coordinate of the current ray
+	; args: 
+	; 	reg 1  - ray id
+	; 	reg 13 - partial pixel pointer
 	; returns:
-	; 	reg 1 - pixel pointer
+	; 	reg 1 - ray id
 	; 	reg 2 - x coordinate
 	; 	reg 3 - y coordinate
-	pack 1
-	pack 1
+
 	val &displaysizex
+	val &blockSize
+	div
+	a setval 13 0
+
+	pack 1
+	pack 1
+	pack 13
 	div
 	floor
-	val &displaysizex
+	pack 13
 	mul
 	sub
+
+	pack 12
+	mul
+	pack 12
+	val &two
+	div
+	floor
+	add
+
 	a setval 2 0
 
 	pack 1
-	val &displaysizex
+	pack 13
 	div
 	floor
+
+	pack 12
+	mul
+	pack 12
+	val &two
+	div
+	floor
+	add
+
 	a setval 3 0
+
+	pack 2
+	pack 3
+	val &displaysizex
+	mul
+	add
+	a setval 1 0
 
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
 
-camSetup: 
+camSetup:
 	; sätter upp ray-direction registren
 	; args:   reg 2,3   - x,y coordinates
-	; result: 
+	; result:
 	; 	reg 2,3   - x,y coordinates, normalized to range [-1, 1]
 	; 	reg 4,5,6 - march direction
 	; 	reg 7     - march distance (zero)
@@ -110,7 +156,7 @@ camSetup:
 		0.0
 
 .text:
-	; calculate a directional vector which will be in the center of the view, 
+	; calculate a directional vector which will be in the center of the view,
 	; stores in ray-direction. This will be used to offset with later.
 	val &lookatx
 	val &lookaty
@@ -123,7 +169,7 @@ camSetup:
 	a setval 5 1
 	a setval 6 0
 
-	; calculate screen positions as a range from 1 to -1, 
+	; calculate screen positions as a range from 1 to -1,
 	; store in reg. 2 and 3
 	pack 2
 	val &displaysizex
@@ -132,9 +178,9 @@ camSetup:
 	val &two
 	div
 	div
-	val &one 
+	val &one
 	sub
-	a setval 2 0
+	a setval 14 0
 
 	pack 3
 	val &displaysizey
@@ -145,22 +191,22 @@ camSetup:
 	div
 	val &one
 	sub
-	val &minusone	; (1,1) should be in the upper right corner, 
+	val &minusone	; (1,1) should be in the upper right corner,
 					; not the lower right corner, so the y-value is negated.
 	mul
-	a setval 3 0
+	a setval 15 0
 
 	; calculate and scale upv and rightv
 	val &rightx
 	val &righty
 	val &rightz
-	pack 2
+	pack 14
 	scale
 
 	val &upx
 	val &upy
 	val &upz
-	pack 3
+	pack 15
 	scale
 
 	; add the x-vector, the y-vector and the directional vector.
@@ -194,7 +240,7 @@ normalize:
 	pack 5
 	mul
 	pack 6
-	pack 6 
+	pack 6
 	mul
 	add
 	add
@@ -214,12 +260,12 @@ camCont:
 
 rayPos:
 		; calculates the current march pos and stores in tempVec
-		; args:    
+		; args:
 		; 	reg 4,5,6  - march direction
 		; 	reg 7      - total marched distance
-		; results: 
+		; results:
 		; 	reg 8,9,10 - current location
-		; 	reg 11     - currint epsilon
+		; 	reg 11     - current epsilon
 
 	pack 4
 	pack 5
@@ -242,7 +288,7 @@ rayPos:
 distBall:
 	; calculates the length between tempVec and Ball, ball should
 	; probably be easy to substitute ball with another object
-	; args: reg. 8-10 
+	; args: reg. 8-10
 	; result: reg. 14
 
 .data:
@@ -321,15 +367,108 @@ nextStep:
 	a drop
 
 tooFar:
-	
-	val &zero
+
+	val &white
 	a setval 2 0
 	a pushf
 	a drop
 
 hitObject:
-
+	
+	pack 2
+	pack 3
+	val &displaysizex
+	mul
+	add
+	a setval 1 0
+	
 	val &white
+	pack 12
+	val &two
+	div
+	floor
+	z setval 2 1
+	z pushf
+	z drop
+	
+	a setval 12 0
+	val &camSetup
+	a setval 0 0
+
+	pack 12
+	pack 2
+	pack 12
+	div
+	floor
+	mul
+	pack 12
+	val &two
+	div
+	floor
+;heavyside h(x - 1.5)
+	val &one
+	pack 12
+	val &onehalf
+	sub
+	copy
+	abs
+	div
+	add
+	val &two
+	div
+;end heavyside
+	sub
+	add
+	
 	a setval 2 0
-	a pushf
+
+	pack 12
+	pack 3
+	pack 12
+	div
+	floor
+	mul
+	pack 12
+	val &two
+	div
+	floor
+;heavyside h(x - 1.5)
+	val &one
+	pack 12
+	val &onehalf
+	sub
+	copy
+	abs
+	div
+	add
+	val &two
+	div
+;end heavyside
+	sub
+	add
+
+	a setval 3 0
+
+	a pushs
+
+	pack 3
+	pack 12
+	sub
+	a setval 3 0
+	
+	a pushs
+
+	pack 2
+	pack 12
+	sub
+	a setval 2 0
+	
+	a pushs
+
+	pack 3
+	pack 12
+	add
+	a setval 3 0
+	
+	a pushs
 	a drop
