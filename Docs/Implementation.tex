@@ -82,7 +82,6 @@
 					isn't calculated until the ray is inside a sphere.}
 			\end{figure}
 
-			
 		\subsection{Ray Grouping Optimization}
 
 			Ray grouping works by grouping adjacent rays together in groups and
@@ -102,24 +101,6 @@
 			far from an object in the scene it probably will not need to split
 			and can theefore reduce the number of computations.
 
-			
-		\subsection{Ray grouping Optimization}
-
-			Ray grouping works by grouping adjacent rays together in blocks,
-			the number of rays grouped can be chosen beforehand the marching
-			begins. Each set then marches along its center pixels' ray the same
-			way that is done in normal sphere tracing. If any of the pixels are
-			not inside the minimum distance spheres (MDS) the combined pixel is
-			split up into smaller blocks, which each have a centered pixel.
-			Each new block then repeats these steps all over again individually
-			along its new center pixel's ray. This is repeated a number of
-			times depending on the march distance in the scene for every block.
-			The closer the blocks are to a target, the more likely it is for a
-			higher amount of sub-blocks to be created due to the decrease of
-			the MDS's volumes making less pixels fit inside. But when a block
-			is far from a object in the scene it, probably, does not need to
-			split and thus saving computations.
-
 		\subsection{GLSL Based}
 	
 			The shader is made to run on conventional graphics hardware, it was
@@ -133,12 +114,13 @@
 			number of objects in the distance field. Orthogonal Culling can cull
 			individual objects or Bounding Spheres. 
 			
-			After a hit is detected different things happen depending on the material
-			assigned to the object. If the object is reflective, then the normal of the
-			surface hit is calculated and used to reflect the ray. If the object is
-			colored the pixel will simply be set according to the object. Color can
-			also be calculated from object or ray coordinates. Coloring the pixel
-			depending on where the object is or where it was hit.
+			After a hit is detected different things happen depending on the
+			material assigned to the object. If the object is reflective, then
+			the normal of the surface hit is calculated and used to reflect the
+			ray. If the object is colored the pixel will simply be set
+			according to the object. Color can also be calculated from object
+			or ray coordinates. Coloring the pixel depending on where the
+			object is or where it was hit.
 
 		\subsection{Assembler Based}
 
@@ -168,10 +150,11 @@
 
 		The properties of the ray marching algorithm as described in chapter
 		\ref{spheretracing} led to the decision of designing a GPU architecture
-		that does not utilize multi-ALU SIMD with lockstepping to the same extent
-		as that of traditional graphics processors. We instead went for a solution
-		with slightly simpler independent cores. This is similar to the reasoning
-		employed by \cite{Woop2005} for a Ray Tracing hardware design.
+		that does not utilize multi-ALU SIMD with lockstepping to the same
+		extent as that of traditional graphics processors. We instead went for
+		a solution with slightly simpler independent cores. This is similar to
+		the reasoning employed by \cite{Woop2005} for a Ray Tracing hardware
+		design.
 
 		The hardware described in this section was written in \clash. \clash is
 		based on the functional programming language Haskell and is therefore a
