@@ -96,10 +96,10 @@
 		developed. Implemented optimizations are explained below and the
 		theoretical ones are presented in chapter \ref{futureoptimizations} and
 		\ref{optimization}. Some of these are based on earlier work, while
-		others are believed to be quite unique optimizations which have not been
-		discussed for sphere tracing previously. All implemented optimizations
-		that affects the algorithm were implemented in the software shader, not
-		on our own GPU.
+		others are believed to be quite unique optimizations which have not
+		been discussed for sphere tracing previously. All implemented
+		optimizations that affects the algorithm were implemented in the
+		software shader, not on our own GPU.
 
 		For all tests performed, FPS (Frames Per Second) is used to measure
 		performance. FPS is simply how many times the GPU is able to render 
@@ -108,13 +108,14 @@
 
 		\subsection{Orthogonal culling}
 		
-		Tests to examine the performance gain of the Orthogonal Culling optimization
-		were performed by putting an increasing number of solid-colored spheres
-		in a plane in front of the camera. Because of this, the spheres are not
-		obstructed by other spheres, making this the best possible scenario for
-		the optimization. In all scenarios tested there was an increase in 
-		performance when using the optimization, but the increase varied with the 
-		number of objects and how they were set up.
+			Tests to examine the performance gain of the Orthogonal Culling
+			optimization were performed by putting an increasing number of
+			solid-colored spheres in a plane in front of the camera. Because of
+			this, the spheres are not obstructed by other spheres, making this
+			the best possible scenario for the optimization. In all scenarios
+			tested there was an increase in performance when using the
+			optimization, but the increase varied with the number of objects
+			and how they were set up.
 
 			\begin{table}
 			\centering
@@ -141,37 +142,67 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/TestResults/PercentageImprovement.png} 
-				\caption{The performance difference of the optimized and unoptimized version, 
-				displayed in percentage.}
+				\caption{The performance difference of the optimized and 
+					unoptimized version, displayed in percentage.}
 				\label{orthcull}
 			\end{figure}
-
-		
-
 
 		\subsection{Bounding spheres}
 
 			Bounding spheres were implemented and tested. There was a clear
-			gain in performance in some cases, but the results are situational. 
-			The performance gain depends on number of objects bound, the spacing
-			between them, how well the bounding sphere fits the objects, etc.   
+			gain in performance in some cases, but the results are situational.
+			The performance gain depends on number of objects bound, the
+			spacing between them, how well the bounding sphere fits the
+			objects, etc.   
 
-			To test the performance of this method, based on number of enclosed 
-			objects, a scene with an successively increasing amount spheres was 
-			rendered and the FPS measured. For reference an identical scene was 
+			To test the performance of this method, based on number of enclosed
+			objects, a scene with an successively increasing amount spheres was
+			rendered and the FPS measured. For reference an identical scene was
 			rendered but without the optimization running.
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/TestResults/BSObjects.png} 
-				\caption{Results from Bounding Sphere tests. Blue is with Bounding Spheres, 
-				red is without optimization. X-axis being the number of objects enclosed by 
-				a single Bounding Sphere, Y-axis showing the frames per second(FPS).}
+				\caption{Results from Bounding Sphere tests. Blue is with
+				Bounding Spheres, red is without optimization. X-axis being the
+				number of objects enclosed by a single Bounding Sphere, Y-axis
+				showing the frames per second(FPS).}
 				\label{boundsphere}
 			\end{figure}
 
-			Figure \ref{boundsphere} shows that in this particular scene a performance gain is 
-			achieved when more than three objects are placed inside a Bounding Sphere. 
-			When 10 objects is in the Bounding Sphere we have a 25\% increase in FPS.  If
-			fewer than 4 objects are enclosed, a performance decrease is 
-			observed. 
+			Figure \ref{boundsphere} shows that in this particular scene a
+			performance gain is achieved when more than three objects are
+			placed inside a Bounding Sphere.  When 10 objects is in the
+			Bounding Sphere we have a 25\% increase in FPS.  If fewer than 4
+			objects are enclosed, a performance decrease is observed. 
+		
+		\subsection{Ray Grouping}
+			
+			The ray grouping optimization was implemented and performance tests
+			were done, the results of wich can be seen in table
+			\ref{grouptable}. These tests rendered a scene containing three
+			speres at different distances on a 64 by 64 as well as a 128 by 128
+			pixel display. Ray grouping lowered the execution time when the
+			maximum group size was set to 2, but did not decrease significantly
+			further when increasing the group size to 4 or 8 when rendering to
+			the 64 by 64 display. When rendering to a 128 by 128 pixel display,
+			the relative performance improved even more than for the smaller 
+			display.
+
+			\begin{table}[h]
+			\centering
+			\begin{tabular}{lll}
+				\hline
+				Group size & 64 by 64 & 128 by 128 \\
+				\hline
+				1          & 128k     &  496k      \\
+				2          & 84k      &  328k      \\
+				4          & 80k      &  300k      \\
+				8          & 82k      &            \\
+				\hline
+			\end{tabular}
+			\caption{Number of clock cycles until frame rendering was complete
+				for different group and display sizes. Note that a group size 
+				of one is equivalent to not using ray grouping.}
+			\label{grouptable}
+			\end{table}
