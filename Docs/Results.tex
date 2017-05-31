@@ -181,25 +181,28 @@
 			The ray grouping optimization was implemented and performance tests
 			were done, the results of wich can be seen in table
 			\ref{grouptable}. These tests rendered a scene containing three
-			speres at different distances on 64 by 64 pixel display. Ray
-			grouping lowered the execution time when the maximum group size was
-			set to 2, but did not decrease significantly further when
-			increasing the group size to 4 or 8.  
+			speres at different distances on a 64 by 64 as well as a 128 by 128
+			pixel display. Ray grouping lowered the execution time when the
+			maximum group size was set to 2, but did not decrease significantly
+			further when increasing the group size to 4 or 8 when rendering to
+			the 64 by 64 display. When rendering to a 128 by 128 pixel display,
+			the relative performance improved even more than for the smaller 
+			display.
 
 			\begin{table}[h]
 			\centering
-			\begin{tabular}{ll}
+			\begin{tabular}{lll}
 				\hline
-				Group size & Clock cycles\\
+				Group size & 64 by 64 & 128 by 128 \\
 				\hline
-				1          & 128k        \\
-				2          & 84k         \\
-				4          & 80k         \\
-				8          & 82k         \\
+				1          & 128k     &  496k      \\
+				2          & 84k      &  328k      \\
+				4          & 80k      &  300k      \\
+				8          & 82k      &            \\
 				\hline
 			\end{tabular}
 			\caption{Number of clock cycles until frame rendering was complete
-				for different group sizes. Note that a group size of one is 
-				equivalent to not using ray grouping.}
+				for different group and display sizes. Note that a group size 
+				of one is equivalent to not using ray grouping.}
 			\label{grouptable}
 			\end{table}
