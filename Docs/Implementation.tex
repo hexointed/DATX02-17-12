@@ -67,6 +67,26 @@
 			as reflecting objects do) when hit it will return the smallest 
 			distance of the enclosed objects. Our implementation does allow for
 			nesting Bounding Spheres but this was not tested.
+			
+		\subsection{Ray grouping}
+		
+			
+		
+			Ray grouping works by grouping adjacent rays together in blocks, the number of 
+			rays grouped can be chosen beforehand the marching begins. Each set 
+			then marches along its center pixels' ray the same way that is done 
+			in normal sphere tracing. If any of the pixels are not inside the 
+			minimum distance spheres (MDS) the combined pixel is split up into 
+			smaller blocks, which each have a centered pixel. Each new block 
+			then repeats these steps all over again individually along its new 
+			center pixel's ray. This is repeated a number of times depending on 
+			the march distance in the scene for every block. The closer the blocks 
+			are to a target, the more likely it is for a higher amount of sub-blocks 
+			to be created due to the decrease of the MDS's volumes making less pixels 
+			fit inside. But when a block is far from a object in the scene it, probably, 
+			does not need to split and thus saving computations.
+			
+			
 
 
 
