@@ -4,24 +4,22 @@
 
 \section*{Abstract}
 
+
+
 	This thesis documents our experiences and conclusions during the design of  
 	a graphics processing unit (GPU), specifically designed and optimized for 
-	executing the Sphere Tracing algorithm. This is a graphics rendering 
-	algorithm that is a variation of standard Ray Tracing. The GPU is written 
+	executing the Sphere Tracing algorithm. This is a variation of the standard Ray Tracing algorithm. The GPU is written 
 	in the functional hardware design programming language \clash. A shader was 
 	implemented in GLSL to enable algorithm research.
 	
 	Real-time rendering performance has always been a significant factor for 3D
-	graphic cards. However, 3D graphic cards today are optimized and built for
-	polygon-based rendering. Therefore, Sphere Tracing rendering is slower on
-	this hardware. Which leads to the question, how fast can the Sphere Tracing 
+	graphic cards. However, using the Sphere Tracing algorithm on conventional 3D graphics card is slow because they're designed and built for polygon based rendering. Which leads to the question, how fast can the Sphere Tracing 
 	algorithm run on hardware designed for this algorithm. We assessed 
 	potential performance improvements of the Sphere Tracing algorithm using 
 	our software shader. We designed hardware and software optimizations, and 
 	implemented some in \clash and our shaders. The results indicate that it is 
 	possible to increase the performance of the Sphere Tracing algorithm. In 
-	addition, possible future work, software and hardware improvements, is 
-	discussed.
+	addition, future work in hardware and software improvements is discussed.
 
 	% KEYWORDS (MAXIMUM 10 WORDS)
 	\vfill
@@ -39,10 +37,7 @@
 	\clash. För att undersöka algoritmen skapade vi en shader i GLSL.
 	
 	Hastigheten på realtidsrenderingen hos 3D-grafikkort har alltid varit ett
-	viktigt säljargument. Dock så har Sphere Tracing-rendering historiskt sett 
-	varit långsammare jämfört med polygonbaserade renderingsmetoder. Detta har 
-	lett till att man vidareutvecklat hårdvaran specifikt för att accelerera 
-	polygonrendering, vilket leder till frågan hur pass snabbt Sphere Tracing 
+	viktigt säljargument. Vanliga 3D-grafikkort är designade för att rendera polygonbaserad grafik så Sphere Tracing algoritmen uppnår inte sin potentiella prestanda. Detta leder till frågan hur pass snabbt Sphere Tracing 
 	egentligen skulle kunna köras om liknande hårdvara skräddarsys för just 
 	denna algoritm. Avsikten med rapporten är dels att ge en idé om vilka 
 	prestandaökningar som finns att uppnå, och dels att implementera ett

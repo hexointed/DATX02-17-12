@@ -3,29 +3,24 @@
 	In this chapter the results of GPU design choices and algorithmic
 	optimizations and their effects are reviewed.
 
-	\section{Software Shader Performance}
+	\section{Software Shader}
 
-		The shader we implemented could render simple scenes in real-time but
+		Our shader can render simple scenes in real-time but
 		performance degrades rapidly as the number of objects rendered increases.
-		Rendering advanced scenes with a conventional GPU might be possible, but 
-		not with our hardware implementation, although our optimizations could certainly
-		be used.
+		Scenes can easily be made to look more complex than they are, for 
+		example, by using mod fields, when the modulo operation is used on an object it creates a field with multiple copies of the original object next to each other, or fractals. The hardware (Geforce GTX 1060M) that the shader was tested 
+		on was able to render 20 reflective spheres in real time in 1920x1080 
+		resolution using our performance enhancing algorithm.
 
-		Scenes can easily be made to look a lot more complex than they
-		are, for example, by using mod fields, when the modulo
-		operation is used on an object it creates a field with multiple copies
-		of the original object next to each other, or fractals. The hardware
-		(Geforce GTX 1060M) that the shader was tested on was able to render 20
-		reflective spheres in real time in fullHD using our performance
-		enhancing algorithm.
  
 	\section{GPU}
 	
-		The GPU has been tested by simulating it and running a program on the simulation 
-		that renders a sphere using Sphere Tracing. It spawns threads
-		progressively to fill the screen data buffer with pixels. The execution
+		The GPU has been tested by simulating it in \clash. In the simulation a program is executed on the GPU, which renders a sphere using Sphere Tracing. 
+
+		It spawns threads
+		progressively to fill the screen data buffer with pixels. The simulated execution
 		of our test programs ran exactly as intended, with any number of
-		simulated cores. The design has also been put through a synthesizing
+		cores. The design has also been put through a synthesizing
 		tool for FPGAs, which creates a net list of the components and
 		connections that constitute the GPU. This also works as intended
 		without any unexpected problems, but the actual operation of the GPU on
@@ -37,15 +32,14 @@
 		methods are shown in figures \ref{sres1}, \ref{sres2}, \ref{sres3},
 		\ref{sres4}, \ref{sres5}, and \ref{sres6}. The shifting nth root
 		algorithm is used as a reference in all figures because it is always
-		bit-accurate for integer square roots.
+		bit-accurate for square roots. All graphs show integer values only.
 
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=0.75\linewidth]{figure/value12x.png} 
 			\caption{Value from the simple square root approximator (green),
 				the improved version (blue), and the shifting nth root 
-				algorithm (red). In these graphs, they all operate on integers. 
-				The shifting nth root is exact for integer square roots.}
+				algorithm (red).}
 			\label{sres1}
 		\end{figure}
 

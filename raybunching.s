@@ -20,10 +20,12 @@ blockSize:
 	2.0
 white:
 	65535.0
+blue:
+	0.99999999999
 maxDist:
-	20.0
+	60.0
 epsilon:
-	0.0001
+	0.03125
 
 .text:
 
@@ -69,7 +71,7 @@ calcpos:
 	; 	reg 2 - x coordinate
 	; 	reg 3 - y coordinate
 
-	val &displaysizex
+	val &displaysizex ;number of bunches in x or y direction
 	val &blockSize
 	div
 	a setval 13 0
@@ -81,30 +83,30 @@ calcpos:
 	floor
 	pack 13
 	mul
-	sub
+	sub ; number of blocks from left edge
 
 	pack 12
-	mul
+	mul ; number of pixels from left edge
 	pack 12
 	val &two
 	div
 	floor
-	add
+	add ; add half block of pixels
 
 	a setval 2 0
 
 	pack 1
 	pack 13
 	div
-	floor
+	floor ; number of bunches from top
 
 	pack 12
-	mul
+	mul   ; number of pixels from top
 	pack 12
 	val &two
 	div
 	floor
-	add
+	add ; add half block of pixels
 
 	a setval 3 0
 
@@ -116,6 +118,10 @@ calcpos:
 	a setval 1 0
 
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
+
+	val &zero
+	a setval 7 0 ;marching distance
+
 
 camSetup:
 	; sätter upp ray-direction registren
@@ -171,26 +177,24 @@ camSetup:
 
 	; calculate screen positions as a range from 1 to -1,
 	; store in reg. 2 and 3
+
 	pack 2
 	val &displaysizex
-	val &one
-	sub
+	div
 	val &two
-	div
-	div
+	mul
 	val &one
 	sub
 	a setval 14 0
 
 	pack 3
-	val &displaysizey
-	val &one
-	sub
+	val &displaysizex
+	div
 	val &two
-	div
-	div
+	mul
 	val &one
 	sub
+
 	val &minusone	; (1,1) should be in the upper right corner,
 					; not the lower right corner, so the y-value is negated.
 	mul
@@ -252,12 +256,6 @@ normalize:
 	a setval 5 1
 	a setval 6 0
 
-camCont:
-	; continue setting up the camera
-
-	val &zero
-	a setval 7 0
-
 rayPos:
 		; calculates the current march pos and stores in tempVec
 		; args:
@@ -283,6 +281,10 @@ rayPos:
 	mul
 	val &epsilon
 	mul
+	val &sqrt2
+	pack 12
+	mul
+	mul
 	a setval 11 0
 
 distBall:
@@ -294,13 +296,13 @@ distBall:
 .data:
 
 	ballr:
-		6.0
+		12.0
 	ballx:
 		0.0
 	bally:
 		0.0
 	ballz:
-		10.0
+		30.0
 
 .text:
 	val &ballx	
@@ -329,21 +331,109 @@ distBall:
 	sub
 	a setval 14 0
 
+.data:
+	
+	bbllr:
+		6.0
+	bbllx:
+		8.0
+	bblly:
+		8.0
+	bbllz:
+		10.0
+
+.text:
+	val &bbllx	
+	pack 8
+	sub
+	copy
+	mul
+
+	val &bblly
+	pack 9
+	sub
+	copy
+	mul
+
+	val &bbllz
+	pack 10
+	sub
+	copy
+	mul
+
+	add
+	add
+	sqrt
+
+	val &bbllr
+	sub
+
+;-------
+	pack 14
+	min
+	a setval 14 0
+
+.data:
+	
+	bcllr:
+		6.0
+	bcllx:
+		-8.0
+	bclly:
+		-8.0
+	bcllz:
+		20.0
+
+.text:
+	val &bcllx	
+	pack 8
+	sub
+	copy
+	mul
+
+	val &bclly
+	pack 9
+	sub
+	copy
+	mul
+
+	val &bcllz
+	pack 10
+	sub
+	copy
+	mul
+
+	add
+	add
+	sqrt
+
+	val &bcllr
+	sub
+
+;-------
+	pack 14
+	min
+	a setval 14 0
+
 ;hit:
 	val &hitObject 
 	pack 14
 	pack 11
 	sub
+	val &epsilon
+	sub
 
 	; if result is negative algorithm is finished
 	n setval 0 1
-	n pushq
+	n pushs
 	n drop
 
 	;otherwie increase scaler
 	pack 14
 	pack 7
 	add
+	pack 11
+	sub
 	a setval 7 0
 
 ;tooFar:
@@ -355,7 +445,7 @@ distBall:
 	sub
 
 	n setval 0 1
-	n pushq
+	n pushs
 	n drop
 
 nextStep:
@@ -368,7 +458,14 @@ nextStep:
 
 tooFar:
 
-	val &white
+	pack 2
+	pack 3
+	val &displaysizex
+	mul
+	add
+	a setval 1 0
+
+	val &blue
 	a setval 2 0
 	a pushf
 	a drop
@@ -395,56 +492,70 @@ hitObject:
 	val &camSetup
 	a setval 0 0
 
-	pack 12
-	pack 2
-	pack 12
-	div
-	floor
-	mul
-	pack 12
-	val &two
-	div
-	floor
-;heavyside h(x - 1.5)
-	val &one
-	pack 12
-	val &onehalf
-	sub
-	copy
-	abs
-	div
-	add
-	val &two
-	div
-;end heavyside
-	sub
-	add
-	
-	a setval 2 0
+;	pack 12
+;	pack 2
+;	pack 12
+;	div
+;	floor
+;	mul
+;	pack 12
+;	val &two
+;	div
+;	floor
+;;heavyside h(x - 1.5)
+;	val &one
+;	pack 12
+;	val &onehalf
+;	sub
+;	copy
+;	abs
+;	div
+;	add
+;	val &two
+;	div
+;;end heavyside
+;	sub
+;	add
 
 	pack 12
-	pack 3
-	pack 12
-	div
-	floor
-	mul
-	pack 12
 	val &two
 	div
 	floor
-;heavyside h(x - 1.5)
-	val &one
-	pack 12
-	val &onehalf
-	sub
-	copy
-	abs
-	div
+	pack 2
 	add
+
+	a setval 2 0
+
+;	pack 12
+;	pack 3
+;	pack 12
+;	div
+;	floor
+;	mul
+;	pack 12
+;	val &two
+;	div
+;	floor
+;;heavyside h(x - 1.5)
+;	val &one
+;	pack 12
+;	val &onehalf
+;	sub
+;	copy
+;	abs
+;	div
+;	add
+;	val &two
+;	div
+;;end heavyside
+;	sub
+;	add
+
+	pack 12
 	val &two
 	div
-;end heavyside
-	sub
+	floor
+	pack 3
 	add
 
 	a setval 3 0
