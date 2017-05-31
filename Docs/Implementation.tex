@@ -6,11 +6,9 @@
 	written in GLSL for traditional graphics hardware, and the second is written
 	in an assembly language we designed for the Sphere Tracing processor. Both of
 	these shaders are described in section \ref{implshader}.
-	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
-	\ref{implproc}. In addition to these, a simple assembler program was written
-	for the assembly language used for the GPU.
+	\ref{implproc}.
 	
 	\section{Shaders} \label{implshader}
 
@@ -31,22 +29,15 @@
 			objects that it might hit, not all objects in the field of view.
 
 			Orthogonal Culling works by going through all the objects in the scene
-			and calculate what rays might hit what object. Orthogonal projection is
+			and calculate which rays might hit which object. Orthogonal projection is
 			used to tell whether a object is in front of the ray or not. By
 			projecting the center of the sphere onto the directional line of the ray,
-			the line's closest point to the object is known. Then the distance
+			the lines' closest point to the object is known. Then the distance
 			between the line and the sphere can be calculated using the radius, if
 			the distance is less than zero the sphere will be hit by the ray. If the
 			distance is larger than zero the ray can't possibly hit that sphere. This
 			way the number of objects that the distance has to be calculated to is
 			decreased.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figure/WithCulling} 
-				\caption{Note that the objects that isn't on the "path" of the ray
-				isn't considered.}
-			\end{figure}
 
 		\subsection{Bounding Spheres}
 			
@@ -94,14 +85,6 @@
 			does not need to split and thus saving computations.
 			
 			
-
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
-				\caption{Bounding spheres, notice that the distance to objects isn't
-					calculated until the ray is inside a sphere.}
-			\end{figure}
 
 
 
@@ -316,10 +299,10 @@
 			using a look-up table. We tested a different and very fast method for
 			generating an initial rough guess of the square root of any number
 			without the need for a look-up table. A 16-bit version of this circuit is
-			shown in figure \ref{orsqrt}, and an improved but slightly more expensive
-			version is showed in figure \ref{orsqrt2}. The basic working principle is
+			shown in figure \ref{orsqrt}. The basic working principle is
 			based on the fact that the square root of a number has roughly half as
-			many digits as the original number. In the version with slightly improved
+			many digits as the original number. An improved but slightly more expensive
+			version is showed in figure \ref{orsqrt2}. In this version with slightly improved
 			accuracy the placement of the extra wires is based on the bit pattern of
 			$\sqrt{2}$.
 
