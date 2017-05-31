@@ -184,10 +184,9 @@
 			speres at different distances on a 64 by 64 as well as a 128 by 128
 			pixel display. Ray grouping lowered the execution time when the
 			maximum group size was set to 2, but did not decrease significantly
-			further when increasing the group size to 4 or 8 when rendering to
-			the 64 by 64 display. When rendering to a 128 by 128 pixel display,
-			the relative performance improved even more than for the smaller 
-			display.
+			further when increasing the group size to 4 or 8. When rendering to
+			a 128 by 128 pixel display, the relative performance improved
+			slightly more than for the smaller display.
 
 			\begin{table}[h]
 			\centering
@@ -195,10 +194,10 @@
 				\hline
 				Group size & 64 by 64 & 128 by 128 \\
 				\hline
-				1          & 128k     &  496k      \\
+				1          & 128k     &  512k      \\
 				2          & 84k      &  328k      \\
-				4          & 80k      &  300k      \\
-				8          & 82k      &            \\
+				4          & 80k      &  312k      \\
+				8          & 82k      &  313k      \\
 				\hline
 			\end{tabular}
 			\caption{Number of clock cycles until frame rendering was complete

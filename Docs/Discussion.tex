@@ -125,7 +125,10 @@
 			overhead incurred from splitting groups of rays into smaller
 			groups, which is the likely cause of both the decreased
 			improvements as well as the diminishing returns when increasing the
-			group size to a significant portion of the display size.
+			group size to a significant portion of the display size. In
+			addition to this, we know that our implementation is slightly too
+			eager to split groups; improving this could reduce execution time
+			further.
 
 			Ray grouping was also the only optimization that was implemented on
 			the GPU. The hardware support for threads and the ability to
