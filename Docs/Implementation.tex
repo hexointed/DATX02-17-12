@@ -6,50 +6,41 @@
 	written in GLSL\cite{glsl} for traditional graphics hardware, and the second
 	is written in an assembly language we designed for the Sphere Tracing
 	processor. Both of these shaders are described in section \ref{implshader}.
-	
 	The hardware is comprised of a multi-core programmable parallel processing
 	unit designed for the Sphere Tracing algorithm, detailed in section
-	\ref{implproc}. In addition to these, a simple assembler program was written
-	for the assembly language used for the GPU.
+	\ref{implproc}.
 	
 	\section{Shaders} \label{implshader}
 
 		The shaders written uses the theory described in \ref{spheretracing}
-		iterating over a ray in a main loop. The GLSL shader has more advanced
-		optimizations added to it.
+		iterating over a ray in a main loop. The GLSL shader has more
+		optimizations added to it, but lacks the ray grouping optimization.
 
-		\subsection{Orthogonal Culling}
+		\subsection{Orthogonal Culling Optimization}
 
-			A bottleneck of Sphere Tracing is that the distance to a lot of objects
-			has to be calculated once for every march step. Performance can be
-			increased by reducing the number of objects that the distance has to be
-			calculated to, without reducing the actual number of objects in the
-			scene. To do this the GPU needs to calculate which object a ray might hit
-			by checking its field of view. This information is traditionally
-			calculated on the CPU and then passed to the GPU (a.k.a Frustum
-			culling\cite{frustum}). Even frustum culling might not be enough. Each
-			ray should only care about the objects that it might hit, not all objects
-			in the field of view.
+			A bottleneck of Sphere Tracing is that the distance to a lot of
+			objects has to be calculated once for every march step. Performance
+			can be increased by reducing the number of objects that the
+			distance has to be calculated to, without reducing the actual
+			number of objects in the scene. To do this the GPU needs to
+			calculate which object a ray might hit executing the Sphere
+			Tracing. This information is traditionally calculated on the CPU
+			and then passed to the GPU (a.k.a Frustum culling\cite{frustum}).
 
-			Orthogonal Culling works by going through all the objects in the scene
-			and calculate what rays might hit what object. Orthogonal projection is
-			used to tell whether a object is in front of the ray or not. By
-			projecting the center of the sphere onto the directional line of the ray,
-			the line's closest point to the object is known. Then the distance
-			between the line and the sphere can be calculated using the radius, if
-			the distance is less than zero the sphere will be hit by the ray. If the
-			distance is larger than zero the ray can't possibly hit that sphere. This
-			way the number of objects that the distance has to be calculated to is
-			decreased.
+			Orthogonal Culling works by going through all the objects in the
+			scene and calculate what objects a ray might hit. Orthogonal
+			projection is used to tell whether an object is in front of the ray
+			or not. By projecting the center of the sphere onto the directional
+			line of the ray, the lines' closest point to the object is known.
+			Then the distance between the line and the sphere can be calculated
+			using the radius, if the distance is less than zero the sphere will
+			be hit by the ray. If the distance is larger than zero the ray
+			can't possibly hit that sphere. This way the number of objects that
+			the distance has to be calculated to is decreased. In the current
+			implementation Orthogonal Culling only works on spheres, it is also
+			for spheres that this optimization is the most effective.
 
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.0\linewidth]{figure/WithCulling} 
-				\caption{Note that the objects that isn't on the "path" of the ray
-				isn't considered.}
-			\end{figure}
-
-		\subsection{Bounding Spheres}
+		\subsection{Bounding Spheres Optimization}
 			
 			In order to decrease the number of distance calculations that has 
 			to be performed in each march step, objects can be grouped together 
@@ -75,36 +66,50 @@
 			as reflecting objects do) when hit it will return the smallest 
 			distance of the enclosed objects. Our implementation does allow for
 			nesting Bounding Spheres but this was not tested.
-			
-		\subsection{Ray grouping}
-		
-			
-		
-			Ray grouping works by grouping adjacent rays together in blocks, the number of 
-			rays grouped can be chosen beforehand the marching begins. Each set 
-			then marches along its center pixels' ray the same way that is done 
-			in normal sphere tracing. If any of the pixels are not inside the 
-			minimum distance spheres (MDS) the combined pixel is split up into 
-			smaller blocks, which each have a centered pixel. Each new block 
-			then repeats these steps all over again individually along its new 
-			center pixel's ray. This is repeated a number of times depending on 
-			the march distance in the scene for every block. The closer the blocks 
-			are to a target, the more likely it is for a higher amount of sub-blocks 
-			to be created due to the decrease of the MDS's volumes making less pixels 
-			fit inside. But when a block is far from a object in the scene it, probably, 
-			does not need to split and thus saving computations.
-			
-			
 
+			
+		\subsection{Ray Grouping Optimization}
+
+			Ray grouping works by grouping adjacent rays together in groups and
+			marching them all at once in a single step. Each group of rays
+			marches along its center pixels' ray in the same way that is done
+			in normal Sphere Tracing. For each step the smallest distance to
+			the scene is compared to the total size of the group, to check if
+			any ray might collide with the geometry. If any ray of a group
+			might be inside the geometry, the group will be split into four new
+			groups. Each new group then repeats these steps again individually
+			along its new center.  This is repeated either until a group has
+			stepped to far enough in the scene to discard it entirely or until
+			there is only one ray in the group, and that ray has hit an object.
+			The closer the groups are to a target, the more likely it is for a
+			higher amount of sub-groups to be created due to the decrease of
+			the MDS's volume making less pixels fit inside.  When a group is
+			far from an object in the scene it probably will not need to split
+			and can theefore reduce the number of computations.
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
-				\caption{Bounding spheres, notice that the distance to objects isn't
-					calculated until the ray is inside a sphere.}
+				\caption{Bounding spheres, notice that the distance to objects 
+					isn't calculated until the ray is inside a sphere.}
 			\end{figure}
+			
+		\subsection{Ray grouping Optimization}
 
-
+			Ray grouping works by grouping adjacent rays together in blocks,
+			the number of rays grouped can be chosen beforehand the marching
+			begins. Each set then marches along its center pixels' ray the same
+			way that is done in normal sphere tracing. If any of the pixels are
+			not inside the minimum distance spheres (MDS) the combined pixel is
+			split up into smaller blocks, which each have a centered pixel.
+			Each new block then repeats these steps all over again individually
+			along its new center pixel's ray. This is repeated a number of
+			times depending on the march distance in the scene for every block.
+			The closer the blocks are to a target, the more likely it is for a
+			higher amount of sub-blocks to be created due to the decrease of
+			the MDS's volumes making less pixels fit inside. But when a block
+			is far from a object in the scene it, probably, does not need to
+			split and thus saving computations.
 
 		\subsection{GLSL Based}
 	
@@ -317,10 +322,10 @@
 			using a look-up table. We tested a different and very fast method for
 			generating an initial rough guess of the square root of any number
 			without the need for a look-up table. A 16-bit version of this circuit is
-			shown in figure \ref{orsqrt}, and an improved but slightly more expensive
-			version is showed in figure \ref{orsqrt2}. The basic working principle is
+			shown in figure \ref{orsqrt}. The basic working principle is
 			based on the fact that the square root of a number has roughly half as
-			many digits as the original number. In the version with slightly improved
+			many digits as the original number. An improved but slightly more expensive
+			version is showed in figure \ref{orsqrt2}. In this version with slightly improved
 			accuracy the placement of the extra wires is based on the bit pattern of
 			$\sqrt{2}$.
 
@@ -344,7 +349,7 @@
 			stability another design was considered. The input was both rounded up
 			and down to values where the simple square root approximator was very
 			accurate and the result was then linearly interpolated between these
-			roots. Especially with circuit \ref{orsqrt3}. This linear interpolation
+			roots, as seen in the circuit in figure \ref{orsqrt3}. This linear interpolation
 			requires only a multiplication and a couple of additions, but choosing
 			upper and lower seed values is a more complex problem. Choosing the two
 			geometrically closest powers of two was tested because the or-gate square
