@@ -15,7 +15,7 @@
 	\section{Shaders} \label{implshader}
 
 		The shaders written uses the theory described in \ref{spheretracing}
-		iterating over a ray in a main loop. The GLSL shader has more advanced
+		iterating over a ray in a main loop. The GLSL shader has more
 		optimizations added to it.
 
 		\subsection{Orthogonal Culling}
@@ -24,22 +24,19 @@
 			has to be calculated once for every march step. Performance can be
 			increased by reducing the number of objects that the distance has 
 			to be calculated to, without reducing the actual number of objects in the
-			scene. To do this the GPU needs to calculate which object a ray might hit
-			by checking its field of view. This information is traditionally
-			calculated on the CPU and then passed to the GPU (Frustum culling). Even
-			frustum culling might not be enough. Each ray should only care about the
-			objects that it might hit, not all objects in the field of view.
+			scene. To do this the GPU needs to calculate which object a ray might hit executing the Sphere Tracing. This information is traditionally
+			calculated on the CPU and then passed to the GPU (Frustum culling).
 
 			Orthogonal Culling works by going through all the objects in the scene
-			and calculate what rays might hit what object. Orthogonal projection is
-			used to tell whether a object is in front of the ray or not. By
+			and calculate what objects a ray might hit. Orthogonal projection is
+			used to tell whether an object is in front of the ray or not. By
 			projecting the center of the sphere onto the directional line of the ray,
 			the line's closest point to the object is known. Then the distance
 			between the line and the sphere can be calculated using the radius, if
 			the distance is less than zero the sphere will be hit by the ray. If the
 			distance is larger than zero the ray can't possibly hit that sphere. This
 			way the number of objects that the distance has to be calculated to is
-			decreased.
+			decreased. In the current implementation Orthogonal Culling only works on spheres, it is also for spheres that this optimization is the most effective.
 
 			\begin{figure}[H]
 				\centering
