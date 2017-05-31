@@ -31,11 +31,10 @@
 		
 		\section{Software Shader}
 
-			The optimizations that were implemented improved performance more
-			than anticipated. There are many optimizations that are yet to be
+			The optimizations that were implemented surprised with the enormous performance increase they gave. There are many optimizations that are yet to be
 			implemented and tested and it's hard to estimate the potential
-			achievable performance, the only thing that is certain is that
-			there are massive performance potentials.
+			achievable performance of a shader on conventional GPU. The only thing that is certain is that
+			there are massive performance potentials of a shader on conventional hardware. To develop a GLSL shader for algorithmic development and testing was a great decision as it helped us understand the algorithm and how to improve it.
 			
 			GLSL has some very attractive features, it was easy to learn 
 			because the syntax has much in common with C++. This makes the time it takes 
@@ -93,19 +92,18 @@
 			number of objects inside a fixed sphere. To be used in a optimal way
 			the objects should be bound in a way similar to the one described in
 			the subsection implementation\ref{implshader} but more adaptive, 
-			enclosing objects depending how they are grouped per frame. 
+			enclosing objects depending how they are grouped per frame. It should also not try to compute the sphere definition exactly but rather aproximate it for increased performance. 
 
 		\subsection{Orthogonal culling}
 
-			The performance gain from this optimization exceeded our 
-			expectations. However great the performance gain, this
+			The performance gain from this optimization was surprisingly high. However great the performance gain, this
 			is still far from the optimal implementation of Orthogonal culling. 
 			It currently performs Orthogonal Culling on all the objects in 
 			the scene, per pixel. 
 			Instead, culling should be done once per object and calculate 
 			which rays an object intersects, this way fewer calculations would
-			have to be performed and optimally they would be performed on the
-			CPU.
+			have to be performed and optimally this should be performed by the
+			CPU. 
 
 			This method could work together with the Bounding Sphere
 			optimization. Instead of projecting single objects onto the ray,
