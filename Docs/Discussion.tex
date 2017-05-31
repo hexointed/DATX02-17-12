@@ -95,7 +95,8 @@
 			the objects should be bound in a way similar to the one described in the
 			subsection implementation\ref{implshader} but more adaptive, enclosing
 			objects depending how they are grouped per frame. It should also not try
-			to compute the sphere definition exactly but rather aproximate it for
+			to compute the sphere definition exactly but rather approximate it 
+			for
 			increased performance. 
 
 		\subsection{Orthogonal culling}
@@ -117,14 +118,14 @@
 		\subsection{Ray grouping}
 
 			Ray grouping improved performance by lowering the total number of
-			marching steps by decreasing the total numer of initial rays. The
+			marching steps by decreasing the total number of initial rays. The
 			improvements seemed to be more significant for higher resolutions,
 			which is reasonable, given that the cost at each step for a given
-			group is not dependant on the number of rays in the group. This 
+			group is not dependent on the number of rays in the group. This 
 			could be very useful when rendering on high-resolution displays.
 			
-			We had initially expcted the performance improvements to be greater
-			than those acheived. There is, however, a significant amount of
+			We had initially expected the performance improvements to be greater
+			than those achieved. There is, however, a significant amount of
 			overhead incurred from splitting groups of rays into smaller
 			groups, which is the likely cause of both the decreased
 			improvements as well as the diminishing returns when increasing the
