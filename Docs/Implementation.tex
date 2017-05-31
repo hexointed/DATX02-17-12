@@ -18,23 +18,27 @@
 
 		\subsection{Orthogonal Culling Optimization}
 
-			A bottleneck of Sphere Tracing is that the distance to a lot of objects
-			has to be calculated once for every march step. Performance can be
-			increased by reducing the number of objects that the distance has 
-			to be calculated to, without reducing the actual number of objects in the
-			scene. To do this the GPU needs to calculate which object a ray might hit executing the Sphere Tracing. This information is traditionally
-			calculated on the CPU and then passed to the GPU (Frustum culling).
+			A bottleneck of Sphere Tracing is that the distance to a lot of
+			objects has to be calculated once for every march step. Performance
+			can be increased by reducing the number of objects that the
+			distance has to be calculated to, without reducing the actual
+			number of objects in the scene. To do this the GPU needs to
+			calculate which object a ray might hit executing the Sphere
+			Tracing. This information is traditionally calculated on the CPU
+			and then passed to the GPU (Frustum culling).
 
-			Orthogonal Culling works by going through all the objects in the scene
-			and calculate what objects a ray might hit. Orthogonal projection is
-			used to tell whether an object is in front of the ray or not. By
-			projecting the center of the sphere onto the directional line of the ray,
-			the lines' closest point to the object is known. Then the distance
-			between the line and the sphere can be calculated using the radius, if
-			the distance is less than zero the sphere will be hit by the ray. If the
-			distance is larger than zero the ray can't possibly hit that sphere. This
-			way the number of objects that the distance has to be calculated to is
-			decreased. In the current implementation Orthogonal Culling only works on spheres, it is also for spheres that this optimization is the most effective.
+			Orthogonal Culling works by going through all the objects in the
+			scene and calculate what objects a ray might hit. Orthogonal
+			projection is used to tell whether an object is in front of the ray
+			or not. By projecting the center of the sphere onto the directional
+			line of the ray, the lines' closest point to the object is known.
+			Then the distance between the line and the sphere can be calculated
+			using the radius, if the distance is less than zero the sphere will
+			be hit by the ray. If the distance is larger than zero the ray
+			can't possibly hit that sphere. This way the number of objects that
+			the distance has to be calculated to is decreased. In the current
+			implementation Orthogonal Culling only works on spheres, it is also
+			for spheres that this optimization is the most effective.
 
 		\subsection{Bounding Spheres Optimization}
 			
@@ -64,28 +68,30 @@
 			nesting Bounding Spheres but this was not tested.
 
 			
-		\subsection{Ray grouping}
+		\subsection{Ray Grouping Optimization}
 
-			Ray grouping works by grouping adjacent rays together in blocks, the number of 
-			rays grouped can be chosen before the marching begins. Each block of rays
-			then marches along its center pixels' ray in the same way that is done 
-			in normal Sphere Tracing. For each step the smallest distance to 
-			the scene (minimum distance sphere, MDS) is compared to all the pixels of a block. If a single pixel 
-			of a block is outside of the MDS the block will be split into new 
-			blocks. Each new block then repeats these steps again individually 
-			along its new center pixel's ray. This is repeated either until a block
-			has stepped to far in the scene or all the pixels of a block has hit an
-			object. The closer the blocks 
-			are to a target, the more likely it is for a higher amount of sub-blocks 
-			to be created due to the decrease of the MDS's volume making less pixels 
-			fit inside. When a block is far from an object in the scene it, probably, 
-			does not need to split and thus saving computations.
+			Ray grouping works by grouping adjacent rays together in groups and
+			marching them all at once in a single step. Each group of rays
+			marches along its center pixels' ray in the same way that is done
+			in normal Sphere Tracing. For each step the smallest distance to
+			the scene is compared to the total size of the group, to check if
+			any ray might collide with the geometry. If any ray of a group
+			might be inside the geometry, the group will be split into four new
+			groups. Each new group then repeats these steps again individually
+			along its new center.  This is repeated either until a group has
+			stepped to far enough in the scene to discard it entirely or until
+			there is only one ray in the group, and that ray has hit an object.
+			The closer the groups are to a target, the more likely it is for a
+			higher amount of sub-groups to be created due to the decrease of
+			the MDS's volume making less pixels fit inside.  When a group is
+			far from an object in the scene it probably will not need to split
+			and can theefore reduce the number of computations.
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=1.0\linewidth]{figure/BoundingSphere} 
-				\caption{Bounding spheres, notice that the distance to objects isn't
-					calculated until the ray is inside a sphere.}
+				\caption{Bounding spheres, notice that the distance to objects 
+					isn't calculated until the ray is inside a sphere.}
 			\end{figure}
 			
 		\subsection{Ray grouping Optimization}
