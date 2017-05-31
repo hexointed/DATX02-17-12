@@ -13,6 +13,7 @@
 		other, or fractals. The hardware (Geforce GTX 1060M) that the shader was tested 
 		on was able to render 20 reflective spheres in real time in 1920x1080 
 		resolution using our performance enhancing algorithm.
+
  
 	\section{GPU}
 	
@@ -24,10 +25,7 @@
 		tool for FPGAs, which creates a net list of the components and
 		connections that constitute the GPU. This also works as intended
 		without any unexpected problems, but the actual operation of the GPU on
-		an FPGA has not yet been verified. The performance of the GPU is in no way
-		comparable to a conventional GPU, but it works as intended.
-
-
+		an FPGA has not yet been verified.
 	
 	\section{Square roots}
 		
@@ -100,11 +98,13 @@
 		developed. Implemented optimizations are explained below and the
 		theoretical ones are presented in chapter \ref{futureoptimizations} and
 		\ref{optimization}. Some of these are based on earlier work, while
-		others are believed to be quite unique and have not been
-		discussed for sphere tracing previously. 
+		others are believed to be quite unique optimizations which have not been
+		discussed for sphere tracing previously. All implemented optimizations
+		that affects the algorithm were implemented in the software shader, not
+		on our own GPU.
 
 		For all tests performed, FPS (Frames Per Second) is used to measure
-		performance. FPS is how many times the GPU is able to render 
+		performance. FPS is simply how many times the GPU is able to render 
 		the scene per second. The time it takes to render the scene once is 
 		equal to one divided by the FPS.
 
@@ -172,7 +172,8 @@
 				\label{boundsphere}
 			\end{figure}
 
-			\ref{boundsphere} shows that in this particular scene a performance gain is 
-			achieved when more than three objects are placed inside a Bounding Sphere. If
+			Figure \ref{boundsphere} shows that in this particular scene a performance gain is 
+			achieved when more than three objects are placed inside a Bounding Sphere. 
+			When 10 objects is in the Bounding Sphere we have a 25\% increase in FPS.  If
 			fewer than 4 objects are enclosed, a performance decrease is 
 			observed. 
