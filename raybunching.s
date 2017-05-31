@@ -17,13 +17,13 @@ displaysizex:
 displaysizey:
 	64.0
 blockSize:
-	1.0
+	2.0
 white:
 	65535.0
 blue:
 	0.99999999999
 maxDist:
-	40.0
+	60.0
 epsilon:
 	0.03125
 
@@ -118,6 +118,10 @@ calcpos:
 	a setval 1 0
 
 ;programflow: camsetup -> raypos -> distball -> hit? -> went too far? -> march one step
+
+	val &zero
+	a setval 7 0 ;marching distance
+
 
 camSetup:
 	; sätter upp ray-direction registren
@@ -252,12 +256,6 @@ normalize:
 	a setval 5 1
 	a setval 6 0
 
-camCont:
-	; continue setting up the camera
-
-	val &zero
-	a setval 7 0
-
 rayPos:
 		; calculates the current march pos and stores in tempVec
 		; args:
@@ -298,13 +296,13 @@ distBall:
 .data:
 
 	ballr:
-		6.0
+		12.0
 	ballx:
 		0.0
 	bally:
 		0.0
 	ballz:
-		10.0
+		30.0
 
 .text:
 	val &ballx	
@@ -331,6 +329,90 @@ distBall:
 
 	val &ballr
 	sub
+	a setval 14 0
+
+.data:
+	
+	bbllr:
+		6.0
+	bbllx:
+		8.0
+	bblly:
+		8.0
+	bbllz:
+		10.0
+
+.text:
+	val &bbllx	
+	pack 8
+	sub
+	copy
+	mul
+
+	val &bblly
+	pack 9
+	sub
+	copy
+	mul
+
+	val &bbllz
+	pack 10
+	sub
+	copy
+	mul
+
+	add
+	add
+	sqrt
+
+	val &bbllr
+	sub
+
+;-------
+	pack 14
+	min
+	a setval 14 0
+
+.data:
+	
+	bcllr:
+		6.0
+	bcllx:
+		-8.0
+	bclly:
+		-8.0
+	bcllz:
+		20.0
+
+.text:
+	val &bcllx	
+	pack 8
+	sub
+	copy
+	mul
+
+	val &bclly
+	pack 9
+	sub
+	copy
+	mul
+
+	val &bcllz
+	pack 10
+	sub
+	copy
+	mul
+
+	add
+	add
+	sqrt
+
+	val &bcllr
+	sub
+
+;-------
+	pack 14
+	min
 	a setval 14 0
 
 ;hit:
