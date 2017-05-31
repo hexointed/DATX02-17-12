@@ -112,20 +112,16 @@
 			an increase in performance was observed.
 			
 		\subsection{Ray grouping}
-		
+
+			Ray grouping improved performance by lowering the total number of
+			marching steps by decreasing the total numer of initial rays. 
 			
-		We believe ray grouping gives a performance increase by lowering
-		the number of steps needed to march due to the decrease in number 
-		of rays needed to calculate. Depending on the scene it could lower 
-		the steps significantly. One example would be a scene with only one 
-		object in it, let's say a sphere, this implies that the MDS's volume 
-		will be substantial. This will in turn make the number of subgroups 
-		very low and thus give us a a performance gain. 
-			
-		A very complex scene with many objects creates very varying MDS
-		volumes which would not give as good of a result as the earlier
-		mentioned example due to the increase in subsets early in the
-		marching.
+			We had initially expcted the performance improvements to be greater
+			than those acheived. There is, however, a not insignificant amount
+			of overhead incurred from splitting groups of rays into smaller
+			groups, which is the likely cause of both the decreased
+			improvements as well as the diminishing returns when increasing the
+			group size.
 
 	\section{Square roots}
 
