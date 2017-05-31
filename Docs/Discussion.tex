@@ -38,8 +38,8 @@
 			there are massive performance potentials.
 			
 			GLSL has some very attractive features, it was easy to learn 
-			because the syntax has much in common with C++. The time it takes 
-			to develop new features and	test them is short. The purpose of the 
+			because the syntax has much in common with C++. This makes the time it takes 
+			to develop new features and	test them short. The purpose of the 
 			software shader was to study the algorithm, implement and test 
 			optimizations and develop new features. For the purposes of this 
 			project GLSL was a perfect fit.
@@ -86,10 +86,10 @@
 
 			If used the right way this technique can give great performance 
 			boosts. The testing showed an increase in gain as the number of 
-			objects increased, which is promising.
+			objects increased inside the sphere, which is promising.
 
 			The test was in this case simpler than the issue. The results depend
-			on more factors than we can analyze, the test only handles the 
+			on more factors than we can analyze in our time frame, the test only handles the 
 			number of objects inside a fixed sphere. To be used in a optimal way
 			the objects should be bound in a way similar to the one described in
 			the subsection implementation\ref{implshader} but more adaptive, 
@@ -99,8 +99,9 @@
 
 			The performance gain from this optimization exceeded our 
 			expectations. However great the performance gain, this
-			is still far from the optimal implementation. It currently performs 
-			Orthogonal Culling on all the objects in the scene, per pixel. 
+			is still far from the optimal implementation of Orthogonal culling. 
+			It currently performs Orthogonal Culling on all the objects in 
+			the scene, per pixel. 
 			Instead, culling should be done once per object and calculate 
 			which rays an object intersects, this way fewer calculations would
 			have to be performed and optimally they would be performed on the
@@ -109,24 +110,24 @@
 			This method could work together with the Bounding Sphere
 			optimization. Instead of projecting single objects onto the ray,
 			bounding spheres could be culled, decreasing the number of
-			orthogonal projections that has to be made. This too was tested and
+			orthogonal projections that has to be made. This was tested and
 			an increase in performance was observed.
 			
 		\subsection{Ray grouping}
 		
 			
-			We believe ray grouping gives a performance increase by lowering
-			the number of steps needed to march due to the decrease in number 
-			of rays needed to calculate. Depending on the scene it could lower 
-			the steps significantly. One example would be a scene with only one 
-			object in it, let's say a sphere, this implies that the MDS's volume 
-			will be substantial. This will in turn make the number of subgroups 
-			very low and thus give us a a performance gain. 
+		We believe ray grouping gives a performance increase by lowering
+		the number of steps needed to march due to the decrease in number 
+		of rays needed to calculate. Depending on the scene it could lower 
+		the steps significantly. One example would be a scene with only one 
+		object in it, let's say a sphere, this implies that the MDS's volume 
+		will be substantial. This will in turn make the number of subgroups 
+		very low and thus give us a a performance gain. 
 			
-			A very complex scene with many objects creates very varying MDS
-			volumes which would not give as good of a result as the earlier
-			mentioned example due to the increase in subsets early in the
-			marching.
+		A very complex scene with many objects creates very varying MDS
+		volumes which would not give as good of a result as the earlier
+		mentioned example due to the increase in subsets early in the
+		marching.
 
 	\section{Square roots}
 
@@ -196,9 +197,11 @@
 			technique you march a small distance further outside the MDS edge. You
 			then compare the original MDS with the new MDS if these two spheres
 			overlap in any way we can march that little bit further. By marching that
-			little bit further, decrease in the number of times marched is achieved,
+			little bit further, a decrease in the number of times marched is achieved,
 			giving an increase in performance. This has previously been discussed
-			by\cite{Korndorfer2014}. 
+			by\cite{Korndorfer2014}. If the two MDS's do not overlap it steps back to 
+			the edge of the first MDS, not overstepping, then continuing like before.
+			
 
 		
 			
