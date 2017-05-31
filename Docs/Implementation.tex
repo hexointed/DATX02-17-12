@@ -136,7 +136,7 @@
 			\begin{figure}[H]
                 \centering
                 \includegraphics[width=0.75\linewidth]{figure/raybunching} 
-								\caption{A simulated $64 \cross 64$ display. Black pixels are
+								\caption{A simulated $64 \times 64$ display. Black pixels are
 								rays that hit an object. Green pixels are groups that were
 								discarded because they did not hit any objects. Note that the
 								groups are larger further from the sphere. White pixels did not
@@ -208,12 +208,13 @@
 		\subsection{Instruction Set}
 
 			A representation for distance functions was also designed. It is
-			implemented as a reverse polish notation inspired stack based instruction
-			set. There are a total of four instruction types with different
-			instruction encodings. Their layout in memory is shown in figure
-			\ref{encodingfig} and the type of instructions are:
+			implemented as a reverse polish notation inspired stack based
+			instruction set. There are a total of four instruction types with
+			different instruction encodings. Their layout in memory is shown in
+			figure \ref{encodingfig}. The instructions are explained in more
+			detail in appendix A. The type of instructions are:
 
-			\begin{figure}
+			\begin{figure}[htb]
 				\centering
 				\caption{Bit encoding for the different instruction types. All
 					instruction types have a fixed width 16-bit encoding.}
