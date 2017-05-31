@@ -3,18 +3,20 @@
 	The goal of the project was to design and create a GPU for the Sphere Tracing
 	algorithm and try to improve its performance. A working GPU was designed
 	together with two shaders, one written in our own assembly language running
-	on the GPU and one written in GLSL runnign on a traditional consumer graphics
+	on the GPU and one written in GLSL running on a traditional consumer graphics
 	card. We also simulated the GPU, rendering to a small virtual screen. The GPU
 	executes as intended and, if programmed correctly, can Sphere Trace complete
 	scenes.
 	
-	For the GLSL shader we describe and try two optimizations, Bounding Spheres
-	and Orthogonal Culling. Bounding Spheres decrease the number of calculations
-	made in each march by enclosing several objects into one bounding sphere.
-	Orthogonal Culling is used to tell whether a object is in front of the ray or
-	not, decreasing the number of object needed to calculate the signed distance
-	function. Both improved performance. We believe they can be improved further
-	by offloading parts of the computation to the CPU.
+	For the GLSL shader we describe and tried three optimizations, Bounding Spheres, 
+	Orthogonal Culling and Ray Grouping. Bounding Spheres decrease the number of 
+	calculations made in each march by enclosing several objects into one bounding 
+	sphere. Orthogonal Culling is used to tell whether a object is in front of the ray 
+	or not, decreasing the number of objects needed to calculate the signed distance
+	function. Ray Grouping decreases the number of of steps needed to march by grouping 
+	rays together into blocks. And march just once for that entire block until it is split 
+	up into smaller blocks. All of them improved performance. We believe they can be 
+	improved further by offloading parts of the computation to the CPU.
 	
 	For the hardware optimization, calculating square roots was considered
 	important and methods for calculating them efficiently where investigated. We
@@ -29,6 +31,6 @@
 
 	We realized the importance of setting up well defined goals and following
 	them as close as possible. In our case, this meant getting a working version
-	of the GPU up an runnign as soon as possible. We also realized the importance
+	of the GPU up an running as soon as possible. We also realized the importance
 	of keeping all project members busy simultaneously, much like when designing
 	hardware and all of its components.
