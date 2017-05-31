@@ -28,6 +28,9 @@ showFrame =
 			fmap showPixel vs 
 		
 		showPixel (0,0,0) = "  "
+		showPixel (r,0,0) = "\x1b[31m\x2588\x2588\x1b[0m"
+		showPixel (0,b,0) = "\x1b[34m\x2588\x2588\x1b[0m"
+		showPixel (0,0,g) = "\x1b[32m\x2588\x2588\x1b[0m"
 		showPixel _       = "\x2588\x2588"
 
 showFrameRGB = 
@@ -54,9 +57,14 @@ incr = mealy (\i _ -> (i+1, i) ) 0 (pure 0)
 
 simGPU = 
 	sequence $ 
-	fmap putStr  ( 
+	fmap putStr'  ( 
 	P.concatMap (P.take 1) . P.iterate (P.drop 2000) $ 
+	P.zip [1 ..] $
 	sample showFrame )
+	where
+		putStr' (i, f) = do
+			putStr f
+			putStr (show i)
 
 simGPUclr = 
 	sequence $ fmap ( (clearScreen >>) .  putStr)  ( 

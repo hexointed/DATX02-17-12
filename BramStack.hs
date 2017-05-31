@@ -7,8 +7,8 @@ import Pack
 import Debug.Trace
 import Float
 
-type QSize = 32
-type QIndex = Unsigned 5
+type QSize = 4096
+type QIndex = Unsigned 12
 
 data Push
 	= Top Pack
